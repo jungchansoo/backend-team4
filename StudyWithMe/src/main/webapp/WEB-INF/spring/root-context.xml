@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+
+	<context:annotation-config></context:annotation-config>
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"
+			value="oracle.jdbc.OracleDriver" />
+			<property name="url" value="jdbc:oracle:thin:@studywithme_high?TNS_ADMIN=C:\\DEV\\project"></property>
+<!-- 		<property name="url" value="jdbc:oracle:thin:@studywithme_high?TNS_ADMIN=.\\src\\main\\resources\\wallet"></property>
+ -->		
+			
+<!-- 			value="jdbc:oracle:thin:@studywithme2_high?TNS_ADMIN=./src/main/resources"></property>
+ -->
+		<property name="username" value="ADMIN" />
+		<property name="password" value="StudyWithMe4$" />
+	</bean>
+
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+	<bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> 
+		<property name="dataSource" ref="dataSource"></property> </bean> -->
+
+	<tx:annotation-driven />
+
+	<mybatis-spring:scan
+		base-package="org.studywithme.mapper" />
+
+	<context:component-scan
+		base-package="org.studywithme.service"></context:component-scan>
+
+	<!-- 파일 업로드 관련 코드. 일단 주석처리. 필요하면 살려서 사용. <context:component-scan base-package="org.studywithme.aop"></context:component-scan> 
+		<context:component-scan base-package="org.studywithme.task"></context:component-scan> -->
+
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+
+	<task:annotation-driven />
+</beans>
