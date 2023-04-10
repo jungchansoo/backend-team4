@@ -53,7 +53,7 @@ public class UserMapperTests {
 	public void testJoinWithPasswordEncoding() {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		UserVO vo = new UserVO();
-		vo.setUserid("testuser6");
+		vo.setUserid("testuser7");
 		vo.setPassword(passwordEncoder.encode("testpassword"));
 		vo.setUserName("홍길동2");
 		vo.setPhoneNumber("010-1234-5678");

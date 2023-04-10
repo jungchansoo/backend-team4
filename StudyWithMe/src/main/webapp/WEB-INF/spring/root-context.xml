@@ -15,12 +15,13 @@
 
 
 	<context:annotation-config></context:annotation-config>
-	
+
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName"
 			value="oracle.jdbc.OracleDriver" />
-		<property name="url" value="#{'jdbc:oracle:thin:@studywithme_high?TNS_ADMIN='+tnsAdminPath}" />		
+		<property name="url"
+			value="#{'jdbc:oracle:thin:@studywithme_high?TNS_ADMIN='+tnsAdminPath}" />
 		<property name="username" value="ADMIN" />
 		<property name="password" value="StudyWithMe4$" />
 	</bean>
@@ -47,6 +48,7 @@
 		base-package="org.studywithme.service"></context:component-scan>
 	<context:component-scan
 		base-package="org.studywithme.config"></context:component-scan>
+
 	<!-- 파일 업로드 관련 코드. 일단 주석처리. 필요하면 살려서 사용. <context:component-scan base-package="org.studywithme.aop"></context:component-scan> 
 		<context:component-scan base-package="org.studywithme.task"></context:component-scan> -->
 
