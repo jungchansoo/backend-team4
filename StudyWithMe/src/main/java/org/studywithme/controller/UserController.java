@@ -49,6 +49,12 @@ public class UserController {
 			return "redirect:/sample/all";
 		}
     }
+    
+    @GetMapping("/mypage")
+    public String mypagegetList() {
+    	log.info("Mypage 회원정보페이지");
+    	return "user/mypage";
+    }
 	
 
 }

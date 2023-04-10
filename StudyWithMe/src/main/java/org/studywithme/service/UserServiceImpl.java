@@ -37,4 +37,10 @@ public class UserServiceImpl implements UserService {
 		log.info("read...."+ userId);
 		return mapper.read(userId);
 	}
+
+	@Override
+	public UserVO mypageGetList(String userId) {
+		log.info("get mypage userdata" + userId);
+		return mapper.mypageGetList(userId);
+	}
 }
