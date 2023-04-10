@@ -14,21 +14,23 @@
 
 		<input type="hidden" name="${_csrf.parameterName}"
 			value="${_csrf.token}" /> <label for="userid">아이디:</label> <input
-			type="text" id="userid" name="userid" required>
+			type="text" id="userid" name="userid" required
+			oninput="checkUserId()">
 		<button type="button" id="id-check-btn">아이디 중복 확인</button>
-		<span id="id-check-result"></span><br> <br> <label
-			for="password">비밀번호:</label> <input type="password" id="password"
-			name="password" required><br> <br> <label
-			for="password-confirm">비밀번호 확인:</label>
-			<input type="password"
+		<span id="id-check-result"></span><br> <span
+			id="userid-check-result"></span> <br> <label for="password">비밀번호:</label>
+		<input type="password" id="password" name="password" required
+			oninput="checkPassword()"><br> <br> <span
+			id="password-check-result"></span> <br> <label
+			for="password-confirm">비밀번호 확인:</label> <input type="password"
 			id="password-confirm" name="password-confirm" required><br>
-		<br> <span id="password-check-result"></span>
-		<br> <br> <label
-			for="userName">이름:</label> <input type="text" id="userName"
+		<br> <span id="password-same-result"></span> <br> <br>
+		<label for="userName">이름:</label> <input type="text" id="userName"
 			name="userName" required><br> <br> <label
 			for="phoneNumber">전화번호:</label> <input type="text" id="phoneNumber"
-			name="phoneNumber" required><br> <br> <label
-			for="email">이메일:</label>
+			name="phoneNumber" required oninput="checkPhonNumber()"> <br>
+		<br> <span id="phoneNumber-check-result"></span> <br>
+		<br> <br> <label for="email">이메일:</label>
 		<!-- 		메일 인증 -->
 		<input type="email" id="email" name="email" required><br>
 		<br>
@@ -134,7 +136,7 @@
 	$("#password-confirm").on("input", function() {
 		const password = $("#password").val();
 		const confirmPassword = $(this).val();
-		const $resultMsg = $("#password-check-result");
+		const $resultMsg = $("#password-same-result");
 
 		if (password === confirmPassword) {
 			$resultMsg.text("비밀번호가 일치합니다.").css("color", "green");
@@ -143,4 +145,41 @@
 		}
 	});
 </script>
+<script>
+
+function checkUserId() {
+    const userId = $("#userid").val();
+    const userIdRegex = /^[A-za-z0-9]{5,20}$/; // 아이디 정규표현식(영어 대소문자, 숫자만 사용가능, 5~20자리)
+
+    if (!userIdRegex.test(userId)) {
+        $("#userid-check-result").text("영어와 숫자만 가능, 5~20자리").css("color", "red");
+    } else {
+        $("#userid-check-result").text("사용 가능한 패스워드 입니다.").css("color", "green");
+    }
+}
+
+function checkPassword() {
+    const password = $("#password").val();
+    const passwordRegex = /^.*(?=^.{8,20}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/; //문자. 숫자. 특수문자 포함 8~20자리 
+
+    if (!passwordRegex.test(password)) {
+        $("#password-check-result").text("영어와 숫자, 특수문자가 각각 반드시 1개 이상 포함, 8~20자리").css("color", "red");
+    } else {
+        $("#password-check-result").text("사용 가능한 패스워드 입니다.").css("color", "green");
+    }
+}
+
+function checkPhonNumber() {
+    const phoneNumber = $("#phoneNumber").val();
+    const phoneNumberRegex = /^010-\d{3,4}-\d{4}$/; //010-0000-0000 형식 
+
+    if (!phoneNumberRegex.test(phoneNumber)) {
+        $("#phoneNumber-check-result").text("010-0000-0000 형태로 입력해주세요.").css("color", "red");
+    } else {
+        $("#phoneNumber-check-result").text("유효한 전화번호 입니다.").css("color", "green");
+    }
+}
+</script>
+
+
 </html>
