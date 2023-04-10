@@ -3,6 +3,7 @@ package org.studywithme.util;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.studywithme.domain.UserVO;
+import org.studywithme.security.domain.CustomUser;
 
 public class UserUtil {
 	public UserVO getUserDetails() {
@@ -10,6 +11,8 @@ public class UserUtil {
 	    if (authentication == null) {
 	        return null;
 	    }
-	    return (UserVO) authentication.getPrincipal();
+        CustomUser customUser = (CustomUser) authentication.getPrincipal();
+
+	    return customUser.getUser();
 	}
 }

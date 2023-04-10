@@ -21,11 +21,11 @@ public class UserUtilTestController {
         String userRole = user.getRole();
         String result;
 
-        if ("ADMIN".equals(userRole)) {
+        if ("admin".equals(userRole)) {
             result = "유저의 권한은 admin입니다.";
-        } else if ("MANAGER".equals(userRole)) {
+        } else if ("manager".equals(userRole)) {
             result = "유저의 권한은 MANAGER입니다.";
-        } else if ("USER".equals(userRole)){
+        } else if ("user".equals(userRole)){
             result = "유저의 권한은 일반 유저입니다.";
         } else {
         	result = "유저의 권한이 없거나, admin, manager,일반유저가 아닙니다.";
