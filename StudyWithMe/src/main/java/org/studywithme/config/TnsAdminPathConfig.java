@@ -28,7 +28,11 @@ public class TnsAdminPathConfig {
 		URL walletUrl = classLoader.getResource("wallet");
 		File walletDir = new File(walletUrl.getFile());
 		String walletPath = walletDir.getAbsolutePath().replace("\\", "/");
-		
+		System.out.println("*");
+		System.out.println("*");
+		System.out.println("*");
+		System.out.println("*");
+		System.out.println(walletPath);
 		
 		return walletPath;
 	}
