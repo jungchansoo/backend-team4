@@ -20,10 +20,9 @@
 		<property name="driverClassName"
 			value="oracle.jdbc.OracleDriver" />
 
-		<property name="url" value="jdbc:oracle:thin:@studywithme_high?TNS_ADMIN=C:/DEV/project"></property>
-		<!-- 이거 주석 해제 하고 사용해주시면 돼요!
+		<!-- <property name="url" value="jdbc:oracle:thin:@studywithme_high?TNS_ADMIN=C:/DEV/project"></property> -->
 		<property name="url" value="#{'jdbc:oracle:thin:@studywithme_high?TNS_ADMIN='+tnsAdminPath}" />
- 		-->
+ 		
 <!-- 	<property name="url" value="jdbc:oracle:thin:@studywithme_high?TNS_ADMIN=C:/DEV/project/backend-team4/StudyWithMe/src/main/resources/wallet"></property>
  -->
 		<!-- <property name="url" value="jdbc:oracle:thin:@studywithme_high?TNS_ADMIN=C:\\DEV\\project"></property> -->
