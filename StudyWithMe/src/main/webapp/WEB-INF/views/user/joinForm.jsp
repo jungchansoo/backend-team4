@@ -9,7 +9,7 @@
 </head>
 <body>
 	<h1>회원가입</h1>
-	<form action="/user/join" method="post">
+	<form action="/join" method="post">
 	
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		<label for="userid">아이디:</label>

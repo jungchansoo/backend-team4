@@ -1,7 +1,5 @@
 package org.studywithme.controller;
 
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,18 +25,24 @@ public class SampleController {
     
     log.info("logined member");
   }
-  @Secured({"admin"})
+
+	
+	/*
+	 * @Secured({"ROLE_admin"})
+	 */
   @GetMapping("/admin")
   public void doAdmin() {
     
     log.info("admin only");
   }  
   
-  @Secured({"manager"})
+	/*
+	 * @Secured({"ROLE_manager"})
+	 */
   @GetMapping("/manager")
   public void doManager() {
     
-    log.info("admin only");
+    log.info("manager only");
   }  
 	/*
 	 * @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MEMBER')")
