@@ -8,6 +8,7 @@
 <h1>
 	Hello world!  
 </h1>
+<input type="hidden"name="${_csrf.parameterName}"value="${_csrf.token}"/>
 
 <P>  The time on the server is ${serverTime}. </P>
 </body>
