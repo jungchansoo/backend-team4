@@ -15,20 +15,12 @@
 
 
 	<context:annotation-config></context:annotation-config>
+	
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName"
 			value="oracle.jdbc.OracleDriver" />
-
-<!-- 		<property name="url" value="jdbc:oracle:thin:@studywithme_high?TNS_ADMIN=/Users/DEV/project/backend-team4/StudyWithMe/src/main/resources/wallet
-"></property> -->
-
-		<property name="url" value="#{'jdbc:oracle:thin:@studywithme_high?TNS_ADMIN='+tnsAdminPath}" />
-<!-- 	<property name="url" value="jdbc:oracle:thin:@studywithme_high?TNS_ADMIN=C:/DEV/project/backend-team4/StudyWithMe/src/main/resources/wallet"></property>
- -->
-		<!-- <property name="url" value="jdbc:oracle:thin:@studywithme_high?TNS_ADMIN=C:\\DEV\\project"></property> -->
-		<!-- <property name="url" value="jdbc:oracle:thin:@studywithme_high?TNS_ADMIN=.\\src\\main\\resources\\wallet"></property> -->
-		<!-- value="jdbc:oracle:thin:@studywithme2_high?TNS_ADMIN=./src/main/resources"></property> -->
+		<property name="url" value="#{'jdbc:oracle:thin:@studywithme_high?TNS_ADMIN='+tnsAdminPath}" />		
 		<property name="username" value="ADMIN" />
 		<property name="password" value="StudyWithMe4$" />
 	</bean>
