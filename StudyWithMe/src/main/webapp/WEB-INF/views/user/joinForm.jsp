@@ -19,7 +19,8 @@
 		<span id="id-check-result"></span><br> <br> <label
 			for="password">비밀번호:</label> <input type="password" id="password"
 			name="password" required><br> <br> <label
-			for="password-confirm">비밀번호 확인:</label> <input type="password"
+			for="password-confirm">비밀번호 확인:</label>
+			<input type="password"
 			id="password-confirm" name="password-confirm" required><br>
 		<br> <span id="password-check-result"></span>
 		<br> <br> <label
