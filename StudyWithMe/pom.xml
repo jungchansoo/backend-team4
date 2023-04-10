@@ -221,13 +221,12 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.9.5</version>
 		</dependency>
- 		<!-- https://mvnrepository.com/artifact/com.oracle.ojdbc/ojdbc8 -->
-<!--		<dependency>
-			<groupId>com.oracle.ojdbc</groupId>
-			<artifactId>ojdbc8</artifactId>
-			<version>19.3.0.0</version>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>3.12.4</version>
+			<scope>test</scope>
 		</dependency>
- -->
 		<!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc10 -->
 		<dependency>
 			<groupId>com.oracle.database.jdbc</groupId>
@@ -349,12 +348,8 @@
 				<version>1.2.1</version>
 				<configuration>
 					<mainClass>org.test.int1.Main</mainClass>
-<!-- 					<systemProperties>
-						<systemProperty>
-							<key>oracle.net.tns_admin</key>
-							<value>${project.basedir}/src/main/resources</value>
-						</systemProperty>
-					</systemProperties> -->
+					<!-- <systemProperties> <systemProperty> <key>oracle.net.tns_admin</key> 
+						<value>${project.basedir}/src/main/resources</value> </systemProperty> </systemProperties> -->
 				</configuration>
 			</plugin>
 		</plugins>

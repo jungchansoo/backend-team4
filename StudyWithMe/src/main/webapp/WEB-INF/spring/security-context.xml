@@ -21,10 +21,11 @@
 
 	<security:http>
 <!-- 		<security:intercept-url
-			pattern="/sample/user" access="hasRole('user')" />
-
-		<security:intercept-url pattern="/sample/admin"
-			access="hasRole('admin')" />
+			pattern="/sample/user" access="hasRole('ROLE_user')" />
+		<security:intercept-url
+			pattern="/sample/admin" access="hasRole('ROLE_admin')" />
+		<security:intercept-url
+			pattern="/sample/manager" access="hasRole('ROLE_manager')" />
  -->
 		<security:intercept-url pattern="/**"
 			access="permitAll" />
@@ -32,11 +33,11 @@
 
 		<security:access-denied-handler
 			ref="customAccessDenied" />
-
-		<security:form-login login-page="/login"
-			authentication-success-handler-ref="customLoginSuccess" />
-
 		<!-- <security:csrf disabled="true"/> -->
+
+		<security:form-login login-page="/user/login"
+			authentication-success-handler-ref="customLoginSuccess"/>
+
 
 		<security:logout logout-url="/logout"
 			invalidate-session="true" />
