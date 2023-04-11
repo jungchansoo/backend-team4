@@ -154,7 +154,7 @@ function checkUserId() {
     if (!userIdRegex.test(userId)) {
         $("#userid-check-result").text("영어와 숫자만 가능, 5~20자리").css("color", "red");
     } else {
-        $("#userid-check-result").text("사용 가능한 패스워드 입니다.").css("color", "green");
+        $("#userid-check-result").text("사용 가능한 아이디 입니다.").css("color", "green");
     }
 }
 
