@@ -23,7 +23,7 @@ public class TnsAdminPathConfig {
 //		String basePath = System.getProperty("user.dir");
 //		Path path = Paths.get(basePath, "src", "main", "resources", "wallet");
 //		String resultPath = path.toAbsolutePath().toString().replace("\\", "/")+"/";
-//		
+		
 		ClassLoader classLoader = getClass().getClassLoader();
 		URL walletUrl = classLoader.getResource("wallet");
 		File walletDir = new File(walletUrl.getFile());
