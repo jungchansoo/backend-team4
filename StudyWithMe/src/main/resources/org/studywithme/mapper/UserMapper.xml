@@ -6,14 +6,15 @@
 
 
 	<resultMap type="org.studywithme.domain.UserVO" id="userMap">
-		<id property="userid" column="user_id" />
+		<id property="userId" column="user_id" />
 		<result property="password" column="password" />
 		<result property="userName" column="userName" />
 		<result property="phoneNumber" column="phone_Number" />
 		<result property="email" column="email" />
 		<result property="role" column="role" />
 		<result property="joinDate" column="joinDate" />
-		<result property="remainingSeatTime" column="remaining_Seat_Time" />
+		<result property="remainingSeatTime"
+			column="remaining_Seat_Time" />
 		<result property="remainingStudyRoomTime"
 			column="remaining_Study_Room_Time" />
 		<result property="remainingLockerTime"
@@ -22,11 +23,24 @@
 		<result property="emailVerified" column="email_Verified" />
 	</resultMap>
 
+
+	<select id="mypageGetList">
+		SELECT
+		user_id, password, username, phone_number, email,
+		remaining_seat_time, remaining_study_room_time, remaining_locker_time
+		FROM
+		tbl_user WHERE user_id = #{userid}
+	</select>
+	
+
 	<select id="read" resultMap="userMap">
 		SELECT
-		user_id, password, username, phone_number, email, role, joindate,
-		remaining_seat_time, remaining_study_room_time, remaining_locker_time,
-		phone_verified, email_verified
+		user_id, password, username,
+		phone_number, email, role, joindate,
+		remaining_seat_time,
+		remaining_study_room_time, remaining_locker_time,
+		phone_verified,
+		email_verified
 		FROM
 		tbl_user WHERE user_id = #{userid}
 	</select>
@@ -36,6 +50,11 @@
 		username, phone_number, email, role, joinDate)
 		VALUES
 		(user_no_seq.nextval, #{userid}, #{password},
-		#{userName}, #{phoneNumber}, #{email}, #{role}, sysdate)
+		#{userName},
+		#{phoneNumber}, #{email}, #{role}, sysdate)
 	</insert>
+
+	<select id="checkUserId" parameterType="string" resultType="int">
+		SELECT COUNT(*) FROM tbl_user WHERE user_id = #{userid}
+	</select>
 </mapper>
