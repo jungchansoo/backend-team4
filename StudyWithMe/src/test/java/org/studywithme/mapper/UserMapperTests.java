@@ -30,14 +30,14 @@ public class UserMapperTests {
 		UserVO vo = mapper.read("testuser5");
 
 		assertNotNull(vo);
-		assertEquals("testuser5", vo.getUserid());
+		assertEquals("testuser5", vo.getUserId());
 		log.info(vo);
 	}
 
 	@Test
 	public void testJoin() {
 		UserVO vo = new UserVO();
-		vo.setUserid("testuser");
+		vo.setUserId("testuser");
 		vo.setPassword("testpassword");
 		vo.setUserName("홍길동2");
 		vo.setPhoneNumber("010-1234-5678");
@@ -53,7 +53,7 @@ public class UserMapperTests {
 	public void testJoinWithPasswordEncoding() {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		UserVO vo = new UserVO();
-		vo.setUserid("testuser7");
+		vo.setUserId("testuser7");
 		vo.setPassword(passwordEncoder.encode("testpassword"));
 		vo.setUserName("홍길동2");
 		vo.setPhoneNumber("010-1234-5678");

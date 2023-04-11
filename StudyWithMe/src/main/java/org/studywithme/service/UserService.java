@@ -10,5 +10,7 @@ public interface UserService {
 //	public boolean remove(String userId);
 
 //	public List<UserVO> getList();
+	
+	public UserVO mypageGetList(String userId);
 
 }
