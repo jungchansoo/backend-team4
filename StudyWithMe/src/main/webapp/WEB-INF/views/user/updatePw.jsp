@@ -48,6 +48,7 @@
 
 
 	<hr>
+	<input type="button" value="변경하기" onclick="location.href='updatePwresult.jsp'">
 	<input type="button" value="뒤로가기" onclick="location.href='main.jsp'">
 	
 </body>

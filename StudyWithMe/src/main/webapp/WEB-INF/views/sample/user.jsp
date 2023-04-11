@@ -8,5 +8,6 @@
 </head>
 <body>
 <h1>/sample/user page</h1>
+<a href="/mypage">Mypage</a>
 </body>
 </html>

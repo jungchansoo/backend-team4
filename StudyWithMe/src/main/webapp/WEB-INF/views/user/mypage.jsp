@@ -15,7 +15,7 @@
 	
 
 <ul>
-  <li><a class="userinfo" href="/mypage">회원정보</a></li>
+  <li><a href="/mypage">회원정보</a></li>
   <li><a href="#">예약내역</a></li>
   <li><a href="updatePw">비밀번호변경</a></li>
   <li><a href="#">회원탈퇴</a></li>
@@ -24,7 +24,10 @@
 
 	<div>회원정보</div>
 	<hr>
-	<div>
+	
+	<form id="actionForm" action="getuserinfo" method="post">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+ 
 			<div>이름</div>
 			<div><sec:authentication property="principal.user.userName"/></div>
 		
@@ -45,7 +48,8 @@
 			<div><sec:authentication property="principal.user.remainingStudyRoomTime"/></div>
 			<div><sec:authentication property="principal.user.remainingLockerTime"/></div>
 			
-	</div>
+ 
+    </form> 
 
 	<hr>
 	<input type="button" value="뒤로가기" onclick="location.href='main.jsp'">
