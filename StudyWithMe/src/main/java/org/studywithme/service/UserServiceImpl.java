@@ -53,4 +53,10 @@ public class UserServiceImpl implements UserService {
 		}
 		return isUserIdDuplicate;
 	}
+
+	@Override
+	public boolean updatePw(UserVO vo) {
+		
+		return false;
+	}
 }

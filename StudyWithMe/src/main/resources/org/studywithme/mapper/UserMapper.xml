@@ -23,16 +23,14 @@
 		<result property="emailVerified" column="email_Verified" />
 	</resultMap>
 
-
-	<select id="mypageGetList">
-		SELECT
-		user_id, password, username, phone_number, email,
-		remaining_seat_time, remaining_study_room_time, remaining_locker_time
-		FROM
-		tbl_user WHERE user_id = #{userid}
-	</select>
+	<!-- 비밀번호 변경 -->
+	<update id="update_pw">
+		update tbl_board
+		set password = #{password}
+		where user_id = #{userid}
+	</update>
 	
-
+	<!-- 마이페이지 회원정보에도 사용 -->
 	<select id="read" resultMap="userMap">
 		SELECT
 		user_id, password, username,
@@ -44,6 +42,7 @@
 		FROM
 		tbl_user WHERE user_id = #{userid}
 	</select>
+	
 	<insert id="join">
 		INSERT INTO tbl_user
 		(user_no, user_id, password,
