@@ -5,6 +5,7 @@
 <%@ page import="java.sql.Statement"%>
 <%@ page import="java.sql.ResultSet"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%!// 변수 선언
 	Connection conn = null;
@@ -39,7 +40,7 @@
 		margin: 15% auto; /* 15% from the top and centered */
 		padding: 20px;
 		border: 1px solid #888;
-		width: 50%; /* Could be more or less, depending on screen size */
+		width: 60%; /* Could be more or less, depending on screen size */
 	}
 	/* The Close Button */
 	.close {
@@ -57,6 +58,11 @@
 	.img{
 		height: 20px;
 		weight: 20px;
+	}
+	.modal-top{
+		margin: 0% auto; /* 15% from the top and centered */
+		padding: 0px;
+		text-align: center;
 	}
 </style>
 
@@ -92,17 +98,48 @@
 		
 		<div class="modal">
 			<div class="modal-content">
-				<span class="close">&times;</span>
-				<p>
-					Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita
-				dolore eveniet laborum repellat sit distinctio, ipsa rem dicta alias
-				velit? Repellat doloribus mollitia dolorem voluptatum ex reiciendis
-				aut in incidunt?
-				</p>
+				<div class="modal-top">
+					<span class="close">&times;</span>
+					<p>이용하실 스터디카페를 검색해 주세요.</p>
+					<hr>
+				</div>
+			
+			
+				<div>
+					<table>
+						<thead>
+							<tr>
+								<td>스터디카페</td>
+								<td>주소</td>
+							</tr>
+						</thead>
+
+						<c:forEach items="${list}" var="board">
+							<tr>
+								<td><c:out value="${board.name}" /></td>
+								<td><c:out value="${board.address}" /></td>
+								
+								<%-- <td><a href='/board/get?bno=<c:out value="${board.bno}"/>'><c:out value="${board.title}"/></a></td> --%>
+	
+								
+	
+								
+							</tr>
+						</c:forEach>
+						
+					</table>
+				</div>
+					
+			
+			
+			
+			
+			
+				
 			</div>
 		</div>
 
-		<button type="button" class="btn"><img class src="/resources/image/search.jpg"></button>
+		<button type="button" class="btn"><img class="img" src="/resources/image/search.jpg"></button>
 	</div>
 	
 	<div>

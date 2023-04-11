@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.studywithme.mapper.StudyCafeMapper">
+
+	<select id="getList" resultType="org.studywithme.domain.StudyCafeVO">
+		SELECT name
+			  ,address
+			  ,qr_code
+			  ,room_count
+			  ,seat_count
+			  ,locker_count
+		  FROM STUDY_CAFE
+	</select>
+	
+	
+	<!-- 각 문자열을 이용해 검색 조건을 결합하는 형태로 하면 3개의 동적 SQL 구문처리 -->
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							title like '%' || #{keyword} || '%'
+						</when>
+						<when test="type == 'C'.toString()">
+							content like '%' || #{keyword} || '%'
+						</when>
+						<when test="type == 'W'.toString()">
+							writer like '%' || #{keyword} || '%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+	
+	
+
+
+</mapper>
