@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean updatePw(UserVO vo) {
-		
-		return false;
+		log.info("update user password"+vo.getPassword());
+		return mapper.updatePw(vo);
 	}
 }

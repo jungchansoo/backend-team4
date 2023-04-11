@@ -73,6 +73,12 @@ public class UserController {
     	log.info("Mypage 회원정보페이지");
     	return "user/mypage";
     }
+    
+    @GetMapping("/updatePw")
+    public String updatePassword() {
+    	log.info("회원 비밀번호 변경");
+    	return "user/updatePw";
+    }
 	
 
 }

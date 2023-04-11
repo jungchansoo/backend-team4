@@ -27,9 +27,20 @@
 	<section>
 		<form action="userpwchangers" method="post">
 			<input type="hidden" name="userid" value="principal.user.userId"/>
+			
 				<div>
 					<label>기존 비밀번호</label>
 					<input type="password" name="user_pw">
+				</div>
+				
+				<div>
+					<label>새로운 비밀번호</label>
+					<input type="password" name="update_user_pw">
+				</div>
+				
+				<div>
+					<label>새로운 비밀번호 확인</label>
+					<input type="password" name="check_user_pw">
 				</div>
 				
 		</form>
