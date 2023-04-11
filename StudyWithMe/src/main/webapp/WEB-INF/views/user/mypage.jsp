@@ -15,7 +15,7 @@
 	
 
 <ul>
-  <li><a class="userinfo" href="#">회원정보</a></li>
+  <li><a class="userinfo" href="/mypage">회원정보</a></li>
   <li><a href="#">예약내역</a></li>
   <li><a href="#">비밀번호변경</a></li>
   <li><a href="#">회원탈퇴</a></li>

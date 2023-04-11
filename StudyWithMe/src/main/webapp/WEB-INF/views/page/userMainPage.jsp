@@ -54,6 +54,10 @@
 		text-decoration: none;
 		cursor: pointer;
 	}
+	.img{
+		height: 20px;
+		weight: 20px;
+	}
 </style>
 
 </head>
@@ -98,7 +102,7 @@
 			</div>
 		</div>
 
-		<button type="button" class="btn">img</button>
+		<button type="button" class="btn"><img class src="/resources/image/search.jpg"></button>
 	</div>
 	
 	<div>
