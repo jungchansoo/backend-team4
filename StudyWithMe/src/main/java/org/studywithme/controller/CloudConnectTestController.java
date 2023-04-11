@@ -11,7 +11,7 @@ import org.studywithme.mapper.CloudConnectTestMapper;
 public class CloudConnectTestController {
     @Autowired
     private CloudConnectTestMapper mapper;
-
+    
     @GetMapping("/testconnection")
     public List<String> testDbConnection() {
         return mapper.getAllTableNames();
