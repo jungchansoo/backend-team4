@@ -12,6 +12,9 @@
 </head>
 <body>
 	<h1>Mypage</h1>
+	vo:${loginUser}
+	username:${name}
+	password:${password}
 	
 
 <ul>
@@ -29,7 +32,7 @@
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
  
 			<div>이름</div>
-			<div><sec:authentication property="principal.user.userName"/></div>
+			<sec:authentication property="principal.user.userName"/>
 		
 			<div>아이디</div>
 			<div><sec:authentication property="principal.user.userId"/></div>
