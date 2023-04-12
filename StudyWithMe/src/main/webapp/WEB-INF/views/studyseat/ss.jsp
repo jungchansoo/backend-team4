@@ -479,7 +479,7 @@ a {
   <a class="yes" href="/" rel="modal:close">예</a>
   <a class="no" href="/" rel="modal:close">아니오</a>
 </div>
-
+<div><</div>
 <script>
 	var seatnum;
 	function modal(num)  {
