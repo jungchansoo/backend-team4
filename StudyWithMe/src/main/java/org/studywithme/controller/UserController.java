@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestClientException;
 import org.studywithme.domain.UserVO;
-import org.studywithme.dto.SmsResponseDTO;
 import org.studywithme.service.AuthMailSendService;
 import org.studywithme.service.SmsService;
 import org.studywithme.service.UserService;
@@ -56,21 +55,21 @@ public class UserController {
     
     @PostMapping("/smsCheck")
     @ResponseBody
-    public SmsResponseDTO smsCheck(@RequestParam String phoneNumber) {
+    public String smsCheck(@RequestParam String phoneNumber) {
 		log.info("문자 인증 요청이 들어옴!");
 		log.info("문자 인증 요청 번호 : " + phoneNumber);
     	
         // 인증번호 생성 및 전송 로직
-        SmsResponseDTO response = null;
         try {
-            response = smsService.sendVerificationCode(phoneNumber);
+            String verificationCode = smsService.sendVerificationCode(phoneNumber);
     		log.info("문자 전송 성공!");
+            return verificationCode;
 
         } catch (JsonProcessingException | RestClientException | URISyntaxException | InvalidKeyException | NoSuchAlgorithmException | UnsupportedEncodingException e) {
         	e.printStackTrace();
     		log.info("문자 전송 실패");
+    		return null;
         }
-        return response;
     }
     
     
@@ -85,9 +84,6 @@ public class UserController {
 	
     @PostMapping("/join")
     public String join(UserVO userVO) {
-    	//검증이 필요한 경우 아래에 구현
-    	
-    	//성공
     	try {
 			service.registerWithPwEncoding(userVO);
 			log.info("회원가입 성공!!");

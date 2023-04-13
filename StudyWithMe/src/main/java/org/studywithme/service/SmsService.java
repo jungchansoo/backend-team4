@@ -13,12 +13,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 public interface SmsService {
 	//네이버 api 양식에 맞는 헤더 구성
-	String makeSignature(Long time) throws NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeyException;
+	public String makeSignature(Long time) throws NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeyException;
 	//문자 보내기
-	SmsResponseDTO sendSms(MessageDTO messageDto) throws JsonProcessingException, RestClientException,
+	public SmsResponseDTO sendSms(MessageDTO messageDto) throws JsonProcessingException, RestClientException,
 			URISyntaxException, InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException;
 	//인증 번호 보내기
-	SmsResponseDTO sendVerificationCode(String phoneNumber) throws JsonProcessingException, RestClientException,
+	public String sendVerificationCode(String phoneNumber) throws JsonProcessingException, RestClientException,
 			URISyntaxException, InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException;
 
 }

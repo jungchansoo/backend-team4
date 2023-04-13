@@ -114,7 +114,7 @@ public class SmsServiceImpl implements SmsService {
 	}
 	
 	@Override
-	public SmsResponseDTO sendVerificationCode(String phoneNumber) throws JsonProcessingException, RestClientException, URISyntaxException, InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
+	public String sendVerificationCode(String phoneNumber) throws JsonProcessingException, RestClientException, URISyntaxException, InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
 	    // 6자리 인증 번호 생성
 		AuthUtil util = new AuthUtil(); 
 	    int verificationCode = util.makeRandomNumber();
@@ -124,6 +124,10 @@ public class SmsServiceImpl implements SmsService {
 
 	    // 수신자 전화번호와 메시지 내용을 포함한 MessageDTO 객체 생성
 	    MessageDTO messageDto = new MessageDTO(phoneNumber, messageContent);
-	    return sendSms(messageDto);
+	    
+	    //문자 메시지 전송
+	    sendSms(messageDto);
+	    
+	    return Integer.toString(verificationCode);
 	}
 }
