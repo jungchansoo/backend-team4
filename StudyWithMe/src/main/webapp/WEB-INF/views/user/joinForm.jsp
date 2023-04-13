@@ -32,7 +32,7 @@
 		<div class="input-group-addon">
 			<button type="button" class="btn btn-primary" id="sms-Check-Btn">문자
 				인증</button>
-			<span id="countdown-timer"></span>
+			<span id="sms-countdown-timer"></span>
 
 			<div class="sms-check-box">
 				<input class="form-control sms-check-input"
@@ -49,7 +49,7 @@
 		<br>
 		<div class="input-group-addon">
 			<button type="button" class="btn btn-primary" id="mail-Check-Btn">메일인증</button>
-			<span id="countdown-timer"></span>
+			<span id="email-countdown-timer"></span>
 
 			<div class="mail-check-box">
 				<input class="form-control mail-check-input"
@@ -69,8 +69,30 @@
 </body>
 
 <script type="text/javascript">
+	//문자 인증 구현
+	// 문자 인증 버튼 클릭 시 문자 전송
+	$('#sms-Check-Btn').click(function() {
+		const phoneNumber = $('#phoneNumber').val().replace(/-/g, ''); // 전화번호 얻어오기(- 삭제)
+		const checkInput = $('.sms-check-input') // 인증번호 입력하는곳 
 
-
+		// 서버에 전화번호를 전송하고 인증번호를 받아오는 Ajax 호출
+		$.ajax({
+			type : 'post',
+			url : '/smsCheck',
+		    headers: {
+		        'X-CSRF-TOKEN': $('input[name="${_csrf.parameterName}"]').val()
+		    },
+			data : {
+				phoneNumber : phoneNumber
+			},
+			success : function(data) {
+				checkInput.attr('disabled', false);
+				code = data.verificationCode;
+			}
+		});
+		// 이후에 타이머 및 인증번호 확인 코드 작성 예정 
+	});
+	
 	//메일인증 구현
 	//메일 인증 제한시간
 	let countdownTimer;
@@ -83,7 +105,7 @@
 		const seconds = countdownSeconds % 60;
 		console.log(minutes);
 		console.log(seconds);
-		$("#countdown-timer").html(
+		$("#email-countdown-timer").html(
 				minutes + ":" + (seconds < 10 ? "0" : "") + seconds
 						+ '<br>인증번호가 전송되었습니다.').css("color", "green");
 
@@ -106,7 +128,7 @@
 					}
 				}); // end ajax
 				// 카운트다운 타이머 시작
-				$("#countdown-timer").show();
+				$("#email-countdown-timer").show();
 				clearInterval(countdownTimer);
 				countdownSeconds = 180;
 				console.log(countdownSeconds);
@@ -136,12 +158,6 @@
 					$resultMsg.html('인증번호가 일치합니다.');
 					$resultMsg.css('color', 'green');
 					$('#mail-Check-Btn').attr('disabled', true);
-					$('#userEmail1').attr('readonly', true);
-					$('#userEmail2').attr('readonly', true);
-					$('#userEmail2').attr('onFocus',
-							'this.initialSelect = this.selectedIndex');
-					$('#userEmail2').attr('onChange',
-							'this.selectedIndex = this.initialSelect');
 				} else {
 					$resultMsg.html('인증번호가 불일치 합니다. 다시 확인해주세요!.');
 					$resultMsg.css('color', 'red');
