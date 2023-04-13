@@ -96,13 +96,8 @@ function updatePassword() {
         alert("새로운 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
         return;
     }
-    
- // db 객체의 password 속성을 newPw로 업데이트합니다.
-    db.password = newPw;
-
    
     document.getElementById("current_pw").value = newPw;
-
    
     document.getElementById("updatePwForm").submit();
 }
