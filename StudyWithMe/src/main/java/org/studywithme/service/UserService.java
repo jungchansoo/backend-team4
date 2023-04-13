@@ -13,6 +13,8 @@ public interface UserService {
 	
 	public UserVO mypageGetList(String userId);
 	public boolean updatePw(UserVO vo);
+	public boolean deleteUser(String userId);
+
 	
 
 }

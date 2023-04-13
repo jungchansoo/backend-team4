@@ -23,7 +23,7 @@
 
 <a href="/logout">Logout</a>
 <hr>
-<a href="/mypage">Mypage</a>
+<a href="/userinfo">Mypage</a>
 
 
 </body>

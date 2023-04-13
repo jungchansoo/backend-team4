@@ -23,13 +23,21 @@
 		<result property="emailVerified" column="email_Verified" />
 	</resultMap>
 
+	<!-- 회원 탈퇴 -->
+	<delete id="deleteUser" >
+		DELETE FROM tbl_board
+		WHERE user_id = #{userId}
+	</delete>
+
+
 	<!-- 비밀번호 변경 -->
-	<update id="update_pw">
+	<update id="updatePw" >
 		update tbl_board
-		set password = #{password}
-		where user_id = #{userid}
+		set password
+		= #{password}
+		where user_id = #{userId}
 	</update>
-	
+
 	<!-- 마이페이지 회원정보에도 사용 -->
 	<select id="read" resultMap="userMap">
 		SELECT
@@ -40,20 +48,20 @@
 		phone_verified,
 		email_verified
 		FROM
-		tbl_user WHERE user_id = #{userid}
+		tbl_user WHERE user_id = #{userId}
 	</select>
-	
+
 	<insert id="join">
 		INSERT INTO tbl_user
 		(user_no, user_id, password,
 		username, phone_number, email, role, joinDate)
 		VALUES
-		(user_no_seq.nextval, #{userid}, #{password},
+		(user_no_seq.nextval, #{userId}, #{password},
 		#{userName},
 		#{phoneNumber}, #{email}, #{role}, sysdate)
 	</insert>
 
 	<select id="checkUserId" parameterType="string" resultType="int">
-		SELECT COUNT(*) FROM tbl_user WHERE user_id = #{userid}
+		SELECT COUNT(*) FROM tbl_user WHERE user_id = #{userId}
 	</select>
 </mapper>

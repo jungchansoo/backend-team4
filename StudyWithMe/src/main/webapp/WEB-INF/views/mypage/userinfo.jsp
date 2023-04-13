@@ -52,10 +52,10 @@ li a.userinfo {
 </style>	
 
 	<ul>
-		<li><a class="userinfo" href="/mypage">회원정보</a></li>
+		<li><a class="userinfo" href="/userinfo">회원정보</a></li>
 		<li><a class="reservatelist" href="#">예약내역</a></li>
 		<li><a class="chagepw" href="/updatePw">비밀번호변경</a></li>
-		<li><a class="deleteid" href="#">회원탈퇴</a></li>
+		<li><a class="deleteid" href="/deleteUser">회원탈퇴</a></li>
 	</ul>
 
 

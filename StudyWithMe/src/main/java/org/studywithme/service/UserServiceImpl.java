@@ -68,4 +68,11 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}
 	}
+
+	@Override
+    @Transactional
+    public boolean deleteUser(String userId) {
+        int result = mapper.deleteUser(userId);
+        return result > 0;
+    }
 }
