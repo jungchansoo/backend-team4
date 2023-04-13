@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.studywithme.domain.UserVO;
 import org.studywithme.mapper.UserMapper;
 
@@ -55,8 +56,16 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public boolean updatePw(UserVO vo) {
-		log.info("update user password"+vo.getPassword());
-		return mapper.updatePw(vo);
+		try {
+			String hashedPassword = passwordEncoder.encode(vo.getPassword());
+			vo.setPassword(hashedPassword);
+			int result = mapper.updatePw(vo);
+			return (result == 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 }

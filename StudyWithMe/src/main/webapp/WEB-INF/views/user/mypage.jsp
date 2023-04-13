@@ -15,47 +15,80 @@
 	vo:${loginUser}
 	username:${name}
 	password:${password}
-	
 
-<ul>
-  <li><a href="/mypage">회원정보</a></li>
-  <li><a href="#">예약내역</a></li>
-  <li><a href="updatePw">비밀번호변경</a></li>
-  <li><a href="#">회원탈퇴</a></li>
-</ul>
+<style>
+ul {
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px;
+	width: 120px;
+	background: #efefef;
+	height: 100%;
+	overflow: auto;
+	position: fixed;
+}
+
+li a {
+	text-decoration: none;
+	padding: 10px;
+	display: block;
+	color: #000;
+	font-weight: bold;
+}
+
+li a:hover {
+	background: #333;
+	color: #fff;
+}
+
+li a.userinfo {
+	background: #333;
+	color: #fff;
+}
+
+.cd1 {
+	margin-left: 140px;
+}
+</style>	
+
+	<ul>
+		<li><a class="userinfo" href="/mypage">회원정보</a></li>
+		<li><a class="reservatelist" href="#">예약내역</a></li>
+		<li><a class="chagepw" href="/updatePw">비밀번호변경</a></li>
+		<li><a class="deleteid" href="#">회원탈퇴</a></li>
+	</ul>
 
 
-	<div>회원정보</div>
+	<div class="cd1">회원정보
 	<hr>
 	
 	<form id="actionForm" action="getuserinfo" method="post">
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
  
-			<div>이름</div>
-			<sec:authentication property="principal.user.userName"/>
+			<div>이름
+			<sec:authentication property="principal.user.userName"/></div>
 		
-			<div>아이디</div>
-			<div><sec:authentication property="principal.user.userId"/></div>
+			<div>아이디
+			<sec:authentication property="principal.user.userId"/></div>
 		
-			<div>이메일</div>
-			<div><sec:authentication property="principal.user.email"/></div>
+			<div>이메일
+			<sec:authentication property="principal.user.email"/></div>
 		
-			<div>비밀번호</div>
-			<div><sec:authentication property="principal.user.password"/></div>
+			<div>비밀번호
+			<sec:authentication property="principal.user.password"/></div>
 		
-			<div>전화번호</div>
-			<div><sec:authentication property="principal.user.phoneNumber"/></div>
+			<div>전화번호
+			<sec:authentication property="principal.user.phoneNumber"/></div>
 	
-			<div>잔여시간</div>
-			<div><sec:authentication property="principal.user.remainingSeatTime"/></div>
-			<div><sec:authentication property="principal.user.remainingStudyRoomTime"/></div>
-			<div><sec:authentication property="principal.user.remainingLockerTime"/></div>
+			<div>잔여시간
+			<sec:authentication property="principal.user.remainingSeatTime"/><br>
+			<sec:authentication property="principal.user.remainingStudyRoomTime"/><br>
+			<sec:authentication property="principal.user.remainingLockerTime"/></div>
 			
  
     </form> 
 
-	<hr>
-	<input type="button" value="뒤로가기" onclick="location.href='main.jsp'">
 	
+	</div>
 </body>
 </html>

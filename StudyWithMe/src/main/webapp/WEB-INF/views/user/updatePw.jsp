@@ -13,13 +13,14 @@
 </head>
 <body>
 	<h1>Mypage</h1>
-	<style>
+	
+<style>
 ul {
 	list-style-type: none;
 	padding: 0px;
 	margin: 0px;
-	width: 100px;
-	background: #FF6347;
+	width: 120px;
+	background: #efefef;
 	height: 100%;
 	overflow: auto;
 	position: fixed;
@@ -38,13 +39,13 @@ li a:hover {
 	color: #fff;
 }
 
-li a.userinfo {
+li a.chagepw {
 	background: #333;
 	color: #fff;
 }
 
 .cd1 {
-	margin-left: 120px;
+	margin-left: 140px;
 }
 </style>
 
@@ -53,9 +54,9 @@ li a.userinfo {
 
 	<ul>
 		<li><a class="userinfo" href="/mypage">회원정보</a></li>
-		<li><a href="#">예약내역</a></li>
-		<li><a href="/updatePw">비밀번호변경</a></li>
-		<li><a href="#">회원탈퇴</a></li>
+		<li><a class="reservatelist" href="#">예약내역</a></li>
+		<li><a class="chagepw" href="/updatePw">비밀번호변경</a></li>
+		<li><a class="deleteid" href="#">회원탈퇴</a></li>
 	</ul>
 
 
@@ -63,11 +64,11 @@ li a.userinfo {
 		비밀번호 변경
 		<hr>
 		<section>
-			<form action="userpwchangers" method="post">
+			<form action="/userpwchangers" method="post">
 				<input type="hidden" name="userid" value="principal.user.userId" />
 
 				<div>
-					<label>기존 비밀번호</label> <input type="password" name="user_pw">
+					<label>기존 비밀번호</label> <input type="text" name="user_pw" value= ${password}/>
 				</div>
 
 				<div>
