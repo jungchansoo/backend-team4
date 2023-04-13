@@ -38,25 +38,25 @@ public class MypageController {
 		return "/mypage/updatePw";
 	}
 	
-	@PostMapping("/updatePw")
-	public String updatePassword(@RequestParam("password") String password,
-	                             @RequestParam("newPassword") String newPassword,
-	                             RedirectAttributes rttr) {
-	    UserUtil util = new UserUtil();
-	    UserVO vo = util.getUserDetails();
-	    if (passwordEncoder.matches(password, vo.getPassword())) { // 기존 비밀번호 검증
-	        vo.setPassword(newPassword);
-	        boolean isSuccess = service.updatePw(vo);
-	        if (isSuccess) {
-	            rttr.addFlashAttribute("successMsg", "비밀번호가 변경되었습니다.");
-	        } else {
-	            rttr.addFlashAttribute("errorMsg", "비밀번호 변경에 실패했습니다.");
-	        }
-	    } else {
-	        rttr.addFlashAttribute("errorMsg", "기존 비밀번호가 일치하지 않습니다.");
-	    }
-	    return "redirect:/mypage/updatePw";
-	}
+//	@PostMapping("/updatePw")
+//	public String updatePassword(@RequestParam("password") String password,
+//	                             @RequestParam("newPassword") String newPassword,
+//	                             RedirectAttributes rttr) {
+//	    UserUtil util = new UserUtil();
+//	    UserVO vo = util.getUserDetails();
+//	    if (passwordEncoder.matches(password, vo.getPassword())) { // 기존 비밀번호 검증
+//	        vo.setPassword(newPassword);
+//	        boolean isSuccess = service.updatePw(vo);
+//	        if (isSuccess) {
+//	            rttr.addFlashAttribute("successMsg", "비밀번호가 변경되었습니다.");
+//	        } else {
+//	            rttr.addFlashAttribute("errorMsg", "비밀번호 변경에 실패했습니다.");
+//	        }
+//	    } else {
+//	        rttr.addFlashAttribute("errorMsg", "기존 비밀번호가 일치하지 않습니다.");
+//	    }
+//	    return "redirect:/mypage/updatePw";
+//	}
 	
 
 

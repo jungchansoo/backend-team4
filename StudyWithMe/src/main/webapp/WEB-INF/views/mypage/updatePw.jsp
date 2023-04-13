@@ -66,7 +66,7 @@ li a.chagepw {
 		<form id="updatePwForm" action="/userpwchangers" method="post">
 			
 			<div>
-				<label for="current_pw">기존 비밀번호</label> <sec:authentication property="principal.user.userId"/>
+				<label for="current_pw">기존 비밀번호</label> <sec:authentication property="principal.user.password"/>
 				<input type="hidden" id="current_pw" name="password">
 			</div>
 			<div>
@@ -96,6 +96,9 @@ function updatePassword() {
         alert("새로운 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
         return;
     }
+    
+ // db 객체의 password 속성을 newPw로 업데이트합니다.
+    db.password = newPw;
 
    
     document.getElementById("current_pw").value = newPw;
