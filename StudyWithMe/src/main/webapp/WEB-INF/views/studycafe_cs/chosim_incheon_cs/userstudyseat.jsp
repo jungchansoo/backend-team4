@@ -18,14 +18,17 @@ a {
 	text-decoration: none;
 }
 
-#seatcheck {
+#seatcheck, #returnseat{
 	width: 230px;
 	text-align: center;
 }
 
-#seatcheck .yes {
+.yes {
 	margin-left: 0px;
 	margin-right: 40px;
+	cursor: pointer;
+}
+.no {
 	cursor: pointer;
 }
 
@@ -76,7 +79,7 @@ ul > .time{
     color: #4a4948;
     cursor: pointer;
 }
-#reservationsuccess, #reservationfail{
+#reservationsuccess, #reservationfail, #returnseatsuccess{
 	width: 230px;
 	text-align: center;
 }
@@ -89,7 +92,7 @@ ul > .time{
 	<div id="seatcheck" class="modal">
 		<p class="seatnum"></p>
 		<a class="yes" onclick="reservation()">예</a> 
-		<a class="no" href="#" onClick="location.reload();">아니오</a>
+		<a class="no" onClick="location.reload();">아니오</a>
 	</div>
 
 	<div id="seatreservation" class="modal">
@@ -118,7 +121,6 @@ ul > .time{
 		<p>보유 좌석이용시간</p>
 		<p>${time}</p>
 		<button class="reservation outline" onclick="timecheck()">예약</button>
-		
 	</div>
 	
 	<div id="reservationsuccess" class="modal">
@@ -128,14 +130,24 @@ ul > .time{
 	
 	<div id="reservationfail" class="modal">
 		<p class="checkmessage">보유시간이 부족합니다.</p>
-		<a class="check" href="#" onClick="location.reload();">확인</a>
+		<a class="check" onClick="location.reload();">확인</a>
 	</div>
 	
+	<div id="returnseat" class="modal">
+		<p class="seatnum">해당 좌석을 반납 하시겠습니까?</p>
+		<a class="yes" onclick="returnseatsuccess()">예</a> 
+		<a class="no" onClick="location.reload();">아니오</a>
+	</div>
+	
+	<div id="returnseatsuccess" class="modal">
+		<p class="checkmessage">좌석 반납이 완료되었습니다.</p>
+		<a class="check" href="#" onClick="location.reload();">확인</a>
+	</div>
 	<script>
 		var seatnum;
 		var dateString;
 		var timeString;
-		function modal(num) {
+		function clickseat(num) {
 			seatnum = arguments[0];
 			$('.seatnum').text(arguments[0] + '번 좌석을 예약 하시겠습니까?');
 			$('#seatcheck').modal('show');
@@ -171,9 +183,31 @@ ul > .time{
 			}
 		}
 		
+		(function() {
+			<c:forEach items='${lists}' var='item'>
+				var seat = 'seat_' + '${item.num_using}';
+				var seatnum = document.getElementById(seat);
+				if('${id}' == '${item.user_id}'){
+					document.getElementById(seat).style.backgroundColor = "red";
+					seatnum.setAttribute("onClick", "returnseat()");
+					
+				}else{
+					seatnum.style.backgroundColor = "orange";
+					seatnum.style.pointerEvents = "none";
+				}
+				
+			</c:forEach>
+		})();
+		
+		function returnseat() {
+			$('#returnseat').modal('show');
+		}
+		
+		function returnseatsuccess() {
+			$('#returnseatsuccess').modal('show');
+		}
+
 	</script>
-
-
 </body>
 
 </html>
