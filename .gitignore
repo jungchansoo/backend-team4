@@ -13,8 +13,12 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+.classpath
+Servers/
+*.MF
 /StudyWithMe/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
 /StudyWithMe/target/m2e-wtp/web-resources/META-INF/maven/com.studywithme/controller/pom.properties
+/StudyWithMe/target/
 
 
 # External tool builders

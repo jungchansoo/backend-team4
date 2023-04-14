@@ -13,6 +13,7 @@ public class TnsAdminPathConfig {
 
 	@Bean
 	public String tnsAdminPath() throws Exception {
+
 //		String OS = System.getProperty("os.name").toLowerCase();
 		/*
 		 * if(OS.indexOf("win")>=0) { System.out.println(OS); String basePath =
@@ -30,5 +31,6 @@ public class TnsAdminPathConfig {
 		String walletPath = walletDir.getAbsolutePath().replace("\\", "/");
 			
 		return walletPath;
+
 	}
 }
