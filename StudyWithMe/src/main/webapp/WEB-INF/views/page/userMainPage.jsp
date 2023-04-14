@@ -303,6 +303,7 @@
 				url: "/totalCount",
 				data: {keyword: keyword},
 				success: function(response) {
+					
 					/* if (response === 0) {
 						return;
 					}
