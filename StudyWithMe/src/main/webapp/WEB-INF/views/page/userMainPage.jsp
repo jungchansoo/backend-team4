@@ -94,7 +94,7 @@
 	<p><sec:authentication property="principal.username"/> 님 환영합니다.</p>
 	
 	<div>
-		<h1>스터디카페 위치</h1>
+		<h1 id="study-title">스터디카페 위치</h1>
 		
 		<div class="modal">
 			<div class="modal-content">
@@ -103,39 +103,76 @@
 					<p>이용하실 스터디카페를 검색해 주세요.</p>
 					<hr>
 				</div>
-			
-			
+
 				<div>
-					<table>
+					<div class="row">
+						<div id='searchForm'>
+							<input type='text' id='keyword' name='keyword' />
+							<input type='hidden' id='pageNum' name='pageNum' value='1' />
+							<input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' />
+							<button id="search-check-btn">Search</button>
+						</div>
+
+					</div>
+					
+					<!-- 스터디카체 리스트 출력-->
+					<table id="study-table">
 						<thead>
 							<tr>
 								<td>스터디카페</td>
 								<td>주소</td>
 							</tr>
 						</thead>
-
-						<c:forEach items="${list}" var="board">
-							<tr>
-								<td><c:out value="${board.name}" /></td>
-								<td><c:out value="${board.address}" /></td>
-								
-								<%-- <td><a href='/board/get?bno=<c:out value="${board.bno}"/>'><c:out value="${board.title}"/></a></td> --%>
-	
-								
-	
-								
-							</tr>
-						</c:forEach>
-						
 					</table>
-				</div>
+
+					<div class='pull-right'>
+						<ul class="pagination">
+
+							<c:if test="${pageMaker.prev}">
+								<li class="paginate_button previous"><a
+									href="${pageMaker.startPage -1}">Previous</a></li>
+							</c:if>
+
+							<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+								<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "active":""} ">
+									<a href="${num}">${num}</a>
+								</li>
+							</c:forEach>
+
+							<c:if test="${pageMaker.next}">
+								<li class="paginate_button next"><a
+									href="${pageMaker.endPage +1 }">Next</a></li>
+							</c:if>
+
+
+						</ul>
+					</div>
 					
-			
-			
-			
-			
-			
+					<div id="page-numbers">
+						<a id='page-1' href='#'>1</a>
+						<a id='page-2' href='#'>2</a>
+						<a id='page-3' href='#'>3</a>
+						<a id='page-4' href='#'>4</a>
+						<a id='page-5' href='#'>5</a>
+					</div>
+				</div>
 				
+<%-- 
+				<form id='actionForm' action="/userMainPage" method='get'>
+					<input type='hidden' id='pageNum' name='pageNum' value='${pageMaker.cri.pageNum}'>
+					<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+					<input type='hidden' name='type' value='<c:out value="${ pageMaker.cri.type }"/>'>
+					<input type='hidden' name='keyword' value='<c:out value="${ pageMaker.cri.keyword }"/>'>
+				</form>
+ --%>
+
+				<form id='actionForm'>
+					<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
+					<input type='hidden' id='amount' name='amount' value='${pageMaker.cri.amount}'>
+					<input type='hidden' name='type' value='<c:out value="${ pageMaker.cri.type }"/>'>
+					<input type='hidden' name='keyword' value='<c:out value="${ pageMaker.cri.keyword }"/>'>
+				</form>
+
 			</div>
 		</div>
 
@@ -149,10 +186,7 @@
 			<div class="modal-content">
 				<span class="close">&times;</span>
 				<p>
-					Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita
-				dolore eveniet laborum repellat sit distinctio, ipsa rem dicta alias
-				velit? Repellat doloribus mollitia dolorem voluptatum ex reiciendis
-				aut in incidunt?
+					QR code
 				</p>
 			</div>
 		</div>
@@ -162,8 +196,34 @@
 
 	
 
-
+	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 	<script>
+	$(document).ready(function(){
+		var actionForm = $("#actionForm");
+
+		$(".paginate_button a").on(
+				"click",
+				function(e) {
+
+					e.preventDefault();
+
+					console.log('click');
+
+					actionForm.find("input[name='pageNum']")
+							.val($(this).attr("href"));
+					actionForm.submit();
+				});
+		
+		search("", 1);
+		getTotalCount("");
+		addPageNumbersEvent();
+	});
+	
+	const PAGE_SIZE = 10;
+	
+	
+	
+	
 		// Modal을 가져옵니다.
 		var modals = document.getElementsByClassName("modal");
 		// Modal을 띄우는 클래스 이름을 가져옵니다.
@@ -203,6 +263,90 @@
 			if (event.target.className == "modal") {
 				event.target.style.display = "none";
 			}
+		};
+		
+		// void search(keyword)
+		const search = function(keyword, currentPage) {
+			// Ajax 요청으로 스터디카페 리스트 출력
+			$.ajax({
+				type : "GET",
+				url : "/getStudyCafeList",
+				data : {
+					keyword : keyword,
+					currentPage : currentPage,
+					perPage : PAGE_SIZE
+				},
+				success : function(response) {
+					console.log(response);
+
+					// 결과 화면에 뿌려준다
+					$("#study-table").empty();
+					
+					for (const studyCafe of response) {
+						console.log(studyCafe);
+						$("#study-table").append("<tr><td><a href='#' >" + studyCafe.name + "</a></td><td>" + studyCafe.address + "</td></tr>");
+					}
+					
+					addStudyCafeEvent();
+					
+					
+					// study_table append tr 제거
+					// 페이징 append tr 추가
+					
+				}
+			});
+		}
+		
+		const getTotalCount = function(keyword) {
+			$.ajax({
+				type: "GET",
+				url: "/totalCount",
+				data: {keyword: keyword},
+				success: function(response) {
+					/* if (response === 0) {
+						return;
+					}
+					
+					const pageNumber = response / PAGE_SIZE; // 0
+					const remain = response % 5; // 0 1 2 3 4
+					
+					for (let i = 0; i <= remain; i++) {
+						$("#page-numbers").append("<a href='#'>"+i+"</a>");
+					} */
+					
+				}
+			});
+		}
+		
+		// $(this) 현재 클릭한 태그
+		// $(this).html() => 'studyCafe.name'
+		// $("#study-title").html(text) => study-title의 html text 대체
+		const addStudyCafeEvent = function() {
+			$("#study-table tr td a").click(function() {
+				const text = $(this).html();
+				$("#study-title").html(text);
+			});			
+		};
+		
+		
+
+		// 스터디카페 검색
+		
+		$("#search-check-btn").click(function() {
+			const keyword = $("#keyword").val();
+
+			search(keyword, 1);
+			getTotalCount(keyword);
+		});
+		
+		// 페이징 처리
+		const addPageNumbersEvent = function(){
+			$("#page-numbers a").click(function(){
+				const num = $(this).html();
+				const keyword = $("#keyword").val();
+
+				search(keyword, num);
+			});
 		};
 	</script>
 
