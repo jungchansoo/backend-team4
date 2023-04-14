@@ -49,7 +49,7 @@ local.properties
 .settings/
 .loadpath
 .recommenders
-.Servers/
+Servers/
 # External tool builders
 .externalToolBuilders/
 
