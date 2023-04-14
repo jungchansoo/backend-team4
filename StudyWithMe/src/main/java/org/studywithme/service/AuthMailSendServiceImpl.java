@@ -9,22 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.studywithme.util.AuthUtil;
 
 @Service
 public class AuthMailSendServiceImpl implements AuthMailSendService {
 	@Autowired
 	private JavaMailSenderImpl mailSender;
-	
-	@Override
-	public int makeRandomNumber() {
-        Random random = new Random();
-        return 100000 + random.nextInt(900000);
-	}
 
 	@Override
 	public String sendJoinMail(String userMail) {
 		//난수 생성
-		int authNumber = makeRandomNumber();
+		AuthUtil util = new AuthUtil();
+		int authNumber = util.makeRandomNumber();
 		
 		//메일 작성
 
