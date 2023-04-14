@@ -70,15 +70,17 @@
 	$('#sms-Check-Btn').click(
 			function() {
 				const phoneNumber = $('#phoneNumber').val().replace(/-/g, ''); // 전화번호 얻어오기(- 삭제)
-				const checkInput = $('.sms-check-input') // 인증번호 입력하는곳 
+				const checkInput = $('.sms-check-input'); // 인증번호 입력하는곳 
+				const csrfTokenValue = $('#csrfToken').val();
+
+				console.log(csrfTokenValue);
 
 				// 서버에 전화번호를 전송하고 인증번호를 받아오는 Ajax 호출
 				$.ajax({
 					type : 'post',
 					url : '/smsCheck',
 					headers : {
-						'X-CSRF-TOKEN' : $(
-								'input[name="${_csrf.parameterName}"]').val()
+						'X-CSRF-TOKEN' : csrfTokenValue
 					},
 					data : {
 						phoneNumber : phoneNumber
@@ -91,6 +93,8 @@
 				});
 				startCountdown("sms-countdown-timer", "sms-Check-Btn",
 						smsCountdownTimer, smsCountdownSeconds, smsVerificationStatus);
+				// 인증번호 입력 필드를 활성화하는 코드
+				$('.sms-check-input').prop('disabled', false);
 			});
 
 	//문자 인증 번호 입력 시 메시지 표시,  인증 처리
@@ -122,6 +126,8 @@
 						startCountdown("email-countdown-timer",
 								"mail-Check-Btn", smsCountdownTimer,
 								smsCountdownSeconds, emailVerificationStatus);
+    					// 인증번호 입력 필드를 활성화하는 코드
+						$('.mail-check-input').prop('disabled', false);
 					}); // end send email
 
 	//메일 인증 번호 입력 시 메시지 표시, 인증 처리
@@ -158,12 +164,12 @@
 								const isDuplicate = $('Boolean', response)
 										.text() === 'true';
 								if (isDuplicate) {
-									$("#id-check-result").text("중복된 아이디입니다.")
+									$("#id-check-result").text("중복된 아이디가 있습니다.")
 											.css("color", "red");
 									isDuplicationChecked = false;
 								} else {
 									$("#id-check-result")
-											.text("사용 가능한 아이디입니다.").css(
+											.text("중복되는 아이디가 없어 사용 가능합니다.").css(
 													"color", "green");
 									isDuplicationChecked = true;
 
