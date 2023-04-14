@@ -74,8 +74,8 @@ li a.userinfo {
 			<div>이메일
 			<sec:authentication property="principal.user.email"/></div>
 		
-			<div>비밀번호
-			<sec:authentication property="principal.user.password"/></div>
+			<%-- <div>비밀번호
+			<sec:authentication property="principal.user.password"/></div> --%>
 		
 			<div>전화번호
 			<sec:authentication property="principal.user.phoneNumber"/></div>

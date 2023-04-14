@@ -13,7 +13,10 @@ import org.studywithme.domain.UserVO;
 import org.studywithme.service.UserService;
 import org.studywithme.util.UserUtil;
 
+import lombok.AllArgsConstructor;
+
 @Controller
+@AllArgsConstructor
 public class MypageController {
 
 	@Autowired
@@ -40,27 +43,35 @@ public class MypageController {
 	
 	
 	@PostMapping("/userpwchangers")
-	public String updateUserPassword(@RequestParam("password") String currentPassword, 
-	        @RequestParam("newPassword") String newPassword, Model model) {
-	    
-	    // 현재 로그인된 사용자 정보 가져오기
+	public String updateUserPassword(@RequestParam("password") String currentPassword,
+	                                  @RequestParam("newPassword") String newPassword,
+	                                  @RequestParam("pw_confirm") String newPasswordConfirm,
+	                                  RedirectAttributes rttr) {
+	    // 현재 사용자 정보를 가져옴
 	    UserUtil util = new UserUtil();
 	    UserVO vo = util.getUserDetails();
-	    
-	    // 현재 비밀번호가 일치하는지 확인
+
+	    // 기존 비밀번호가 일치하는지 확인
 	    if (!passwordEncoder.matches(currentPassword, vo.getPassword())) {
-	        model.addAttribute("error", "현재 비밀번호가 일치하지 않습니다.");
-	        return "errorPage"; // 비밀번호가 일치하지 않을 경우 에러 페이지로 이동
+	        rttr.addFlashAttribute("error", "기존 비밀번호가 일치하지 않습니다.");
+	        return "redirect:/mypage/userinfo";
 	    }
-	    
-	    // 새로운 비밀번호 업데이트하기
+
+	    // 새 비밀번호와 비밀번호 확인이 일치하는지 확인
+	    if (!newPassword.equals(newPasswordConfirm)) {
+	        rttr.addFlashAttribute("error", "새로운 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+	        return "redirect:/mypage/userinfo";
+	    }
+
+	    // 새 비밀번호를 암호화하여 업데이트
 	    String encodedPassword = passwordEncoder.encode(newPassword);
 	    vo.setPassword(encodedPassword);
 	    service.updatePw(vo);
-	    model.addAttribute("message", "비밀번호가 변경되었습니다.");
-	    
-	    return "redirect:/mypage/updatePw"; // 비밀번호가 업데이트된 후 마이페이지로 이동
+
+	    rttr.addFlashAttribute("success", "비밀번호가 변경되었습니다.");
+	    return "redirect:/mypage/userinfo";
 	}
+
 		
 	
 

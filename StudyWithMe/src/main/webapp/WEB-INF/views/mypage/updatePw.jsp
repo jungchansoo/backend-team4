@@ -63,48 +63,48 @@ li a.chagepw {
 		비밀번호 변경
 		<hr>
 
-		<form id="updatePwForm" action="/userpwchangers" method="post" >
-			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-			
-			<div>
-				<label for="current_pw">기존 비밀번호</label> <sec:authentication property="principal.user.password"/>
-				<input type="hidden" id="current_pw" name="password">
-			</div>
-			<div>
-				<label for="new_pw">새로운 비밀번호</label> <input type="password"
-					id="new_pw" name="newPassword">
-			</div>
-			<div>
-				<label for="pw_confirm">새로운 비밀번호 확인</label> <input type="password"
-					id="pw_confirm">
-			</div>
-			<button type="button" onclick="updatePassword()">변경하기</button>
-			<input type="button" value="뒤로가기" onclick="location.href='main.jsp'">
-		</form>
+		<form id="updatePwForm" action="/userpwchangers" method="post">
+    <input type="hidden" name="${_csrf.parameterName}"
+        value="${_csrf.token}" />
+    <div>
+        <label for="current_pw">기존 비밀번호</label> <input type="password"
+            id="current_pw" name="password">
+    </div>
+    <div>
+        <label for="new_pw">새로운 비밀번호</label> <input type="password"
+            id="new_pw" name="newPassword">
+    </div>
+    <div>
+        <label for="pw_confirm">새로운 비밀번호 확인</label> <input type="password"
+            id="pw_confirm" name="newPasswordConfirm">
+    </div>
+    <button type="button" onclick="updatePassword()">변경하기</button>
+    <input type="button" value="뒤로가기" onclick="location.href='main.jsp'">
+</form>
 
 
 
 		<hr>
 	</div>
 
-<script>
-function updatePassword() {
-    var currentPw = document.getElementById("current_pw").value;
-    var newPw = document.getElementById("new_pw").value;
-    var pwConfirm = document.getElementById("pw_confirm").value;
+	<!-- <script>
+	function updatePassword() {
+	    var currentPw = document.getElementById("current_pw").value;
+	    var newPw = document.getElementById("new_pw").value;
+	    var pwConfirm = document.getElementById("pw_confirm").value;
 
-    if (newPw !== pwConfirm) {
-        alert("새로운 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-        return;
-    }
-   
-    document.getElementById("current_pw").value = newPw;
-   
-    document.getElementById("updatePwForm").submit();
-}
+	    if (newPw !== pwConfirm) {
+	        alert("새로운 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+	        return;
+	    }
 
-</script>
+	    document.getElementById("current_pw").value = newPw;
 
+	   
+	}
+
+	</script>
+ -->
 	<!-- <script>
 		function newpwcheck(newpw,pwcheck){
 			if(arguments[0]===arguments[1]){
