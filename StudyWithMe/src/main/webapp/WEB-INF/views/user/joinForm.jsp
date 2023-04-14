@@ -3,72 +3,128 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>회원가입</title>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="_csrf_parameter" content="${_csrf.parameterName}">
+<meta name="_csrf" content="${_csrf.token}">
+<title>회원가입</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-	<h1>회원가입</h1>
-	<form action="/join" method="post">
-		<label for="userId">아이디:</label> <input type="text" id="userId"
-			name="userId" required oninput="checkUserId()">
-		<button type="button" id="id-check-btn">아이디 중복 확인</button>
-		<span id="id-check-result"></span><br>
-		<span id="userId-check-result"></span> <br> <label for="password">비밀번호:</label>
-		<input type="password" id="password" name="password" required
-			oninput="checkPassword()"><br> <br> <span
-			id="password-check-result"></span> <br> <label
-			for="password-confirm">비밀번호 확인:</label> <input type="password"
-			id="password-confirm" name="password-confirm" required><br>
-		<br> <span id="password-same-result"></span> <br> <br>
-		<label for="userName">이름:</label> <input type="text" id="userName"
-			name="userName" required><br> <br> <label
-			for="phoneNumber">전화번호:</label> <input type="text" id="phoneNumber"
-			name="phoneNumber" required oninput="checkPhonNumber()"> <br>
-		<br> <span id="phoneNumber-check-result"></span> <br> <br>
-		<!-- 문자 인증 -->
-		<div class="input-group-addon">
-			<button type="button" class="btn btn-primary" id="sms-Check-Btn">문자
-				인증</button>
-			<span id="sms-countdown-timer"></span>
+	<div class="container mt-5">
+		<div class="row justify-content-center">
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-body">
+						<h1 class="text-center mb-4">회원가입</h1>
+						<form action="/join" method="post" class="mt-4">
+							<div class="form-group">
+								<label for="userId">아이디</label>
+								<div class="input-group">
+									<input type="text" class="form-control" id="userId"
+										name="userId" required oninput="checkUserId()">
+									<div class="input-group-append">
+										<button type="button" class="btn btn-primary"
+											id="id-check-btn">중복 확인</button>
+									</div>
+								</div>
+								<small id="id-check-result" class="form-text text-muted"></small>
+								<small id="userId-check-result" class="form-text text-muted"></small>
+							</div>
+							<div class="form-group">
+								<label for="password">비밀번호</label> <input type="password"
+									class="form-control" id="password" name="password" required
+									oninput="checkPassword()"> <small
+									id="password-check-result" class="form-text text-muted"></small>
+							</div>
+							<div class="form-group">
+								<label for="password-confirm">비밀번호 확인</label> <input
+									type="password" class="form-control" id="password-confirm"
+									name="password-confirm" required> <small
+									id="password-same-result" class="form-text text-muted"></small>
+							</div>
+							<div class="form-group">
+								<label for="userName">이름</label> <input type="text"
+									class="form-control" id="userName" name="userName" required>
+							</div>
+							<div class="form-group">
+								<label for="phoneNumber">전화번호</label> <input type="text"
+									class="form-control" id="phoneNumber" name="phoneNumber"
+									required oninput="checkPhonNumber()"> <small
+									id="phoneNumber-check-result" class="form-text text-muted"></small>
+							</div>
+							<div class="form-group">
+								<!-- 문자 인증 -->
+								<div class="input-group">
+									<input type="text" class="form-control sms-check-input"
+										placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled"
+										maxlength="6">
+									<div class="input-group-append">
+										<button type="button" class="btn btn-primary"
+											id="sms-Check-Btn">문자 인증</button>
+									</div>
+								</div>
+								<small id="sms-check-warn" class="form-text text-muted"></small>
+								<span id="sms-countdown-timer"></span>
+							</div>
 
-			<div class="sms-check-box">
-				<input class="form-control sms-check-input"
-					placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6">
+							<div class="form-group">
+								<label for="email">이메일</label><input type="text"
+									class="form-control" id="email" name="email"
+									required>
+								<div class="input-group">
+									<input type="text" class="form-control mail-check-input"
+										placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled"
+										maxlength="6">
+									<div class="input-group-append">
+										<button type="button" class="btn btn-primary"
+											id="mail-Check-Btn">메일인증</button>
+									</div>
+								</div>
+								<small id="mail-check-warn" class="form-text text-muted"></small>
+								<span id="email-countdown-timer"></span>
+							</div>
+							<div class="form-group">
+								<label for="role">역할</label>
+								<div>
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" id="user"
+											name="role" value="user" checked> <label
+											class="form-check-label" for="user">사용자</label>
+									</div>
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" id="manager"
+											name="role" value="manager"> <label
+											class="form-check-label" for="manager">운영자</label>
+									</div>
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" id="admin"
+											name="role" value="admin"> <label
+											class="form-check-label" for="admin">관리자</label>
+									</div>
+								</div>
+							</div>
+							<button id="register-btn" class="btn btn-primary">회원가입</button>
+							<input id="csrfToken" type="hidden" name="${_csrf.parameterName}"
+								value="${_csrf.token}" />
+						</form>
+					</div>
+				</div>
 			</div>
-			<span id="sms-check-warn"></span>
 		</div>
+	</div>
+	<!-- Add Bootstrap JS -->
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-
-
-		<br> <label for="email">이메일:</label>
-		<!-- 		메일 인증 -->
-		<input type="email" id="email" name="email" required><br>
-		<br>
-		<div class="input-group-addon">
-			<button type="button" class="btn btn-primary" id="mail-Check-Btn">메일인증</button>
-			<span id="email-countdown-timer"></span>
-
-			<div class="mail-check-box">
-				<input class="form-control mail-check-input"
-					placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6">
-			</div>
-			<span id="mail-check-warn"></span>
-		</div>
-
-		<label for="role">역할:</label> <input type="radio" id="user"
-			name="role" value="user" checked> <label for="user">사용자</label>
-		<input type="radio" id="manager" name="role" value="manager">
-		<label for="manager">운영자</label> <input type="radio" id="admin"
-			name="role" value="admin"> <label for="admin">관리자</label><br>
-		<br> <button id="register-btn">회원가입</button>
-
-		<input
-			type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-	</form>
-	
 	<!-- js 파일 경로 -->
-	<script type="text/javascript" src="/resources/js/joinForm.js"></script>
+	<script type="text/javascript" src="/resources/js/joinForm.js">
+
+	</script>
+
 </body>
 </html>

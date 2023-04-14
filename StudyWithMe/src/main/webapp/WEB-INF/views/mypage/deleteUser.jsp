@@ -1,15 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원 탈퇴</title>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
+<title>MyPage</title>
 </head>
 <body>
-<style>
+	<h1>Mypage</h1>
+
+	<style>
 ul {
 	list-style-type: none;
 	padding: 0px;
@@ -42,7 +52,7 @@ li a.deleteid {
 .cd1 {
 	margin-left: 140px;
 }
-</style>	
+</style>
 
 	<ul>
 		<li><a class="userinfo" href="/userinfo">회원정보</a></li>
@@ -50,32 +60,73 @@ li a.deleteid {
 		<li><a class="chagepw" href="/updatePw">비밀번호변경</a></li>
 		<li><a class="deleteid" href="/deleteUser">회원탈퇴</a></li>
 	</ul>
-	
-	<div class="cd1"> 회원탈퇴
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-	<p>이름: <sec:authentication property="principal.user.userName"/></p>
-	<p>아이디: <sec:authentication property="principal.user.userId"/></p>
-	
-	<form method="post" action="/deleteUser">
-		<label for="password">비밀번호:</label>
-		<input type="password" id="password" name="password" required><br>
+
+
+	<div class="cd1">
+		회원탈퇴
+		<hr>
+		<form id="deleteid" action="/deleteUser" method="post">
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
+			<div>
+				<label for="userName">이름</label> <sec:authentication property="principal.user.userName"/>
+			</div>
+			<div>
+				<label for="userId">아이디</label><sec:authentication property="principal.user.userId"/>
+			</div>
+			<div>
+				<label for="password">비밀번호</label> <input type="password"
+					id="password" name="password">
+			</div>
+			<div>
+				<label for="passwordConfirm">비밀번호 확인</label> <input type="password"
+					id="passwordConfirm" name="passwordConfirm">
+			</div>
+			<button type="button" onclick="checkPassword()">탈퇴</button>
+			<input type="button" value="뒤로가기" onclick="location.href='main.jsp'">
+		</form>
 		
-		<label for="passwordConfirm">비밀번호 확인:</label>
-		<input type="password" id="passwordConfirm" name="passwordConfirm" required><br>
-		
-		<c:if test="${not empty message}">
-			<p style="color: green;">${message}</p>
-		</c:if>
-		
-		<c:if test="${not empty error}">
-			<p style="color: red;">${error}</p>
-		</c:if>
-		
-		<input type="hidden" name="userId" value="${userId}">
-		<button type="submit">회원 탈퇴</button>
-	</form>
-	
+		<hr>
 	</div>
-	
+
+
+		<!-- 모달 코드 -->
+<div id="deleteModal" class="modal">
+  <p>정말 탈퇴하시겠습니까?</p>
+  <button class="yes" onclick="deleteUser()">확인</button>
+  <button class="no" onclick="none()">취소</button>
+</div>
+
+<!-- 스크립트 코드 -->
+<script>
+  function deleteUser() {
+	  // 모달창 확인 버튼 클릭 후 로직
+    $('#deleteModal').modal('hide');
+    $('#deleteid').submit();
+  }
+  function none(){
+	  $('#deleteModal').hide();
+	  location.reload();
+  }
+
+  function checkPassword() {
+    // 비밀번호 검증 로직
+    var password = $('#password').val();
+    var passwordConfirm = $('#passwordConfirm').val();
+
+    if (password === passwordConfirm) {
+      $('#deleteModal').modal('show');
+    } else {
+      alert('비밀번호가 일치하지 않습니다.');
+    }
+  }
+</script>
+
+
+
+
 </body>
+
+
 </html>
+

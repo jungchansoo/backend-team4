@@ -19,7 +19,6 @@ import studyseatdomain_cs.SeatVO;
 
 @Controller
 @Log4j
-
 public class UserStudySeatController {
 	@Autowired
 	private StudyseatService service;
@@ -34,13 +33,12 @@ public class UserStudySeatController {
 		log.info(service.useseat(bno));
 		System.out.println(service.useseat(bno));
 		
-		 
+		model.addAttribute("lists", service.useseat(bno));
 		model.addAttribute("name", vo.getUserName());
 		model.addAttribute("id", vo.getUserId());
 		model.addAttribute("time", remainingSeatTime);
 		model.addAttribute("long_time",vo.getRemainingSeatTime());
-		// 메인에서 초심인천점을 골랐을 경우, get으로 받든 post로 받든 지점명 넘어와야됨.
-		// 현재 get형태 구현
+		
 		return "studycafe_cs/chosim_incheon_cs/userstudyseat";
 	}
 	
