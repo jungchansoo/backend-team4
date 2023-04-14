@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>회원가입</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script type="text/javascript" src="/resources/js/joinForm.js"></script>
+
 </head>
 <body>
 	<h1>회원가입</h1>
@@ -67,5 +67,8 @@
 		<input
 			type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	</form>
+	
+	<!-- js 파일 경로 -->
+	<script type="text/javascript" src="/resources/js/joinForm.js"></script>
 </body>
 </html>
