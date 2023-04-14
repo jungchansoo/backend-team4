@@ -63,7 +63,8 @@ li a.chagepw {
 		비밀번호 변경
 		<hr>
 
-		<form id="updatePwForm" action="/userpwchangers" method="post">
+		<form id="updatePwForm" action="/userpwchangers" method="post" >
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 			
 			<div>
 				<label for="current_pw">기존 비밀번호</label> <sec:authentication property="principal.user.password"/>

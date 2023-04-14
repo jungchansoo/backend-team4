@@ -52,6 +52,7 @@ li a.deleteid {
 	</ul>
 	
 	<div class="cd1"> 회원탈퇴
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	<p>이름: <sec:authentication property="principal.user.userName"/></p>
 	<p>아이디: <sec:authentication property="principal.user.userId"/></p>
 	
