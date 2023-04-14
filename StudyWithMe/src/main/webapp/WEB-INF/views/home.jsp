@@ -12,6 +12,5 @@
 
 <P>  The time on the server is ${serverTime}. </P>
 
-<%@ include file="/WEB-INF/views/studyseat/ss.jsp" %>
 </body>
 </html>

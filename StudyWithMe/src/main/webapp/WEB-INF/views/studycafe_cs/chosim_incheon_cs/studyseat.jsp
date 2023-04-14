@@ -4,17 +4,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 
 <style>
 body {
 	font-size: 10px;
-}
-
-div {
-	border: 1px solid red;
 }
 
 .seatimage {
@@ -30,7 +29,7 @@ div {
 	position: absolute;
 	width: 20px;
 	height: 20px;
-	cursor : pointer;
+	cursor: pointer;
 }
 
 .seatimage>.seat_1 {
@@ -351,57 +350,56 @@ div {
 	top: 194px;
 	left: 7px;
 }
-
-.mark {
-	position: relative;
-	width: 500px;
-	height: 25px;
+.seatimageheader {
+	width: 345px;
+	height : 16px;
+	margin: 7px auto;
 }
 
-.mark>p {
-	font-size: 5px;
-	width: 80px;
-	height: 15px;
-	left: 30px;
+.state {
+width: 335px;
+margin: 0px;
 }
 
-.mark>div {
-	position: absolute;
+.state>li {
+	float: left;
+	margin-right: 10px;
+}
+
+.state>.word {
+	float: left;
+	margin-right: 30px;
+}
+
+.state>.color {
 	width: 15px;
 	height: 15px;
 	border: 1px solid black;
 }
 
-.mark>.using {
-	background-color: yellow;
-	left: 100px;
-}
-a {
-	color: black;
-	text-decoration: none;
-}
-#seatcheck{
-	width: 230px;
-	text-align: center;
+.state>.use {
+	background-color: orange;
 }
 
-#seatcheck .yes{
-	margin-left: 0px;
-	margin-right: 40px;
+.state>.empty {
+	background-color: white;
+}
+
+.state>.me {
+	background-color: red;
 }
 </style>
 </head>
 <body>
-	<div class="mark">
-		<div class="using"></div>
-		<p class="useseat">사용중인 좌석</p>
-
-		<div class="empty"></div>
-		<p class="emptyseat">비어있는 좌석</p>
-
-		<div class="my_reservation"></div>
-		<p class="myseat">내 예약</p>
-
+	<div class="seatimageheader">
+		<ul class="state">
+			<li class="use color"></li>
+			<li class="word">사용중인 좌석</li>
+			<li class="empty color"></li>
+			<li class="word">비어있는 좌석</li>
+			<li class="me color"></li>
+			<li class="word">내 예약</li>
+		</ul>
 	</div>
 	<div class="seatimage">
 		<div class="seat_1" onclick="modal('1')"></div>
@@ -466,53 +464,6 @@ a {
 		<div class="locker_1"></div>
 		<div class="locker_2"></div>
 	</div>
-	
-<!-- Modal HTML embedded directly into document -->
-<div id="seatcheck" class="modal">
-  <p class="seatnum"></p>
-<<<<<<< HEAD
-  <a class="yes" href="#" onclick="reservation()">예</a>
-  <a class="no" href="/" rel="modal:close">아니오</a>
-=======
-  <a class="yes" href="/" onclick="reservation()">예</a>
-  <a class="no" href="/">아니오</a>
->>>>>>> branch 'main' of https://github.com/jungchansoo/backend-team4.git
-</div>
-
-<div id="seatreservation" class="modal">
-  <p class="seatnum"></p>
-  <a class="yes" href="/" rel="modal:close">예</a>
-  <a class="no" href="/" rel="modal:close">아니오</a>
-</div>
-<div><</div>
-<script>
-<<<<<<< HEAD
-    var seatnum;
-    function modal(num)  {
-        seatnum = arguments[0];
-        $('.seatnum').text(arguments[0]+'번 좌석을 예약 하시겠습니까?');
-        $('#seatcheck').modal('show');
-    }
-
-    function reservation()  {
-        $('.seatnum').text(seatnum+1+'번 좌석을 예약 하시겠습니까?');
-        $('#seatreservation').modal('show');
-    }
-=======
-	var seatnum;
-	function modal(num)  {
-		seatnum = arguments[0];
-		$('.seatnum').text(arguments[0]+'번 좌석을 예약 하시겠습니까?');
-		$('#seatcheck').modal('show');
-	}
-	
-	function reservation()  {
-		$('.seatnum').text(seatnum+1+'번 좌석을 예약 하시겠습니까?');
-		$('#seatreservation').modal('show');
-	}
->>>>>>> branch 'main' of https://github.com/jungchansoo/backend-team4.git
-</script>
-
 
 </body>
 

@@ -52,6 +52,12 @@
 	<!-- 파일 업로드 관련 코드. 일단 주석처리. 필요하면 살려서 사용. <context:component-scan base-package="org.studywithme.aop"></context:component-scan> 
 		<context:component-scan base-package="org.studywithme.task"></context:component-scan> -->
 
+	<!-- 서비스 패키지 별도 작성하였음 - 정찬수 -->
+	<context:component-scan
+		base-package="studyseatService_cs"></context:component-scan>
+	<!-- 맵퍼 패키지 별도 작성하였음 - 정찬수 -->
+	<mybatis-spring:scan base-package="studyseatMapper_cs"/>
+		
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 
 	<task:annotation-driven />
