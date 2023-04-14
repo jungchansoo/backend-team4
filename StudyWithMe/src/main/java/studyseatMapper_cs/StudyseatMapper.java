@@ -2,6 +2,8 @@ package studyseatMapper_cs;
 
 import java.util.List;
 
+import studyseatdomain_cs.SeatVO;
+
 public interface StudyseatMapper {
-	public List<Integer> readuseseat(int cafeno);
+	public List<SeatVO> readuseseat(Long cafeno);
 }

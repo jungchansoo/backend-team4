@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="studyseatMapper_cs.StudyseatMapper">
-	<select id="getList" resultType="long">
-  		select num_using from active_reservation where cafe_no= #{cafeno}
+	<select id="readuseseat" resultType="studyseatdomain_cs.SeatVO">
+  		select user_id,num_using from active_reservation where cafe_no = #{cafe_no}
 	</select>
 </mapper>
