@@ -7,15 +7,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.studywithme.domain.UserVO;
 import org.studywithme.service.UserService;
 import org.studywithme.util.UserUtil;
 
-import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j;
 
 @Controller
+@Log4j
 public class MypageController {
 
 	@Autowired
@@ -42,11 +44,12 @@ public class MypageController {
 	}
 	
 	
-	@PostMapping("/userpwchangers")
+	@PutMapping("/userpwchangers")
 	public String updateUserPassword(@RequestParam("password") String currentPassword,
 	                                  @RequestParam("newPassword") String newPassword,
 	                                  @RequestParam("pw_confirm") String newPasswordConfirm,
 	                                  RedirectAttributes rttr) {
+		log.info("updateUserPassword 호출");
 		UserUtil util = new UserUtil();
 		UserVO vo = util.getUserDetails();
 
