@@ -470,13 +470,9 @@ a {
 <!-- Modal HTML embedded directly into document -->
 <div id="seatcheck" class="modal">
   <p class="seatnum"></p>
-<<<<<<< HEAD
-  <a class="yes" href="#" onclick="reservation()">예</a>
-  <a class="no" href="/" rel="modal:close">아니오</a>
-=======
+
   <a class="yes" href="/" onclick="reservation()">예</a>
   <a class="no" href="/">아니오</a>
->>>>>>> branch 'main' of https://github.com/jungchansoo/backend-team4.git
 </div>
 
 <div id="seatreservation" class="modal">
@@ -486,19 +482,7 @@ a {
 </div>
 <div><</div>
 <script>
-<<<<<<< HEAD
-    var seatnum;
-    function modal(num)  {
-        seatnum = arguments[0];
-        $('.seatnum').text(arguments[0]+'번 좌석을 예약 하시겠습니까?');
-        $('#seatcheck').modal('show');
-    }
 
-    function reservation()  {
-        $('.seatnum').text(seatnum+1+'번 좌석을 예약 하시겠습니까?');
-        $('#seatreservation').modal('show');
-    }
-=======
 	var seatnum;
 	function modal(num)  {
 		seatnum = arguments[0];
@@ -510,7 +494,6 @@ a {
 		$('.seatnum').text(seatnum+1+'번 좌석을 예약 하시겠습니까?');
 		$('#seatreservation').modal('show');
 	}
->>>>>>> branch 'main' of https://github.com/jungchansoo/backend-team4.git
 </script>
 
 
