@@ -285,6 +285,7 @@
 					for (const studyCafe of response) {
 						console.log(studyCafe);
 						$("#study-table").append("<tr><td><a href='#' >" + studyCafe.name + "</a></td><td>" + studyCafe.address + "</td></tr>");
+						
 					}
 					
 					addStudyCafeEvent();
@@ -326,6 +327,8 @@
 			$("#study-table tr td a").click(function() {
 				const text = $(this).html();
 				$("#study-title").html(text);
+				modals[0].style.display = "none";
+				
 			});			
 		};
 		
