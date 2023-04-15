@@ -4,39 +4,42 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.studywithme.mapper.StudyCafeMapper">
 
-	<select id="getList" resultType="org.studywithme.domain.StudyCafeVO">
-		SELECT name
-			  ,address
-			  ,qr_code
-			  ,room_count
-			  ,seat_count
-			  ,locker_count
-		  FROM STUDY_CAFE
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(1) 
+		  FROM study_cafe
+		 WHERE name LIKE '%' || #{keyword} || '%'
 	</select>
-	
-	
-	<!-- 각 문자열을 이용해 검색 조건을 결합하는 형태로 하면 3개의 동적 SQL 구문처리 -->
-	<sql id="criteria">
-		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
-			<foreach item='type' collection="typeArr">
-				<trim prefix="OR">
-					<choose>
-						<when test="type == 'T'.toString()">
-							title like '%' || #{keyword} || '%'
-						</when>
-						<when test="type == 'C'.toString()">
-							content like '%' || #{keyword} || '%'
-						</when>
-						<when test="type == 'W'.toString()">
-							writer like '%' || #{keyword} || '%'
-						</when>
-					</choose>
-				</trim>
-			</foreach>
-		</trim>
-	</sql>
-	
-	
 
-
+	<select id="selectStudyCafeList"
+			parameterType="map"
+			resultType="org.studywithme.domain.StudyCafeVO">
+		SELECT cafe_no
+              ,user_id
+              ,address
+              ,name
+              ,qr_code
+              ,room_approval
+              ,room_count
+              ,seat_approval
+              ,seat_count
+              ,locker_approval
+              ,locker_count
+		  FROM (
+			   SELECT cafe_no
+			         ,user_id
+                     ,address
+                     ,name
+                     ,qr_code
+                     ,room_approval
+                     ,room_count
+                     ,seat_approval
+                     ,seat_count
+                     ,locker_approval
+                     ,locker_count
+                     ,ROWNUM AS rnum
+                FROM study_cafe
+			   WHERE name LIKE '%' || #{keyword} || '%'
+		) 
+		WHERE rnum BETWEEN ((#{currentPage} - 1) * #{perPage}) AND (#{currentPage} * #{perPage}) 
+	</select>
 </mapper>
