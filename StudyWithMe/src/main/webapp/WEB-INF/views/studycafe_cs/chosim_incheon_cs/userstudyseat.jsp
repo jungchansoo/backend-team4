@@ -124,6 +124,7 @@ ul > .time{
 	</div>
 	
 	<div id="reservationsuccess" class="modal">
+		
 		<p class="checkmessage">좌석 예약이 완료되었습니다.</p>
 		<a class="check" onClick="send()">확인</a>
 	</div>
@@ -143,6 +144,7 @@ ul > .time{
 		<p class="checkmessage">좌석 반납이 완료되었습니다.</p>
 		<a class="check" onClick="location.reload();">확인</a>
 	</div>
+	<input id="csrfToken" type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	<script>
 		var seatnum;
 		var dateString;
@@ -215,7 +217,7 @@ ul > .time{
 				headers : {
 					'X-CSRF-TOKEN' : csrfTokenValue
 				}
-				
+			
 				data : {
 					num_using : seatnum,
 					cafe_no : '${cafeno}'
