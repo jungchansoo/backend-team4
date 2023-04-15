@@ -80,8 +80,10 @@ public class MypageController {
 
 
 	@GetMapping("/deleteUser")
-	public String iddelete() {
-
+	public String iddelete(Model model) {
+		UserVO vo = new UserUtil().getUserDetails();
+		model.addAttribute("name", vo.getUserName());
+		model.addAttribute("userid", vo.getUserId());
 		return "/mypage/deleteUser";
 	}
 
@@ -89,26 +91,41 @@ public class MypageController {
 	public String deleteUser(@RequestParam String userId, @RequestParam String password,
 			@RequestParam String passwordConfirm, RedirectAttributes rttr) {
 
+		UserVO vo = new UserUtil().getUserDetails();
+		
 		if (!password.equals(passwordConfirm)) {
 			// 비밀번호 확인이 일치하지 않으면 에러 메시지를 전달하고 마이페이지로 돌아갑니다.
 			rttr.addFlashAttribute("error", "비밀번호 확인이 일치하지 않습니다.");
+			log.info("비밀번호 확인이 일치하지 않습니다.");
 			return "redirect:/deleteUser";
 		}
 
 		// 입력받은 비밀번호를 암호화합니다.
 		String encodedPassword = passwordEncoder.encode(password);
 
-		// 회원 탈퇴를 시도합니다.
-		boolean success = service.deleteUser(userId);
+		// DB에 저장된 비밀번호를 가져옵니다.
+		String dbPassword = vo.getPassword();
 
-		if (success) {
-			// 회원 탈퇴가 성공하면 로그아웃하고 로그인 화면으로 이동합니다.
-			rttr.addFlashAttribute("message", "회원 탈퇴가 완료되었습니다. 이용해 주셔서 감사합니다.");
-			return "redirect:/login";
+		// 암호화된 비밀번호와 DB에 저장된 비밀번호를 비교합니다.
+		if (passwordEncoder.matches(encodedPassword, dbPassword)) {
+		    // 암호화된 비밀번호와 DB에 저장된 비밀번호가 일치하면 회원 탈퇴를 시도합니다.
+		    boolean success = service.deleteUser(userId);
+		    if (success) {
+		        // 회원 탈퇴가 성공하면 로그아웃하고 로그인 화면으로 이동합니다.
+		        rttr.addFlashAttribute("message", "회원 탈퇴가 완료되었습니다. 이용해 주셔서 감사합니다.");
+		        log.info("회원탈퇴완료");
+		        return "redirect:/login";
+		    } else {
+		        // 회원 탈퇴가 실패하면 에러 메시지를 전달하고 마이페이지로 돌아갑니다.
+		        rttr.addFlashAttribute("error", "회원 탈퇴에 실패했습니다. 입력한 정보를 다시 확인해주세요.");
+		        log.info("회원탈퇴실패");
+		        return "redirect:/deleteUser";
+		    }
 		} else {
-			// 회원 탈퇴가 실패하면 에러 메시지를 전달하고 마이페이지로 돌아갑니다.
-			rttr.addFlashAttribute("error", "회원 탈퇴에 실패했습니다. 입력한 정보를 다시 확인해주세요.");
-			return "redirect:/deleteUser";
+		    // 비밀번호가 일치하지 않으면 에러 메시지를 전달하고 마이페이지로 돌아갑니다.
+		    rttr.addFlashAttribute("error", "비밀번호가 일치하지 않습니다.");
+		    log.info("비밀번호가 일치하지 않습니다.");
+		    return "redirect:/deleteUser";
 		}
 	}
 

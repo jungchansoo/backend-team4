@@ -70,7 +70,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-    @Transactional
     public boolean deleteUser(String userId) {
         int result = mapper.deleteUser(userId);
         return result > 0;
