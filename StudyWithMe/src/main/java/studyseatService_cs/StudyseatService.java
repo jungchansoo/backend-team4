@@ -9,5 +9,5 @@ import studyseatdomain_cs.SeatVO;
 
 public interface StudyseatService {
 	public List<SeatVO> useseat(Long cafeno);
-	
+	public void insert(int cafe_no, int num_using, String id);
 }

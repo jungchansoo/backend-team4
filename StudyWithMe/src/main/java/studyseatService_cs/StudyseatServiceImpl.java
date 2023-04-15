@@ -22,8 +22,12 @@ public class StudyseatServiceImpl implements StudyseatService{
 	
 	@Override
 	public List<SeatVO> useseat(Long cafeno) {
-		log.info("check..........................." + cafeno);
 		return mapper.readuseseat(cafeno);
+	}
+
+	@Override
+	public void insert(int cafe_no, int num_using, String id) {
+		mapper.insert(cafe_no, num_using, id);
 	}
 
 }
