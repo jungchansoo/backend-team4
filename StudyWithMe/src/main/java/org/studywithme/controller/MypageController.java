@@ -29,8 +29,7 @@ public class MypageController {
 
 	@GetMapping("/userinfo")
 	public String mypageuserinfo(Model model) {
-		UserUtil util = new UserUtil();
-		UserVO vo = util.getUserDetails();
+		UserVO vo = new UserUtil().getUserDetails();
 		model.addAttribute("loginUser", vo);
 		model.addAttribute("name", vo.getUserName());
 		model.addAttribute("password", vo.getPassword());
@@ -52,8 +51,7 @@ public class MypageController {
 	        @RequestParam("newPassword") String newPassword, @RequestParam("pw_confirm") String newPasswordConfirm,
 	        RedirectAttributes rttr) {
 	    log.info("updateUserPassword 호출");
-	    UserUtil util = new UserUtil();
-	    UserVO vo = util.getUserDetails();
+	    UserVO vo = new UserUtil().getUserDetails();
 
 	    // 기존 비밀번호가 일치하는지 확인
 	    if (!passwordEncoder.matches(currentPassword, vo.getPassword())) {

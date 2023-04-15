@@ -25,14 +25,14 @@
 
 	<!-- 회원 탈퇴 -->
 	<delete id="deleteUser" >
-		DELETE FROM tbl_board
+		DELETE FROM tbl_user
 		WHERE user_id = #{userId}
 	</delete>
 
 
 	<!-- 비밀번호 변경 -->
 	<update id="updatePw" >
-		update tbl_board
+		update tbl_user
 		set password
 		= #{password}
 		where user_id = #{userId}
