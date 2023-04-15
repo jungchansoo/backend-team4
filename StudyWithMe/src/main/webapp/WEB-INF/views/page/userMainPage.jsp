@@ -149,22 +149,13 @@
 					</div>
 					
 					<div id="page-numbers">
-						<a id='page-1' href='#'>1</a>
+						<!-- <a id='page-1' href='#'>1</a>
 						<a id='page-2' href='#'>2</a>
 						<a id='page-3' href='#'>3</a>
 						<a id='page-4' href='#'>4</a>
-						<a id='page-5' href='#'>5</a>
+						<a id='page-5' href='#'>5</a> -->
 					</div>
 				</div>
-				
-<%-- 
-				<form id='actionForm' action="/userMainPage" method='get'>
-					<input type='hidden' id='pageNum' name='pageNum' value='${pageMaker.cri.pageNum}'>
-					<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
-					<input type='hidden' name='type' value='<c:out value="${ pageMaker.cri.type }"/>'>
-					<input type='hidden' name='keyword' value='<c:out value="${ pageMaker.cri.keyword }"/>'>
-				</form>
- --%>
 
 				<form id='actionForm'>
 					<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
@@ -194,7 +185,6 @@
 		<button type="button" class="btn">QR 코드</button>
 	</div>
 
-	
 
 	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 	<script>
@@ -217,13 +207,12 @@
 		search("", 1);
 		getTotalCount("");
 		addPageNumbersEvent();
+		
 	});
 	
-	const PAGE_SIZE = 10;
-	
-	
-	
-	
+	const PER_PAGE = 10;
+	const PAGE_SIZE = 5;
+
 		// Modal을 가져옵니다.
 		var modals = document.getElementsByClassName("modal");
 		// Modal을 띄우는 클래스 이름을 가져옵니다.
@@ -265,6 +254,21 @@
 			}
 		};
 		
+
+		
+		
+		let totalData; //총 데이터 수
+		let dataPerPage = PER_PAGE; //한 페이지에 나타낼 글 수
+		let pageCount = PAGE_SIZE; //페이징에 나타낼 페이지 수
+		let globalCurrentPage=1; //현재 페이지
+		let dataList; //표시하려하는 데이터 리스트
+		
+		
+		
+		
+		
+		
+		
 		// void search(keyword)
 		const search = function(keyword, currentPage) {
 			// Ajax 요청으로 스터디카페 리스트 출력
@@ -274,7 +278,7 @@
 				data : {
 					keyword : keyword,
 					currentPage : currentPage,
-					perPage : PAGE_SIZE
+					perPage : PER_PAGE
 				},
 				success : function(response) {
 					console.log(response);
@@ -288,7 +292,6 @@
 					}
 					
 					addStudyCafeEvent();
-					
 					
 					// study_table append tr 제거
 					// 페이징 append tr 추가
@@ -304,11 +307,14 @@
 				data: {keyword: keyword},
 				success: function(response) {
 					
+					totalData = response;
+					
+					
 					/* if (response === 0) {
 						return;
 					}
 					
-					const pageNumber = response / PAGE_SIZE; // 0
+					const pageNumber = response / PER_PAGE; // 0
 					const remain = response % 5; // 0 1 2 3 4
 					
 					for (let i = 0; i <= remain; i++) {
@@ -326,6 +332,7 @@
 			$("#study-table tr td a").click(function() {
 				const text = $(this).html();
 				$("#study-title").html(text);
+				modals[0].style.display = "none";
 			});			
 		};
 		
@@ -340,14 +347,109 @@
 			getTotalCount(keyword);
 		});
 		
+		function displayData(currentPage, dataPerPage) {
+		
+		  let chartHtml = "";
+		
+		//Number로 변환하지 않으면 아래에서 +를 할 경우 스트링 결합이 되어버림.. 
+		  currentPage = Number(currentPage);
+		  dataPerPage = Number(dataPerPage);
+		  
+		  for (
+		    var i = (currentPage - 1) * dataPerPage;
+		    i < (currentPage - 1) * dataPerPage + dataPerPage;
+		    i++
+		  ) {
+		    chartHtml +=
+		      "<tr><td>" +
+		      dataList[i].d1 +
+		      "</td><td>" +
+		      dataList[i].d2 +
+		      "</td><td>" +
+		      dataList[i].d3 +
+		      "</td></tr>";
+		  } //dataList는 임의의 데이터임.. 각 소스에 맞게 변수를 넣어주면 됨...
+		  $("#dataTableBody").html(chartHtml);
+		}
+		
 		// 페이징 처리
 		const addPageNumbersEvent = function(){
+			
 			$("#page-numbers a").click(function(){
-				const num = $(this).html();
+				const currentPage = $(this).html();
 				const keyword = $("#keyword").val();
 
-				search(keyword, num);
+				search(keyword, currentPage);
+				
+				const totalPage = Math.ceil(totalData / dataPerPage); //총 페이지 수
+				
+				if(totalPage<pageCount){
+					pageCount=totalPage;
+				}
+				
+				let pageGroup = Math.ceil(currentPage / pageCount); // 페이지 그룹
+				let last = pageGroup * pageCount; //화면에 보여질 마지막 페이지 번호
+				
+				if (last > totalPage) {
+				  last = totalPage;
+				}
+
+				let first = last - (pageCount - 1); //화면에 보여질 첫번째 페이지 번호
+				let next = last + 1;
+				let prev = first - 1;
+				
+				let pageHtml = "";
+				
+				if (prev > 0) {
+				  pageHtml += "<li><a href='#' id='prev'> 이전 </a></li>";
+				}
+				
+				//페이징 번호 표시 
+				for (var i = first; i <= last; i++) {
+				  if (currentPage == i) {
+				    pageHtml +=
+				      "<li class='on'><a href='#' id='" + i + "'>" + i + "</a></li>";
+				  } else {
+				    pageHtml += "<li><a href='#' id='" + i + "'>" + i + "</a></li>";
+				  }
+				}
+				
+				if (last < totalPage) {
+				  pageHtml += "<li><a href='#' id='next'> 다음 </a></li>";
+				}
+				
+				$("#pagingul").html(pageHtml);
+				let displayCount = "";
+				displayCount = "현재 1 - " + totalPage + " 페이지 / " + totalData + "건";
+				$("#displayCount").text(displayCount);
+
+				//페이징 번호 클릭 이벤트 
+				$("#pagingul li a").click(function () {
+				  let $id = $(this).attr("id");
+				  selectedPage = $(this).text();
+				
+				  if ($id == "next") selectedPage = next;
+				  if ($id == "prev") selectedPage = prev;
+				  
+				  //전역변수에 선택한 페이지 번호를 담는다...
+				  globalCurrentPage = selectedPage;
+				  //페이징 표시 재호출
+				  paging(totalData, dataPerPage, pageCount, selectedPage);
+				  //글 목록 표시 재호출
+				  displayData(selectedPage, dataPerPage);
+				});
 			});
+			
+			
+			
+			
+			
+			// 나머지 추가
+			// page-numbers a 에 추가?
+			  
+			
+			
+			
 		};
 	</script>
 
