@@ -54,7 +54,7 @@ li a.chagepw {
 
 	<ul>
 		<li><a class="userinfo" href="/userinfo">회원정보</a></li>
-		<li><a class="reservatelist" href="#">예약내역</a></li>
+		<li><a class="reservatelist" href="/reservationList">예약내역</a></li>
 		<li><a class="chagepw" href="/updatePw">비밀번호변경</a></li>
 		<li><a class="deleteid" href="/deleteUser">회원탈퇴</a></li>
 	</ul>
@@ -80,6 +80,7 @@ li a.chagepw {
 			</div>
 			<button type="button" onclick="updatePassword()">변경하기</button>
 			<input type="button" value="뒤로가기" onclick="location.href='main.jsp'">
+			
 		</form>
 
 

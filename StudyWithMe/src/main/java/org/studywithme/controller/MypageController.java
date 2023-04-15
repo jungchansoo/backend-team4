@@ -36,6 +36,11 @@ public class MypageController {
 		return "/mypage/userinfo";
 	}
 	
+	@GetMapping("/reservationList")
+	public String reservationList() {
+		return "/mypage/reservationList";
+	}
+	
 	@GetMapping("/updatePw")
 	public String updatepw() {
 		return "/mypage/updatePw";
