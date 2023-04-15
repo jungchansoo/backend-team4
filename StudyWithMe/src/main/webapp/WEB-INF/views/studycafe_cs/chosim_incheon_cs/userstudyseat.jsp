@@ -213,10 +213,10 @@ ul > .time{
 			const csrfTokenValue = $('#csrfToken').val();
 			$.ajax({
 				type : 'post',
-				url : "userstudyseat/reservation",
+				url : "/userstudyseat/reservation",
 				headers : {
 					'X-CSRF-TOKEN' : csrfTokenValue
-				}
+				},
 			
 				data : {
 					num_using : seatnum,
