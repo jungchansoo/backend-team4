@@ -10,6 +10,8 @@
 <head>
 <meta charset="UTF-8">
 <title>MyPage</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 <body>
 	<h1>Mypage</h1>
@@ -64,8 +66,7 @@ li a.chagepw {
 		<hr>
 
 		<form id="updatePwForm" action="/userpwchangers" method="post">
-			<input type="hidden" name="${_csrf.parameterName}"
-				value="${_csrf.token}" />
+			<input type="hidden" id="csrfToken" name="${_csrf.parameterName}" value="${_csrf.token}" />
 			<div>
 				<label for="current_pw">기존 비밀번호</label> <input type="password"
 					id="current_pw" name="password">
@@ -103,9 +104,13 @@ li a.chagepw {
 
 			// 비밀번호 변경 요청을 보낼 AJAX 코드 작성
 			var xhr = new XMLHttpRequest();
+			const csrfTokenValue = $('#csrfToken').val();
+
+			
 			xhr.open("PUT", "/userpwchangers", true);
-			xhr.setRequestHeader("Content-Type",
-					"application/json;charset=UTF-8");
+			xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+			xhr.setRequestHeader("X-CSRF-TOKEN", csrfTokenValue); //헤더에 csrf Token 셋팅
+
 			xhr.onload = function() {
 				if (xhr.status === 200) {
 					alert("비밀번호가 변경되었습니다.");
