@@ -42,37 +42,41 @@ public class MypageController {
 	}
 
 	@GetMapping("/updatePw")
-	public String updatepw() {
-		return "/mypage/updatePw";
+	public String updatePwForm() {
+	return "/mypage/updatePw";
 	}
 
-	@PutMapping("/userpwchangers")
-	public String updateUserPassword(@RequestParam("password") String currentPassword,
-	        @RequestParam("newPassword") String newPassword, @RequestParam("pw_confirm") String newPasswordConfirm,
+	@PostMapping("/userpwchangers")
+	public String updateUserPassword(@RequestParam("currentPassword") String currentPassword,
+	        @RequestParam("newPassword") String newPassword, @RequestParam("newPasswordConfirm") String newPasswordConfirm,
 	        RedirectAttributes rttr) {
 	    log.info("updateUserPassword 호출");
 	    UserVO vo = new UserUtil().getUserDetails();
-
 	    // 기존 비밀번호가 일치하는지 확인
 	    if (!passwordEncoder.matches(currentPassword, vo.getPassword())) {
 	        rttr.addFlashAttribute("error", "기존 비밀번호가 일치하지 않습니다.");
-	        return "redirect:/mypage/userinfo";
+		    log.info("기존 비밀번호가 일치하지 않습니다.");
+	        return "redirect:/userinfo";
 	    }
-
 	    // 새 비밀번호와 비밀번호 확인이 일치하는지 확인
 	    if (!newPassword.equals(newPasswordConfirm)) {
 	        rttr.addFlashAttribute("error", "새로운 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-	        return "redirect:/mypage/userinfo";
+	        log.info("새로운 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+	        return "redirect:/updatePw";
 	    }
-
 	    // 새 비밀번호를 암호화하여 업데이트
-	    String encodedPassword = passwordEncoder.encode(newPassword);
-	    vo.setPassword(encodedPassword);
-	    service.updatePw(vo);
-
+	    vo.setPassword(newPassword);
+	    boolean result = service.updatePw(vo);
+	    if (!result) {
+	        rttr.addFlashAttribute("error", "비밀번호 변경에 실패했습니다.");
+	        log.info("비밀번호 변경에 실패했습니다.");
+	        return "redirect:/updatePw";
+	    }
 	    rttr.addFlashAttribute("success", "비밀번호가 변경되었습니다.");
-	    return "redirect:/mypage/userinfo";
+	    log.info("비밀번호가 변경되었습니다.");
+	    return "redirect:/userinfo";
 	}
+
 
 
 	@GetMapping("/deleteUser")
