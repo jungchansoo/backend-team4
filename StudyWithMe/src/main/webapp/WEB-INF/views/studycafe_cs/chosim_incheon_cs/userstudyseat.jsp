@@ -125,7 +125,7 @@ ul > .time{
 	
 	<div id="reservationsuccess" class="modal">
 		<p class="checkmessage">좌석 예약이 완료되었습니다.</p>
-		<a class="check" href="#" onClick="location.reload();">확인</a>
+		<a class="check" onClick="send()">확인</a>
 	</div>
 	
 	<div id="reservationfail" class="modal">
@@ -141,7 +141,7 @@ ul > .time{
 	
 	<div id="returnseatsuccess" class="modal">
 		<p class="checkmessage">좌석 반납이 완료되었습니다.</p>
-		<a class="check" href="#" onClick="location.reload();">확인</a>
+		<a class="check" onClick="location.reload();">확인</a>
 	</div>
 	<script>
 		var seatnum;
@@ -206,7 +206,28 @@ ul > .time{
 		function returnseatsuccess() {
 			$('#returnseatsuccess').modal('show');
 		}
-
+		
+		function send() {
+			const csrfTokenValue = $('#csrfToken').val();
+			$.ajax({
+				type : 'post',
+				url : "userstudyseat/reservation",
+				headers : {
+					'X-CSRF-TOKEN' : csrfTokenValue
+				}
+				
+				data : {
+					num_using : seatnum,
+					cafe_no : '${cafeno}'
+				},
+				success : function(data) {
+					alert("success");
+			     },
+				error : function() {
+					alert("error");
+				}
+			});
+		}
 	</script>
 </body>
 
