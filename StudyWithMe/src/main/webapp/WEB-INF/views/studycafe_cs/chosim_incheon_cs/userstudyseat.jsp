@@ -126,7 +126,7 @@ ul > .time{
 	<div id="reservationsuccess" class="modal">
 		
 		<p class="checkmessage">좌석 예약이 완료되었습니다.</p>
-		<a class="check" onClick="send()">확인</a>
+		<a class="check" href="#"  onClick="send()">확인</a>
 	</div>
 	
 	<div id="reservationfail" class="modal">
@@ -221,14 +221,9 @@ ul > .time{
 				data : {
 					num_using : seatnum,
 					cafe_no : '${cafeno}'
-				},
-				success : function(data) {
-					alert("success");
-			     },
-				error : function() {
-					alert("error");
 				}
 			});
+			location.reload();
 		}
 	</script>
 </body>

@@ -42,12 +42,8 @@ public class UserStudySeatController {
 
 	@PostMapping("/userstudyseat/reservation")
 	public String reservation(@RequestParam("num_using") int num_using, @RequestParam("cafe_no") int cafe_no) {
-		System.out.println("****************");
-		log.info("****************");
-		System.out.println(num_using);
-		System.out.println(cafe_no);
-		log.info(num_using);
-		log.info(cafe_no);
-		return "studycafe_cs/chosim_incheon_cs/userstudyseat";
+		UserVO vo = new UserUtil().getUserDetails();
+		service.insert(cafe_no, num_using, vo.getUserId());
+		return "redirect:/userstudyseat";
 	}
 }
