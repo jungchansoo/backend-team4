@@ -399,64 +399,64 @@ margin: 0px;
 		</ul>
 	</div>
 	<div id="seatimage">
-		<div id="seat_1" onclick="clickseat('1')"></div>
-		<div id="seat_2" onclick="clickseat('2')"></div>
-		<div id="seat_3" onclick="clickseat('3')"></div>
-		<div id="seat_4" onclick="clickseat('4')"></div>
-		<div id="seat_5" onclick="clickseat('5')"></div>
-		<div id="seat_6" onclick="clickseat('6')"></div>
-		<div id="seat_7" onclick="clickseat('7')"></div>
-		<div id="seat_8" onclick="clickseat('8')"></div>
-		<div id="seat_9" onclick="clickseat('9')"></div>
-		<div id="seat_10" onclick="clickseat('10')"></div>
-		<div id="seat_11" onclick="clickseat('11')"></div>
-		<div id="seat_12" onclick="clickseat('12')"></div>
-		<div id="seat_13" onclick="clickseat('13')"></div>
-		<div id="seat_14" onclick="clickseat('14')"></div>
-		<div id="seat_15" onclick="clickseat('15')"></div>
-		<div id="seat_16" onclick="clickseat('16')"></div>
-		<div id="seat_17" onclick="clickseat('17')"></div>
-		<div id="seat_18" onclick="clickseat('18')"></div>
-		<div id="seat_19" onclick="clickseat('19')"></div>
-		<div id="seat_20" onclick="clickseat('20')"></div>
-		<div id="seat_21" onclick="clickseat('21')"></div>
-		<div id="seat_22" onclick="clickseat('22')"></div>
-		<div id="seat_23" onclick="clickseat('23')"></div>
-		<div id="seat_24" onclick="clickseat('24')"></div>
-		<div id="seat_25" onclick="clickseat('25')"></div>
-		<div id="seat_26" onclick="clickseat('26')"></div>
-		<div id="seat_27" onclick="clickseat('27')"></div>
-		<div id="seat_28" onclick="clickseat('28')"></div>
-		<div id="seat_29" onclick="clickseat('29')"></div>
-		<div id="seat_30" onclick="clickseat('30')"></div>
-		<div id="seat_31" onclick="clickseat('31')"></div>
-		<div id="seat_32" onclick="clickseat('32')"></div>
-		<div id="seat_33" onclick="clickseat('33')"></div>
-		<div id="seat_34" onclick="clickseat('34')"></div>
-		<div id="seat_35" onclick="clickseat('35')"></div>
-		<div id="seat_36" onclick="clickseat('36')"></div>
-		<div id="seat_37" onclick="clickseat('37')"></div>
-		<div id="seat_38" onclick="clickseat('38')"></div>
-		<div id="seat_39" onclick="clickseat('39')"></div>
-		<div id="seat_40" onclick="clickseat('40')"></div>
-		<div id="seat_41" onclick="clickseat('41')"></div>
-		<div id="seat_42" onclick="clickseat('42')"></div>
-		<div id="seat_43" onclick="clickseat('43')"></div>
-		<div id="seat_44" onclick="clickseat('44')"></div>
-		<div id="seat_45" onclick="clickseat('45')"></div>
-		<div id="seat_46" onclick="clickseat('46')"></div>
-		<div id="seat_47" onclick="clickseat('47')"></div>
-		<div id="seat_48" onclick="clickseat('48')"></div>
-		<div id="seat_49" onclick="clickseat('49')"></div>
-		<div id="seat_50" onclick="clickseat('50')"></div>
-		<div id="seat_51" onclick="clickseat('51')"></div>
-		<div id="seat_52" onclick="clickseat('52')"></div>
-		<div id="seat_53" onclick="clickseat('53')"></div>
-		<div id="seat_54" onclick="clickseat('54')"></div>
-		<div id="seat_55" onclick="clickseat('55')"></div>
-		<div id="seat_56" onclick="clickseat('56')"></div>
-		<div id="seat_57" onclick="clickseat('57')"></div>
-		<div id="seat_58" onclick="clickseat('58')"></div>
+		<div id="seat_1" class="seat" onclick="clickseat('1')"></div>
+		<div id="seat_2" class="seat" onclick="clickseat('2')"></div>
+		<div id="seat_3" class="seat" onclick="clickseat('3')"></div>
+		<div id="seat_4" class="seat" onclick="clickseat('4')"></div>
+		<div id="seat_5" class="seat" onclick="clickseat('5')"></div>
+		<div id="seat_6" class="seat" onclick="clickseat('6')"></div>
+		<div id="seat_7" class="seat" onclick="clickseat('7')"></div>
+		<div id="seat_8" class="seat" onclick="clickseat('8')"></div>
+		<div id="seat_9" class="seat" onclick="clickseat('9')"></div>
+		<div id="seat_10" class="seat" onclick="clickseat('10')"></div>
+		<div id="seat_11" class="seat" onclick="clickseat('11')"></div>
+		<div id="seat_12" class="seat" onclick="clickseat('12')"></div>
+		<div id="seat_13" class="seat" onclick="clickseat('13')"></div>
+		<div id="seat_14" class="seat" onclick="clickseat('14')"></div>
+		<div id="seat_15" class="seat" onclick="clickseat('15')"></div>
+		<div id="seat_16" class="seat" onclick="clickseat('16')"></div>
+		<div id="seat_17" class="seat" onclick="clickseat('17')"></div>
+		<div id="seat_18" class="seat" onclick="clickseat('18')"></div>
+		<div id="seat_19" class="seat" onclick="clickseat('19')"></div>
+		<div id="seat_20" class="seat" onclick="clickseat('20')"></div>
+		<div id="seat_21" class="seat" onclick="clickseat('21')"></div>
+		<div id="seat_22" class="seat" onclick="clickseat('22')"></div>
+		<div id="seat_23" class="seat" onclick="clickseat('23')"></div>
+		<div id="seat_24" class="seat" onclick="clickseat('24')"></div>
+		<div id="seat_25" class="seat" onclick="clickseat('25')"></div>
+		<div id="seat_26" class="seat" onclick="clickseat('26')"></div>
+		<div id="seat_27" class="seat" onclick="clickseat('27')"></div>
+		<div id="seat_28" class="seat" onclick="clickseat('28')"></div>
+		<div id="seat_29" class="seat" onclick="clickseat('29')"></div>
+		<div id="seat_30" class="seat" onclick="clickseat('30')"></div>
+		<div id="seat_31" class="seat" onclick="clickseat('31')"></div>
+		<div id="seat_32" class="seat" onclick="clickseat('32')"></div>
+		<div id="seat_33" class="seat" onclick="clickseat('33')"></div>
+		<div id="seat_34" class="seat" onclick="clickseat('34')"></div>
+		<div id="seat_35" class="seat" onclick="clickseat('35')"></div>
+		<div id="seat_36" class="seat" onclick="clickseat('36')"></div>
+		<div id="seat_37" class="seat" onclick="clickseat('37')"></div>
+		<div id="seat_38" class="seat" onclick="clickseat('38')"></div>
+		<div id="seat_39" class="seat" onclick="clickseat('39')"></div>
+		<div id="seat_40" class="seat" onclick="clickseat('40')"></div>
+		<div id="seat_41" class="seat" onclick="clickseat('41')"></div>
+		<div id="seat_42" class="seat" onclick="clickseat('42')"></div>
+		<div id="seat_43" class="seat" onclick="clickseat('43')"></div>
+		<div id="seat_44" class="seat" onclick="clickseat('44')"></div>
+		<div id="seat_45" class="seat" onclick="clickseat('45')"></div>
+		<div id="seat_46" class="seat" onclick="clickseat('46')"></div>
+		<div id="seat_47" class="seat" onclick="clickseat('47')"></div>
+		<div id="seat_48" class="seat" onclick="clickseat('48')"></div>
+		<div id="seat_49" class="seat" onclick="clickseat('49')"></div>
+		<div id="seat_50" class="seat" onclick="clickseat('50')"></div>
+		<div id="seat_51" class="seat" onclick="clickseat('51')"></div>
+		<div id="seat_52" class="seat" onclick="clickseat('52')"></div>
+		<div id="seat_53" class="seat" onclick="clickseat('53')"></div>
+		<div id="seat_54" class="seat" onclick="clickseat('54')"></div>
+		<div id="seat_55" class="seat" onclick="clickseat('55')"></div>
+		<div id="seat_56" class="seat" onclick="clickseat('56')"></div>
+		<div id="seat_57" class="seat" onclick="clickseat('57')"></div>
+		<div id="seat_58" class="seat" onclick="clickseat('58')"></div>
 		<div id="room_1"></div>
 		<div id="locker_1"></div>
 		<div id="locker_2"></div>
