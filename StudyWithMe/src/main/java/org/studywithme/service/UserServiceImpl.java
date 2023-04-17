@@ -56,7 +56,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	@Transactional
 	public boolean updatePw(UserVO vo) {
 		try {
 			String hashedPassword = passwordEncoder.encode(vo.getPassword());
