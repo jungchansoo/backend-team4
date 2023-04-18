@@ -238,6 +238,7 @@ ul > .time{
 					cafe_no : '${cafeno}'
 				}
 			});
+		}
 	</script>
 </body>
 
