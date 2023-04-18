@@ -7,13 +7,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.studywithme.domain.UserVO;
-import org.studywithme.service.AdminService;
+import org.studywithme.service.AdminPageService;
 
 @Controller
-public class AdminController {
+public class AdminPageController {
 
     @Autowired
-    private AdminService service;
+    private AdminPageService service;
 
     @GetMapping("/userlist")
     public String getUserList(Model model) {

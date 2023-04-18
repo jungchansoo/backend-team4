@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.studywithme.domain.UserVO;
 
-public interface AdminService {
+public interface AdminPageService {
 	
     List<UserVO> getUserList();
 
