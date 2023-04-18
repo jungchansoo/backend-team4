@@ -211,8 +211,11 @@
 					$("#study-table").empty();
 					
 					for (const studyCafe of response) {
-						$("#study-table").append("<tr><td><a href='#' >" + studyCafe.name + "</a></td><td>" + studyCafe.address + "</td></tr>");
-						
+						// 기존코드
+						// $("#study-table").append("<tr><td><a href='#' >" + studyCafe.name + "</a></td><td>" + studyCafe.address + "</td></tr>");
+						//data-cafe-num에 카페 번호를 저장하도록 수정
+						$("#study-table").append("<tr><td><a href='#' data-cafe-num='" + studyCafe.cafe_no + "'>" + studyCafe.name + "</a></td><td>" + studyCafe.address + "</td></tr>");
+
 					}
 					
 					addStudyCafeEvent();
@@ -297,6 +300,22 @@
 				const text = $(this).html();
 				$("#study-title").html(text);
 				modals[0].style.display = "none";
+
+		        // 선택된 카페의 cafeNum를 세션에 저장하는 Ajax 요청 추가
+				const cafeNum = $(this).data("cafe-num");
+		        console.log("cafeNum: "+cafeNum);
+				$.ajax({
+		            type: "GET",
+		            url: "/saveCafeNum",
+		            data: {
+		                cafeNum: cafeNum
+		            },
+		            success: function(response) {
+		                console.log(response);
+		            }
+		        });
+				
+				
 			});			
 		};
 
