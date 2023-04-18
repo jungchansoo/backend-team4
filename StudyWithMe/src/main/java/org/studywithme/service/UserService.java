@@ -15,6 +15,7 @@ public interface UserService {
 	public boolean updatePw(UserVO vo);
 	public boolean deleteUser(String userId);
 
-	
+	public boolean modifyUserNameForTest(UserVO vo);
+
 
 }

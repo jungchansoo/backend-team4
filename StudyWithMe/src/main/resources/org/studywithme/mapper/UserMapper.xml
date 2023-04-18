@@ -51,6 +51,7 @@
 		tbl_user WHERE user_id = #{userId}
 	</select>
 
+	<!-- 회원 가입 -->
 	<insert id="join">
 		INSERT INTO tbl_user
 		(user_no, user_id, password,
@@ -60,8 +61,17 @@
 		#{userName},
 		#{phoneNumber}, #{email}, #{role}, sysdate)
 	</insert>
-
+	
+	<!-- 중복 확인 -->
 	<select id="checkUserId" parameterType="string" resultType="int">
 		SELECT COUNT(*) FROM tbl_user WHERE user_id = #{userId}
 	</select>
+	
+	<!-- UserName변경(테스트용) -->
+	<update id="updateUserNameForTest" >
+		update tbl_user
+		set USERNAME
+		= #{userName}
+		where user_id = #{userId}
+	</update>
 </mapper>
