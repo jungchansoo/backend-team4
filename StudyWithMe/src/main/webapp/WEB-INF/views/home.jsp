@@ -91,8 +91,5 @@ nav a:hover {
 			</ul>
 		</nav>
 	</header>
-	<main>
-		<!-- 메인 콘텐츠 -->
-	</main>
 </body>
 </html>
