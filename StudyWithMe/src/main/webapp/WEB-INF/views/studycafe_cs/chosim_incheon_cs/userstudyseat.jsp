@@ -18,7 +18,7 @@ a {
 	text-decoration: none;
 }
 
-#seatcheck, #returnseat{
+#seatcheck, #returnseat {
 	width: 230px;
 	text-align: center;
 }
@@ -28,6 +28,7 @@ a {
 	margin-right: 40px;
 	cursor: pointer;
 }
+
 .no {
 	cursor: pointer;
 }
@@ -50,55 +51,60 @@ ul {
 li {
 	float: left;
 }
-ul > .name{
-	margin-left : 25px;
+
+ul>.name {
+	margin-left: 25px;
 	margin-right: 45px;
 }
-ul > .id{
+
+ul>.id {
 	margin-left: 20px;
 	margin-right: 40px;
 }
-ul > .day{
-	margin-right: 20px;
-}
-ul > .time{
+
+ul>.day {
 	margin-right: 20px;
 }
 
-.outline:hover{
-    background-color: #ff5f2e;
-    color: #e1eef6;
+ul>.time {
+	margin-right: 20px;
 }
-.reservation{
+
+.outline:hover {
+	background-color: #ff5f2e;
+	color: #e1eef6;
+}
+
+.reservation {
 	width: 80px;
-	height : 30px;
-    border-radius: 15px;
-    font-family: "paybooc-Light", sans-serif;
-    border: 3px solid #ff5f2e;
-    background-color : white;
-    color: #4a4948;
-    cursor: pointer;
+	height: 30px;
+	border-radius: 15px;
+	font-family: "paybooc-Light", sans-serif;
+	border: 3px solid #ff5f2e;
+	background-color: white;
+	color: #4a4948;
+	cursor: pointer;
 }
-#reservationsuccess, #timefail, #usefail, #returnseatsuccess{
+
+#reservationsuccess, #timefail, #usefail, #returnseatsuccess {
 	width: 230px;
 	text-align: center;
+}
+
+.check{
+	cursor: pointer;
 }
 </style>
 </head>
 <body>
-	<%@ include file="studyseat.jsp" %>
+	<%@ include file="studyseat.jsp"%>
 	<!-- Modal HTML embedded directly into document -->
 	<div id="seatcheck" class="modal">
 		<p class="seatnum"></p>
-		<a class="yes" onclick="reservation()">예</a> 
-		<a class="no" onClick="location.reload();">아니오</a>
+		<a class="yes" onclick="reservation()">예</a> <a class="no"
+			onClick="location.reload();">아니오</a>
 	</div>
 
-	<div id="reservationsuccess" class="modal">
-		<p class="checkmessage">사용중인 좌석 반납 후 예약해 주세요</p>
-		<a class="check" href="#"  onClick="location.reload()">확인</a>
-	</div>
-	
 	<div id="seatreservation" class="modal">
 		<p>좌석 예약</p>
 		<hr>
@@ -126,34 +132,34 @@ ul > .time{
 		<p>${time}</p>
 		<button class="reservation outline" onclick="timecheck()">예약</button>
 	</div>
-	
+
 	<div id="reservationsuccess" class="modal">
-		
 		<p class="checkmessage">좌석 예약이 완료되었습니다.</p>
 		<a class="check" onClick="location.reload()">확인</a>
 	</div>
-	
+
 	<div id="usefail" class="modal">
 		<p class="checkmessage">좌석 예약에 실패하였습니다.</p>
 		<a class="check" onClick="location.reload()">확인</a>
 	</div>
-	
+
 	<div id="timefail" class="modal">
 		<p class="checkmessage">보유시간이 부족합니다.</p>
 		<a class="check" onClick="location.reload()">확인</a>
 	</div>
-	
+
 	<div id="returnseat" class="modal">
 		<p class="seatnum">해당 좌석을 반납 하시겠습니까?</p>
-		<a class="yes" onclick="returnseatsuccess()">예</a> 
-		<a class="no" onClick="location.reload()">아니오</a>
+		<a class="yes" onclick="returnseatsuccess()">예</a> <a class="no"
+			onClick="location.reload()">아니오</a>
 	</div>
-	
+
 	<div id="returnseatsuccess" class="modal">
 		<p class="checkmessage">좌석 반납이 완료되었습니다.</p>
 		<a class="check" onClick="location.reload()">확인</a>
 	</div>
-	<input id="csrfToken" type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+	<input id="csrfToken" type="hidden" name="${_csrf.parameterName}"
+		value="${_csrf.token}" />
 	<script>
 		var seatnum;
 		var dateString;
@@ -196,7 +202,6 @@ ul > .time{
 			if('${long_time}' <= 0){
 				$('#timefail').modal('show');
 			}else{
-				$('#reservationsuccess').modal('show');
 				send();
 			}
 		}
@@ -236,7 +241,14 @@ ul > .time{
 				data : {
 					num_using : seatnum,
 					cafe_no : '${cafeno}'
+				},
+				success : function(result) {
+					$('#reservationsuccess').modal('show');
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					$('#usefail').modal('show');
 				}
+				
 			});
 		}
 	</script>
