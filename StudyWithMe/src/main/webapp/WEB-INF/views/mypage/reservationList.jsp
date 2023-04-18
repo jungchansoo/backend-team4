@@ -2,7 +2,8 @@
 	pageEncoding="UTF-8"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 
 <!DOCTYPE html>
 <html>
@@ -16,31 +17,58 @@
 	<style>
 ul {
 	list-style-type: none;
-	padding: 0px;
-	margin: 0px;
+	padding: 0;
+	margin: 0;
 	width: 120px;
-	background: #efefef;
+	background-color: #efefef;
 	height: 100%;
-	overflow: auto;
 	position: fixed;
 }
 
 li a {
-	text-decoration: none;
-	padding: 10px;
 	display: block;
 	color: #000;
 	font-weight: bold;
+	padding: 10px;
+	text-decoration: none;
 }
 
 li a:hover {
-	background: #333;
+	background-color: #333;
 	color: #fff;
 }
 
 li a.reservatelist {
-	background: #333;
+	background-color: #333;
 	color: #fff;
+}
+
+/* .sidebar-content {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-grow: 1;
+	flex-direction: row;
+} */
+.sidebar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: auto;
+  margin-bottom: 0;
+}
+
+.sidebar-content p {
+	text-align: center;
+	font-size: 0.7em;
+}
+
+.logo {
+	width: 12px;
+	height: 12px;
+	cursor: pointer;
+	margin-left: auto;
 }
 
 .cd1 {
@@ -48,15 +76,20 @@ li a.reservatelist {
 }
 </style>
 
-
-
-
 	<ul>
-		<li><a class="userinfo" href="/userinfo">회원정보</a></li>
-		<li><a class="reservatelist" href="/reservationList">예약내역</a></li>
-		<li><a class="chagepw" href="/updatePw">비밀번호변경</a></li>
-		<li><a class="deleteid" href="/deleteUser">회원탈퇴</a></li>
-	</ul>
+  <li><a class="userinfo" href="/userinfo">회원정보</a></li>
+  <li><a class="reservatelist" href="/reservationList">예약내역</a></li>
+  <li><a class="chagepw" href="/updatePw">비밀번호변경</a></li>
+  <li><a class="deleteid" href="/deleteUser">회원탈퇴</a></li>
+  <li class="sidebar-content">
+      <p><sec:authentication property="principal.user.userId" /></p>
+      <p><sec:authentication property="principal.user.phoneNumber" /></p>
+      <img src="/resources/image/logout_icon.png" alt="로고" class="logo" onclick="#">
+  </li>
+</ul>
+
+
+
 
 	<div class="cd1">
 		예약 내역
@@ -71,7 +104,7 @@ li a.reservatelist {
 				</tr>
 			</thead>
 			<tbody>
-			<!-- tbl_reservation에 있는 db값을 넣기 -->
+				<!-- tbl_reservation에 있는 db값을 넣기 -->
 				<c:forEach var="reservation" items="${reservations}">
 					<tr>
 						<td>${reservation.location}이용지점예시</td>

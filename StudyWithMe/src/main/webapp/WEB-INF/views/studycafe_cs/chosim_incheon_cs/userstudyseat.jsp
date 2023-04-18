@@ -79,15 +79,14 @@ ul > .time{
     color: #4a4948;
     cursor: pointer;
 }
-#reservationsuccess, #reservationfail, #returnseatsuccess{
+#reservationsuccess, #timefail, #usefail, #returnseatsuccess{
 	width: 230px;
 	text-align: center;
 }
 </style>
 </head>
 <body>
-<%@ include file="studyseat.jsp" %>
-	
+	<%@ include file="studyseat.jsp" %>
 	<!-- Modal HTML embedded directly into document -->
 	<div id="seatcheck" class="modal">
 		<p class="seatnum"></p>
@@ -95,6 +94,11 @@ ul > .time{
 		<a class="no" onClick="location.reload();">아니오</a>
 	</div>
 
+	<div id="reservationsuccess" class="modal">
+		<p class="checkmessage">사용중인 좌석 반납 후 예약해 주세요</p>
+		<a class="check" href="#"  onClick="location.reload()">확인</a>
+	</div>
+	
 	<div id="seatreservation" class="modal">
 		<p>좌석 예약</p>
 		<hr>
@@ -126,33 +130,44 @@ ul > .time{
 	<div id="reservationsuccess" class="modal">
 		
 		<p class="checkmessage">좌석 예약이 완료되었습니다.</p>
-		<a class="check" href="#"  onClick="send()">확인</a>
+		<a class="check" onClick="location.reload()">확인</a>
 	</div>
 	
-	<div id="reservationfail" class="modal">
+	<div id="usefail" class="modal">
+		<p class="checkmessage">좌석 예약에 실패하였습니다.</p>
+		<a class="check" onClick="location.reload()">확인</a>
+	</div>
+	
+	<div id="timefail" class="modal">
 		<p class="checkmessage">보유시간이 부족합니다.</p>
-		<a class="check" onClick="location.reload();">확인</a>
+		<a class="check" onClick="location.reload()">확인</a>
 	</div>
 	
 	<div id="returnseat" class="modal">
 		<p class="seatnum">해당 좌석을 반납 하시겠습니까?</p>
 		<a class="yes" onclick="returnseatsuccess()">예</a> 
-		<a class="no" onClick="location.reload();">아니오</a>
+		<a class="no" onClick="location.reload()">아니오</a>
 	</div>
 	
 	<div id="returnseatsuccess" class="modal">
 		<p class="checkmessage">좌석 반납이 완료되었습니다.</p>
-		<a class="check" onClick="location.reload();">확인</a>
+		<a class="check" onClick="location.reload()">확인</a>
 	</div>
 	<input id="csrfToken" type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	<script>
 		var seatnum;
 		var dateString;
 		var timeString;
+		var useseat;
 		function clickseat(num) {
-			seatnum = arguments[0];
-			$('.seatnum').text(arguments[0] + '번 좌석을 예약 하시겠습니까?');
-			$('#seatcheck').modal('show');
+			if(useseat == "ture"){
+				
+			}
+			else{
+				seatnum = arguments[0];
+				$('.seatnum').text(arguments[0] + '번 좌석을 예약 하시겠습니까?');
+				$('#seatcheck').modal('show');
+			}
 		}
 
 		function reservation() {
@@ -179,9 +194,10 @@ ul > .time{
 		function timecheck(){
 			var remainingSeatTime = '${time}';
 			if('${long_time}' <= 0){
-				$('#reservationfail').modal('show');
+				$('#timefail').modal('show');
 			}else{
 				$('#reservationsuccess').modal('show');
+				send();
 			}
 		}
 		
@@ -192,12 +208,11 @@ ul > .time{
 				if('${id}' == '${item.user_id}'){
 					document.getElementById(seat).style.backgroundColor = "red";
 					seatnum.setAttribute("onClick", "returnseat()");
-					
+					useseat = "true";
 				}else{
 					seatnum.style.backgroundColor = "orange";
 					seatnum.style.pointerEvents = "none";
 				}
-				
 			</c:forEach>
 		})();
 		
@@ -223,8 +238,6 @@ ul > .time{
 					cafe_no : '${cafeno}'
 				}
 			});
-			location.reload();
-		}
 	</script>
 </body>
 

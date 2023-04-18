@@ -43,7 +43,7 @@ public class UserStudySeatController {
 	@PostMapping("/userstudyseat/reservation")
 	public String reservation(@RequestParam("num_using") int num_using, @RequestParam("cafe_no") int cafe_no) {
 		UserVO vo = new UserUtil().getUserDetails();
-		service.insert(cafe_no, num_using, vo.getUserId());
+		service.insertseat(cafe_no, num_using, vo.getUserId());
 		return "redirect:/userstudyseat";
 	}
 }

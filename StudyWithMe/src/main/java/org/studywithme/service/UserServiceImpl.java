@@ -56,7 +56,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	@Transactional
 	public boolean updatePw(UserVO vo) {
 		try {
 			String hashedPassword = passwordEncoder.encode(vo.getPassword());
@@ -70,7 +69,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-    @Transactional
     public boolean deleteUser(String userId) {
         int result = mapper.deleteUser(userId);
         return result > 0;

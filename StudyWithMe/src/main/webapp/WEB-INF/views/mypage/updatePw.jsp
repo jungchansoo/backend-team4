@@ -65,60 +65,77 @@ li a.chagepw {
 		비밀번호 변경
 		<hr>
 
-		<form id="updatePwForm" action="/userpwchangers" method="put">
-    <input type="hidden" id="csrfToken" name="${_csrf.parameterName}" value="${_csrf.token}" />
-    <div>
-        <label for="current_pw">기존 비밀번호</label>
-        <input type="password" id="current_pw" name="password">
-    </div>
-    <div>
-        <label for="new_pw">새로운 비밀번호</label>
-        <input type="password" id="new_pw" name="newPassword">
-    </div>
-    <div>
-        <label for="pw_confirm">새로운 비밀번호 확인</label>
-        <input type="password" id="pw_confirm" name="newPasswordConfirm">
-    </div>
-    <button type="button" onclick="updatePassword()">확인</button>
-    <input type="button" value="취소" onclick="location.href='main.jsp'">
+		<form id="updatePwForm" action="/userpwchangers" method="post">
+	<input type="hidden" id="csrfToken" name="${_csrf.parameterName}" value="${_csrf.token}" />
+	<div>
+		<label for="current_pw">기존 비밀번호</label> 
+		<input type="password" id="current_pw" name="currentPassword" required>
+	</div>
+	<div>
+		<label for="new_pw">새로운 비밀번호</label> 
+		<input type="password" id="new_pw" name="newPassword" required>
+	</div>
+	<div>
+		<label for="pw_confirm">새로운 비밀번호 확인</label> 
+		<input type="password" id="pw_confirm" name="newPasswordConfirm" required>
+	</div>
+	<button type="submit">변경하기</button>
+	<input type="button" value="뒤로가기" onclick="location.href='main.jsp'">
 </form>
+
 
 		<hr>
 	</div>
+	
+<!-- jQuery 라이브러리 로드 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-function updatePassword() {
-    var currentPw = document.getElementById("current_pw").value;
-    var newPw = document.getElementById("new_pw").value;
-    var pwConfirm = document.getElementById("pw_confirm").value;
+$(document).ready(function() {
+  // CSRF 토큰 설정
+  var csrf_token = $('meta[name="csrf-token"]').attr('content');
 
-    if (newPw !== pwConfirm) {
-        alert("새로운 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-        return;
+  // 변경 버튼 클릭시
+  $("#changeBtn").click(function() {
+    var current_pw = $("#current_pw").val();
+    var new_pw = $("#new_pw").val();
+    var pw_confirm = $("#pw_confirm").val();
+
+    // 입력값 유효성 검사
+    if (current_pw == '' || new_pw == '' || pw_confirm == '') {
+      alert("모든 항목을 입력해주세요.");
+      return;
     }
 
-    // 비밀번호 변경 요청을 보낼 AJAX 코드 작성
-    var xhr = new XMLHttpRequest();
-    const csrfTokenValue = $('#csrfToken').val();
+    // 새로운 비밀번호와 확인 비밀번호가 같은지 확인
+    if (new_pw != pw_confirm) {
+      alert("새로운 비밀번호와 확인 비밀번호가 일치하지 않습니다.");
+      return;
+    }
 
-    xhr.open("PUT", "/userpwchangers", true);
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhr.setRequestHeader("X-CSRF-TOKEN", csrfTokenValue); //헤더에 csrf Token 셋팅
-
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            alert("비밀번호가 변경되었습니다.");
-            window.location.href = "/mypage/userinfo";
-        } else {
-            alert("비밀번호 변경에 실패했습니다.");
-        }
-    };
-    var data = {
-        password: currentPw,
-        newPassword: newPw,
-        newPasswordConfirm: pwConfirm
-    };
-    xhr.send(JSON.stringify(data));
-}
+    // 서버에 비밀번호 변경 요청 보내기
+    $.ajax({
+      url: "/userpwchangers",
+      method: "POST",
+      headers: {
+        "X-CSRF-Token": csrf_token // CSRF 토큰 설정
+      },
+      data: {
+    	currentPassword: current_pw,
+    	newPassword: new_pw,
+    	newPasswordConfirm: pw_confirm
+      },
+      success: function(data) {
+        // 비밀번호 변경 성공시
+        alert("비밀번호가 성공적으로 변경되었습니다.");
+        location.reload(); // 페이지 새로고침
+      },
+      error: function(xhr, status, error) {
+        // 비밀번호 변경 실패시
+        alert("비밀번호 변경에 실패했습니다. 잠시 후 다시 시도해주세요.");
+      }
+    });
+  });
+});
 </script>
 
 

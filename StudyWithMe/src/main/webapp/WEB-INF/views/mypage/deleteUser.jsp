@@ -66,25 +66,27 @@ li a.deleteid {
 		회원탈퇴
 		<hr>
 		<form id="deleteid" action="/deleteUser" method="post">
-			<input type="hidden" name="${_csrf.parameterName}"
-				value="${_csrf.token}" />
-			<div>
-				<label for="userName">이름</label> <sec:authentication property="principal.user.userName"/>
-			</div>
-			<div>
-				<label for="userId">아이디</label><sec:authentication property="principal.user.userId"/>
-			</div>
-			<div>
-				<label for="password">비밀번호</label> <input type="password"
-					id="password" name="password">
-			</div>
-			<div>
-				<label for="passwordConfirm">비밀번호 확인</label> <input type="password"
-					id="passwordConfirm" name="passwordConfirm">
-			</div>
-			<button type="button" onclick="checkPassword()">탈퇴</button>
-			<input type="button" value="뒤로가기" onclick="location.href='main.jsp'">
-		</form>
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+    <input type="hidden" name="userId" value="<sec:authentication property='principal.user.userId'/>" />
+    <div>
+        <label for="userName">이름</label>
+        <sec:authentication property="principal.user.userName"/>
+    </div>
+    <div>
+        <label for="userId">아이디</label>
+        <sec:authentication property="principal.user.userId"/>
+    </div>
+    <div>
+        <label for="password">비밀번호</label>
+        <input type="password" id="password" name="password">
+    </div>
+    <div>
+        <label for="passwordConfirm">비밀번호 확인</label>
+        <input type="password" id="passwordConfirm" name="passwordConfirm">
+    </div>
+    <button type="button" onclick="checkPassword()">탈퇴</button>
+</form>
+
 		
 		<hr>
 	</div>
@@ -96,6 +98,8 @@ li a.deleteid {
   <button class="yes" onclick="deleteUser()">확인</button>
   <button class="no" onclick="none()">취소</button>
 </div>
+
+
 
 <!-- 스크립트 코드 -->
 <script>

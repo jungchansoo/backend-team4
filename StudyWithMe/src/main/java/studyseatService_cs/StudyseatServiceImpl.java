@@ -26,7 +26,7 @@ public class StudyseatServiceImpl implements StudyseatService{
 	}
 
 	@Override
-	public void insert(int cafe_no, int num_using, String id) {
+	public void insertseat(int cafe_no, int num_using, String id) {
 		mapper.insert(cafe_no, num_using, id);
 	}
 
