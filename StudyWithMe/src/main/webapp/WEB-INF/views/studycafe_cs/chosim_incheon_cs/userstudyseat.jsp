@@ -86,8 +86,8 @@ ul>.time {
 	cursor: pointer;
 }
 
-#reservationsuccess, #timefail, #usefail, #returnseatsuccess {
-	width: 230px;
+#reservationsuccess, #timefail, #usefail, #returnseatsuccess, #alreadyuse{
+	width: 250px;
 	text-align: center;
 }
 
@@ -158,6 +158,14 @@ ul>.time {
 		<p class="checkmessage">좌석 반납이 완료되었습니다.</p>
 		<a class="check" onClick="location.reload()">확인</a>
 	</div>
+	
+	<div id="alreadyuse" class="modal">
+		<p class="checkmessage">사용중인 좌석을 반납후 이용해 주세요.</p>
+		<p>지점명 : ~~~</p>
+		<p>좌석번호 : ~~~</p>
+		<a class="check" onClick="location.reload()">확인</a>
+	</div>
+	
 	<input id="csrfToken" type="hidden" name="${_csrf.parameterName}"
 		value="${_csrf.token}" />
 	<script>
@@ -166,8 +174,8 @@ ul>.time {
 		var timeString;
 		var useseat;
 		function clickseat(num) {
-			if(useseat == "ture"){
-				
+			if(useseat){
+				$('#alreadyuse').modal('show');
 			}
 			else{
 				seatnum = arguments[0];
@@ -213,7 +221,7 @@ ul>.time {
 				if('${id}' == '${item.user_id}'){
 					document.getElementById(seat).style.backgroundColor = "red";
 					seatnum.setAttribute("onClick", "returnseat()");
-					useseat = "true";
+					useseat = true;
 				}else{
 					seatnum.style.backgroundColor = "orange";
 					seatnum.style.pointerEvents = "none";

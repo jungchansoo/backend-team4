@@ -12,6 +12,6 @@
 	</insert>
 	
 	<select id="isSeatAvailable" resultType="boolean">
-		SELECT COUNT(*) as count FROM active_reservation WHERE cafe_no = #{cafeNo} AND num_using = #{seatNo}
+		SELECT COUNT(*) as count FROM active_reservation WHERE cafe_no = #{cafe_no} AND num_using = #{num_using}
 	</select>
 </mapper>

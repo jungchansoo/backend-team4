@@ -49,11 +49,15 @@ public class UserStudySeatController {
 		try {
 			try {
 				service.insertseat(cafe_no, num_using, vo.getUserId());
+				System.out.println("성공 --------------------------------------");
 				return ResponseEntity.ok("Reservation Successful");
 			}catch (SeatNotAvailableException e) {
+				System.out.println("실패1 --------------------------------------");
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Reservation Failed");
+			
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Reservation Failed");
 		}
 	}
