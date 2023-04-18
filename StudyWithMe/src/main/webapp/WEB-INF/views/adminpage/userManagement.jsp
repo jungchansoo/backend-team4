@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,19 +28,20 @@
 			</thead>
 
 			<tbody>
-				<!-- db에 있는 정보를 리스트로 불러오게 수정 -->
-				<tr>
-					<td>user_no</td>
-					<td>role</td>
-					<td>user_id</td>
-					<td>username</td>
-					<td>email</td>
-					<td>phone_number</td>
-					<td>REMAINING_SEAT_TIME</td>
-					<td>REMAINING_STUDY_ROOM_TIME</td>
-					<td>REMAINING_LOCKER_TIME</td>
+            <c:forEach var="user" items="${userList}">
+                <tr>
+                    <td>${user.userNo}</td>
+                    <td>${user.userId}</td>
+                    <td>${user.userName}</td>
+                    <td>${user.phoneNumber}</td>
+                    <td>${user.email}</td>
+                    <td>${user.role}</td>
+                    <td>${user.remainingSeatTime}</td>
+                    <td>${user.remainingStudyRoomTime}</td>
+                    <td>${user.remainingLockerTime}</td>
 					<td><button onclick="deleteUser('<%=%>')">삭제</button></td>
-				</tr>
+                </tr>
+            </c:forEach>
 			</tbody>
 		</table>
 	</form>

@@ -1,5 +1,7 @@
 package org.studywithme.mapper;
 
+import java.util.List;
+
 import org.studywithme.domain.UserVO;
 
 public interface UserMapper {
@@ -13,5 +15,7 @@ public interface UserMapper {
 	public int updatePw(UserVO vo); // 비밀번호 변경
 	public int deleteUser(String userId); // 회원 탈퇴
 	
+    public List<UserVO> getUserList(); // 유저목록
+
 
 }
