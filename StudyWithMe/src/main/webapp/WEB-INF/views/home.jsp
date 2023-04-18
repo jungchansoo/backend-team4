@@ -80,7 +80,7 @@ nav a:hover {
 		<nav>
 			<ul>
 			<!-- 공지사항,스터디석,사물함,스터디룸,응원리뷰는 메인페이지에서 선택한 스터디카페no 가 넘어가야함. a태그 처리로 안됨 -->
-			<!-- 아래 a태그는 임시로 넣어둠 -->
+			<!-- 아래 a태그는 임시로 처리함 -->
 				<li><a href="/userMainPage" class="active">Home</a></li>
 				<li><a href="#">공지사항</a></li>
 				<li><a href="/userstudyseat">스터디석</a></li>
