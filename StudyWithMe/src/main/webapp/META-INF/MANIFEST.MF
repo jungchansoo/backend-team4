@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 Manifest-Version: 1.0
-Class-Path: 
+Built-By: josubin
+Build-Jdk: 11.0.18
+Created-By: Maven Integration for Eclipse
 
-=======
-Manifest-Version: 1.0
-Class-Path: 
-
->>>>>>> branch 'main' of https://github.com/jungchansoo/backend-team4.git

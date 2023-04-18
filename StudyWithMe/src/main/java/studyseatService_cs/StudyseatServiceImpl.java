@@ -16,10 +16,10 @@ import studyseatdomain_cs.SeatVO;
 @AllArgsConstructor
 public class StudyseatServiceImpl implements StudyseatService{
 
-	
+
 	@Setter(onMethod_ = @Autowired)
 	private StudyseatMapper mapper;
-	
+
 	@Override
 	public List<SeatVO> useseat(Long cafeno) {
 		return mapper.readuseseat(cafeno);

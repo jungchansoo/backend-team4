@@ -21,7 +21,7 @@ public class CommonController {
 		return "user/accessError";
 
 	}
-	
+
 	@GetMapping("/login")
 	public String loginInput(String error, String logout, Model model) {
 

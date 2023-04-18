@@ -1,11 +1,7 @@
 package org.studywithme.config;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
-
 import java.io.File;
 import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,7 +29,7 @@ public class TnsAdminPathConfig {
 		 * System.out.println("*"); System.out.println("*");
 		 * System.out.println(resultPath);
 		 */
-		
+
 		ClassLoader classLoader = getClass().getClassLoader();
 		URL walletUrl = classLoader.getResource("wallet");
 		File walletDir = new File(walletUrl.getFile());

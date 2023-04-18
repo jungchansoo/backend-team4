@@ -9,13 +9,13 @@ public class changetime {
 		int min = Math.abs((int)time%60);
 		String strhour = Integer.toString(hour);
 		String strmin = Integer.toString(min);
-		
+
 		if(hour < 10)
 			strhour = '0' + strhour;
-		
+
 		if(min < 10)
 			strmin = '0' + strmin;
-		
+
 		if(minuscheck)
 			strhour = '-' + strhour;
 		return strhour + ":" + strmin;

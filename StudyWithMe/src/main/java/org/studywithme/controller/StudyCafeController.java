@@ -16,7 +16,7 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 @RequiredArgsConstructor
 public class StudyCafeController {
-	
+
 	private final UserPageService service;
 
 	@GetMapping("/getStudyCafeList")
@@ -24,22 +24,22 @@ public class StudyCafeController {
     public List<StudyCafeVO> getStudyCafeList(@RequestParam String keyword, int currentPage, int perPage){
 		// 검색키워드 , currentPage, perPage(화면 노출할 리스 개수)
 		log.info("getList...............");
-		
+
 		List<StudyCafeVO> result = service.getStudyCafeList(keyword, currentPage, perPage);
-		
+
 		log.info(result);
 		return result;
 	}
-	
+
 	@GetMapping("/mytest")
 	public String test() {
 	    return "my test test";
 	}
-	
+
 	@GetMapping("/totalCount")
 	public int getTotalCount(String keyword) {
-		
+
 		return service.getTotalCount(keyword);
 	}
-	
+
 }
