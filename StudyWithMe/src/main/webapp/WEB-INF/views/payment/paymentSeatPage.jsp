@@ -128,51 +128,51 @@
 				<tr>
 					<td>
 						<label>
-							<input type="radio" name="product" value="1시간권" checked>
+							<input type="radio" name="product" value="스터디석 1시간권" checked>
 							<input type="hidden" name="price" value="1,500원">
 						</label>
 					</td>
-					<td>1시간권</td>
+					<td>스터디석 1시간권</td>
 					<td>1,500원</td>
 				</tr>
 				<tr>
 					<td>
 						<label>
-							<input type="radio" name="product" value="3시간권">
+							<input type="radio" name="product" value="스터디석 3시간권">
 							<input type="hidden" name="price" value="4,200원">
 						</label>
 					</td>
-					<td>3시간권</td>
+					<td>스터디석 3시간권</td>
 					<td>4,200원</td>
 				</tr>
 				<tr>
 					<td>
 						<label>
-							<input type="radio" name="product" value="6시간권">
+							<input type="radio" name="product" value="스터디석 6시간권">
 							<input type="hidden" name="price" value="8,000원">
 						</label>
 					</td>
-					<td>6시간권</td>
+					<td>스터디석 6시간권</td>
 					<td>8,000원</td>
 				</tr>
 				<tr>
 					<td>
 						<label>
-							<input type="radio" name="product" value="1일권(24시간)">
+							<input type="radio" name="product" value="스터디석 1일권(24시간)">
 							<input type="hidden" name="price" value="20,000원">
 						</label>
 					</td>
-					<td>1일권(24시간)</td>
+					<td>스터디석 1일권(24시간)</td>
 					<td>20,000원</td>
 				</tr>
 				<tr>
 					<td>
 						<label>
-							<input type="radio" name="product" value="3일권(72시간)">
+							<input type="radio" name="product" value="스터디석 3일권(72시간)">
 							<input type="hidden" name="price" value="35,000원">
 						</label>
 					</td>
-					<td>3일권(72시간)</td>
+					<td>스터디석 3일권(72시간)</td>
 					<td>35,000원</td>
 				</tr>
 			</table>
@@ -202,9 +202,13 @@
 						</table>
 					</div>
 				</div>
+				
+
 			
 				<div>
-					<button type="button">결제</button>
+					<form method="get" action="/kakaoPay">
+						<button style="background: #fee500; color: #000; border-radius: 12px; padding: 10px 20px;">카카오페이로 결제하기</button>
+					</form>
 					<button type="button" id="modal_close_btn">취소</button>
 				</div>
 			</div>
@@ -233,10 +237,8 @@
 	        $("#select-product").empty();
 	        $("#select-product").append("<tr><td><b>이용권 : </b>" + product + "<nbsp></td><td><b>금액 : </b>" + price + "</td></tr>");
 	        
-	        console.log(selectedProduct);
-	        console.log(selectedPrice);
-	        
-	        selectProduct();
+	       /*  console.log(selectedProduct);
+	        console.log(selectedPrice); */
 	    }
 	   
 	    document.getElementById("modal_close_btn").onclick = function() {
@@ -252,16 +254,26 @@
 					
 				},
 				success : function(response) {
-					console.log("============");
-
 					$("#select-product").empty();
 					$("#select-product").append("<a>" + selectedProduct + "</a>");
 				}
 			});
 		}
 	    
-	    $("#select-check-btn").click(function() {
-			
+	    $("#kaobtn").click(function() {
+			$.ajax({
+				type : 'get',
+				url : '/pay/ready',
+				data : {
+					item_name : product,
+					quantity : "1",
+					total_amount : price,
+					tax_free_amount : "0"
+				},
+				success : function(res) {
+					location.href = res.next_redirect_pc_url;
+				}
+			});
 		});
 	    
 	</script>
