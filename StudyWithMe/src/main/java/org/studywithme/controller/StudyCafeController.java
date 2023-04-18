@@ -2,6 +2,9 @@ package org.studywithme.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,7 +21,10 @@ import lombok.extern.log4j.Log4j;
 public class StudyCafeController {
 
 	private final UserPageService service;
-
+	
+	@Autowired
+	HttpSession session;
+	
 	@GetMapping("/getStudyCafeList")
     @ResponseBody
     public List<StudyCafeVO> getStudyCafeList(@RequestParam String keyword, int currentPage, int perPage){
@@ -41,5 +47,10 @@ public class StudyCafeController {
 
 		return service.getTotalCount(keyword);
 	}
-
+	@GetMapping("/saveCafeNum")
+	public void saveCafeNum(@RequestParam int cafeNum) {
+		session.setAttribute("cafeNum", cafeNum);
+		System.out.println("cafeNum 저장: "+ cafeNum);
+	}
+	
 }

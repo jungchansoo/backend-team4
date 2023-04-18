@@ -72,4 +72,12 @@ public class UserServiceImpl implements UserService {
         int result = mapper.deleteUser(userId);
         return result > 0;
     }
+
+	@Override
+	public boolean modifyUserNameForTest(UserVO vo) {
+		log.info("update...." + vo.getUserName());
+		return mapper.updateUserNameForTest(vo)==1;
+	}
+
+
 }
