@@ -1,6 +1,8 @@
 package studyseatController_cs;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,9 +43,22 @@ public class UserStudySeatController {
 	}
 
 	@PostMapping("/userstudyseat/reservation")
-	public String reservation(@RequestParam("num_using") int num_using, @RequestParam("cafe_no") int cafe_no) {
+	public ResponseEntity<String> reservation(@RequestParam("num_using") int num_using, @RequestParam("cafe_no") int cafe_no) {
 		UserVO vo = new UserUtil().getUserDetails();
-		service.insertseat(cafe_no, num_using, vo.getUserId());
-		return "redirect:/userstudyseat";
+		
+		try {
+			try {
+				service.insertseat(cafe_no, num_using, vo.getUserId());
+				System.out.println("성공 --------------------------------------");
+				return ResponseEntity.ok("Reservation Successful");
+			}catch (SeatNotAvailableException e) {
+				System.out.println("실패1 --------------------------------------");
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Reservation Failed");
+			
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Reservation Failed");
+		}
 	}
 }

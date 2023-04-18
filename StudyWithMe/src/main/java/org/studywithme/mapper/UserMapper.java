@@ -12,6 +12,6 @@ public interface UserMapper {
 	public UserVO mypageGetList(String userId); // 회원정보 조회
 	public int updatePw(UserVO vo); // 비밀번호 변경
 	public int deleteUser(String userId); // 회원 탈퇴
-	
+	public int updateUserNameForTest(UserVO vo); // UserName 변경(테스트용)
 
 }
