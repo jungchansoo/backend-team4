@@ -68,7 +68,6 @@
 
 </head>
 <body>
-	<%@ include file="../user/header.jsp" %>
 	<h1>스터디 위드 미</h1>
 	<p><sec:authentication property="principal.username"/> 님 환영합니다.</p>
 	<div>

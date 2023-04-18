@@ -90,9 +90,6 @@ nav a:hover {
 				<li><a href="/userinfo">마이페이지</a></li>
 			</ul>
 		</nav>
-	</header>
-	<main>
-		<!-- 메인 콘텐츠 -->
-	</main>
+	</header
 </body>
 </html>
