@@ -129,17 +129,6 @@
 		$(document).ready(function(){
 			var actionForm = $("#actionForm");
 	
-			$(".paginate_button a").on(
-					"click",
-					function(e) {
-	
-						e.preventDefault();
-	
-						actionForm.find("input[name='pageNum']")
-								.val($(this).attr("href"));
-						actionForm.submit();
-					});
-			
 			search("", 1);
 			getTotalCount("");
 			addPageNumbersEvent();
@@ -311,7 +300,7 @@
 		
 		function displayData(currentPage, dataPerPage) {
 		  let chartHtml = "";
-		
+		  
 		  //Number로 변환하지 않으면 아래에서 +를 할 경우 스트링 결합이 되어버림.. 
 		  currentPage = Number(currentPage);
 		  dataPerPage = Number(dataPerPage);
