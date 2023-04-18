@@ -27,11 +27,15 @@ public class UserStudySeatController {
 		UserVO vo = new UserUtil().getUserDetails();
 		changetime changer = new changetime();
 		String remainingSeatTime = changer.time_longtoString(vo.getRemainingSeatTime());
-
+		
 		Long cafeno = (long) 1;
 		log.info(service.useseat(cafeno));
 		System.out.println(service.useseat(cafeno));
 
+		System.out.println(service.myuseseat(vo.getUserId()));
+		System.out.println(service.myuseseat(vo.getUserId()).get("cafe_no"));
+		System.out.println(service.myuseseat(vo.getUserId()).get("num_using"));
+		model.addAttribute("reservationinfo", service.myuseseat(vo.getUserId()));
 		model.addAttribute("cafeno", cafeno);
 		model.addAttribute("lists", service.useseat(cafeno));
 		model.addAttribute("name", vo.getUserName());
@@ -49,15 +53,12 @@ public class UserStudySeatController {
 		try {
 			try {
 				service.insertseat(cafe_no, num_using, vo.getUserId());
-				System.out.println("성공 --------------------------------------");
 				return ResponseEntity.ok("Reservation Successful");
 			}catch (SeatNotAvailableException e) {
-				System.out.println("실패1 --------------------------------------");
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Reservation Failed");
 			
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Reservation Failed");
 		}
 	}

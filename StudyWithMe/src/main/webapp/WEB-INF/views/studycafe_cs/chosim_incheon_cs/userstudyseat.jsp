@@ -221,6 +221,7 @@ ul>.time {
 				if('${id}' == '${item.user_id}'){
 					document.getElementById(seat).style.backgroundColor = "red";
 					seatnum.setAttribute("onClick", "returnseat()");
+					
 					useseat = true;
 				}else{
 					seatnum.style.backgroundColor = "orange";

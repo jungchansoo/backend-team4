@@ -1,6 +1,7 @@
 package studyseatService_cs;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,12 @@ public class StudyseatServiceImpl implements StudyseatService{
 	public List<SeatVO> useseat(Long cafeno) {
 		return mapper.readuseseat(cafeno);
 	}
-
+	
+	@Override
+	public Map<String, Object> myuseseat(String id) {
+		return mapper.getmyreservationInfo(id, "SEAT");
+	}
+	
 	@Override
 	@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
 	public void insertseat(int cafe_no, int num_using, String id) {
@@ -37,5 +43,4 @@ public class StudyseatServiceImpl implements StudyseatService{
 		}
 		mapper.insert(cafe_no, num_using, id);
 	}
-
 }
