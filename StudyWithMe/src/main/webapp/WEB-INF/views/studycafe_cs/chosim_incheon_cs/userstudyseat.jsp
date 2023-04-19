@@ -95,12 +95,12 @@ ul>.time {
 	cursor: pointer;
 }
 </style>
-	<!-- 헤드 태그 안에 들어가는 공통코드 -->
-	<%@include file ="../../includes/inHead.jsp" %>
+
 </head>
+
+<body>
 <!-- 헤더 -->
 <%@include file ="../../includes/header.jsp" %>
-<body>
 	<br>
 	<%@ include file="studyseat.jsp"%>
 	<!-- Modal HTML embedded directly into document -->
