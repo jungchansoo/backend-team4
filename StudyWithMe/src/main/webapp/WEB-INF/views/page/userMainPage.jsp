@@ -69,20 +69,20 @@
 				</div>
 			</div>
 		</div>
-		<!-- 		<button type="button" class="btn"><img class="img" src="/resources/image/search.jpg"></button>-->
+				<button type="button" class="btn"><img class="img" src="/resources/image/search.jpg"></button>
 
-		<button type="button" class="btn btn-primary mx-2">
+<!-- 		<button type="button" class="btn btn-primary mx-2">
 			<i class="bi bi-search"></i>
-		</button>
+		</button> -->
 
 	</div>
 
 	<div>
-		<!-- 		<button type="button"  onclick="location.href='/'">충전하기</button>-->
-
+				<button type="button"  onclick="location.href='/'">충전하기</button>
+<!-- 
 		<button type="button" class="btn btn-primary mx-2"
 			onclick="location.href='/'">충전하기</button>
-
+ -->
 
 		<div class="modal">
 			<div class="modal-content">
@@ -90,10 +90,11 @@
 				<p>QR code</p>
 			</div>
 		</div>
-		<!-- 		<button type="button" class="btn">QR 코드</button> -->
+				<button type="button" class="btn">QR 코드</button>
 
-		<button type="button" class="btn btn-primary mx-2">QR 코드</button>
-	</div>
+<!-- 		<button type="button" class="btn btn-primary mx-2">QR 코드</button>
+ -->
+ 	</div>
 	<!-- Add Bootstrap JS -->
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
