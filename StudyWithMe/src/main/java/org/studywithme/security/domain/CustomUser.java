@@ -17,7 +17,7 @@ public class CustomUser extends User {
 
 	private UserVO user;
 
-	public CustomUser(String username, String password, 
+	public CustomUser(String username, String password,
 			Collection<? extends GrantedAuthority> authorities) {
 		super(username, password, authorities);
 	}

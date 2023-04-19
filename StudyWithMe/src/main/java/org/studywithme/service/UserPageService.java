@@ -5,7 +5,7 @@ import java.util.List;
 import org.studywithme.domain.StudyCafeVO;
 
 public interface UserPageService {
-	
+
 	List<StudyCafeVO> getStudyCafeList(String keyword, int currentPage, int perPage);
 
 	public int getTotalCount(String keyword);

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import org.studywithme.domain.UserVO;
 
 import lombok.Setter;
@@ -48,7 +47,7 @@ public class UserMapperTests {
 
 		log.info(vo);
 	}
-	
+
 	@Test
 	public void testJoinWithPasswordEncoding() {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

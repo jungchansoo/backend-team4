@@ -3,8 +3,6 @@ package studyseatService_cs;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.stereotype.Service;
-
 import studyseatdomain_cs.SeatVO;
 
 
