@@ -79,6 +79,7 @@
       	rownum <= #{pageNum} * #{amount}
       	)
   		where rn > (#{pageNum} -1) * #{amount}   
+      	ORDER BY user_no ASC
   		]]>
 	</select>
 
