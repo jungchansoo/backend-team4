@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="org.json.JSONObject" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -87,7 +86,7 @@ ul>.time {
 	cursor: pointer;
 }
 
-#reservationsuccess, #timefail, #usefail, #returnseatsuccess, #alreadyuse{
+#reservationsuccess, #timefail, #usefail, #returnseatsuccess, #returnseatfail, #alreadyuse{
 	width: 250px;
 	text-align: center;
 }
@@ -151,12 +150,18 @@ ul>.time {
 
 	<div id="returnseat" class="modal">
 		<p class="seatnum">해당 좌석을 반납 하시겠습니까?</p>
-		<a class="yes" onclick="returnseatsuccess()">예</a> <a class="no"
-			onClick="location.reload()">아니오</a>
+		<a class="yes" onclick="returnseatdb()">예</a> 
+		<a class="no" onClick="location.reload()">아니오</a>
 	</div>
 
 	<div id="returnseatsuccess" class="modal">
 		<p class="checkmessage">좌석 반납이 완료되었습니다.</p>
+		<a class="check" onClick="location.reload()">확인</a>
+	</div>
+	
+	<div id="returnseatfail" class="modal">
+		<p class="checkmessage">좌석 반납이 실패하였습니다.</p>
+		<p class="checkmessage">잠시 후 다시 시도해 주세요.</p>
 		<a class="check" onClick="location.reload()">확인</a>
 	</div>
 	
@@ -176,16 +181,17 @@ ul>.time {
 		var dateString;
 		var timeString;
 		function clickseat(num) {
-			var mapdata = ${map};
-			if(mapdata != null){
-				$('#alreadyuse').modal('show');
-				
-			}
-			else{
+			
+			<c:if test="${map == null}">
 				seatnum = arguments[0];
 				$('.seatnum').text(arguments[0] + '번 좌석을 예약 하시겠습니까?');
 				$('#seatcheck').modal('show');
-			}
+			</c:if>
+			
+			<c:if test="${map != null}">
+			$('#alreadyuse').modal('show');
+			</c:if>
+			
 		}
 
 		function reservation() {
@@ -259,6 +265,27 @@ ul>.time {
 				},
 				error : function(jqXHR, textStatus, errorThrown) {
 					$('#usefail').modal('show');
+				}
+				
+			});
+		}
+		
+		function returnseatdb() {
+			const csrfTokenValue = $('#csrfToken').val();
+			$.ajax({
+				type : 'post',
+				url : "/userstudyseat/return",
+				headers : {
+					'X-CSRF-TOKEN' : csrfTokenValue
+				},
+				data : {
+					user_id : '${id}'
+				},
+				success : function(result) {
+					$('#returnseatsuccess').modal('show');
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					$('#returnseatfail').modal('show');
 				}
 				
 			});

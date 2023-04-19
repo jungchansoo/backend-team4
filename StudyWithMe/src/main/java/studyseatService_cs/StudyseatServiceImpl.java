@@ -25,7 +25,7 @@ public class StudyseatServiceImpl implements StudyseatService{
 	private StudyseatMapper mapper;
 
 	@Override
-	public List<SeatVO> useseat(Long cafeno) {
+	public List<SeatVO> useseat(int cafeno) {
 		return mapper.readuseseat(cafeno);
 	}
 	
@@ -41,6 +41,12 @@ public class StudyseatServiceImpl implements StudyseatService{
 		if(isAvailable) {
 			 throw new SeatNotAvailableException();
 		}
-		mapper.insert(cafe_no, num_using, id);
+		mapper.insert(cafe_no, num_using, id,"SEAT");
+	}
+
+	@Override
+	public void returnseat(String id) {
+		mapper.movedata(id, "SEAT");
+		mapper.delete(id, "SEAT");
 	}
 }
