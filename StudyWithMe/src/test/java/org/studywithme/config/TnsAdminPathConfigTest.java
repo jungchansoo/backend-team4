@@ -1,9 +1,5 @@
 package org.studywithme.config;
 
-import static org.junit.Assert.assertNotNull;
-
-import java.nio.file.Path;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +16,9 @@ public class TnsAdminPathConfigTest {
 
 	@Test
 	public void testTnsAdminPath() {
-		
+
 //		assertNotNull(tnsAdminPath, "TNS_ADMIN path should not be null.");
-		 
+
 		System.out.println("TNS_ADMIN path: " + tnsAdminPath);
 	}
 }

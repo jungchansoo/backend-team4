@@ -13,7 +13,7 @@ import lombok.extern.log4j.Log4j;
 @Service
 @RequiredArgsConstructor
 public class UserPageServiceImpl implements UserPageService {
-	
+
 	private final StudyCafeMapper mapper;
 
 	@Override

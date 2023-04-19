@@ -44,7 +44,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 			response.sendRedirect("/sample/manager");
 			return;
 		}
-		
+
 		if (roleNames.contains("user")) {
 			log.warn("ROLE NAMES: " + roleNames);
 

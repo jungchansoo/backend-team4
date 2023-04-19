@@ -15,10 +15,10 @@ public class UserPageController {
 	public String userPage(Model model) {
 		UserUtil util = new UserUtil();
 		UserVO vo = util.getUserDetails();
-		
+
 		model.addAttribute("id", vo.getUserId());
 		model.addAttribute("name", vo.getUserName());
-		
+
 		return "page/userMainPage";
 	}
 }
