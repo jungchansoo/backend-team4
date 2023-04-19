@@ -33,9 +33,8 @@ public class UserStudySeatController {
 		System.out.println(service.useseat(cafeno));
 
 		System.out.println(service.myuseseat(vo.getUserId()));
-		System.out.println(service.myuseseat(vo.getUserId()).get("cafe_no"));
-		System.out.println(service.myuseseat(vo.getUserId()).get("num_using"));
-		model.addAttribute("reservationinfo", service.myuseseat(vo.getUserId()));
+		
+		model.addAttribute("map", service.myuseseat(vo.getUserId()));
 		model.addAttribute("cafeno", cafeno);
 		model.addAttribute("lists", service.useseat(cafeno));
 		model.addAttribute("name", vo.getUserName());

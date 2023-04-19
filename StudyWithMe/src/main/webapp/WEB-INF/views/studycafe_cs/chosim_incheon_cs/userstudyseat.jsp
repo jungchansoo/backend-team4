@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="org.json.JSONObject" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -161,21 +162,24 @@ ul>.time {
 	
 	<div id="alreadyuse" class="modal">
 		<p class="checkmessage">사용중인 좌석을 반납후 이용해 주세요.</p>
-		<p>지점명 : ~~~</p>
-		<p>좌석번호 : ~~~</p>
+		<p>지점명 : ${map.NAME}</p>
+		<p>좌석번호 : ${map.NUM_USING}</p>
 		<a class="check" onClick="location.reload()">확인</a>
 	</div>
 	
 	<input id="csrfToken" type="hidden" name="${_csrf.parameterName}"
 		value="${_csrf.token}" />
+	
+	
 	<script>
 		var seatnum;
 		var dateString;
 		var timeString;
-		var useseat;
 		function clickseat(num) {
-			if(useseat){
+			var mapdata = ${map};
+			if(mapdata != null){
 				$('#alreadyuse').modal('show');
+				
 			}
 			else{
 				seatnum = arguments[0];
@@ -222,7 +226,6 @@ ul>.time {
 					document.getElementById(seat).style.backgroundColor = "red";
 					seatnum.setAttribute("onClick", "returnseat()");
 					
-					useseat = true;
 				}else{
 					seatnum.style.backgroundColor = "orange";
 					seatnum.style.pointerEvents = "none";
