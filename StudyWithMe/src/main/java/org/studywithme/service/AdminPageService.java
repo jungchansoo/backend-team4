@@ -7,10 +7,7 @@ import org.studywithme.domain.UserVO;
 
 public interface AdminPageService {
 
-	public List<UserVO> getUserList();
-
-	public List<UserVO> getList(Criteria cri); // 페이징
-
+	public List<UserVO> getUserList(Criteria cri);
 	public int getTotal(Criteria cri);
 
 }

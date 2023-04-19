@@ -18,12 +18,7 @@ public class AdminPageServiceImpl implements AdminPageService {
 	private UserMapper mapper;
 
 	@Override
-	public List<UserVO> getUserList() {
-		return mapper.getUserList();
-	}
-
-	@Override
-	public List<UserVO> getList(Criteria cri) {
+	public List<UserVO> getUserList(Criteria cri) {
 		return mapper.getListWithPaging(cri);
 	}
 
