@@ -16,7 +16,7 @@
 <title>유저관리</title>
 </head>
 <body>
-	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+	<input id="csrfToken" type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	<!-- 검색 기능 -->
 	<form id='searchForm' action="/adminpage/userlist" method='get'>
 		<select name='type'>
@@ -108,12 +108,15 @@
 	</div> -->
 
 	<script>
+	const csrfTokenValue = $('#csrfToken').val();
+
 		function deleteUser(userId) {
 			if (confirm("정말 삭제하시겠습니까?")) {
 				$.ajax({
 					type : "POST",
 					url : "/adminpage/deleteUser",
 					data : {
+						'X-CSRF-TOKEN' : csrfTokenValue,
 						userId : userId
 					},
 					success : function(response) {
