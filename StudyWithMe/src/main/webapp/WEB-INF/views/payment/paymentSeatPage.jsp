@@ -116,8 +116,6 @@
 	<div class="cd1">스터디석
 	<hr>
 	<div>
-	<!-- <form id="actionForm" method="get"> -->
- 
 		<div>
 			<table>
 				<tr>
@@ -128,8 +126,8 @@
 				<tr>
 					<td>
 						<label>
-							<input type="radio" name="product" value="스터디석 1시간권" checked>
-							<input type="hidden" name="price" value="1,500원">
+							<input type="radio" name="product" value="스터디석 1시간권 1,500원" checked>
+							<input type="hidden" name="price" value="1500">
 						</label>
 					</td>
 					<td>스터디석 1시간권</td>
@@ -138,8 +136,8 @@
 				<tr>
 					<td>
 						<label>
-							<input type="radio" name="product" value="스터디석 3시간권">
-							<input type="hidden" name="price" value="4,200원">
+							<input type="radio" name="product" value="스터디석 3시간권 4,200원">
+							<input type="hidden" name="price" value="4200">
 						</label>
 					</td>
 					<td>스터디석 3시간권</td>
@@ -148,8 +146,8 @@
 				<tr>
 					<td>
 						<label>
-							<input type="radio" name="product" value="스터디석 6시간권">
-							<input type="hidden" name="price" value="8,000원">
+							<input type="radio" name="product" value="스터디석 6시간권 8,000원">
+							<input type="hidden" name="price" value="8000">
 						</label>
 					</td>
 					<td>스터디석 6시간권</td>
@@ -158,8 +156,8 @@
 				<tr>
 					<td>
 						<label>
-							<input type="radio" name="product" value="스터디석 1일권(24시간)">
-							<input type="hidden" name="price" value="20,000원">
+							<input type="radio" name="product" value="스터디석 1일권(24시간) 20,000원">
+							<input type="hidden" name="price" value="20000">
 						</label>
 					</td>
 					<td>스터디석 1일권(24시간)</td>
@@ -168,8 +166,8 @@
 				<tr>
 					<td>
 						<label>
-							<input type="radio" name="product" value="스터디석 3일권(72시간)">
-							<input type="hidden" name="price" value="35,000원">
+							<input type="radio" name="product" value="스터디석 3일권(72시간) 35,000원">
+							<input type="hidden" name="price" value="35000">
 						</label>
 					</td>
 					<td>스터디석 3일권(72시간)</td>
@@ -186,9 +184,7 @@
 			<div class="modal_content">
 				<div>
 					<div><p>결제 정보</p></div>
-					<div id="select-product">
-						
-					</div>
+					<div id="select-product"></div>
 				</div>
 				
 				<div>
@@ -203,22 +199,20 @@
 					</div>
 				</div>
 				
-
-			
 				<div>
 					<form method="get" action="/kakaoPay">
-						<button style="background: #fee500; color: #000; border-radius: 12px; padding: 10px 20px;">카카오페이로 결제하기</button>
+						<input type="hidden" name="product" id="product">
+						<input type="hidden" name="price" id="price">
+						<button id="pay-btn">결제</button>
 					</form>
+
 					<button type="button" id="modal_close_btn">취소</button>
 				</div>
 			</div>
 			
 			<div class="modal_layer"></div>
 		</div>
-
 	</div>
-    <!-- </form>  -->
-
 	
 	</div>
 	
@@ -236,11 +230,19 @@
 	        
 	        $("#select-product").empty();
 	        $("#select-product").append("<tr><td><b>이용권 : </b>" + product + "<nbsp></td><td><b>금액 : </b>" + price + "</td></tr>");
-	        
-	       /*  console.log(selectedProduct);
-	        console.log(selectedPrice); */
 	    }
 	   
+		document.getElementById("pay-btn").onclick = function() {
+			const selectedProduct = document.querySelector('input[name="product"]:checked');
+	        
+	        // 선택된 radio 버튼의 value와 그에 해당하는 price를 가져옴
+	        const product = selectedProduct.value;
+	        const price = selectedProduct.closest('tr').querySelector('input[name="price"]').value;
+			
+			$('#product').val(product);
+            $('#price').val(price);
+		}
+		
 	    document.getElementById("modal_close_btn").onclick = function() {
 	        document.getElementById("modal").style.display="none";
 	    }
