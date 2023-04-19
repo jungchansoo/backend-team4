@@ -95,10 +95,18 @@ ul>.time {
 	cursor: pointer;
 }
 </style>
+
 </head>
+
 <body>
+
+<body>
+<!-- 헤더 -->
+	<%@include file ="../../includes/header.jsp" %>
+	<br>
 	<%@ include file="studyseat.jsp"%>
-	<!-- Modal HTML embedded directly into document -->
+	
+	
 	<div id="seatcheck" class="modal">
 		<p class="seatnum"></p>
 		<a class="yes" onclick="reservation()">예</a> <a class="no"
