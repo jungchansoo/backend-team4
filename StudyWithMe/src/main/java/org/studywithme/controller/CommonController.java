@@ -42,7 +42,7 @@ public class CommonController {
 	public String logoutGET() {
 
 		log.info("custom logout");
-		return "user/logout";
+		return "redirect:/login";
 
 	}
 
@@ -50,7 +50,7 @@ public class CommonController {
 	public String logoutPost() {
 
 		log.info("post custom logout");
-		return "user/logout";
+		return "redirect:/login";
 	}
 
 }

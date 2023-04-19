@@ -1,5 +1,7 @@
 package studyseatController_cs;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,17 +23,18 @@ public class UserStudySeatController {
 	@Autowired
 	private StudyseatService service;
 
+	@Autowired
+	HttpSession session;
+	
 	@GetMapping("/userstudyseat")
 	public String UserStudyseat(Model model) {
 
 		UserVO vo = new UserUtil().getUserDetails();
 		changetime changer = new changetime();
 		String remainingSeatTime = changer.time_longtoString(vo.getRemainingSeatTime());
-
-		Long cafeno = (long) 1;
-		log.info(service.useseat(cafeno));
-		System.out.println(service.useseat(cafeno));
-
+		
+		int cafeno = (int) session.getAttribute("cafeNum");
+		model.addAttribute("map", service.myuseseat(vo.getUserId()));
 		model.addAttribute("cafeno", cafeno);
 		model.addAttribute("lists", service.useseat(cafeno));
 		model.addAttribute("name", vo.getUserName());
@@ -49,16 +52,25 @@ public class UserStudySeatController {
 		try {
 			try {
 				service.insertseat(cafe_no, num_using, vo.getUserId());
-				System.out.println("성공 --------------------------------------");
 				return ResponseEntity.ok("Reservation Successful");
 			}catch (SeatNotAvailableException e) {
-				System.out.println("실패1 --------------------------------------");
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Reservation Failed");
 			
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Reservation Failed");
+		}
+	}
+	
+	@PostMapping("/userstudyseat/return")
+	public ResponseEntity<String> returnseat(@RequestParam("user_id") String user_id) {
+		UserVO vo = new UserUtil().getUserDetails();
+		
+		try {
+			service.returnseat(user_id);
+			return ResponseEntity.ok("Returnseat Successful");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Returnseat Failed");
 		}
 	}
 }

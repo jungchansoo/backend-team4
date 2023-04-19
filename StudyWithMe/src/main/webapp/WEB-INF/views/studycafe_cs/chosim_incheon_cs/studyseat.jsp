@@ -347,14 +347,14 @@ body {
 	left: 7px;
 }
 #seatimageheader {
-	width: 345px;
+	width: 380px;
 	height : 16px;
 	margin: 7px auto;
 }
 
 #state {
-width: 335px;
-margin: 0px;
+width: 370px;
+margin: 7px;
 }
 
 #state>li {

@@ -86,7 +86,7 @@ ul>.time {
 	cursor: pointer;
 }
 
-#reservationsuccess, #timefail, #usefail, #returnseatsuccess, #alreadyuse{
+#reservationsuccess, #timefail, #usefail, #returnseatsuccess, #returnseatfail, #alreadyuse{
 	width: 250px;
 	text-align: center;
 }
@@ -95,8 +95,13 @@ ul>.time {
 	cursor: pointer;
 }
 </style>
+	<!-- 헤드 태그 안에 들어가는 공통코드 -->
+	<%@include file ="../../includes/inHead.jsp" %>
 </head>
+<!-- 헤더 -->
+<%@include file ="../../includes/header.jsp" %>
 <body>
+	<br>
 	<%@ include file="studyseat.jsp"%>
 	<!-- Modal HTML embedded directly into document -->
 	<div id="seatcheck" class="modal">
@@ -150,8 +155,8 @@ ul>.time {
 
 	<div id="returnseat" class="modal">
 		<p class="seatnum">해당 좌석을 반납 하시겠습니까?</p>
-		<a class="yes" onclick="returnseatsuccess()">예</a> <a class="no"
-			onClick="location.reload()">아니오</a>
+		<a class="yes" onclick="returnseatdb()">예</a> 
+		<a class="no" onClick="location.reload()">아니오</a>
 	</div>
 
 	<div id="returnseatsuccess" class="modal">
@@ -159,29 +164,39 @@ ul>.time {
 		<a class="check" onClick="location.reload()">확인</a>
 	</div>
 	
+	<div id="returnseatfail" class="modal">
+		<p class="checkmessage">좌석 반납이 실패하였습니다.</p>
+		<p class="checkmessage">잠시 후 다시 시도해 주세요.</p>
+		<a class="check" onClick="location.reload()">확인</a>
+	</div>
+	
 	<div id="alreadyuse" class="modal">
 		<p class="checkmessage">사용중인 좌석을 반납후 이용해 주세요.</p>
-		<p>지점명 : ~~~</p>
-		<p>좌석번호 : ~~~</p>
+		<p>지점명 : ${map.NAME}</p>
+		<p>좌석번호 : ${map.NUM_USING}</p>
 		<a class="check" onClick="location.reload()">확인</a>
 	</div>
 	
 	<input id="csrfToken" type="hidden" name="${_csrf.parameterName}"
 		value="${_csrf.token}" />
+	
+	
 	<script>
 		var seatnum;
 		var dateString;
 		var timeString;
-		var useseat;
 		function clickseat(num) {
-			if(useseat){
-				$('#alreadyuse').modal('show');
-			}
-			else{
+			
+			<c:if test="${map == null}">
 				seatnum = arguments[0];
 				$('.seatnum').text(arguments[0] + '번 좌석을 예약 하시겠습니까?');
 				$('#seatcheck').modal('show');
-			}
+			</c:if>
+			
+			<c:if test="${map != null}">
+			$('#alreadyuse').modal('show');
+			</c:if>
+			
 		}
 
 		function reservation() {
@@ -221,7 +236,7 @@ ul>.time {
 				if('${id}' == '${item.user_id}'){
 					document.getElementById(seat).style.backgroundColor = "red";
 					seatnum.setAttribute("onClick", "returnseat()");
-					useseat = true;
+					
 				}else{
 					seatnum.style.backgroundColor = "orange";
 					seatnum.style.pointerEvents = "none";
@@ -255,6 +270,27 @@ ul>.time {
 				},
 				error : function(jqXHR, textStatus, errorThrown) {
 					$('#usefail').modal('show');
+				}
+				
+			});
+		}
+		
+		function returnseatdb() {
+			const csrfTokenValue = $('#csrfToken').val();
+			$.ajax({
+				type : 'post',
+				url : "/userstudyseat/return",
+				headers : {
+					'X-CSRF-TOKEN' : csrfTokenValue
+				},
+				data : {
+					user_id : '${id}'
+				},
+				success : function(result) {
+					$('#returnseatsuccess').modal('show');
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					$('#returnseatfail').modal('show');
 				}
 				
 			});

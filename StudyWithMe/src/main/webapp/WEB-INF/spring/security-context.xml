@@ -20,13 +20,10 @@
 
 
 	<security:http>
-<!-- 		<security:intercept-url
-			pattern="/sample/user" access="hasRole('ROLE_user')" />
-		<security:intercept-url
-			pattern="/sample/admin" access="hasRole('ROLE_admin')" />
-		<security:intercept-url
-			pattern="/sample/manager" access="hasRole('ROLE_manager')" />
- -->
+		<!-- <security:intercept-url pattern="/sample/user" access="hasRole('ROLE_user')" 
+			/> <security:intercept-url pattern="/sample/admin" access="hasRole('ROLE_admin')" 
+			/> <security:intercept-url pattern="/sample/manager" access="hasRole('ROLE_manager')" 
+			/> -->
 		<security:intercept-url pattern="/**"
 			access="permitAll" />
 
@@ -36,11 +33,7 @@
 		<!-- <security:csrf disabled="true"/> -->
 
 		<security:form-login login-page="/user/login"
-			authentication-success-handler-ref="customLoginSuccess"/>
-
-
-		<security:logout logout-url="/logout"
-			invalidate-session="true" />
+			authentication-success-handler-ref="customLoginSuccess" />
 
 		<security:remember-me
 			data-source-ref="dataSource" token-validity-seconds="604800" />
@@ -48,7 +41,10 @@
 		<security:logout logout-url="/logout"
 			invalidate-session="true" delete-cookies="remember-me,JSESSION_ID" />
 
-
+		<security:session-management>
+			<security:concurrency-control
+				max-sessions="1" expired-url="/login" error-if-maximum-exceeded="false" />
+		</security:session-management>
 	</security:http>
 
 	<security:authentication-manager>
