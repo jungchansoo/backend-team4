@@ -13,6 +13,9 @@
 
 <title>Study With Me</title>
 <style>
+div{
+	background-color: yellow;
+}
 a {
 	color: black;
 	text-decoration: none;
@@ -95,8 +98,11 @@ ul>.time {
 	cursor: pointer;
 }
 </style>
+
 </head>
+
 <body>
+	<br>
 	<%@ include file="studyseat.jsp"%>
 	<!-- Modal HTML embedded directly into document -->
 	<div id="seatcheck" class="modal">
