@@ -13,9 +13,6 @@
 
 <title>Study With Me</title>
 <style>
-div{
-	background-color: yellow;
-}
 a {
 	color: black;
 	text-decoration: none;
