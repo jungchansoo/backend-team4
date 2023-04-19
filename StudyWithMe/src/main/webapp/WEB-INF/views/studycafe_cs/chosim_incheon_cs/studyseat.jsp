@@ -353,7 +353,7 @@ body {
 }
 
 #state {
-width: 335px;
+width: 500px;
 margin: 0px;
 }
 
