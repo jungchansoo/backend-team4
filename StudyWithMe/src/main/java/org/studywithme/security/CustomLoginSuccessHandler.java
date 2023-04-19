@@ -29,30 +29,9 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 			roleNames.add(authority.getAuthority());
 
 		});
-
-		//각 메인 페이지로 이동하도록 수정 필요.
-		if (roleNames.contains("admin")) {
-			log.warn("ROLE NAMES: " + roleNames);
-
-			response.sendRedirect("/sample/admin");
-			return;
-		}
-
-		if (roleNames.contains("manager")) {
-			log.warn("ROLE NAMES: " + roleNames);
-
-			response.sendRedirect("/sample/manager");
-			return;
-		}
-		
-		if (roleNames.contains("user")) {
-			log.warn("ROLE NAMES: " + roleNames);
-
-			response.sendRedirect("/sample/all");
-			return;
-		}
-
-		response.sendRedirect("/");
+		//항상 mainPage로 가도록 변경(메인페이지에서 권한에 따라 보이는 화면이 다름)
+		response.sendRedirect("/userMainPage");
+		return;
 	}
 }
 

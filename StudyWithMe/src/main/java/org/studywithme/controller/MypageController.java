@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.studywithme.domain.UserVO;
@@ -107,7 +106,7 @@ public class MypageController {
 	    String dbPassword = vo.getPassword();
 //	    log.info("encodedPassword : "+encodedPassword);
 //	    log.info("dbPassword: "+dbPassword);
-	    
+
 	    // 암호화된 비밀번호와 DB에 저장된 비밀번호를 비교합니다.
 	    if (passwordEncoder.matches(password, dbPassword)) {
 	        // 암호화된 비밀번호와 DB에 저장된 비밀번호가 일치하면 회원 탈퇴를 시도합니다.

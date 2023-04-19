@@ -24,20 +24,20 @@ import lombok.extern.log4j.Log4j;
 @Controller
 @Log4j
 public class UserController {
-	
+
 	@Autowired
 	private UserService service;
 	@Autowired
 	private AuthMailSendService mailService;
 	@Autowired
 	private SmsService smsService;
-	
+
 	//회원가입 폼으로 이동
 	@GetMapping("/join")
 	public String join() {
-		return "user/joinForm";			
+		return "user/joinForm";
 	}
-	
+
 
     @GetMapping("/checkIdDuplicate")
     @ResponseBody
@@ -52,13 +52,13 @@ public class UserController {
 
         return isDuplicate;
     }
-    
+
     @PostMapping("/smsCheck")
     @ResponseBody
     public String smsCheck(@RequestParam String phoneNumber) {
 		log.info("문자 인증 요청이 들어옴!");
 		log.info("문자 인증 요청 번호 : " + phoneNumber);
-    	
+
         // 인증번호 생성 및 전송 로직
         try {
             String verificationCode = smsService.sendVerificationCode(phoneNumber);
@@ -71,8 +71,8 @@ public class UserController {
     		return null;
         }
     }
-    
-    
+
+
 	//이메일 인증 버튼 확인
 	@GetMapping("/mailCheck")
 	@ResponseBody
@@ -81,7 +81,7 @@ public class UserController {
 		log.info("이메일 인증 이메일 : " + email);
 		return mailService.sendJoinMail(email);
 	}
-	
+
     @PostMapping("/join")
     public String join(UserVO userVO) {
     	try {
@@ -93,8 +93,8 @@ public class UserController {
 			return "redirect:/sample/all";
 		}
     }
-    
-   
-	
+
+
+
 
 }

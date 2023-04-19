@@ -19,7 +19,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 	@Override
 	public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessException)
 			throws IOException, ServletException {
-		
+
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 		if (auth != null) {

@@ -1,5 +1,7 @@
 package org.studywithme.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,9 @@ import lombok.extern.log4j.Log4j;
 @Controller
 @Log4j
 public class UserUtilTestController {
+	@Autowired
+	HttpSession session;
+	
 	//테스트 과정에서 userName을 바꾸기 위해 주입(UserUtil과 무관)
 	@Autowired
 	private UserService service;
@@ -69,7 +74,8 @@ public class UserUtilTestController {
         
         //로컬로 선언한 util에서 userUtil로 유저 정보를 가져오는것도 가능
         model.addAttribute("nameChangeResult2", util.getUserDetails().getUserName());
-
+		int cafeNum = (int) session.getAttribute("cafeNum");
+		log.info("cafeNum : "+cafeNum);
         
         return "user/userRoleTest";
     }

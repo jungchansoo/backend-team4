@@ -30,23 +30,23 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
-@RequiredArgsConstructor 
+@RequiredArgsConstructor
 @Service
 @PropertySource("classpath:naverSENSapi.properties")
 public class SmsServiceImpl implements SmsService {
 
 	@Value("${naver-cloud-sms.accessKey}")
 	private String accessKey;
-	
+
 	@Value("${naver-cloud-sms.secretKey}")
 	private String secretKey;
-	
+
 	@Value("${naver-cloud-sms.serviceId}")
 	private String serviceId;
- 
+
 	@Value("${naver-cloud-sms.senderPhone}")
 	private String phone;
-	
+
 	//헤더에 담을 Signature Key 생성(naver api 준수사항)
 	//request의 method + 공백(space) + API의 URL + 줄바꿈(\n) + 타임스탬프 + Access Key
 	@Override
@@ -58,7 +58,7 @@ public class SmsServiceImpl implements SmsService {
         String timestamp = time.toString();
         String accessKey = this.accessKey;
         String secretKey = this.secretKey;
- 
+
         String message = new StringBuilder()
                 .append(method)
                 .append(space)
@@ -68,31 +68,31 @@ public class SmsServiceImpl implements SmsService {
                 .append(newLine)
                 .append(accessKey)
                 .toString();
- 
+
         SecretKeySpec signingKey = new SecretKeySpec(secretKey.getBytes("UTF-8"), "HmacSHA256");
         Mac mac = Mac.getInstance("HmacSHA256");
         mac.init(signingKey);
 
         byte[] rawHmac = mac.doFinal(message.getBytes("UTF-8"));
         String encodeBase64String = Base64.encodeBase64String(rawHmac);
- 
+
         return encodeBase64String;
 	}
-	
-	
+
+
 	@Override
 	public SmsResponseDTO sendSms(MessageDTO messageDto) throws JsonProcessingException, RestClientException, URISyntaxException, InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
 		Long time = System.currentTimeMillis();
-		
+
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		headers.set("x-ncp-apigw-timestamp", time.toString());
 		headers.set("x-ncp-iam-access-key", accessKey);
 		headers.set("x-ncp-apigw-signature-v2", makeSignature(time));
-		
+
 		List<MessageDTO> messages = new ArrayList<>();
 		messages.add(messageDto);
-		
+
 		SmsRequestDTO request = SmsRequestDTO.builder()
 				.type("SMS")
 				.contentType("COMM")
@@ -101,22 +101,22 @@ public class SmsServiceImpl implements SmsService {
 				.content(messageDto.getContent())
 				.messages(messages)
 				.build();
-		
+
 		ObjectMapper objectMapper = new ObjectMapper();
 		String body = objectMapper.writeValueAsString(request);
 		HttpEntity<String> httpBody = new HttpEntity<>(body, headers);
-		
+
 		RestTemplate restTemplate = new RestTemplate();
 	    restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 	    SmsResponseDTO response = restTemplate.postForObject(new URI("https://sens.apigw.ntruss.com/sms/v2/services/"+ serviceId +"/messages"), httpBody, SmsResponseDTO.class);
- 
-	    return response;	
+
+	    return response;
 	}
-	
+
 	@Override
 	public String sendVerificationCode(String phoneNumber) throws JsonProcessingException, RestClientException, URISyntaxException, InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
 	    // 6자리 인증 번호 생성
-		AuthUtil util = new AuthUtil(); 
+		AuthUtil util = new AuthUtil();
 	    int verificationCode = util.makeRandomNumber();
 
 	    // 인증 번호를 포함한 문자 메시지 내용 작성
@@ -124,10 +124,10 @@ public class SmsServiceImpl implements SmsService {
 
 	    // 수신자 전화번호와 메시지 내용을 포함한 MessageDTO 객체 생성
 	    MessageDTO messageDto = new MessageDTO(phoneNumber, messageContent);
-	    
+
 	    //문자 메시지 전송
 	    sendSms(messageDto);
-	    
+
 	    return Integer.toString(verificationCode);
 	}
 }

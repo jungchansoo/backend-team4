@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class StudyCafeVO {
-
+	private int cafe_no;
 	private String name;
 	private String address;
 	private String qr_code;

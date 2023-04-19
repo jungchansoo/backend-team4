@@ -6,6 +6,7 @@
 
 
 	<resultMap type="org.studywithme.domain.UserVO" id="userMap">
+		<id column="user_no" property="userNo" />
 		<id property="userId" column="user_id" />
 		<result property="password" column="password" />
 		<result property="userName" column="userName" />
@@ -23,19 +24,92 @@
 		<result property="emailVerified" column="email_Verified" />
 	</resultMap>
 
+	<!-- 각 문자열을 이용해 검색 조건을 결합하는 형태로 하면 3개의 동적 SQL 구문 처리 -->
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'I'.toString()">
+							user_id like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'N'.toString()">
+							username like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'P'.toString()">
+							phone_number like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+
+	<!-- 전체 유저 수 조회 -->
+	<select id="getTotalCount" resultType="int"
+		parameterType="org.studywithme.domain.Criteria">
+		SELECT COUNT(*) FROM tbl_user where
+		<include refid="criteria"></include>
+		user_no > 0
+	</select>
+
+	<!-- 유저 목록 페이징 조회 -->
+	<select id="getListWithPaging" resultMap="userMap"
+		parameterType="org.studywithme.domain.Criteria">
+		<![CDATA[
+ 		SELECT
+		user_no, user_id, username,
+		phone_number, email, role,
+		remaining_seat_time,
+		remaining_study_room_time, remaining_locker_time
+		FROM
+      	(
+      	select /*+INDEX_DESC(tbl_user pk_user) */
+        rownum rn, user_no, user_id, username,
+		phone_number, email, role,
+		remaining_seat_time,
+		remaining_study_room_time, remaining_locker_time
+		FROM
+		tbl_user
+      	where 
+  		]]>
+		<include refid="criteria"></include>
+      
+  		<![CDATA[    
+      	rownum <= #{pageNum} * #{amount}
+      	)
+  		where rn > (#{pageNum} -1) * #{amount}   
+      	ORDER BY user_no ASC
+  		]]>
+	</select>
+
+	<!-- 관리자 유저목록 페이지 -->
+	<select id="getUserList" resultMap="userMap">
+		SELECT
+		user_no, user_id,
+		username,
+		phone_number, email, role,
+		remaining_seat_time,
+		remaining_study_room_time, remaining_locker_time
+		FROM
+		tbl_user
+	</select>
+
 	<!-- 회원 탈퇴 -->
-	<delete id="deleteUser" >
+	<delete id="deleteUser">
 		DELETE FROM tbl_user
-		WHERE user_id = #{userId}
+		WHERE user_id =
+		#{userId}
 	</delete>
 
 
 	<!-- 비밀번호 변경 -->
-	<update id="updatePw" >
+	<update id="updatePw">
 		update tbl_user
 		set password
 		= #{password}
-		where user_id = #{userId}
+		where user_id
+		= #{userId}
 	</update>
 
 	<!-- 마이페이지 회원정보에도 사용 -->
