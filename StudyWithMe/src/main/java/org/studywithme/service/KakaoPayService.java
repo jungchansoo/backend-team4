@@ -7,24 +7,25 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.studywithme.domain.KakaoPayApprovalVO;
 import org.studywithme.domain.KakaoPayReadyVO;
+import org.studywithme.mapper.KaKaoPayMapper;
+
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
-@Log4j
 @Service
+@Log4j
 @RequiredArgsConstructor
 public class KakaoPayService {
-	 
     private static final String HOST = "https://kapi.kakao.com";
     
+    private final KaKaoPayMapper mapper;
     private KakaoPayReadyVO kakaoPayReadyVO;
     private KakaoPayApprovalVO kakaoPayApprovalVO;
     
@@ -61,18 +62,15 @@ public class KakaoPayService {
             return kakaoPayReadyVO.getNext_redirect_pc_url();
  
         } catch (RestClientException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        	log.error("rest api error", e);
         } catch (URISyntaxException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        	log.error("uri syntax error", e);
         }
         
         return "/pay";
-        
     }
     
-    public KakaoPayApprovalVO kakaoPayInfo(String pg_token, String product, String price) {
+    public KakaoPayApprovalVO kakaoPayInfo(String pg_token, String product, String price, String userId) {
  
         log.info("KakaoPayInfoVO............................................");
         log.info("-----------------------------");
@@ -99,18 +97,45 @@ public class KakaoPayService {
         try {
             kakaoPayApprovalVO = restTemplate.postForObject(new URI(HOST + "/v1/payment/approve"), body, KakaoPayApprovalVO.class);
             log.info("" + kakaoPayApprovalVO);
-          
+            
             return kakaoPayApprovalVO;
-        
         } catch (RestClientException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        	log.error("rest api error", e);
         } catch (URISyntaxException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        	log.error("uri syntax error", e);
         }
         
+       
+        
         return null;
+    }
+    
+    public void kakaoUpdate(String product, String price, String userId) {
+    	String[] productInfo = product.split(" "); // 공백을 기준으로 문자열 나누기
+        String itemName = productInfo[0]; // 첫 번째 요소가 상품명
+        String duration = productInfo[1]; // 두 번째 요소가 기간
+        log.info("==========================================================");
+        log.info(itemName);
+        log.info(duration);
+        log.info(userId);
+        
+        if(itemName.equals("스터디석")) {
+        	if(duration.equals("1시간권")) mapper.addSeatTime(1 * 60, userId);
+        	else if(duration.equals("3시간권")) mapper.addSeatTime(3 * 60, userId);
+        	else if(duration.equals("6시간권")) mapper.addSeatTime(6 * 60, userId);
+        	else if(duration.equals("1일권(24시간권)")) mapper.addSeatTime(24 * 60, userId);
+        	else if(duration.equals("3일권(72시간권)")) mapper.addSeatTime(72 * 60, userId);
+        }
+        else if(itemName.equals("스터디룸")) {
+        	if(duration.equals("1시간권")) mapper.addStudyRoomTime(1 * 60, userId);
+        	else if(duration.equals("3시간권")) mapper.addStudyRoomTime(3 * 60, userId);
+        	else if(duration.equals("6시간권")) mapper.addStudyRoomTime(6 * 60, userId);
+        	else if(duration.equals("1일권(24시간권)")) mapper.addStudyRoomTime(24 * 60, userId);
+        	else if(duration.equals("3일권(72시간권)")) mapper.addStudyRoomTime(72 * 60, userId);
+        }
+        else {
+        	
+        }
     }
     
 }

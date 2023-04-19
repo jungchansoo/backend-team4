@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.studywithme.mapper.KaKaoPayMapper">
+	
+	<update id="addSeatTime">
+		UPDATE tbl_user
+		   SET REMAINING_SEAT_TIME = REMAINING_SEAT_TIME + #{time}
+		 WHERE user_id = #{userId}
+	</update>
+	
+	<update id="addStudyRoomTime">
+		UPDATE tbl_user
+		   SET REMAINING_STUDY_ROOM_TIME = REMAINING_STUDY_ROOM_TIME + #{time}
+		 WHERE user_id = #{userId}
+	</update>
+	
+</mapper>
