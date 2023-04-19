@@ -92,19 +92,19 @@
 								<label for="role">역할</label>
 								<div>
 									<div class="form-check form-check-inline">
-										<input class="form-check-input" type="radio" id="user"
-											name="role" value="user" checked> <label
-											class="form-check-label" for="user">사용자</label>
+										<input class="form-check-input" type="radio" id="ROLE_USER"
+											name="role" value="ROLE_USER" checked> <label
+											class="form-check-label" for="ROLE_USER">사용자</label>
 									</div>
 									<div class="form-check form-check-inline">
-										<input class="form-check-input" type="radio" id="manager"
-											name="role" value="manager"> <label
-											class="form-check-label" for="manager">운영자</label>
+										<input class="form-check-input" type="radio" id="ROLE_MANAGER"
+											name="role" value="ROLE_MANAGER"> <label
+											class="form-check-label" for="ROLE_MANAGER">운영자</label>
 									</div>
 									<div class="form-check form-check-inline">
-										<input class="form-check-input" type="radio" id="admin"
-											name="role" value="admin"> <label
-											class="form-check-label" for="admin">관리자</label>
+										<input class="form-check-input" type="radio" id="ROLE_ADMIN"
+											name="role" value="ROLE_ADMIN"> <label
+											class="form-check-label" for="ROLE_ADMIN">관리자</label>
 									</div>
 								</div>
 							</div>
