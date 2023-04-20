@@ -50,7 +50,7 @@
 	</select>
 	
 	<update id="updateRemainingSeatTime" parameterType="map">
-  		UPDATE tbl_user SET remaining_seat_time = remaining_seat_time - #{duration} WHERE user_id = #{user_id}
+  		UPDATE tbl_user SET REMAINING_SEAT_TIME = REMAINING_SEAT_TIME - #{duration} WHERE USER_ID = #{user_id}
 	</update>
 	
 </mapper>

@@ -64,12 +64,12 @@ public class UserStudySeatController {
 	
 	@PostMapping("/userstudyseat/return")
 	public ResponseEntity<String> returnseat(@RequestParam("user_id") String user_id) {
-		UserVO vo = new UserUtil().getUserDetails();
 		
 		try {
 			service.returnseat(user_id);
 			return ResponseEntity.ok("Returnseat Successful");
 		} catch (Exception e) {
+			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Returnseat Failed");
 		}
 	}

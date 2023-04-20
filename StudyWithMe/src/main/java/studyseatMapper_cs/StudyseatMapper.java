@@ -15,5 +15,5 @@ public interface StudyseatMapper {
 	public void movedata(@Param("user_id")String user_id, @Param("category")String category);
 	public void delete(@Param("user_id")String user_id, @Param("category")String category);
 	public int getduration(@Param("user_id") String user_id, @Param("category") String category);
-	public void updateRemainingSeatTime(@Param("user_id") String user_id, @Param("duration") int duration);
+	public void updateRemainingSeatTime(@Param("duration") int duration,@Param("user_id") String user_id);
 }
