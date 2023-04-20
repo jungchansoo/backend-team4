@@ -354,7 +354,7 @@ body {
 
 #state {
 width: 370px;
-margin: 7px;
+margin-left: 18px;
 }
 
 #state>li {

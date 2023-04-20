@@ -98,7 +98,6 @@ ul>.time {
 
 </head>
 
-<body>
 
 <body>
 <!-- 헤더 -->
