@@ -1,9 +1,9 @@
-package studyseatService_cs;
+package org.studywithme.service;
 
 import java.util.List;
 import java.util.Map;
 
-import studyseatdomain_cs.SeatVO;
+import org.studywithme.domain.SeatVO;
 
 
 public interface StudyseatService {

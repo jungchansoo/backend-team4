@@ -9,47 +9,20 @@
 <head>
 <meta charset="UTF-8">
 <title>MyPage</title>
+<!-- 헤드 태그 안에 들어가는 공통코드 -->
+<link rel="stylesheet" href="resources/css/userMainPage.css"
+	type="text/css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+	
 </head>
-<body>
+<!-- 헤더 -->
+<%@include file="../includes/header.jsp"%><body>
 	<h1>Mypage</h1>
 	<%-- vo:${loginUser}
 	username:${name}
 	password:${password} --%>
 
-<style>
-ul {
-	list-style-type: none;
-	padding: 0px;
-	margin: 0px;
-	width: 120px;
-	background: #efefef;
-	height: 100%;
-	overflow: auto;
-	position: fixed;
-}
-
-li a {
-	text-decoration: none;
-	padding: 10px;
-	display: block;
-	color: #000;
-	font-weight: bold;
-}
-
-li a:hover {
-	background: #333;
-	color: #fff;
-}
-
-li a.userinfo {
-	background: #333;
-	color: #fff;
-}
-
-.cd1 {
-	margin-left: 140px;
-}
-</style>	
+	
 
 	<ul>
 		<li><a class="userinfo" href="/userinfo">회원정보</a></li>

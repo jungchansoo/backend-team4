@@ -22,83 +22,97 @@
 <head>
 <meta charset="UTF-8">
 <title>Study with me</title>
+
+
+<!-- Add Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"
+	rel="stylesheet">
+
 <!-- 헤드 태그 안에 들어가는 공통코드 -->
 <link rel="stylesheet" href="resources/css/userMainPage.css"
 	type="text/css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
-	
 </head>
 <!-- 헤더 -->
 <%@include file="../includes/header.jsp"%>
 
 <body>
-	<h1>스터디 위드 미</h1>
-	<p>
-		<sec:authentication property="principal.username" />
-		님 환영합니다.
-	</p>
-	<div>
-		<h1 id="study-title">스터디카페 위치</h1>
-		<div class="modal">
-			<div class="modal-content">
-				<div class="modal-top">
-					<span class="close">&times;</span>
-					<p>이용하실 스터디카페를 검색해 주세요.</p>
-					<hr>
+	<div class="container title-container">
+		<div class="row align-items-start">
+			<div class="col-lg-6 col-md-12">
+				<h1 class="display-4 title-text-color">스터디 위드 미</h1>
+				<p class="lead user-text-color">
+					<sec:authentication property="principal.username" />
+					님 환영합니다.
+				</p>
+				<div class="d-flex searchBar">
+					<h2 id="study-title" class="mr-auto title-text-color">스터디카페 위치</h2>
+					<button type="button"
+						class="btnForModal btn btn-outline-custom search-button">
+						<i class="bi bi-search"></i>
+					</button>
 				</div>
-
-				<div>
-					<div class="row">
-						<div id='searchForm'>
-							<input type='text' id='keyword' name='keyword' /> <input
-								type='hidden' id='pageNum' name='pageNum' value='1' />
-							<button id="search-check-btn">Search</button>
-						</div>
-					</div>
-					<!-- 스터디카체 리스트 출력-->
-					<table id="study-table">
-						<thead>
-							<tr>
-								<td>스터디카페</td>
-								<td>주소</td>
-							</tr>
-						</thead>
-					</table>
-
-					<div id="page-numbers"></div>
+				<hr class="line-divider">
+				<div class="d-flex buttons-container mb-3">
+					<button type="button" class="btn btn-primary btn-lg mr-2"
+						onclick="location.href='/paymentSeatPage'">충전하기</button>
+					<button type="button"
+						class="btnForModal btn btn-outline-primary btn-lg">QR 코드</button>
 				</div>
 			</div>
+			<div class="col-lg-6 col-md-12 mb-3">
+				<img class="img-fluid" src="/resources/image/mainPageImage.png"
+					style="width: 130%;">
+			</div>
 		</div>
-				<button type="button" class="btn"><img class="img" src="/resources/image/search.jpg"></button>
-
-<!-- 		<button type="button" class="btn btn-primary mx-2">
-			<i class="bi bi-search"></i>
-		</button> -->
-
 	</div>
+	
+	
+	
+	<!-- Modal -->
+	<div class="modal">
+		<div class="modal-content">
+			<div class="modal-top">
+				<span class="close">&times;</span>
+				<p>이용하실 스터디카페를 검색해 주세요.</p>
+				<hr>
+			</div>
 
-	<div>
-				<button type="button"  onclick="location.href='/paymentSeatPage'">충전하기</button>
-<!-- 
-		<button type="button" class="btn btn-primary mx-2"
-			onclick="location.href='/'">충전하기</button>
- -->
+			<div class="modal-body">
+				<div class="row">
+					<div id='searchForm'>
+						<input type='text' id='keyword' name='keyword' /> <input
+							type='hidden' id='pageNum' name='pageNum' value='1' />
+						<button id="search-check-btn">Search</button>
+					</div>
+				</div>
+				<!-- 스터디카체 리스트 출력-->
+				<table id="study-table">
+					<thead>
+						<tr>
+							<td>스터디카페</td>
+							<td>주소</td>
+						</tr>
+					</thead>
+				</table>
 
+				<div id="page-numbers"></div>
+			</div>
+		</div>
+		<!-- QR 코드 -->
 		<div class="modal">
 			<div class="modal-content">
 				<span class="close">&times;</span>
 				<p>QR code</p>
 			</div>
 		</div>
-				<button type="button" class="btn">QR 코드</button>
-
-<!-- 		<button type="button" class="btn btn-primary mx-2">QR 코드</button>
- -->
- 	</div>
-	<!-- Add Bootstrap JS -->
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+	</div>
 
 
 	<!-- js 파일 경로 -->
@@ -106,3 +120,4 @@
 
 </body>
 </html>
+

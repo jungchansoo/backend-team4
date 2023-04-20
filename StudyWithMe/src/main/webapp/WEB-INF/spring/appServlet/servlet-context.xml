@@ -23,7 +23,5 @@
 	
 	<context:component-scan base-package="org.studywithme.controller" />
 	
-	<!-- 컨트롤러 패키지 별도 작성하였음 - 정찬수 -->
-	<context:component-scan base-package="studyseatController_cs" />
 	
 </beans:beans>

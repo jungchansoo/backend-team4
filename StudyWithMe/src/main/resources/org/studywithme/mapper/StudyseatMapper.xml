@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.studywithme.mapper.StudyseatMapper">
+	<select id="readuseseat" resultType="org.studywithme.domain.SeatVO">
+		select user_id,num_using from active_reservation where cafe_no = #{cafe_no}
+	</select>
+
+	<insert id="insert" parameterType="map">
+		insert into active_reservation
+		values (active_reservation_pk.nextval, sysdate, #{category},
+		#{num_using}, #{cafe_no}, #{user_id})
+	</insert>
+
+	<select id="isSeatAvailable" resultType="boolean">
+		SELECT COUNT(*) as count
+		FROM active_reservation WHERE cafe_no = #{cafe_no} AND num_using =
+		#{num_using}
+	</select>
+
+	<select id="getmyreservationInfo" resultType="java.util.HashMap">
+		SELECT c.name,
+		a.num_using FROM study_cafe c INNER JOIN active_reservation a ON
+		c.cafe_no = a.cafe_no WHERE a.user_id = #{user_id} AND a.category =
+		#{category}
+	</select>
+
+	<insert id="movedata" parameterType="map">
+		INSERT INTO reservation
+		(USER_ID, CAFE_NO, CATEGORY, NUM_USING, START_TIME, END_TIME,
+		DURATION) SELECT USER_ID, CAFE_NO, CATEGORY, NUM_USING, START_TIME,
+		SYSDATE, ROUND((SYSDATE - START_TIME) * 24 * 60) FROM
+		active_reservation WHERE user_id = #{user_id} AND category =
+		#{category}
+	</insert>
+
+	<delete id="delete" parameterType="map">
+		DELETE FROM active_reservation WHERE user_id = #{user_id} AND category =
+		#{category}
+	</delete>
+
+	<select id="getduration" resultType="int">
+		SELECT duration FROM ( SELECT duration
+		FROM reservation
+		WHERE USER_ID = #{user_id} AND CATEGORY = #{category}
+		ORDER BY reservation_no DESC
+		)
+		WHERE ROWNUM = 1
+	</select>
+	
+	<update id="updateRemainingSeatTime" parameterType="map">
+  		UPDATE tbl_user SET REMAINING_SEAT_TIME = REMAINING_SEAT_TIME - #{duration} WHERE USER_ID = #{user_id}
+	</update>
+	
+</mapper>

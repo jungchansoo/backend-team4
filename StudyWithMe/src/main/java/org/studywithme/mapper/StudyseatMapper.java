@@ -1,11 +1,10 @@
-package studyseatMapper_cs;
+package org.studywithme.mapper;
 
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
-
-import studyseatdomain_cs.SeatVO;
+import org.studywithme.domain.SeatVO;
 
 public interface StudyseatMapper {
 	public List<SeatVO> readuseseat(int cafeno);
@@ -14,4 +13,6 @@ public interface StudyseatMapper {
 	public boolean isSeatAvailable(@Param("cafe_no")int cafe_no, @Param("num_using")int num_using);
 	public void movedata(@Param("user_id")String user_id, @Param("category")String category);
 	public void delete(@Param("user_id")String user_id, @Param("category")String category);
+	public int getduration(@Param("user_id") String user_id, @Param("category") String category);
+	public void updateRemainingSeatTime(@Param("duration") int duration,@Param("user_id") String user_id);
 }

@@ -1,4 +1,4 @@
-package studyseatdomain_cs;
+package org.studywithme.domain;
 
 import lombok.Data;
 

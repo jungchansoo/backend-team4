@@ -27,4 +27,9 @@ public class AdminPageServiceImpl implements AdminPageService {
 		return mapper.getTotalCount(cri);
 	}
 
+	@Override
+	public int deleteAdminUser(String userId) {
+        return mapper.deleteUser(userId);
+	}
+
 }
