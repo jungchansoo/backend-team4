@@ -14,7 +14,9 @@ import org.springframework.web.client.RestTemplate;
 import org.studywithme.domain.KakaoPayApprovalVO;
 import org.studywithme.domain.KakaoPayReadyVO;
 import org.studywithme.mapper.KaKaoPayMapper;
-
+import org.studywithme.type.StudyLockerTicket;
+import org.studywithme.type.StudyRoomTicket;
+import org.studywithme.type.StudySeatTicket;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -105,8 +107,6 @@ public class KakaoPayService {
         	log.error("uri syntax error", e);
         }
         
-       
-        
         return null;
     }
     
@@ -118,23 +118,39 @@ public class KakaoPayService {
         log.info(itemName);
         log.info(duration);
         log.info(userId);
-        
+
         if(itemName.equals("스터디석")) {
-        	if(duration.equals("1시간권")) mapper.addSeatTime(1 * 60, userId);
-        	else if(duration.equals("3시간권")) mapper.addSeatTime(3 * 60, userId);
-        	else if(duration.equals("6시간권")) mapper.addSeatTime(6 * 60, userId);
-        	else if(duration.equals("1일권(24시간권)")) mapper.addSeatTime(24 * 60, userId);
-        	else if(duration.equals("3일권(72시간권)")) mapper.addSeatTime(72 * 60, userId);
+        	StudySeatTicket ticket = StudySeatTicket.of(duration);
+        	
+        	if (ticket == null) {
+        		return;
+        	}
+        	
+        	log.info("curTime : " + ticket.getTime());
+        	
+        	mapper.addSeatTime(ticket.getTime(), userId);
         }
         else if(itemName.equals("스터디룸")) {
-        	if(duration.equals("1시간권")) mapper.addStudyRoomTime(1 * 60, userId);
-        	else if(duration.equals("3시간권")) mapper.addStudyRoomTime(3 * 60, userId);
-        	else if(duration.equals("6시간권")) mapper.addStudyRoomTime(6 * 60, userId);
-        	else if(duration.equals("1일권(24시간권)")) mapper.addStudyRoomTime(24 * 60, userId);
-        	else if(duration.equals("3일권(72시간권)")) mapper.addStudyRoomTime(72 * 60, userId);
-        }
-        else {
+        	StudyRoomTicket ticket = StudyRoomTicket.of(duration);
         	
+        	if (ticket == null) {
+        		return;
+        	}
+        	
+        	log.info("curTime : " + ticket.getTime());
+        	
+        	mapper.addStudyRoomTime(ticket.getTime(), userId);
+        }
+        else if (itemName.equals("사물함")) {
+        	StudyLockerTicket ticket = StudyLockerTicket.of(duration);
+        	
+        	if(ticket == null) {
+        		return;
+        	}
+        	
+        	log.info("curTime : " + ticket.getTime());
+        	
+        	mapper.addLockerTime(ticket.getTime(), userId);
         }
     }
     

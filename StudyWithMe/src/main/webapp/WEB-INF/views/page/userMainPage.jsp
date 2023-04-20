@@ -78,7 +78,7 @@
 	</div>
 
 	<div>
-				<button type="button"  onclick="location.href='/'">충전하기</button>
+				<button type="button"  onclick="location.href='/paymentSeatPage'">충전하기</button>
 <!-- 
 		<button type="button" class="btn btn-primary mx-2"
 			onclick="location.href='/'">충전하기</button>

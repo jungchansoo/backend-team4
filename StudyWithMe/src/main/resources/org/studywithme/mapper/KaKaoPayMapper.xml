@@ -16,4 +16,10 @@
 		 WHERE user_id = #{userId}
 	</update>
 	
+	<update id="addLockerTime">
+		UPDATE tbl_user
+		   SET REMAINING_LOCKER_TIME = REMAINING_LOCKER_TIME + #{time}
+		 WHERE user_id = #{userId}
+	</update>
+	
 </mapper>

@@ -49,12 +49,6 @@ public class KakaoPayReadyController {
         log.info("kakaoPaySuccess get............................................");
         log.info("kakaoPaySuccess pg_token : " + pg_token);
         
-        
-        
-        
-        
-        
-        
         model.addAttribute("info", kakaopay.kakaoPayInfo(pg_token, product, price, vo.getUserId()));
         
         // 결제 완료 후 이동 페이지

@@ -52,6 +52,7 @@
 	
 	th, td {
 		border: 0px solid black;
+		padding: 10px 20px;
 	}
 	#modal {
 		display: none; /* Hidden by default */
@@ -76,9 +77,10 @@
 	#modal .modal_content {
 		background-color: #fefefe;
 		margin: 15% auto; /* 15% from the top and centered */
-		padding: 20px;
+		padding: 50px;
 		border: 1px solid #888;
-		width: 40%; /* Could be more or less, depending on screen size */
+		width: 30%; /* Could be more or less, depending on screen size */
+		border-radius: 20px;
 	}
 	#modal .modal_layer {
 		position:fixed;
@@ -101,19 +103,41 @@
 		text-decoration: none;
 		cursor: pointer;
 	}
-
+	.paymentBtn {
+		background: #c9e7f0;
+		color: #000;
+		border-radius: 12px;
+		padding: 7px 25px;
+		border: none;
+		margin : 30px;
+		display:inline-block;
+	}
+	.findBtn{
+		width: 100%;
+		text-align: center;
+	}
+	.positionBtn{
+		margin-left: 130px;
+	}
+	form {
+		display:inline-block;
+	}
 </style>
 </head>
+
 <body>
-	<h1>이용권구매</h1>
+	<div>
+		<h1>이용권구매</h1>
+	</div>
+	<div>
+		<ul>
+			<li><a class="seat" href="/paymentSeatPage">스터디석</a></li>
+			<li><a class="room" href="/paymentRoomPage">스터디룸</a></li>
+			<li><a class="locker" href="/paymentLockerPage">사물함</a></li>
+		</ul>
+	</div>
 	
-	<ul>
-		<li><a class="seat" href="/paymentSeatPage">스터디석</a></li>
-		<li><a class="room" href="/paymentRoomPage">스터디룸</a></li>
-		<li><a class="locker" href="/paymentLockerPage">사물함</a></li>
-	</ul>
-	
-	<div class="cd1">스터디석
+	<div class="cd1"><h2>스터디석</h2>
 	<hr>
 	<div>
 		<div>
@@ -176,8 +200,8 @@
 			</table>
 		</div>
 
-		<div>
-	    	<button type="submit" id="modal_open_btn">결제</button>
+		<div class="positionBtn">
+	    	<button type="submit" id="modal_open_btn" class="paymentBtn">결제</button>
 		</div>
 	
 		<div id="modal">
@@ -199,14 +223,14 @@
 					</div>
 				</div>
 				
-				<div>
+				<div class="findBtn">
 					<form method="get" action="/kakaoPay">
 						<input type="hidden" name="product" id="product">
 						<input type="hidden" name="price" id="price">
-						<button id="pay-btn">결제</button>
+						<button id="pay-btn" class="paymentBtn">결제</button>
 					</form>
 
-					<button type="button" id="modal_close_btn">취소</button>
+					<button type="button" id="modal_close_btn" class="paymentBtn">취소</button>
 				</div>
 			</div>
 			
@@ -223,13 +247,14 @@
 	        
 	     // 선택된 radio 버튼 요소를 가져옴
 	        const selectedProduct = document.querySelector('input[name="product"]:checked');
+	        const splitSelectedProduct = selectedProduct.value.split(" ");
 	        
 	        // 선택된 radio 버튼의 value와 그에 해당하는 price를 가져옴
 	        const product = selectedProduct.value;
 	        const price = selectedProduct.closest('tr').querySelector('input[name="price"]').value;
 	        
 	        $("#select-product").empty();
-	        $("#select-product").append("<tr><td><b>이용권 : </b>" + product + "<nbsp></td><td><b>금액 : </b>" + price + "</td></tr>");
+	        $("#select-product").append("<tr><td><b>이용권 : </b>" + splitSelectedProduct[0] + " " + splitSelectedProduct[1] + "<nbsp></td><td><b>금액 : </b>" + splitSelectedProduct[2] + "</td></tr>");
 	    }
 	   
 		document.getElementById("pay-btn").onclick = function() {
