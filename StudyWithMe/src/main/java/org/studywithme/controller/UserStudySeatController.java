@@ -1,4 +1,4 @@
-package studyseatController_cs;
+package org.studywithme.controller;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.studywithme.domain.UserVO;
+import org.studywithme.exception.SeatNotAvailableException;
+import org.studywithme.service.StudyseatService;
 import org.studywithme.util.UserUtil;
+import org.studywithme.util.changetime;
 
 import lombok.extern.log4j.Log4j;
-import studyseatService_cs.StudyseatService;
-import studyseatUtil_cs.changetime;
 
 @Controller
 @Log4j
@@ -41,8 +42,12 @@ public class UserStudySeatController {
 		model.addAttribute("id", vo.getUserId());
 		model.addAttribute("time", remainingSeatTime);
 		model.addAttribute("long_time", vo.getRemainingSeatTime());
-
-		return "studycafe_cs/chosim_incheon_cs/userstudyseat";
+		
+		//branch부분을 메인에서 넘어온 카페이름으로 바꿔야함. 당연히 view 폴더 이름도 같음.
+		String cafe_name = "studycafe/";
+		String branch = "chosim_Gangnam_Dogok/";
+		String category = "userstudyseat";
+		return cafe_name+branch+category;
 	}
 
 	@PostMapping("/userstudyseat/reservation")

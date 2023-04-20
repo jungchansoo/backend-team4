@@ -2,8 +2,8 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="studyseatMapper_cs.StudyseatMapper">
-	<select id="readuseseat" resultType="studyseatdomain_cs.SeatVO">
+<mapper namespace="org.studywithme.mapper.StudyseatMapper">
+	<select id="readuseseat" resultType="org.studywithme.domain.SeatVO">
 		select user_id,num_using from active_reservation where cafe_no = #{cafe_no}
 	</select>
 

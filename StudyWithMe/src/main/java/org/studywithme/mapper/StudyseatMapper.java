@@ -1,11 +1,10 @@
-package studyseatMapper_cs;
+package org.studywithme.mapper;
 
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
-
-import studyseatdomain_cs.SeatVO;
+import org.studywithme.domain.SeatVO;
 
 public interface StudyseatMapper {
 	public List<SeatVO> readuseseat(int cafeno);

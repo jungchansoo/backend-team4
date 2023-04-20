@@ -1,4 +1,4 @@
-package studyseatService_cs;
+package org.studywithme.service;
 
 import java.util.List;
 import java.util.Map;
@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.studywithme.domain.SeatVO;
+import org.studywithme.exception.SeatNotAvailableException;
+import org.studywithme.mapper.StudyseatMapper;
 import org.studywithme.util.UserUtil;
 
 import lombok.AllArgsConstructor;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
-import studyseatController_cs.SeatNotAvailableException;
-import studyseatMapper_cs.StudyseatMapper;
-import studyseatdomain_cs.SeatVO;
 
 @Service
 @AllArgsConstructor
