@@ -34,13 +34,110 @@
 	cursor: pointer;
 }
 
-.img {
-	height: 20px;
-	weight: 20px;
-}
-
 .modal-top {
 	margin: 0% auto; /* 15% from the top and centered */
 	padding: 0px;
 	text-align: center;
+	width: 100%
+}
+#study-table {
+    width: 100%;
+}
+
+#study-table td:nth-child(1) {
+    width: 60%;
+}
+
+#study-table td:nth-child(2) {
+    width: 40%;
+}
+/* 돋보기 버튼 css*/
+.btn-outline-custom {
+	background-color: transparent;
+	color: #007bff;
+	border-color: #007bff;
+}
+
+.btn-outline-custom:hover {
+	background-color: #007bff;
+	color: #ffffff;
+	border-color: #007bff;
+}
+
+.btn-outline-custom:focus, .btn-outline-custom.focus {
+	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+}
+
+.btn-outline-custom:not(:disabled):not(.disabled):active,
+	.btn-outline-custom:not(:disabled):not(.disabled).active, .show>.btn-outline-custom.dropdown-toggle
+	{
+	color: #ffffff;
+	background-color: #007bff;
+	border-color: #007bff;
+}
+
+.btn-group-lg>.btn, .btn-lg {
+	padding: 0.5rem 4.5rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    border-radius: 1rem;
+}
+#page-numbers {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+}
+
+#page-numbers li {
+    margin: 0 5px;
+}
+
+#searchForm {
+    display: flex;
+    justify-content: space-between;
+    margin-left: auto;
+}
+
+
+/* 전체적인 틀 조정 css*/
+.mainpage{
+
+}
+.title-container {
+	margin-top: 5rem;
+	transform: scale(1.1); /* 전체 크기 25% 증가 */
+	
+}
+
+.search-button {
+    margin-top: 0;
+    margin-bottom: 1rem
+    }
+
+.line-divider {
+	width: 30%;
+	border-bottom: 3px solid #0057B6;
+	margin-bottom: 5rem;
+	margin-top: 0.5rem;
+	margin-left:0;
+}
+
+.buttons-container {
+	align-items: flex-end;
+	margin-top: 13rem;
+}
+.title-text-color{
+	color: #0057B6;
+	font-weight: bold;
+}
+.user-text-color{
+	color: #2196F3;
+}
+
+.lead{
+	margin-top: 1.5rem;
+}
+.searchBar {
+    margin-top: 1.2rem;
 }
