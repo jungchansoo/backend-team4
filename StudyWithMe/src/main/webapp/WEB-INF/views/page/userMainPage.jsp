@@ -100,9 +100,9 @@
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
+
 	<!-- js 파일 경로 -->
 	<script type="text/javascript" src="/resources/js/userMainPage.js"></script>
-
 
 </body>
 </html>

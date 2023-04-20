@@ -33,7 +33,6 @@ public class StudyCafeController {
 
 		List<StudyCafeVO> result = service.getStudyCafeList(keyword, currentPage, perPage);
 
-		log.info(result);
 		return result;
 	}
 
