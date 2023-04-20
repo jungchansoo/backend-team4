@@ -64,7 +64,7 @@
 		remaining_study_room_time, remaining_locker_time
 		FROM
       	(
-      	select /*+INDEX_DESC(tbl_user pk_user) */
+      	select /*+INDEX_DESC(tbl_user SYS_C0021819) */
         rownum rn, user_no, user_id, username,
 		phone_number, email, role,
 		remaining_seat_time,
@@ -78,8 +78,8 @@
   		<![CDATA[    
       	rownum <= #{pageNum} * #{amount}
       	)
-  		where rn > (#{pageNum} -1) * #{amount}   
-      	ORDER BY user_no ASC
+  		where rn > (#{pageNum} -1) * #{amount} 
+  		ORDER BY user_no ASC  
   		]]>
 	</select>
 
