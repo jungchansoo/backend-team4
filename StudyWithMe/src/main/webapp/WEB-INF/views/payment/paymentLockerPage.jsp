@@ -245,6 +245,7 @@
 	        
 	     // 선택된 radio 버튼 요소를 가져옴
 	        const selectedProduct = document.querySelector('input[name="product"]:checked');
+	        const splitSelectedProduct = selectedProduct.value.split(" ");
 	        
 	        // 선택된 radio 버튼의 value와 그에 해당하는 price를 가져옴
 	        const product = selectedProduct.value;
