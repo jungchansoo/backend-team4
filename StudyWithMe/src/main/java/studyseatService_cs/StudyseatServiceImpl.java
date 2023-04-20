@@ -48,5 +48,7 @@ public class StudyseatServiceImpl implements StudyseatService{
 	public void returnseat(String id) {
 		mapper.movedata(id, "SEAT");
 		mapper.delete(id, "SEAT");
+		int duration = mapper.getduration(id, "SEAT");
+		mapper.updateRemainingSeatTime(id, duration);
 	}
 }
