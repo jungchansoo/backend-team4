@@ -23,7 +23,7 @@
     // Modal을 가져옵니다.
     var modals = document.getElementsByClassName("modal");
     // Modal을 띄우는 클래스 이름을 가져옵니다.
-    var btns = document.getElementsByClassName("btn");
+    var btns = document.getElementsByClassName("btnForModal");
     // Modal을 닫는 close 클래스를 가져옵니다.
     var spanes = document.getElementsByClassName("close");
     var funcs = [];
