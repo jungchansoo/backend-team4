@@ -11,8 +11,14 @@
 <meta charset="UTF-8">
 <title>MyPage</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+<!-- 헤드 태그 안에 들어가는 공통코드 -->
+<link rel="stylesheet" href="resources/css/userMainPage.css"
+	type="text/css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+	
 </head>
+<!-- 헤더 -->
+<%@include file="../includes/header.jsp"%>
 <body>
 	<h1>Mypage</h1>
 

@@ -72,7 +72,7 @@
 				<li><a href="/userMainPage" class="active header-link">Home</a></li>
 				<li><a href="#" class="header-link">공지사항</a></li>
 				<sec:authorize access="hasRole('ROLE_ADMIN')">
-					<li><a href="#" class="header-link">유저 관리</a></li>
+					<li><a href="/userlist" class="header-link">유저 관리</a></li>
 					<li><a href="#" class="header-link">요금 관리</a></li>
 				</sec:authorize>
 				<sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_MANAGER')">

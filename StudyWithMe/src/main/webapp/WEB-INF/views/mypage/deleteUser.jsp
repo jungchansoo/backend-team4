@@ -15,8 +15,14 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 
 <title>MyPage</title>
+<!-- 헤드 태그 안에 들어가는 공통코드 -->
+<link rel="stylesheet" href="resources/css/userMainPage.css"
+	type="text/css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+	
 </head>
-<body>
+<!-- 헤더 -->
+<%@include file="../includes/header.jsp"%><body>
 	<h1>Mypage</h1>
 
 	<style>

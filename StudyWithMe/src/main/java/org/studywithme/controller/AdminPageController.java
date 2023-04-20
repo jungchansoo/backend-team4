@@ -14,7 +14,6 @@ import org.studywithme.dto.PageDTO;
 import org.studywithme.service.AdminPageService;
 
 @Controller
-@RequestMapping("/adminpage/*")
 public class AdminPageController {
 
     @Autowired
@@ -28,7 +27,7 @@ public class AdminPageController {
         return "/adminpage/userManagement";
     }
     
-    @PostMapping("/deleteUser")
+    @PostMapping("/userDelete")
     @ResponseBody
     public String deleteUser(@RequestParam("userId") String userId) {
         int result = service.deleteAdminUser(userId);
