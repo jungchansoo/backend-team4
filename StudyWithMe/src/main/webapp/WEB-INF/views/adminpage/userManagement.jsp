@@ -100,15 +100,9 @@
 		<input type='hidden' name='keyword' value='<c:out value="${ pageMaker.cri.keyword }"/>'>
 	</form>
 
-	<!-- 모달 코드 -->
-<!-- 	<div id="deleteModal" class="modal">
-		<p>정말 탈퇴하시겠습니까?</p>
-		<button class="yes" onclick="deleteUser()">확인</button>
-		<button class="no" onclick="none()">취소</button>
-	</div> -->
 
 	<script>
-	const csrfTokenValue = $('#csrfToken').val();
+		const csrfTokenValue = $('#csrfToken').val();
 
 		function deleteUser(userId) {
 			if (confirm("정말 삭제하시겠습니까?")) {
@@ -116,8 +110,11 @@
 					type : "POST",
 					url : "/adminpage/deleteUser",
 					data : {
-						'X-CSRF-TOKEN' : csrfTokenValue,
-						userId : userId
+						'_csrf' : csrfTokenValue,
+						'userId' : userId
+					},
+					beforeSend : function(xhr) {
+						xhr.setRequestHeader("X-CSRF-TOKEN", csrfTokenValue);
 					},
 					success : function(response) {
 						if (response === "success") {
@@ -131,6 +128,7 @@
 			}
 		}
 	</script>
+
 
 	<script>
 	$(document).ready(function() {
@@ -157,11 +155,6 @@
 			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
 			actionForm.submit();
 		});
-		
-		$("#deleteBtn").click(function(){
-		    $("#deleteModal").show();
-		  });
-		
 		
 		
 	});
