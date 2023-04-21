@@ -56,12 +56,18 @@
 					</sec:authorize>
 				</p>
 				<div class="d-flex searchBar">
-					<h2 id="study-title" class="mr-auto title-text-color">스터디카페를
-						선택해주세요.</h2>
-					<button type="button"
-						class="btnForModal btn btn-outline-custom search-button">
-						<i class="bi bi-search"></i>
-					</button>
+					<sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
+						<h2 id="study-title" class="mr-auto title-text-color">스터디카페를
+							선택해주세요.</h2>
+						<button type="button"
+							class="btnForModal btn btn-outline-custom search-button">
+							<i class="bi bi-search"></i>
+						</button>
+					</sec:authorize>
+					<sec:authorize access="hasRole('ROLE_MANAGER')">
+						<h2 id="study-title" class="mr-auto title-text-color"><%=session.getAttribute("cafeName")%></h2>
+					</sec:authorize>
+
 				</div>
 				<hr class="line-divider">
 				<div class="d-flex buttons-container mb-3">
@@ -72,10 +78,13 @@
 							class="btnForModal btn btn-outline-primary btn-lg">QR 코드</button>
 					</sec:authorize>
 					<sec:authorize access="!isAuthenticated()">
-						<button type="button" class="btn btn-primary btn-lg mr-2"
+						<button type="button" class="btn btn-outline-primary btn-lg"
 							onclick="location.href='/login'">로그인</button>
 					</sec:authorize>
-
+					<sec:authorize access="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')">
+						<button type="button" class="btn btn-outline-primary btn-lg"
+							onclick="location.href='/logout'">로그아웃</button>
+					</sec:authorize>
 				</div>
 			</div>
 			<div class="col-lg-6 col-md-12 mb-3">
