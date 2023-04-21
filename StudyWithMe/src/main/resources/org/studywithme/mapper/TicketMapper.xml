@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.studywithme.mapper.TicketMapper">
+
+	<select id="getSeatTicketList" parameterType="map" resultType="org.studywithme.domain.TicketVO">
+		SELECT ticket_no AS "ticketNo"
+		      ,category AS "category"
+		      ,ticket_name AS "ticketName"
+		      ,price AS "price"
+		      ,charging_time AS "chargingTime"
+		  FROM tbl_ticket
+		 WHERE SYSDATE BETWEEN start_time AND end_time
+		   AND category = #{category}
+	</select>
+	
+	<select id="getStudyRoomTicketList" parameterType="map" resultType="org.studywithme.domain.TicketVO">
+		SELECT ticket_no AS "ticketNo"
+		      ,category AS "category"
+		      ,ticket_name AS "ticketName"
+		      ,price AS "price"
+		      ,charging_time AS "chargingTime"
+		  FROM tbl_ticket
+		 WHERE SYSDATE BETWEEN start_time AND end_time
+		   AND category = #{category}
+	</select>
+	
+	<select id="getLockerTicketList" parameterType="map" resultType="org.studywithme.domain.TicketVO">
+		SELECT ticket_no AS "ticketNo"
+		      ,category AS "category"
+		      ,ticket_name AS "ticketName"
+		      ,price AS "price"
+		      ,charging_time AS "chargingTime"
+		  FROM tbl_ticket
+		 WHERE SYSDATE BETWEEN start_time AND end_time
+		   AND category = #{category}
+	</select>
+
+</mapper>
