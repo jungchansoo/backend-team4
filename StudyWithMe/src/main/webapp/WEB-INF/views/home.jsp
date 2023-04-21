@@ -3,93 +3,179 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script
+	src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.min.js"></script>
+
+<link rel="stylesheet"
+	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet"
+	href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.min.css">
+
 <meta charset="UTF-8">
+<title>Study With Me</title>
 
 <style>
-/* 전체 스타일 설정 */
-* {
-	box-sizing: border-box;
+.list-container {
+	width: 70%;
+	margin: 0 auto;
+	margin-top: 20px; border : 1px solid black;
+	border-radius: 5px;
+	font-size: 20px;
+	border: 1px solid black;
+	border: 1px solid black;
 }
 
-body {
-	margin: 0;
-	font-family: Arial, sans-serif;
-}
-
-/* 헤더 스타일 설정 */
-header {
-	background-color: #FFF;
-	border-bottom: 1px solid #DDD;
+.list-container ul {
 	display: flex;
-	align-items: center;
-	justify-content: flex-start;
-	padding: 10px;
+	justify-content: space-between;
 }
 
-.logo {
-	font-weight: bold;
-	font-size: 24px;
-	color: #333;
-	text-decoration: none;
+li {
+	list-style-type: none;
+	margin-right: 50px;
+	margin-top: 10px;
 }
 
-img{
-	margin-left: 30px;
+select {
+	font-size: 20px;
+	border: none;
 }
 
-nav ul {
-	list-style: none;
-	margin: 0;
-	padding: 0;
+#datepicker {
+	width: 130px;
+	border: none;
+	font-size: 20px;
+}
+
+#calendar-btn {
+	background-color: white;
+	background-image: url("resources/image/calendar.png");
+	background-size: contain; /* 이미지 크기 유지 */
+	width: 20px; /* 버튼 너비 조정 */
+	height: 20px; /* 버튼 높이 조정 */
+	border: none; /* 버튼 테두리 제거 */
+	cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경 */
+}
+
+#timepicker {
+	font-size: 20px;
+	width: 80px;
+	border: none;
+}
+
+#title {
+	height: 50px;
+	background-color: #f2f2f2;
 	display: flex;
+	align-items: center; /* 수직 가운데 정렬 */
+	justify-content: center; /* 수평 가운데 정렬 */
 }
 
-nav li {
-	margin-right: 150px;
+#header {
+border-bottom: 1px solid black;
 }
 
-nav li:first-child {
-	margin-left: 150px;
+#header li {
+	font-size: 17px;
 }
 
-nav li:last-child {
-	margin-right: 0;
-}
-
-nav a {
-	color: #2196F3;
-	text-decoration: none;
-	font-size: 23px;
-	font-weight: bold;
-	transition: all 0.3s ease;
-}
-
-nav a:hover {
-	color: #035a9e;
+#reservation li{
+	
 }
 </style>
-<title>스터디센터</title>
-<link rel="stylesheet" href="style.css">
+
+
 </head>
 <body>
-	<header>
-	<a href="/userMainPage">
-		<img src="resources/image/logo.png"
-			alt="로고" width="70" height="70">
-			</a>
-		<nav>
+	<%@include file="includes/header.jsp"%>
+	<br>
+	<br>
+	
+	<div id="studyroomname" class="list-container">
+		<ul>
+			<li class="list">스터디룸</li>
+			<li class="list"><select>
+					<option value="1">스터디룸1</option>
+					<option value="2">스터디룸2</option>
+					<option value="3">스터디룸3</option>
+			</select></li>
+		</ul>
+	</div>
+
+
+	<div id="reservationdate" class="list-container">
+
+		<ul>
+			<li class="list">예약일자</li>
+			<li class="list"><input type="text" id="datepicker"
+				readonly="true">
+				<button id="calendar-btn"></button></li>
+		</ul>
+	</div>
+
+	<div id="starttime" class="list-container">
+		<ul>
+			<li class="list">시작시간</li>
+			<li class="list"><input type="text" id="timepicker"
+				class="form-control"></li>
+		</ul>
+	</div>
+	<div id="usetime" class="list-container">
+		<ul>
+			<li class="list">사용시간</li>
+			<li class="list"><select>
+					<option value="1">1시간</option>
+					<option value="2">2시간</option>
+					<option value="3">4시간</option>
+			</select></li>
+		</ul>
+	</div>
+
+	<div id="reservation" class="list-container">
+		<div id="title">
+			<strong>스터디룸 예약현황</strong>
+		</div>
+		<div id="header">
 			<ul>
-			<!-- 공지사항,스터디석,사물함,스터디룸,응원리뷰는 메인페이지에서 선택한 스터디카페no 가 넘어가야함. a태그 처리로 안됨 -->
-			<!-- 아래 a태그는 임시로 넣어둠 -->
-				<li><a href="/userMainPage" class="active">Home</a></li>
-				<li><a href="#">공지사항</a></li>
-				<li><a href="/userstudyseat">스터디석</a></li>
-				<li><a href="#">사물함</a></li>
-				<li><a href="#">스터디룸</a></li>
-				<li><a href="#">응원리뷰</a></li>
-				<li><a href="/userinfo">마이페이지</a></li>
+				<li id="header1" class="list"><strong>스터디룸번호</strong></li>
+				<li id="header2" class="list"><strong>시작시간</strong></li>
+				<li id="header3" class="list"><strong>종료시간</strong></li>
+				<li id="header4" class="list"><strong>아이디</strong></li>
 			</ul>
-		</nav>
-	</header>
+		</div>
+		<div id="content">
+			<ul>
+				<li class="list">1</li>
+				<li class="list">2023-04-13 05:50:15</li>
+				<li class="list">2023-04-13 05:50:15</li>
+				<li class="list">testadmin</li>
+			</ul>
+		</div>
+	</div>
+
+	<script>
+		$(document).ready(function() {
+			$("#datepicker").datepicker({
+				dateFormat : 'yy-mm-dd',
+				onSelect : function(dateText) {
+					$('#datepicker').val(dateText);
+				}
+			});
+			$('#calendar-btn').click(function() {
+				$("#datepicker").datepicker("show");
+			});
+			$('#timepicker').timepicker({
+				minuteStep : 10, // 분 단위로 선택할 수 있는 간격
+				showMeridian : false
+			// 오전/오후 표시 여부
+			});
+		});
+	</script>
 </body>
 </html>

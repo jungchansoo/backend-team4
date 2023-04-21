@@ -12,6 +12,10 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <style>
+
+.close-modal  {
+    display: none !important;
+}
 body {
 	font-family: "paybooc-Light", sans-serif;
 	font-size: 25px;
