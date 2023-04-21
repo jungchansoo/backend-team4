@@ -22,7 +22,7 @@
 <body>
 	<h1>Mypage</h1>
 
-	<style>
+	<!-- <style>
 ul {
 	list-style-type: none;
 	padding: 0px;
@@ -55,7 +55,7 @@ li a.chagepw {
 .cd1 {
 	margin-left: 140px;
 }
-</style>
+</style> -->
 
 
 
@@ -86,7 +86,7 @@ li a.chagepw {
 		<input type="password" id="pw_confirm" name="newPasswordConfirm" required>
 	</div>
 	<button type="submit">변경하기</button>
-	<input type="button" value="뒤로가기" onclick="location.href='main.jsp'">
+	<input type="button" value="뒤로가기" onclick="location.href='userMainPage'">
 </form>
 
 
@@ -133,11 +133,12 @@ $(document).ready(function() {
       success: function(data) {
         // 비밀번호 변경 성공시
         alert("비밀번호가 성공적으로 변경되었습니다.");
-        location.reload(); // 페이지 새로고침
+        location.href = "/userinfo";
       },
       error: function(xhr, status, error) {
         // 비밀번호 변경 실패시
         alert("비밀번호 변경에 실패했습니다. 잠시 후 다시 시도해주세요.");
+        
       }
     });
   });
