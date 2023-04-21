@@ -5,36 +5,111 @@
 <mapper namespace="org.studywithme.mapper.TicketMapper">
 
 	<select id="getSeatTicketList" parameterType="map" resultType="org.studywithme.domain.TicketVO">
-		SELECT ticket_no AS "ticketNo"
-		      ,category AS "category"
-		      ,ticket_name AS "ticketName"
-		      ,price AS "price"
-		      ,charging_time AS "chargingTime"
+		SELECT ticket_no AS ticketNo
+		      ,category AS category
+		      ,ticket_name AS ticketName
+		      ,price AS price
+		      ,charging_time AS chargingTime
+		      ,TO_CHAR(start_time, 'YYYY/MM/DD') AS startTime
+		      ,TO_CHAR(end_time, 'YYYY/MM/DD') AS endTime
 		  FROM tbl_ticket
 		 WHERE SYSDATE BETWEEN start_time AND end_time
 		   AND category = #{category}
 	</select>
 	
 	<select id="getStudyRoomTicketList" parameterType="map" resultType="org.studywithme.domain.TicketVO">
-		SELECT ticket_no AS "ticketNo"
-		      ,category AS "category"
-		      ,ticket_name AS "ticketName"
-		      ,price AS "price"
-		      ,charging_time AS "chargingTime"
+		SELECT ticket_no AS ticketNo
+		      ,category AS category
+		      ,ticket_name AS ticketName
+		      ,price AS price
+		      ,charging_time AS chargingTime
+		      ,TO_CHAR(start_time, 'YYYY/MM/DD') AS startTime
+		      ,TO_CHAR(end_time, 'YYYY/MM/DD') AS endTime
 		  FROM tbl_ticket
 		 WHERE SYSDATE BETWEEN start_time AND end_time
 		   AND category = #{category}
 	</select>
 	
 	<select id="getLockerTicketList" parameterType="map" resultType="org.studywithme.domain.TicketVO">
-		SELECT ticket_no AS "ticketNo"
-		      ,category AS "category"
-		      ,ticket_name AS "ticketName"
+		SELECT ticket_no AS ticketNo
+		      ,category AS category
+		      ,ticket_name AS ticketName
 		      ,price AS "price"
-		      ,charging_time AS "chargingTime"
+		      ,charging_time AS chargingTime
+		      ,TO_CHAR(start_time, 'YYYY/MM/DD') AS startTime
+		      ,TO_CHAR(end_time, 'YYYY/MM/DD') AS endTime
 		  FROM tbl_ticket
 		 WHERE SYSDATE BETWEEN start_time AND end_time
 		   AND category = #{category}
 	</select>
+	
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'I'.toString()">
+							user_id like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'N'.toString()">
+							username like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'P'.toString()">
+							phone_number like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+	
+	<select id="getTotalCount"
+	        resultType="int"
+	        parameterType="org.studywithme.domain.Criteria">
+		SELECT COUNT(1)
+		  FROM tbl_ticket
+		 WHERE
+		      <include refid="criteria"></include>
+		      ticket_no > 0
+	</select>
+	
+	<select id="getTicketList"
+	        resultType="org.studywithme.domain.TicketVO"
+		    parameterType="org.studywithme.domain.Criteria">
+ 		SELECT ticket_no AS ticketNo
+		       ,category AS category
+		       ,ticket_name AS ticketName
+		       ,price AS price
+		       ,charging_time AS chargingTime
+		       ,TO_CHAR(start_time, 'YYYY/MM/DD') AS startTime
+		       ,TO_CHAR(end_time, 'YYYY/MM/DD') AS endTime
+		  FROM (
+		       SELECT /*+ index_desc(tbl_ticket SYS_C0021886) */ -- 인덱 힌트라 합니닺
+		              rownum rn
+		             ,ticket_no
+		             ,category
+		             ,ticket_name
+		             ,price
+		             ,charging_time
+		             ,start_time
+		             ,end_time
+		         FROM tbl_ticket
+		        WHERE 
+		              <choose>
+						<when test="type == 'I'.toString()">
+							user_id like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'N'.toString()">
+							username like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'P'.toString()">
+							phone_number like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+		              rownum <![CDATA[<=]]> #{pageNum} * #{amount}
+      	 )
+  		 WHERE rn <![CDATA[>]]> (#{pageNum} -1) * #{amount} 
+	</select>
+	
 
 </mapper>

@@ -42,6 +42,7 @@
 		) 
 		WHERE rnum BETWEEN ((#{currentPage} - 1) * #{perPage}) AND (#{currentPage} * #{perPage}) 
 	</select>
+	
 	<select id="getStudyCafeByUserID"
 		parameterType="map"
 		resultType="org.studywithme.domain.StudyCafeVO">

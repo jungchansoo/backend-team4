@@ -5,7 +5,6 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -106,7 +105,7 @@
 		document.getElementById("modal_open_btn").onclick = function() {
 	        document.getElementById("modal").style.display="block";
 	        
-	     // 선택된 radio 버튼 요소를 가져옴
+	     	// 선택된 radio 버튼 요소를 가져옴
 	        const selectedProduct = document.querySelector('input[name="product"]:checked');
 	        
 	        // 선택된 radio 버튼의 value와 그에 해당하는 price를 가져옴
