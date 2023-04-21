@@ -52,7 +52,7 @@
 					님 환영합니다.
 				</p>
 				<div class="d-flex searchBar">
-					<h2 id="study-title" class="mr-auto title-text-color">스터디카페 위치</h2>
+					<h2 id="study-title" class="mr-auto title-text-color">스터디카페를 선택해주세요.</h2>
 					<button type="button"
 						class="btnForModal btn btn-outline-custom search-button">
 						<i class="bi bi-search"></i>
