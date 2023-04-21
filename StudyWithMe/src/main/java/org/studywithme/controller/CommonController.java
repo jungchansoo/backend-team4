@@ -1,5 +1,8 @@
 package org.studywithme.controller;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +15,9 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class CommonController {
 
+	@Autowired
+	private HttpSession session;
+	
 	@GetMapping("/accessError")
 	public String accessDenied(Authentication auth, Model model) {
 
@@ -40,7 +46,7 @@ public class CommonController {
 
 	@GetMapping("/logout")
 	public String logoutGET() {
-
+	    session.invalidate();
 		log.info("custom logout");
 		return "redirect:/login";
 
@@ -48,7 +54,7 @@ public class CommonController {
 
 	@PostMapping("/logout")
 	public String logoutPost() {
-
+	    session.invalidate();
 		log.info("post custom logout");
 		return "redirect:/login";
 	}

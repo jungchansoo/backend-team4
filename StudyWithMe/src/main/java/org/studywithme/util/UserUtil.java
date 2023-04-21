@@ -30,7 +30,7 @@ public class UserUtil {
 	
 	public UserVO getUserDetails() {
 	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-	    if (authentication == null) {
+	    if (authentication == null || !(authentication.getPrincipal() instanceof CustomUser)) {
 	        return null;
 	    }
         CustomUser customUser = (CustomUser) authentication.getPrincipal();
