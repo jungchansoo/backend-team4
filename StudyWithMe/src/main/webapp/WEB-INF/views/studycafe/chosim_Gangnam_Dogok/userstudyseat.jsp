@@ -18,10 +18,7 @@ a {
 	text-decoration: none;
 }
 
-#seatcheck, #returnseat {
-	width: 230px;
-	text-align: center;
-}
+
 
 .yes {
 	margin-left: 0px;
@@ -36,9 +33,10 @@ a {
 #seatreservation {
 	padding: 0px;
 	padding-bottom: 10px;
-	width: 200px;
+	width: 300px;
 	text-align: center;
-	font-size: 12px;
+	font-family: "paybooc-Light", sans-serif;
+	font-size: 16px;
 }
 
 ul {
@@ -86,13 +84,19 @@ ul>.time {
 	cursor: pointer;
 }
 
-#reservationsuccess, #timefail, #usefail, #returnseatsuccess, #returnseatfail, #alreadyuse{
-	width: 250px;
+#seatcheck, #returnseat, #reservationsuccess, #timefail, #usefail, #returnseatsuccess, #returnseatfail, #alreadyuse, #room, #locker{
+	width: 400px;
 	text-align: center;
+	font-family: "paybooc-Light", sans-serif;
+	font-size: 16px;
 }
 
 .check{
 	cursor: pointer;
+}
+
+.empty{
+	margin-top: 80px;
 }
 </style>
 
@@ -102,7 +106,8 @@ ul>.time {
 <body>
 <!-- 헤더 -->
 	<%@include file ="../../includes/header.jsp" %>
-	<br>
+	<div class="empty"></div>
+	
 	<%@ include file="studyseat.jsp"%>
 	
 	
@@ -179,6 +184,21 @@ ul>.time {
 		<a class="check" onClick="location.reload()">확인</a>
 	</div>
 	
+	<div id="locker" class="modal">
+		<p class="checkmessage">상단의 사물함 메뉴를 이용해주세요.</p>
+		<a class="check" onClick="location.reload()">확인</a>
+	</div>
+	
+	<div id="room" class="modal">
+		<p class="checkmessage">상단의 스터디석 메뉴를 이용해주세요.</p>
+		<a class="check" onClick="location.reload()">확인</a>
+	</div>
+	
+	<div id="returnseatfail" class="modal">
+		<p class="checkmessage">좌석 반납이 실패하였습니다.</p>
+		<p class="checkmessage">잠시 후 다시 시도해 주세요.</p>
+		<a class="check" onClick="location.reload()">확인</a>
+	</div>
 	<input id="csrfToken" type="hidden" name="${_csrf.parameterName}"
 		value="${_csrf.token}" />
 	
@@ -201,6 +221,12 @@ ul>.time {
 			
 		}
 
+		function clickroom(num) {
+			$('#room').modal('show');
+		}
+		function clicklocker(num) {
+			$('#locker').modal('show');
+		}
 		function reservation() {
 			today();
 			$('#seatreservation').modal('show');

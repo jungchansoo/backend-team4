@@ -25,7 +25,7 @@
 <%@include file="../includes/header.jsp"%><body>
 	<h1>Mypage</h1>
 
-	<style>
+	<!-- <style>
 ul {
 	list-style-type: none;
 	padding: 0px;
@@ -58,7 +58,7 @@ li a.deleteid {
 .cd1 {
 	margin-left: 140px;
 }
-</style>
+</style> -->
 
 	<ul>
 		<li><a class="userinfo" href="/userinfo">회원정보</a></li>

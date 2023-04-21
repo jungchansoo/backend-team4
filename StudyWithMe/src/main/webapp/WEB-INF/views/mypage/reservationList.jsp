@@ -21,7 +21,7 @@
 <body>
 	<h1>Mypage</h1>
 
-	<style>
+	<!-- <style>
 ul {
 	list-style-type: none;
 	padding: 0;
@@ -81,7 +81,7 @@ li a.reservatelist {
 .cd1 {
 	margin-left: 140px;
 }
-</style>
+</style> -->
 
 	<ul>
   <li><a class="userinfo" href="/userinfo">회원정보</a></li>

@@ -19,11 +19,13 @@ import org.studywithme.util.changetime;
 import lombok.extern.log4j.Log4j;
 
 @Controller
-@Log4j
 public class UserStudySeatController {
 	@Autowired
 	private StudyseatService service;
 
+	@Autowired
+	private UserUtil util;
+	
 	@Autowired
 	HttpSession session;
 	
@@ -69,13 +71,14 @@ public class UserStudySeatController {
 	
 	@PostMapping("/userstudyseat/return")
 	public ResponseEntity<String> returnseat(@RequestParam("user_id") String user_id) {
-		
 		try {
 			service.returnseat(user_id);
 			return ResponseEntity.ok("Returnseat Successful");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Returnseat Failed");
+		}finally {
+			util.refreshUserDetails(user_id);
 		}
 	}
 }
