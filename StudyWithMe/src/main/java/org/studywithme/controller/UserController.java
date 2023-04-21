@@ -87,10 +87,10 @@ public class UserController {
     	try {
 			service.registerWithPwEncoding(userVO);
 			log.info("회원가입 성공!!");
-			return "redirect:/sample/all";
+			return "redirect:/login";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "redirect:/sample/all";
+			return "redirect:/login";
 		}
     }
 
