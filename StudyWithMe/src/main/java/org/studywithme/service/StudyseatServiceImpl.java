@@ -24,8 +24,7 @@ public class StudyseatServiceImpl implements StudyseatService {
 	@Setter(onMethod_ = @Autowired)
 	private StudyseatMapper mapper;
 
-	@Autowired
-	private UserUtil util;
+	
 	
 	@Override
 	public List<SeatVO> useseat(int cafeno) {
@@ -53,6 +52,5 @@ public class StudyseatServiceImpl implements StudyseatService {
 		mapper.delete(id, "SEAT");
 		int duration = mapper.getduration(id, "SEAT");
 		mapper.updateRemainingSeatTime(duration, id);
-		util.refreshUserDetails(id);
 	}
 }
