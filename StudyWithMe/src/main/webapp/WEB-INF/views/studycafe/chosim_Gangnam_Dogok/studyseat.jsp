@@ -457,9 +457,9 @@ margin-left: 18px;
 		<div id="seat_56" class="seat" onclick="clickseat('56')"></div>
 		<div id="seat_57" class="seat" onclick="clickseat('57')"></div>
 		<div id="seat_58" class="seat" onclick="clickseat('58')"></div>
-		<div id="room_1"></div>
-		<div id="locker_1"></div>
-		<div id="locker_2"></div>
+		<div id="room_1" class="room" onclick="clickroom('1')"></div>
+		<div id="locker_1" class="locker" onclick="clicklocker('1')"></div>
+		<div id="locker_2" class="locker" onclick="clicklocker('2')"></div>
 	</div>
 </body>
 

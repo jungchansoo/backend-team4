@@ -20,7 +20,9 @@ import lombok.extern.log4j.Log4j;
 @RequiredArgsConstructor
 public class KakaoPayReadyController {
     private final KakaoPayService kakaopay;
-    
+	@Autowired
+	private UserUtil localutil;
+	
     @GetMapping("/kakaoPay")
     public String kakaoPay(@RequestParam("product") String product, @RequestParam("price") String price, HttpSession session) {
         log.info("kakaoPay post............................................");
@@ -50,6 +52,9 @@ public class KakaoPayReadyController {
         log.info("kakaoPaySuccess pg_token : " + pg_token);
         
         model.addAttribute("info", kakaopay.kakaoPayInfo(pg_token, product, price, vo.getUserId()));
+        
+        //ID를 기반으로 유저 정보를 서버에서 새롭게 받아옴.
+        localutil.refreshUserDetails(util.getUserDetails().getUserId());
         
         // 결제 완료 후 이동 페이지
         return "redirect:/userMainPage";

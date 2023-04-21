@@ -52,7 +52,7 @@
 					님 환영합니다.
 				</p>
 				<div class="d-flex searchBar">
-					<h2 id="study-title" class="mr-auto title-text-color">스터디카페 위치</h2>
+					<h2 id="study-title" class="mr-auto title-text-color">스터디카페를 선택해주세요.</h2>
 					<button type="button"
 						class="btnForModal btn btn-outline-custom search-button">
 						<i class="bi bi-search"></i>
@@ -60,10 +60,13 @@
 				</div>
 				<hr class="line-divider">
 				<div class="d-flex buttons-container mb-3">
-					<button type="button" class="btn btn-primary btn-lg mr-2"
-						onclick="location.href='/paymentSeatPage'">충전하기</button>
-					<button type="button"
-						class="btnForModal btn btn-outline-primary btn-lg">QR 코드</button>
+					<sec:authorize access="hasRole('ROLE_USER')">
+						<button type="button" class="btn btn-primary btn-lg mr-2"
+							onclick="location.href='/paymentSeatPage'">충전하기</button>
+						<button type="button"
+							class="btnForModal btn btn-outline-primary btn-lg">QR 코드</button>
+					</sec:authorize>
+
 				</div>
 			</div>
 			<div class="col-lg-6 col-md-12 mb-3">
@@ -72,9 +75,9 @@
 			</div>
 		</div>
 	</div>
-	
-	
-	
+
+
+
 	<!-- Modal -->
 	<div class="modal">
 		<div class="modal-content">
