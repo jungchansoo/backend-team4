@@ -37,6 +37,8 @@
 	list-style: none;
 	margin: 0;
 	padding: 0;
+	background: none;
+	
 }
 
 .header-nav li {
@@ -62,24 +64,29 @@
 <header class="header">
 	<nav class="header-nav">
 		<ul>
-			<!-- 공지사항,스터디석,사물함,스터디룸,응원리뷰는 메인페이지에서 선택한 스터디카페no 가 넘어가야함. a태그 처리로 안됨 -->
-			<!-- 아래 a태그는 임시로 넣어둠 -->
-			<li><a href="/userMainPage"> <img
+
+			<li><a href="/"> <img
 					src="resources/image/logo.png" alt="로고" width="100" height="100"
 					class="header-logo">
 			</a></li>
-			<li><a href="/userMainPage" class="active header-link">Home</a></li>
+			<li><a href="/" class="active header-link">Home</a></li>
 			<li><a href="#" class="header-link">공지사항</a></li>
 			<sec:authorize access="hasRole('ROLE_ADMIN')">
 				<li><a href="/userlist" class="header-link">유저 관리</a></li>
 				<li><a href="#" class="header-link">요금 관리</a></li>
 			</sec:authorize>
-			<sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_MANAGER')">
+			<sec:authorize access="hasAnyRole('ROLE_USER')">
 				<li><a href="/userstudyseat" class="header-link">스터디석</a></li>
 				<li><a href="#" class="header-link">사물함</a></li>
 				<li><a href="#" class="header-link">스터디룸</a></li>
 				<li><a href="#" class="header-link">응원리뷰</a></li>
 				<li><a href="/userinfo" class="header-link">마이페이지</a></li>
+			</sec:authorize>
+			<sec:authorize access="hasAnyRole('ROLE_MANAGER')">
+				<li><a href="#" class="header-link">스터디석 관리</a></li>
+				<li><a href="#" class="header-link">사물함 관리</a></li>
+				<li><a href="#" class="header-link">스터디룸 관리</a></li>
+				<li><a href="#" class="header-link">응원리뷰 관리</a></li>
 			</sec:authorize>
 			<sec:authorize access="isAuthenticated()">
 				<li><a href="/logout" class="header-link">로그아웃</a></li>

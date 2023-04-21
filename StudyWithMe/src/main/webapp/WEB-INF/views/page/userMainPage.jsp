@@ -48,22 +48,43 @@
 			<div class="col-lg-6 col-md-12">
 				<h1 class="display-4 title-text-color">스터디 위드 미</h1>
 				<p class="lead user-text-color">
-					<sec:authentication property="principal.username" />
-					님 환영합니다.
+					<sec:authorize access="isAuthenticated()">
+						<sec:authentication property="principal.username" /> 님 환영합니다.
+					</sec:authorize>
+					<sec:authorize access="!isAuthenticated()">
+						스터디 위드 미 서비스에 오신 것을 환영합니다.
+					</sec:authorize>
 				</p>
 				<div class="d-flex searchBar">
-					<h2 id="study-title" class="mr-auto title-text-color">스터디카페 위치</h2>
-					<button type="button"
-						class="btnForModal btn btn-outline-custom search-button">
-						<i class="bi bi-search"></i>
-					</button>
+					<sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
+						<h2 id="study-title" class="mr-auto title-text-color">스터디카페를
+							선택해주세요.</h2>
+						<button type="button"
+							class="btnForModal btn btn-outline-custom search-button">
+							<i class="bi bi-search"></i>
+						</button>
+					</sec:authorize>
+					<sec:authorize access="hasRole('ROLE_MANAGER')">
+						<h2 id="study-title" class="mr-auto title-text-color"><%=session.getAttribute("cafeName")%></h2>
+					</sec:authorize>
+
 				</div>
 				<hr class="line-divider">
 				<div class="d-flex buttons-container mb-3">
-					<button type="button" class="btn btn-primary btn-lg mr-2"
-						onclick="location.href='/paymentSeatPage'">충전하기</button>
-					<button type="button"
-						class="btnForModal btn btn-outline-primary btn-lg">QR 코드</button>
+					<sec:authorize access="hasRole('ROLE_USER')">
+						<button type="button" class="btn btn-primary btn-lg mr-2"
+							onclick="location.href='/paymentSeatPage'">충전하기</button>
+						<button type="button"
+							class="btnForModal btn btn-outline-primary btn-lg">QR 코드</button>
+					</sec:authorize>
+					<sec:authorize access="!isAuthenticated()">
+						<button type="button" class="btn btn-outline-primary btn-lg"
+							onclick="location.href='/login'">로그인</button>
+					</sec:authorize>
+					<sec:authorize access="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')">
+						<button type="button" class="btn btn-outline-primary btn-lg"
+							onclick="location.href='/logout'">로그아웃</button>
+					</sec:authorize>
 				</div>
 			</div>
 			<div class="col-lg-6 col-md-12 mb-3">
@@ -72,9 +93,9 @@
 			</div>
 		</div>
 	</div>
-	
-	
-	
+
+
+
 	<!-- Modal -->
 	<div class="modal">
 		<div class="modal-content">

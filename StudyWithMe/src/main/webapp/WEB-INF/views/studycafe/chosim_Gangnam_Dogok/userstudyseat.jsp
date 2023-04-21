@@ -4,23 +4,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
-
 <title>Study With Me</title>
 <style>
+.modal-backdrop {
+  pointer-events: none;
+}
+
+.modal-dialog {
+  pointer-events: auto;
+}
+
 a {
 	color: black;
 	text-decoration: none;
-}
-
-#seatcheck, #returnseat {
-	width: 230px;
-	text-align: center;
 }
 
 .yes {
@@ -36,9 +32,10 @@ a {
 #seatreservation {
 	padding: 0px;
 	padding-bottom: 10px;
-	width: 200px;
+	width: 300px;
 	text-align: center;
-	font-size: 12px;
+	font-family: "paybooc-Light", sans-serif;
+	font-size: 16px;
 }
 
 ul {
@@ -86,13 +83,19 @@ ul>.time {
 	cursor: pointer;
 }
 
-#reservationsuccess, #timefail, #usefail, #returnseatsuccess, #returnseatfail, #alreadyuse{
-	width: 250px;
+#seatcheck, #returnseat, #reservationsuccess, #timefail, #usefail, #returnseatsuccess, #returnseatfail, #alreadyuse, #room, #locker{
+	width: 400px;
 	text-align: center;
+	font-family: "paybooc-Light", sans-serif;
+	font-size: 16px;
 }
 
 .check{
 	cursor: pointer;
+}
+
+.emptyarea{
+	margin-top: 10px;
 }
 </style>
 
@@ -102,7 +105,8 @@ ul>.time {
 <body>
 <!-- 헤더 -->
 	<%@include file ="../../includes/header.jsp" %>
-	<br>
+	<div class="emptyarea"></div>
+	
 	<%@ include file="studyseat.jsp"%>
 	
 	
@@ -179,6 +183,21 @@ ul>.time {
 		<a class="check" onClick="location.reload()">확인</a>
 	</div>
 	
+	<div id="locker" class="modal">
+		<p class="checkmessage">상단의 사물함 메뉴를 이용해주세요.</p>
+		<a class="check" onClick="location.reload()">확인</a>
+	</div>
+	
+	<div id="room" class="modal">
+		<p class="checkmessage">상단의 스터디룸 메뉴를 이용해주세요.</p>
+		<a class="check" onClick="location.reload()">확인</a>
+	</div>
+	
+	<div id="returnseatfail" class="modal">
+		<p class="checkmessage">좌석 반납이 실패하였습니다.</p>
+		<p class="checkmessage">잠시 후 다시 시도해 주세요.</p>
+		<a class="check" onClick="location.reload()">확인</a>
+	</div>
 	<input id="csrfToken" type="hidden" name="${_csrf.parameterName}"
 		value="${_csrf.token}" />
 	
@@ -192,18 +211,24 @@ ul>.time {
 			<c:if test="${map == null}">
 				seatnum = arguments[0];
 				$('.seatnum').text(arguments[0] + '번 좌석을 예약 하시겠습니까?');
-				$('#seatcheck').modal('show');
+				$('#seatcheck').modal({backdrop: 'static', keyboard: false});
 			</c:if>
 			
 			<c:if test="${map != null}">
-			$('#alreadyuse').modal('show');
+			$('#alreadyuse').modal({backdrop: 'static', keyboard: false});
 			</c:if>
 			
 		}
 
+		function clickroom(num) {
+			$('#room').modal({backdrop: 'static', keyboard: false});
+		}
+		function clicklocker(num) {
+			$('#locker').modal({backdrop: 'static', keyboard: false});
+		}
 		function reservation() {
 			today();
-			$('#seatreservation').modal('show');
+			$('#seatreservation').modal({backdrop: 'static', keyboard: false});
 		}
 
 		function today() {
@@ -225,7 +250,7 @@ ul>.time {
 		function timecheck(){
 			var remainingSeatTime = '${time}';
 			if('${long_time}' <= 0){
-				$('#timefail').modal('show');
+				$('#timefail').modal({backdrop: 'static', keyboard: false});
 			}else{
 				send();
 			}
@@ -244,14 +269,15 @@ ul>.time {
 					seatnum.style.pointerEvents = "none";
 				}
 			</c:forEach>
+			
 		})();
 		
 		function returnseat() {
-			$('#returnseat').modal('show');
+			$('#returnseat').modal({backdrop: 'static', keyboard: false});
 		}
 		
 		function returnseatsuccess() {
-			$('#returnseatsuccess').modal('show');
+			$('#returnseatsuccess').modal({backdrop: 'static', keyboard: false});
 		}
 		
 		function send() {
@@ -268,10 +294,10 @@ ul>.time {
 					cafe_no : '${cafeno}'
 				},
 				success : function(result) {
-					$('#reservationsuccess').modal('show');
+					$('#reservationsuccess').modal({backdrop: 'static', keyboard: false});
 				},
 				error : function(jqXHR, textStatus, errorThrown) {
-					$('#usefail').modal('show');
+					$('#usefail').modal({backdrop: 'static', keyboard: false});
 				}
 				
 			});
@@ -289,10 +315,10 @@ ul>.time {
 					user_id : '${id}'
 				},
 				success : function(result) {
-					$('#returnseatsuccess').modal('show');
+					$('#returnseatsuccess').modal({backdrop: 'static', keyboard: false});
 				},
 				error : function(jqXHR, textStatus, errorThrown) {
-					$('#returnseatfail').modal('show');
+					$('#returnseatfail').modal({backdrop: 'static', keyboard: false});
 				}
 				
 			});

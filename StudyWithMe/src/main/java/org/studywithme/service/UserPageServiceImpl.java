@@ -25,4 +25,10 @@ public class UserPageServiceImpl implements UserPageService {
 	public int getTotalCount(String keyword) {
 		return mapper.getTotalCount(keyword);
 	}
+
+	@Override
+	public StudyCafeVO getStudyCafeByUserID(String userId) {
+		return mapper.getStudyCafeByUserID(userId);
+	}
+
 }

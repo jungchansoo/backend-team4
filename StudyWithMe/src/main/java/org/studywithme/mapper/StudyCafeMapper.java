@@ -10,4 +10,6 @@ public interface StudyCafeMapper {
 	public int getTotalCount(String keyword);
 
 	public List<StudyCafeVO> selectStudyCafeList(@Param("keyword") String keyword, @Param("currentPage") int currentPage, @Param("perPage") int perPage);
+
+	public StudyCafeVO getStudyCafeByUserID(String UserId);
 }

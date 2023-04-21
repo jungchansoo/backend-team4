@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.studywithme.domain.SeatVO;
 import org.studywithme.exception.SeatNotAvailableException;
-import org.studywithme.mapper.StudyseatMapper;
+import org.studywithme.mapper.StudyseatandroomandlockerMapper;
 import org.studywithme.util.UserUtil;
 
 import lombok.AllArgsConstructor;
@@ -22,14 +22,11 @@ import lombok.extern.log4j.Log4j;
 public class StudyseatServiceImpl implements StudyseatService {
 
 	@Setter(onMethod_ = @Autowired)
-	private StudyseatMapper mapper;
+	private StudyseatandroomandlockerMapper mapper;
 
-	@Autowired
-	private UserUtil util;
-	
 	@Override
 	public List<SeatVO> useseat(int cafeno) {
-		return mapper.readuseseat(cafeno);
+		return mapper.readuse(cafeno,"SEAT");
 	}
 
 	@Override
@@ -40,7 +37,7 @@ public class StudyseatServiceImpl implements StudyseatService {
 	@Override
 	@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
 	public void insertseat(int cafe_no, int num_using, String id) {
-		boolean isAvailable = mapper.isSeatAvailable(cafe_no, num_using);
+		boolean isAvailable = mapper.isAvailable(cafe_no, num_using,"SEAT");
 		if (isAvailable) {
 			throw new SeatNotAvailableException();
 		}
@@ -53,6 +50,5 @@ public class StudyseatServiceImpl implements StudyseatService {
 		mapper.delete(id, "SEAT");
 		int duration = mapper.getduration(id, "SEAT");
 		mapper.updateRemainingSeatTime(duration, id);
-		util.refreshUserDetails(id);
 	}
 }

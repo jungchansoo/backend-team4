@@ -12,349 +12,353 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <style>
-body {
-	font-size: 10px;
-}
 
+.close-modal  {
+    display: none !important;
+}
+body {
+	font-family: "paybooc-Light", sans-serif;
+	font-size: 25px;
+}
 #seatimage {
 	position: relative;
-	width: 402px;
-	height: 423px;
-	background: url("resources/image/studyseat.jpg");
+	width: 714px;
+	height: 751px;
+	background: url("resources/image/studyseat2.jpg");
 	background-repeat: no-repeat;
 	margin: 0 auto;
 }
 
 #seatimage>div {
 	position: absolute;
-	width: 22px;
-	height: 22px;
+	width: 39px;
+	height: 39px;
 	cursor: pointer;
 	opacity: 0.5;
 }
 
 #seatimage>#seat_1 {
-	top: 63px;
-	left: 9px;
+	top: 110px;
+	left: 15px;
 }
 
 #seatimage>#seat_2 {
-	top: 63px;
-	left: 32px;
+	top: 110px;
+	left: 56px;
 }
 
 #seatimage>#seat_3 {
-	top: 63px;
-	left: 71px;
+	top: 110px;
+	left: 125px;
 }
 
 #seatimage>#seat_4 {
-	top: 63px;
-	left: 94px;
+	top: 110px;
+	left: 166px;
 }
 
 #seatimage>#seat_5 {
-	top: 63px;
-	left: 133px;
+	top: 110px;
+	left: 236px;
 }
 
 #seatimage>#seat_6 {
-	top: 63px;
-	left: 156px;
+	top: 110px;
+	left: 277px;
 }
 
 #seatimage>#seat_7 {
-	top: 63px;
-	left: 195px;
+	top: 110px;
+	left: 346px;
 }
 
 #seatimage>#seat_8 {
-	top: 86px;
-	left: 9px;
+	top: 151px;
+	left: 15px;
 }
 
 #seatimage>#seat_9 {
-	top: 86px;
-	left: 32px;
+	top: 151px;
+	left: 56px;
 }
 
 #seatimage>#seat_10 {
-	top: 86px;
-	left: 71px;
+	top: 151px;
+	left: 125px;
 }
 
 #seatimage>#seat_11 {
-	top: 86px;
-	left: 94px;
+	top: 151px;
+	left: 166px;
 }
 
 #seatimage>#seat_12 {
-	top: 86px;
-	left: 133px;
+	top: 151px;
+	left: 236px;
 }
 
 #seatimage>#seat_13 {
-	top: 86px;
-	left: 156px;
+	top: 151px;
+	left: 277px;
 }
 
 #seatimage>#seat_14 {
-	top: 86px;
-	left: 195px;
+	top: 151px;
+	left: 346px;
 }
 
 #seatimage>#seat_15 {
-	top: 147px;
-	left: 142px;
+	top: 261px;
+	left: 252px;
 }
 
 #seatimage>#seat_16 {
-	top: 147px;
-	left: 182px;
+	top: 261px;
+	left: 323px;
 }
 
 #seatimage>#seat_17 {
-	top: 147px;
-	left: 206px;
+	top: 261px;
+	left: 364px;
 }
 
 #seatimage>#seat_18 {
-	top: 170px;
-	left: 142px;
+	top: 302px;
+	left: 252px;
 }
 
 #seatimage>#seat_19 {
-	top: 170px;
-	left: 182px;
+	top: 302px;
+	left: 323px;
 }
 
 #seatimage>#seat_20 {
-	top: 170px;
-	left: 206px;
+	top: 302px;
+	left: 364px;
 }
 
 #seatimage>#seat_21 {
-	top: 40px;
-	right: 145px;
+	top: 70px;
+	right: 258px;
 }
 
 #seatimage>#seat_22 {
-	top: 40px;
-	right: 122px;
+	top: 70px;
+	right: 217px;
 }
 
 #seatimage>#seat_23 {
-	top: 40px;
-	right: 99px;
+	top: 70px;
+	right: 176px;
 }
 
 #seatimage>#seat_24 {
-	top: 40px;
-	right: 76px;
+	top: 70px;
+	right: 135px;
 }
 
 #seatimage>#seat_25 {
-	top: 40px;
-	right: 53px;
+	top: 70px;
+	right: 94px;
 }
 
 #seatimage>#seat_26 {
-	top: 40px;
-	right: 30px;
+	top: 70px;
+	right: 53px;
 }
 
 #seatimage>#seat_27 {
-	top: 40px;
-	right: 7px;
+	top: 70px;
+	right: 12px;
 }
 
 #seatimage>#seat_28 {
-	top: 115px;
-	right: 145px;
+	top: 204px;
+	right: 258px;
 }
 
 #seatimage>#seat_29 {
-	top: 115px;
-	right: 122px;
+	top: 204px;
+	right: 217px;
 }
 
 #seatimage>#seat_30 {
-	top: 115px;
-	right: 99px;
+	top: 204px;
+	right: 176px;
 }
 
 #seatimage>#seat_31 {
-	top: 115px;
-	right: 53px;
+	top: 204px;
+	right: 94px;
 }
 
 #seatimage>#seat_32 {
-	top: 115px;
-	right: 30px;
+	top: 204px;
+	right: 53px;
 }
 
 #seatimage>#seat_33 {
-	top: 115px;
-	right: 7px;
+	top: 204px;
+	right: 12px;
 }
 
 #seatimage>#seat_34 {
-	top: 138px;
-	right: 145px;
+	top: 245px;
+	right: 258px;
 }
 
 #seatimage>#seat_35 {
-	top: 138px;
-	right: 122px;
+	top: 245px;
+	right: 217px;
 }
 
 #seatimage>#seat_36 {
-	top: 138px;
-	right: 99px;
+	top: 245px;
+	right: 176px;
 }
 
 #seatimage>#seat_37 {
-	top: 138px;
-	right: 53px;
+	top: 245px;
+	right: 94px;
 }
 
 #seatimage>#seat_38 {
-	top: 138px;
-	right: 30px;
+	top: 245px;
+	right: 53px;
 }
 
 #seatimage>#seat_39 {
-	top: 138px;
-	right: 7px;
+	top: 245px;
+	right: 12px;
 }
 
 #seatimage>#seat_40 {
-	top: 215px;
-	right: 145px;
+	top: 381px;
+	right: 258px;
 }
 
 #seatimage>#seat_41 {
-	top: 215px;
-	right: 122px;
+	top: 381px;
+	right: 217px;
 }
 
 #seatimage>#seat_42 {
-	top: 215px;
-	right: 99px;
+	top: 381px;
+	right: 176px;
 }
 
 #seatimage>#seat_43 {
-	top: 215px;
-	right: 53px;
+	top: 381px;
+	right: 94px;
 }
 
 #seatimage>#seat_44 {
-	top: 215px;
-	right: 30px;
+	top: 381px;
+	right: 53px;
 }
 
 #seatimage>#seat_45 {
-	top: 215px;
-	right: 7px;
+	top: 381px;
+	right: 12px;
 }
 
 #seatimage>#seat_46 {
-	top: 293px;
-	right: 145px;
+	top: 520px;
+	right: 258px;
 }
 
 #seatimage>#seat_47 {
-	top: 293px;
-	right: 122px;
+	top: 520px;
+	right: 217px;
 }
 
 #seatimage>#seat_48 {
-	top: 293px;
-	right: 99px;
+	top: 520px;
+	right: 176px;
 }
 
 #seatimage>#seat_49 {
-	top: 293px;
-	right: 53px;
+	top: 520px;
+	right: 94px;
 }
 
 #seatimage>#seat_50 {
-	top: 293px;
-	right: 30px;
-}
-
-#seatimage>#seat_51 {
-	top: 293px;
-	right: 7px;
-}
-
-#seatimage>#seat_52 {
-	top: 365px;
-	right: 145px;
-}
-
-#seatimage>#seat_53 {
-	top: 365px;
-	right: 122px;
-}
-
-#seatimage>#seat_54 {
-	top: 365px;
-	right: 99px;
-}
-
-#seatimage>#seat_55 {
-	top: 365px;
-	right: 76px;
-}
-
-#seatimage>#seat_56 {
-	top: 365px;
+	top: 520px;
 	right: 53px;
 }
 
+#seatimage>#seat_51 {
+	top: 520px;
+	right: 12px;
+}
+
+#seatimage>#seat_52 {
+	top: 648px;
+	right: 258px;
+}
+
+#seatimage>#seat_53 {
+	top: 648px;
+	right: 217px;
+}
+
+#seatimage>#seat_54 {
+	top: 648px;
+	right: 176px;
+}
+
+#seatimage>#seat_55 {
+	top: 648px;
+	right: 135px;
+}
+
+#seatimage>#seat_56 {
+	top: 648px;
+	right: 94px;
+}
+
 #seatimage>#seat_57 {
-	top: 365px;
-	right: 30px;
+	top: 648px;
+	right: 53px;
 }
 
 #seatimage>#seat_58 {
-	top: 365px;
-	right: 7px;
+	top: 648px;
+	right: 12px;
 }
 
 #seatimage>#room_1 {
 	position: absolute;
-	width: 68px;
-	height: 70px;
-	top: 212px;
-	left: 5px;
+	width: 120px;
+	height: 125px;
+	top: 375px;
+	left: 10px;
 }
 
 #seatimage>#locker_1 {
 	position: absolute;
-	width: 34px;
-	height: 13px;
-	top: 144px;
-	left: 7px;
+	width: 60px;
+	height: 20px;
+	top: 257px;
+	left: 12px;
 }
 
 #seatimage>#locker_2 {
 	position: absolute;
-	width: 70px;
-	height: 13px;
-	top: 194px;
-	left: 7px;
+	width: 125px;
+	height: 20px;
+	top: 345px;
+	left: 12px;
 }
 #seatimageheader {
-	width: 380px;
-	height : 16px;
+	width: 700px;
+	height : 30px;
 	margin: 7px auto;
 }
 
 #state {
-width: 370px;
-margin-left: 18px;
+width: 690px;
+margin-left: 50px;
 }
 
 #state>li {
@@ -368,8 +372,8 @@ margin-left: 18px;
 }
 
 #state>.color {
-	width: 15px;
-	height: 15px;
+	width: 30px;
+	height: 30px;
 	border: 1px solid black;
 	opacity: 0.6;
 }
@@ -457,9 +461,9 @@ margin-left: 18px;
 		<div id="seat_56" class="seat" onclick="clickseat('56')"></div>
 		<div id="seat_57" class="seat" onclick="clickseat('57')"></div>
 		<div id="seat_58" class="seat" onclick="clickseat('58')"></div>
-		<div id="room_1"></div>
-		<div id="locker_1"></div>
-		<div id="locker_2"></div>
+		<div id="room_1" class="room" onclick="clickroom('1')"></div>
+		<div id="locker_1" class="locker" onclick="clicklocker('1')"></div>
+		<div id="locker_2" class="locker" onclick="clicklocker('2')"></div>
 	</div>
 </body>
 
