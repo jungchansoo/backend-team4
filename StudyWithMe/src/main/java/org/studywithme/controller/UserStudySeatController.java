@@ -16,8 +16,6 @@ import org.studywithme.service.StudyseatService;
 import org.studywithme.util.UserUtil;
 import org.studywithme.util.changetime;
 
-import lombok.extern.log4j.Log4j;
-
 @Controller
 public class UserStudySeatController {
 	@Autowired

@@ -10,96 +10,41 @@
 <head>
 <meta charset="UTF-8">
 <title>MyPage</title>
-<!-- 헤드 태그 안에 들어가는 공통코드 -->
-<link rel="stylesheet" href="resources/css/userMainPage.css"
-	type="text/css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="resources/css/sidebar.css" type="text/css">
 	
 </head>
 <!-- 헤더 -->
 <%@include file="../includes/header.jsp"%>
 <body>
-	<h1>Mypage</h1>
-
-	<!-- <style>
-ul {
-	list-style-type: none;
-	padding: 0;
-	margin: 0;
-	width: 120px;
-	background-color: #efefef;
-	height: 100%;
-	position: fixed;
-}
-
-li a {
-	display: block;
-	color: #000;
-	font-weight: bold;
-	padding: 10px;
-	text-decoration: none;
-}
-
-li a:hover {
-	background-color: #333;
+	<style>
+	li a.reservatelist {
+	background: #333;
 	color: #fff;
 }
-
-li a.reservatelist {
-	background-color: #333;
-	color: #fff;
+table {
+border-radius: 12px;
+border: solid 2px black;
+width:90%;
+margin: auto;
 }
+	</style>
 
-/* .sidebar-content {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	flex-grow: 1;
-	flex-direction: row;
-} */
-.sidebar-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  margin-top: auto;
-  margin-bottom: 0;
-}
-
-.sidebar-content p {
-	text-align: center;
-	font-size: 0.7em;
-}
-
-.logo {
-	width: 12px;
-	height: 12px;
-	cursor: pointer;
-	margin-left: auto;
-}
-
-.cd1 {
-	margin-left: 140px;
-}
-</style> -->
-
-	<ul>
-  <li><a class="userinfo" href="/userinfo">회원정보</a></li>
-  <li><a class="reservatelist" href="/reservationList">예약내역</a></li>
-  <li><a class="chagepw" href="/updatePw">비밀번호변경</a></li>
-  <li><a class="deleteid" href="/deleteUser">회원탈퇴</a></li>
-  <li class="sidebar-content">
-      <p><sec:authentication property="principal.user.userId" /></p>
-      <p><sec:authentication property="principal.user.phoneNumber" /></p>
-      <img src="/resources/image/logout_icon.png" alt="로고" class="logo" onclick="#">
-  </li>
-</ul>
-
+	<ul class="sidebar">
+		<li class="side_title">Mypage</li>
+		<li><a class="userinfo" href="/userinfo">회원정보</a></li>
+		<li><a class="reservatelist" href="/reservationList">예약내역</a></li>
+		<li><a class="chagepw" href="/updatePw">비밀번호변경</a></li>
+		<li><a class="deleteid" href="/deleteUser">회원탈퇴</a></li>
+	</ul>
 
 
 
 	<div class="cd1">
-		예약 내역
+	<!-- 검색 기능 -->
+	<input id="csrfToken" type="hidden" name="${_csrf.parameterName}"
+			value="${_csrf.token}" />
+	<!-- 예약 목록 리스트 -->
+		<p>예약 내역</p>
 		<hr>
 		<table>
 			<thead>
@@ -122,20 +67,9 @@ li a.reservatelist {
 				</c:forEach>
 			</tbody>
 		</table>
-
-
-
-
-		<hr>
-	</div>
-
-
-
-	<script>
 		
-	</script>
-
-
+	<!-- 하단 페이징처리 -->
+	</div>
 
 </body>
 </html>

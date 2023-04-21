@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.studywithme.mapper.StudyseatMapper">
-	<select id="readuseseat" resultType="org.studywithme.domain.SeatVO">
-		select user_id,num_using from active_reservation where cafe_no = #{cafe_no}
+<mapper namespace="org.studywithme.mapper.StudyseatandroomandlockerMapper">
+	<select id="readuse" resultType="org.studywithme.domain.SeatVO">
+		select user_id,num_using from active_reservation where cafe_no = #{cafe_no} AND category = #{category}
 	</select>
 
 	<insert id="insert" parameterType="map">
@@ -13,10 +13,10 @@
 		#{num_using}, #{cafe_no}, #{user_id})
 	</insert>
 
-	<select id="isSeatAvailable" resultType="boolean">
+	<select id="isAvailable" resultType="boolean">
 		SELECT COUNT(*) as count
 		FROM active_reservation WHERE cafe_no = #{cafe_no} AND num_using =
-		#{num_using}
+		#{num_using}  AND category = #{category}
 	</select>
 
 	<select id="getmyreservationInfo" resultType="java.util.HashMap">

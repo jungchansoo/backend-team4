@@ -57,7 +57,7 @@ public class KakaoPayReadyController {
         localutil.refreshUserDetails(util.getUserDetails().getUserId());
         
         // 결제 완료 후 이동 페이지
-        return "redirect:/userMainPage";
+        return "redirect:/";
     }
     
 }

@@ -9,4 +9,6 @@ public interface UserPageService {
 	List<StudyCafeVO> getStudyCafeList(String keyword, int currentPage, int perPage);
 
 	public int getTotalCount(String keyword);
+	public StudyCafeVO getStudyCafeByUserID(String userId);
+
 }
