@@ -18,8 +18,6 @@ a {
 	text-decoration: none;
 }
 
-
-
 .yes {
 	margin-left: 0px;
 	margin-right: 40px;
@@ -95,8 +93,8 @@ ul>.time {
 	cursor: pointer;
 }
 
-.empty{
-	margin-top: 80px;
+.emptyarea{
+	margin-top: 10px;
 }
 </style>
 
@@ -106,7 +104,7 @@ ul>.time {
 <body>
 <!-- 헤더 -->
 	<%@include file ="../../includes/header.jsp" %>
-	<div class="empty"></div>
+	<div class="emptyarea"></div>
 	
 	<%@ include file="studyseat.jsp"%>
 	
