@@ -1,5 +1,6 @@
 package org.studywithme.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,14 +12,15 @@ import lombok.AllArgsConstructor;
 @Controller
 @AllArgsConstructor
 public class UserPageController {
-	@GetMapping("/userMainPage")
+	@Autowired
+	private UserUtil util;
+	
+	@GetMapping("/")
 	public String userPage(Model model) {
-		UserUtil util = new UserUtil();
-		UserVO vo = util.getUserDetails();
-
-		model.addAttribute("id", vo.getUserId());
-		model.addAttribute("name", vo.getUserName());
-
+		if(util.getUserDetails()!=null) {
+			model.addAttribute("id", util.getUserDetails().getUserId());
+			model.addAttribute("name",util.getUserDetails().getUserName());
+		}
 		return "page/userMainPage";
 	}
 }

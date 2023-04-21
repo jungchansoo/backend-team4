@@ -65,11 +65,11 @@
 	<nav class="header-nav">
 		<ul>
 
-			<li><a href="/userMainPage"> <img
+			<li><a href="/"> <img
 					src="resources/image/logo.png" alt="로고" width="100" height="100"
 					class="header-logo">
 			</a></li>
-			<li><a href="/userMainPage" class="active header-link">Home</a></li>
+			<li><a href="/" class="active header-link">Home</a></li>
 			<li><a href="#" class="header-link">공지사항</a></li>
 			<sec:authorize access="hasRole('ROLE_ADMIN')">
 				<li><a href="/userlist" class="header-link">유저 관리</a></li>

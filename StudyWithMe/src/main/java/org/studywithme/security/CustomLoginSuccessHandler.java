@@ -30,7 +30,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
 		});
 		//항상 mainPage로 가도록 변경(메인페이지에서 권한에 따라 보이는 화면이 다름)
-		response.sendRedirect("/userMainPage");
+		response.sendRedirect("/");
 		return;
 	}
 }
