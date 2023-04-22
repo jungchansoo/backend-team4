@@ -1,8 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
+
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script
@@ -17,6 +21,8 @@
 <link rel="stylesheet"
 	href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.min.css">
 
+
+
 <meta charset="UTF-8">
 <title>Study With Me</title>
 
@@ -24,7 +30,8 @@
 .list-container {
 	width: 70%;
 	margin: 0 auto;
-	margin-top: 20px; border : 1px solid black;
+	margin-top: 20px;
+	border: 1px solid black;
 	border-radius: 5px;
 	font-size: 20px;
 	border: 1px solid black;
@@ -78,33 +85,73 @@ select {
 }
 
 #header {
-border-bottom: 1px solid black;
+	border-bottom: 1px solid black;
 }
 
 #header li {
 	font-size: 17px;
 }
 
-#reservation li{
-	
+#reservationarea{
+	margin-top: 20px;
+	text-align: center;
+}
+
+.w-btn {
+    position: relative;
+    border: none;
+    display: inline-block;
+    padding: 15px 30px;
+    width:70%;
+	height: 50px;
+	border-radius: 5px;
+    font-family: "paybooc-Light", sans-serif;
+    font-size: 20px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.25s;
+}
+
+.w-btn-indigo {
+    background-color: #94dbff;
+    color: white;
+}
+
+#emptyoption ,#success ,#fail{
+	width: 400px;
+	text-align: center;
+	font-family: "paybooc-Light", sans-serif;
+	font-size: 16px;
+	display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.check{
+	cursor: pointer;
+}
+.ui-dialog {
+  border-radius: 10px;
+}
+.ui-dialog-titlebar {
+  display: none;
 }
 </style>
 
 
 </head>
 <body>
-	<%@include file="includes/header.jsp"%>
-	<br>
-	<br>
-	
+	<%@include file="../../includes/header.jsp"%>
+
 	<div id="studyroomname" class="list-container">
 		<ul>
 			<li class="list">스터디룸</li>
-			<li class="list"><select>
+			<li class="list">
+			<select id="roomno">
 					<option value="1">스터디룸1</option>
 					<option value="2">스터디룸2</option>
-					<option value="3">스터디룸3</option>
-			</select></li>
+			</select>
+			</li>
 		</ul>
 	</div>
 
@@ -113,9 +160,9 @@ border-bottom: 1px solid black;
 
 		<ul>
 			<li class="list">예약일자</li>
-			<li class="list"><input type="text" id="datepicker"
-				readonly="true">
-				<button id="calendar-btn"></button></li>
+			<li class="list">
+			<input type="text" id="datepicker" readonly="true">
+			<button id="calendar-btn"></button></li>
 		</ul>
 	</div>
 
@@ -129,10 +176,11 @@ border-bottom: 1px solid black;
 	<div id="usetime" class="list-container">
 		<ul>
 			<li class="list">사용시간</li>
-			<li class="list"><select>
+			<li class="list">
+			<select id="usetimes">
 					<option value="1">1시간</option>
 					<option value="2">2시간</option>
-					<option value="3">4시간</option>
+					<option value="3">3시간</option>
 			</select></li>
 		</ul>
 	</div>
@@ -150,15 +198,31 @@ border-bottom: 1px solid black;
 			</ul>
 		</div>
 		<div id="content">
-			<ul>
-				<li class="list">1</li>
-				<li class="list">2023-04-13 05:50:15</li>
-				<li class="list">2023-04-13 05:50:15</li>
-				<li class="list">testadmin</li>
-			</ul>
+			
 		</div>
 	</div>
+	<div id="reservationarea">
+		<button id="reservationbutton" class="w-btn w-btn-indigo" onclick="reservation()">예약하기</button>
+	</div>
 
+
+	<div id="emptyoption">
+		<p class="checkmessage">예약일 선택 후 다시 예약해 주세요</p>
+		<a class="check" onClick="location.reload()">확인</a>
+	</div>
+	
+	<div id="success">
+		<p class="checkmessage">예약되었습니다.</p>
+		<a class="check" onClick="location.reload()">확인</a>
+	</div>
+	
+	<div id="fail">
+		<p class="checkmessage">예약에 실패하였습니다.</p>
+		<a class="check" onClick="location.reload()">확인</a>
+	</div>
+	<input id="csrfToken" type="hidden" name="${_csrf.parameterName}"
+		value="${_csrf.token}" />
+		
 	<script>
 		$(document).ready(function() {
 			$("#datepicker").datepicker({
@@ -175,7 +239,90 @@ border-bottom: 1px solid black;
 				showMeridian : false
 			// 오전/오후 표시 여부
 			});
+			 $("#emptyoption").dialog({
+				    autoOpen: false,
+				    modal: true
+			});
+			 $("#success").dialog({
+				    autoOpen: false,
+				    modal: true
+			});
+			 $("#fail").dialog({
+				    autoOpen: false,
+				    modal: true
+			});
+			createreservationinfo(1);
 		});
+		
+		document.getElementById("roomno").addEventListener("change", function() {
+			  var selectedRoom = document.getElementById("roomno").value;
+			  createreservationinfo(selectedRoom);
+		});
+			  
+		function createreservationinfo(roomno) {
+			const contentDiv = document.getElementById("content");
+			contentDiv.innerHTML = "";
+			  
+			<c:forEach items='${lists}' var='item'>
+				if('${item.num_using}' == roomno){
+					var ul = document.createElement("ul");
+				    var li1 = document.createElement("li");
+				    var li2 = document.createElement("li");
+				    var li3 = document.createElement("li");
+				    var li4 = document.createElement("li");
+				    li1.textContent = '${item.num_using}'
+				   	li2.textContent = '${item.start_time}';
+				    li3.textContent = '${item.end_time}';
+				    li4.textContent = '${item.user_id}';
+				    
+				    ul.appendChild(li1);
+				    ul.appendChild(li2);
+				    ul.appendChild(li3);
+				    ul.appendChild(li4);
+				    
+				    contentDiv.appendChild(ul);
+				}
+			</c:forEach>
+		}
+		
+		function reservation(){
+			if (!document.getElementById('datepicker').value) {
+				$("#emptyoption").dialog("open");
+			}else{
+				
+				const datetimeString = document.getElementById('datepicker').value + ' ' + document.getElementById('timepicker').value;
+				const start_time = new Date(datetimeString);
+				const end_time = new Date(datetimeString);
+				var usetime =  parseInt(document.getElementById('usetimes').value);
+				end_time.setHours(end_time.getHours() + usetime);
+				send(roomno,start_time,end_time,usetime);
+			}
+		}
+		
+		function send(roomno,start_time, end_time,usetime) {
+			const csrfTokenValue = $('#csrfToken').val();
+			$.ajax({
+				type : 'post',
+				url : "/userstudyroom/reservation",
+				headers : {
+					'X-CSRF-TOKEN' : csrfTokenValue
+				},
+				data : {
+					num_using : roomno.value,
+					start_time : start_time,
+					end_time : end_time,
+					usetime : usetime
+				},
+				success : function(result) {
+					$("#success").dialog("open");
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					$("#fail").dialog("open");
+				}
+				
+			}); 
+		}
+		
 	</script>
 </body>
 </html>
