@@ -62,7 +62,7 @@ public class MypageController {
 			return "fail_new_pw_confirm";
 		}
 		// 새 비밀번호를 암호화하여 업데이트
-		vo.setPassword(passwordEncoder.encode(newPassword));
+		vo.setPassword(newPassword);
 		boolean result = service.updatePw(vo);
 		if (!result) {
 			return "fail_update_pw";
