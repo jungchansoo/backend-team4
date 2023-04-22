@@ -129,8 +129,11 @@
 		<!-- QR 코드 -->
 		<div class="modal">
 			<div class="modal-content">
-				<span class="close">&times;</span>
-				<p>QR code</p>
+				<div class="modal-top">
+					<span class="close">&times;</span>
+					<p>출입문 개폐를 위해 QR코드를 인식해 주세요.</p>
+					<hr>
+				</div>
 			</div>
 		</div>
 	</div>

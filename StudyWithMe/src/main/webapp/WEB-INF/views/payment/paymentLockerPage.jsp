@@ -3,6 +3,7 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <html>
 <head>
@@ -42,56 +43,22 @@
 						<th>이용권명</th>
 						<th>금액</th>
 					</tr>
-					<tr>
-						<td>
-							<label>
-								<input type="radio" name="product" value="사물함 3일권 6,000원" checked>
-								<input type="hidden" name="price" value="6000">
-							</label>
-						</td>
-						<td>사물함 3일권</td>
-						<td>6,000원</td>
-					</tr>
-					<tr>
-						<td>
-							<label>
-								<input type="radio" name="product" value="사물함 1주권 10,000원">
-								<input type="hidden" name="price" value="10000">
-							</label>
-						</td>
-						<td>사물함 1주권</td>
-						<td>10,000원</td>
-					</tr>
-					<tr>
-						<td>
-							<label>
-								<input type="radio" name="product" value="사물함 4주권 35,000원">
-								<input type="hidden" name="price" value="35000">
-							</label>
-						</td>
-						<td>사물함 4주권</td>
-						<td>35,000원</td>
-					</tr>
-					<tr>
-						<td>
-							<label>
-								<input type="radio" name="product" value="사물함 12주권 100,000원">
-								<input type="hidden" name="price" value="100000">
-							</label>
-						</td>
-						<td>사물함 12주권</td>
-						<td>100,000원</td>
-					</tr>
-					<tr>
-						<td>
-							<label>
-								<input type="radio" name="product" value="사물함 72주권 250,000원">
-								<input type="hidden" name="price" value="250000">
-							</label>
-						</td>
-						<td>사물함 72주권</td>
-						<td>250,000원</td>
-					</tr>
+					
+					<c:forEach items="${ticketList}" var="ticket">
+						<tr>
+							<td>
+								<label>
+									<input type="radio" name="product" value="${ticket.ticketName}">
+									<input type="hidden" name="price" value="${ticket.price}">
+									<input type="hidden" name="amount" value="<fmt:formatNumber value="${ticket.price}" pattern="#,##0원" />">
+								</label>
+							</td>
+							
+							<td>${ticket.ticketName}</td>
+							<td><fmt:formatNumber value="${ticket.price}" pattern="#,##0원" /></td>
+						</tr>
+					</c:forEach>
+					
 				</table>
 			</div>
 	
@@ -140,16 +107,16 @@
 		document.getElementById("modal_open_btn").onclick = function() {
 	        document.getElementById("modal").style.display="block";
 	        
-	     // 선택된 radio 버튼 요소를 가져옴
+	     	// 선택된 radio 버튼 요소를 가져옴
 	        const selectedProduct = document.querySelector('input[name="product"]:checked');
-	        const splitSelectedProduct = selectedProduct.value.split(" ");
 	        
-	        // 선택된 radio 버튼의 value와 그에 해당하는 price를 가져옴
+	     	// 선택된 radio 버튼의 value와 그에 해당하는 price를 가져옴
 	        const product = selectedProduct.value;
 	        const price = selectedProduct.closest('tr').querySelector('input[name="price"]').value;
+	        const amount = selectedProduct.closest('tr').querySelector('input[name="amount"]').value;
 	        
 	        $("#select-product").empty();
-	        $("#select-product").append("<tr><td><b>이용권 : </b>" + splitSelectedProduct[0] + " " + splitSelectedProduct[1] + "<nbsp></td><td><b>금액 : </b>" + splitSelectedProduct[2] + "</td></tr>");
+	        $("#select-product").append("<tr><td><b>이용권 : </b>" + product + "<nbsp></td><td><b>금액 : </b>" + amount + "</td></tr>");
 	    }
 	   
 		document.getElementById("pay-btn").onclick = function() {
