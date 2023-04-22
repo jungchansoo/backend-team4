@@ -11,5 +11,5 @@ public class TicketVO {
 	private long chargingTime;
 	private String startTime;
 	private String endTime;
-	
+	private int isSale;
 }

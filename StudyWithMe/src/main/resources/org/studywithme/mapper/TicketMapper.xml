@@ -48,14 +48,8 @@
 			<foreach item='type' collection="typeArr">
 				<trim prefix="OR">
 					<choose>
-						<when test="type == 'I'.toString()">
-							user_id like '%'||#{keyword}||'%'
-						</when>
-						<when test="type == 'N'.toString()">
-							username like '%'||#{keyword}||'%'
-						</when>
-						<when test="type == 'P'.toString()">
-							phone_number like '%'||#{keyword}||'%'
+						<when test="type == 'category'.toString()">
+							category like '%'||#{keyword}||'%'
 						</when>
 					</choose>
 				</trim>
@@ -74,8 +68,7 @@
 	</select>
 	
 	<select id="getTicketList"
-	        resultType="org.studywithme.domain.TicketVO"
-		    parameterType="org.studywithme.domain.Criteria">
+	        resultType="org.studywithme.domain.TicketVO">
  		SELECT ticket_no AS ticketNo
 		       ,category AS category
 		       ,ticket_name AS ticketName
@@ -83,8 +76,11 @@
 		       ,charging_time AS chargingTime
 		       ,TO_CHAR(start_time, 'YYYY/MM/DD') AS startTime
 		       ,TO_CHAR(end_time, 'YYYY/MM/DD') AS endTime
+		       ,CASE WHEN TO_DATE(TO_CHAR(start_time, 'YYYY/MM/DD'), 'YYYY/MM/DD') <![CDATA[<=]]> TO_DATE(TO_CHAR(SYSDATE, 'YYYY/MM/DD'), 'YYYY/MM/DD') 
+		       AND TO_DATE(TO_CHAR(end_time, 'YYYY/MM/DD'), 'YYYY/MM/DD') <![CDATA[>=]]> TO_DATE(TO_CHAR(SYSDATE, 'YYYY/MM/DD'), 'YYYY/MM/DD')
+		       THEN 1 ELSE 0 END AS isSale
 		  FROM (
-		       SELECT /*+ index_desc(tbl_ticket SYS_C0021886) */ -- 인덱 힌트라 합니닺
+		       SELECT /*+ index_desc(tbl_ticket SYS_C0021886) */ -- 인덱스 힌트
 		              rownum rn
 		             ,ticket_no
 		             ,category
@@ -94,21 +90,10 @@
 		             ,start_time
 		             ,end_time
 		         FROM tbl_ticket
-		        WHERE 
-		              <choose>
-						<when test="type == 'I'.toString()">
-							user_id like '%'||#{keyword}||'%'
-						</when>
-						<when test="type == 'N'.toString()">
-							username like '%'||#{keyword}||'%'
-						</when>
-						<when test="type == 'P'.toString()">
-							phone_number like '%'||#{keyword}||'%'
-						</when>
-					</choose>
-		              rownum <![CDATA[<=]]> #{pageNum} * #{amount}
+		        WHERE category LIKE '%' || #{keyword} || '%'
+		          AND rownum <![CDATA[<=]]> #{pageNum} * #{amount}
       	 )
-  		 WHERE rn <![CDATA[>]]> (#{pageNum} -1) * #{amount} 
+  		 WHERE rn BETWEEN ((#{pageNum} - 1) * #{amount}) AND (#{pageNum} * #{amount}) 
 	</select>
 	
 

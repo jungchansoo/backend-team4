@@ -11,6 +11,6 @@ public interface AdminTicketService {
 	public boolean modify(TicketVO ticket);
 	public boolean remove(Long bno);
 	public TicketVO get(Long bno);
-	public List<TicketVO> getList(Criteria cri);
+	public List<TicketVO> getListTicket(String keyword, int pageNum, int amount);
 	public int getTotal(Criteria cri);
 }

@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
@@ -67,8 +68,6 @@
 }
 </style>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <!-- 헤드 태그 안에 들어가는 공통코드 -->
 
 </head>
@@ -80,22 +79,21 @@
 		<input id="csrfToken" type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
 		<!-- 검색 기능 -->
-		<form id='searchForm' action="/userlist" method='get'>
-			<select name='type'>
-				<option value="N"
-					<c:out value="${pageMaker.cri.type eq 'N'?'selected':''}"/>>이름</option>
-				<option value="I"
-					<c:out value="${pageMaker.cri.type eq 'I'?'selected':''}"/>>아이디</option>
-				<option value="P"
-					<c:out value="${pageMaker.cri.type eq 'P'?'selected':''}"/>>전화번호</option>
-			</select> <input type='text' name='keyword'
-				value='<c:out value="${pageMaker.cri.keyword}"/>' /> <input
-				type='hidden' name='pageNum'
-				value='<c:out value="${pageMaker.cri.pageNum}"/>' /> <input
-				type='hidden' name='amount'
-				value='<c:out value="${pageMaker.cri.amount}"/>' />
-			<button class='btn btn-default'>검색</button>
+		<form id='searchForm' action="/ticketManagement" method='get'>
+			<input type='hidden' name='type' value="category" ${pageMaker.cri.type}/>
+			<label><input type="radio" name="keyword" value="SEAT" ${pageMaker.cri.keyword == 'SEAT' ? 'checked' : ''} />일반 좌석</label>
+			<label><input type="radio" name="keyword" value="STUDY_ROOM" ${pageMaker.cri.keyword == 'STUDY_ROOM' ? 'checked' : ''} />스터디룸</label>
+			<label><input type="radio" name="keyword" value="LOCKER" ${pageMaker.cri.keyword == 'LOCKER' ? 'checked' : ''} />사물함</label>
+			<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' />
+			<input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' />
 		</form>
+		
+		<!-- <form id="searchForm" action="search" method="get">
+			<input type="radio" name="ticketType" value="male">일반 좌석
+			<input type="radio" name="ticketType" value="female">스터디룸
+			<input type="radio" name="ticketType" value="female">사물함
+			<input type="submit" value="조회">
+		</form> -->
 
 		<div class="list">
 			<table>
@@ -121,19 +119,20 @@
 								<c:if test="${ticket.category == 'LOCKER'}">사물함</c:if>
 							</td>
 							<td>${ticket.ticketName}</td>
-							<td><fmt:formatNumber value="${ticket.chargingTime / 60}" pattern="# '시간'" /></td>
+							
+							<td>
+								<c:if test="${ticket.category == 'SEAT'}"><fmt:formatNumber value="${ticket.chargingTime / 60}" pattern="# '시간'" /></c:if>
+								<c:if test="${ticket.category == 'STUDY_ROOM'}"><fmt:formatNumber value="${ticket.chargingTime / 60}" pattern="# '시간'" /></c:if>
+								<c:if test="${ticket.category == 'LOCKER'}"><fmt:formatNumber value="${ticket.chargingTime / (60 * 24)}" pattern="# '일'" /></c:if>
+							</td>
+							
+							
 							<td><fmt:formatNumber value="${ticket.price}" pattern="#,##0원" /></td>
 							
-							<c:set var="currentTime" value="<%= new java.util.Date() %>" />
-
-							<c:choose>
-							    <c:when test="${currentTime >= ticket.startTime and currentTime <= ticket.endTime}">
-							        <td>판매중</td>
-							    </c:when>
-							    <c:otherwise>
-							        <td>미판매중</td>
-							    </c:otherwise>
-							</c:choose>
+							<td>
+								<c:if test="${ticket.isSale == 1}">판매중</c:if>
+								<c:if test="${ticket.isSale == 0}">미판매중</c:if>
+							</td>
 							
 							<td>${ticket.startTime} - ${ticket.endTime}</td>
 							
@@ -180,50 +179,16 @@
 
 	</div>
 
-
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
 		const csrfTokenValue = $('#csrfToken').val();
 
-		function deleteUser(userId) {
-			if (confirm("정말 삭제하시겠습니까?")) {
-				$.ajax({
-					type : "POST",
-					url : "/userDelete",
-					data : {
-						'_csrf' : csrfTokenValue,
-						'userId' : userId
-					},
-					beforeSend : function(xhr) {
-						xhr.setRequestHeader("X-CSRF-TOKEN", csrfTokenValue);
-					},
-					success : function(response) {
-						if (response === "success") {
-							alert("회원 삭제가 완료되었습니다.");
-							location.reload();
-						} else {
-							alert("회원 삭제에 실패하였습니다.");
-						}
-					}
-				});
-			}
-		}
-	</script>
-
-
-	<script>
 		$(document).ready(
 				function() {
 					history.replaceState({}, null, null);
 					var searchForm = $("#searchForm");
-					$("#searchForm button").on("click", function(e) {
-						if (!searchForm.find("option:selected").val()) {
-							alert("검색종류를 선택하세요");
-							return false;
-						}
-						if (!searchForm.find("input[name='keyword']").val()) {
-							alert("키워드를 입력하세요");
-							return false;
-						}
+					$("#searchForm").on("click", function(e) {
+						
 						searchForm.find("input[name='pageNum']").val("1");
 						e.preventDefault();
 						searchForm.submit();

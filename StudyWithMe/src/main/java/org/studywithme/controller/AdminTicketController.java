@@ -21,7 +21,9 @@ public class AdminTicketController {
 	@GetMapping("/ticketManagement")
 	public String getUserList(Model model, Criteria cri) {
 		
-		model.addAttribute("ticketList", service.getList(cri));
+		String keyword = cri.getKeyword() == null ? "" : cri.getKeyword();
+		model.addAttribute("ticketList", service.getListTicket(keyword, cri.getPageNum(), cri.getAmount()));
+		
 		int total = service.getTotal(cri);
         model.addAttribute("pageMaker", new PageDTO(cri, total));
 		
