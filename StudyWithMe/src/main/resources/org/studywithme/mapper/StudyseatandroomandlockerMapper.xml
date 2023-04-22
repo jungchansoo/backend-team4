@@ -10,7 +10,7 @@
 	
 	<select id="readuseroom" resultType="org.studywithme.domain.RoomVO">
 	<![CDATA[
-		select user_id,num_using,TO_CHAR(start_time, 'YYYY-MM-DD HH24:MI:SS') AS start_time,TO_CHAR(end_time, 'YYYY-MM-DD HH24:MI:SS') AS end_time from reservation where cafe_no = #{cafe_no} AND category = 'ROOM' AND end_time > sysdate
+		select user_id,num_using,TO_CHAR(start_time, 'YYYY-MM-DD HH24:MI:SS') AS start_time,TO_CHAR(end_time, 'YYYY-MM-DD HH24:MI:SS') AS end_time from reservation where cafe_no = #{cafe_no} AND category = 'ROOM' AND end_time > sysdate order by start_time
 	    ]]>	
 	</select>
 	
