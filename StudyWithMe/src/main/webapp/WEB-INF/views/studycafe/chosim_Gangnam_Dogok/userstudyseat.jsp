@@ -103,7 +103,6 @@ ul>.time {
 
 
 <body>
-<!-- 헤더 -->
 	<%@include file ="../../includes/header.jsp" %>
 	<div class="emptyarea"></div>
 	
