@@ -7,6 +7,10 @@
 
 
 <title>Study With Me</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+
 <style>
 a {
 	color: black;
@@ -32,49 +36,38 @@ a {
 	font-size: 16px;
 }
 
-ul {
+#state {
 	padding: 0px;
 	padding-left: 20px;
 	list-style: none;
 	text-align: center;
 }
 
-li {
+#state li {
 	float: left;
 }
 
-ul>.name {
+#state ul>.name {
 	margin-left: 25px;
 	margin-right: 45px;
 }
 
-ul>.id {
+#state ul>.id {
 	margin-left: 20px;
 	margin-right: 40px;
 }
 
-ul>.day {
+#state ul>.day {
 	margin-right: 20px;
 }
 
-ul>.time {
+#state ul>.time {
 	margin-right: 20px;
 }
 
 .outline:hover {
 	background-color: #ff5f2e;
 	color: #e1eef6;
-}
-
-.reservation {
-	width: 80px;
-	height: 30px;
-	border-radius: 15px;
-	font-family: "paybooc-Light", sans-serif;
-	border: 3px solid #ff5f2e;
-	background-color: white;
-	color: #4a4948;
-	cursor: pointer;
 }
 
 #seatcheck, #returnseat, #reservationsuccess, #timefail, #usefail,
@@ -89,37 +82,46 @@ ul>.time {
 	cursor: pointer;
 }
 
-.empty {
+.emptySpace {
 	margin-top: 80px;
 }
 </style>
 
 </head>
 
+<%@include file="../../includes/header.jsp"%>
 
 <body>
 	<!-- 헤더 -->
-	<%@include file="../../includes/header.jsp"%>
-	<div class="empty"></div>
-
-	<%@ include file="studyseat.jsp"%>
-	<div>해당 좌석을 이용중인 사용자를 확인하고 싶으면 클릭하세요</div>
-	<!-- 사이드 바 구성 (todo)-->
-	<div class="right-side">
-		<p class="selectedSeatInfo"></p>
-		<ul>
-			<li id="userName">유저명 :</li>
-			<li class="day">사용시작일자 : <b class="today"></b> <b class="now"></b></li>
-			
-			<li class="usingTime">사용 시간 : </li><!-- 현재시간 - reservation 에서 가져온 값 -->
-			<li class="leftTime">잔여 시간 : </li><!-- reaminingtime - 사용시간 -->
-			<li id="phoneNumber">연락처 : </li>
-
-		</ul>
+	<div class="emptySpace"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="studyseat">
+					<%@ include file="studyseat.jsp"%>
+					<div id="desc">해당 좌석을 이용중인 사용자를 확인하고 싶으면 클릭하세요</div>
+				</div>
+			</div>
+			<!-- 사이드 바 구성 (todo)-->
+			<div class="col-md-6">
+				<div class="right-side">
+					<p class="selectedSeatInfo fs-4">사용자 정보</p>
+					<ul class="list-unstyled">
+						<li id="userName" class="fs-4">유저명 :</li>
+						<li class="day fs-4">사용시작일자 : <b class="today"></b> <b
+							class="now"></b></li>
+						<li class="usingTime fs-4">사용 시간 :</li>
+						<!-- 현재시간 - reservation 에서 가져온 값 -->
+						<li class="leftTime fs-4">잔여 시간 :</li>
+						<!-- reaminingtime - 사용시간 -->
+						<li id="phoneNumber" class="fs-4">연락처 :</li>
+					</ul>
+					<!-- 외곽선만 있는 버튼 스타일 적용 -->
+					<button type="button" class="btn btn-outline-primary" id="getOut" onclick="returnseat()">내보내기</button>
+				</div>
+			</div>
+		</div>
 	</div>
-
-	<button id="getOut" onclick="returnseat()">내보내기</button>
-
 	<div id="returnseat" class="modal">
 		<p class="seatnum">해당 좌석을 반납 하시겠습니까?</p>
 		<a class="yes" onclick="returnseatdb()">예</a> <a class="no"
@@ -161,23 +163,27 @@ ul>.time {
 	</div>
 	<input id="csrfToken" type="hidden" name="${_csrf.parameterName}"
 		value="${_csrf.token}" />
-
-
-	<script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+	<script>	
 		var seatnum;
 		var dateString;
 		var timeString;
 		
 		var clickedSeatNumber;
 		var idOnUse;
+		var startTime;
 		var remainingSeatTimeInMinutes
 
 		function clickseat(num) {
 		    var clickedElementId = event.target.id;
 			clickedSeatNumber = clickedElementId.split('_')[1]; // "seat_2"의 경우 "2"를 얻습니다.
 			console.log("clickedSeatNumber: "+clickedSeatNumber);
-			setIdOnUse();
+			setIdOnUseAndStartTime();
 			console.log("idOnUse: "+idOnUse);
+			console.log("startTime: "+startTime);
 
 			seatnum = arguments[0];
 			$('.selectedSeatInfo').text(arguments[0] + '번 좌석 사용자 정보');
@@ -198,8 +204,8 @@ ul>.time {
 		            var remainingSeatTimeInHours = remainingSeatTimeInMinutes / 60;
 		            var remainingSeatTimeInDays = remainingSeatTimeInHours / 24;
 					
-		            $("#phoneNumber").text("Phone Number: " + data.phoneNumber);
-		            $("#userName").text("User Name: " + data.userName);
+		            $("#phoneNumber").text("전화번호 : " + data.phoneNumber);
+		            $("#userName").text("유저 이름 : " + data.userName);
 		        },
 		        error: function (error) {
 		            console.log("Error while fetching UserVO: " + JSON.stringify(error));
@@ -245,7 +251,8 @@ ul>.time {
 				send();
 			}
 		}
-		/* 사용하고 있는 시트만 가져와서 returnseat()를 셋팅 */
+
+		//순회하면서 사용중인 시트를 오렌지 색으로 표시
 		(function() {
 			<c:forEach items='${lists}' var='item'>
 				var seat = 'seat_' + '${item.num_using}';
@@ -263,12 +270,16 @@ ul>.time {
 			$('#returnseatsuccess').modal('show');
 		}
 		
-		function setIdOnUse(){
+		function setIdOnUseAndStartTime(){
 			<c:forEach items='${lists}' var='item'>
 			if(${item.num_using} == clickedSeatNumber){
-				console.log("idOnUse: "+idOnUse);
 				idOnUse =  '${item.user_id}';
-				}
+				console.log("idOnUse: "+idOnUse);
+
+				startTime = '${item.start_time}';
+				console.log("startTime: "+startTime);
+
+			}
 			</c:forEach>
 		}
 		function returnseatdb() {
