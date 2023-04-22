@@ -4,12 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
 
 <title>Study With Me</title>
 <style>
@@ -113,32 +108,17 @@ ul>.time {
 	<div class="right-side">
 		<p class="selectedSeatInfo"></p>
 		<ul>
-			<li class="userName">유저명 :</li>
+			<li id="userName">유저명 :</li>
 			<li class="day">사용시작일자 : <b class="today"></b> <b class="now"></b></li>
 			
-			<li class="usingTime">사용 시간 : </li>
-			<li class="leftTime">잔여 시간 : </li>
-			<li class="phoneNum">연락처 : </li>
+			<li class="usingTime">사용 시간 : </li><!-- 현재시간 - reservation 에서 가져온 값 -->
+			<li class="leftTime">잔여 시간 : </li><!-- reaminingtime - 사용시간 -->
+			<li id="phoneNumber">연락처 : </li>
 
 		</ul>
 	</div>
 
-	<button id="getOut">내보내기</button>
-
-	<div id="reservationsuccess" class="modal">
-		<p class="checkmessage">좌석 예약이 완료되었습니다.</p>
-		<a class="check" onClick="location.reload()">확인</a>
-	</div>
-
-	<div id="usefail" class="modal">
-		<p class="checkmessage">좌석 예약에 실패하였습니다.</p>
-		<a class="check" onClick="location.reload()">확인</a>
-	</div>
-
-	<div id="timefail" class="modal">
-		<p class="checkmessage">보유시간이 부족합니다.</p>
-		<a class="check" onClick="location.reload()">확인</a>
-	</div>
+	<button id="getOut" onclick="returnseat()">내보내기</button>
 
 	<div id="returnseat" class="modal">
 		<p class="seatnum">해당 좌석을 반납 하시겠습니까?</p>
@@ -187,10 +167,47 @@ ul>.time {
 		var seatnum;
 		var dateString;
 		var timeString;
-		model.addAttribute("idOnSeat", idOnSeat)
+		
+		var clickedSeatNumber;
+		var idOnUse;
+		var remainingSeatTimeInMinutes
+
 		function clickseat(num) {
-			seatnum = arguments[0];			
-			$('.selectedSeatInfo').text(arguments[0] + '번 좌석 사용자 정보');		
+		    var clickedElementId = event.target.id;
+			clickedSeatNumber = clickedElementId.split('_')[1]; // "seat_2"의 경우 "2"를 얻습니다.
+			console.log("clickedSeatNumber: "+clickedSeatNumber);
+			setIdOnUse();
+			console.log("idOnUse: "+idOnUse);
+
+			seatnum = arguments[0];
+			$('.selectedSeatInfo').text(arguments[0] + '번 좌석 사용자 정보');
+			//UserVO 객체를 가져와야함.
+			//toDO
+		    // AJAX를 사용하여 UserVO 객체를 가져옵니다.
+		    $.ajax({
+		        type: "GET",
+		        url: "/managerstudyseat/getUserDetail",
+		        data: {
+		            user_id: idOnUse
+		        },
+		        success: function (data) {
+		            // UserVO 객체를 사용하여 필요한 정보를 표시합니다.
+		            console.log("User name: " + data.userName);
+
+		            remainingSeatTimeInMinutes = data.remainingSeatTime;
+		            var remainingSeatTimeInHours = remainingSeatTimeInMinutes / 60;
+		            var remainingSeatTimeInDays = remainingSeatTimeInHours / 24;
+					
+		            $("#phoneNumber").text("Phone Number: " + data.phoneNumber);
+		            $("#userName").text("User Name: " + data.userName);
+		        },
+		        error: function (error) {
+		            console.log("Error while fetching UserVO: " + JSON.stringify(error));
+		        }
+		    });
+
+
+			
 		}
 
 		function clickroom(num) {
@@ -233,12 +250,12 @@ ul>.time {
 			<c:forEach items='${lists}' var='item'>
 				var seat = 'seat_' + '${item.num_using}';
 				var seatnum = document.getElementById(seat);
-				seatnum.setAttribute("onClick", "returnseat()");
 				seatnum.style.backgroundColor = "orange";
 			</c:forEach>
 		})();
 		
-		function returnseat() {
+ 		function returnseat() {
+
 			$('#returnseat').modal('show');
 		}
 		
@@ -246,6 +263,14 @@ ul>.time {
 			$('#returnseatsuccess').modal('show');
 		}
 		
+		function setIdOnUse(){
+			<c:forEach items='${lists}' var='item'>
+			if(${item.num_using} == clickedSeatNumber){
+				console.log("idOnUse: "+idOnUse);
+				idOnUse =  '${item.user_id}';
+				}
+			</c:forEach>
+		}
 		function returnseatdb() {
 			const csrfTokenValue = $('#csrfToken').val();
 			$.ajax({
@@ -255,7 +280,7 @@ ul>.time {
 					'X-CSRF-TOKEN' : csrfTokenValue
 				},
 				data : {
-					user_id : '${id}'
+					user_id : idOnUse
 				},
 				success : function(result) {
 					$('#returnseatsuccess').modal('show');
