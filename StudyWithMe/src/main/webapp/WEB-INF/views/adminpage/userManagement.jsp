@@ -21,16 +21,6 @@
 <body>
 
 	<style>
-/* .cd2 {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	margin: auto;
-	width: 80%;
-	height: calc(100vh - 100px);
-	padding: 20px;
-} */
 .cd2 {
 	display: flex;
 	flex-direction: column;
