@@ -49,9 +49,11 @@ margin: auto;
 		<table>
 			<thead>
 				<tr>
+					<th>번호</th>
 					<th>이용지점</th>
 					<th>예약 날짜</th>
 					<th>좌석종류</th>
+					<th>좌석번호</th>
 					<th>이용시간</th>
 				</tr>
 			</thead>
@@ -59,10 +61,12 @@ margin: auto;
 				<!-- tbl_reservation에 있는 db값을 넣기 -->
 				<c:forEach var="reservation" items="${reservations}">
 					<tr>
-						<td>${reservation.location}이용지점예시</td>
-						<td>${reservation.date}예약날짜예시</td>
-						<td>${reservation.seatType}좌석종류예시</td>
-						<td>${reservation.time}이용시간예시</td>
+						<td>reservationNo></td>
+						<td>${reservation.location}이용지점예시 cafename</td>
+						<td>${reservation.date}예약날짜예시 reservedate</td>
+						<td>${reservation.seatType}좌석종류예시 category</td>
+						<td>${reservation.seatType}좌석번호예시 usingnum</td>
+						<td>${reservation.time}이용시간예시 duration</td>
 					</tr>
 				</c:forEach>
 			</tbody>
