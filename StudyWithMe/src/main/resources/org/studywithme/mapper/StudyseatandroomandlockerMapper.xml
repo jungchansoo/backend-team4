@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.studywithme.mapper.StudyseatandroomandlockerMapper">
 	<select id="readuse" resultType="org.studywithme.domain.SeatVO">
-		select user_id,num_using from active_reservation where cafe_no = #{cafe_no} AND category = #{category}
+		select user_id,num_using, start_time from active_reservation where cafe_no = #{cafe_no} AND category = #{category}
 	</select>
 
 	<insert id="insert" parameterType="map">
