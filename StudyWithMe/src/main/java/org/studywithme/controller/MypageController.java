@@ -42,7 +42,9 @@ public class MypageController {
 	}
 
 	@GetMapping("/updatePw")
-	public String updatePwForm() {
+	public String updatePwForm(Model model) {
+		UserVO vo = new UserUtil().getUserDetails();
+		model.addAttribute("password", vo.getPassword());
 		return "/mypage/updatePw";
 	}
 
