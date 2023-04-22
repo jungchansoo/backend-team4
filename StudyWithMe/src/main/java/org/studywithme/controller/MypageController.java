@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.studywithme.domain.UserVO;
 import org.studywithme.service.UserService;
@@ -15,8 +16,8 @@ import org.studywithme.util.UserUtil;
 
 import lombok.extern.log4j.Log4j;
 
-@Log4j
 @Controller
+@Log4j
 public class MypageController {
 
 	@Autowired
@@ -45,36 +46,29 @@ public class MypageController {
 		return "/mypage/updatePw";
 	}
 
-	@PostMapping("/updatePw")
+	@PostMapping("/userpwchangers")
+	@ResponseBody
 	public String updateUserPassword(@RequestParam("currentPassword") String currentPassword,
 			@RequestParam("newPassword") String newPassword,
-			@RequestParam("newPasswordConfirm") String newPasswordConfirm, RedirectAttributes rttr) {
-	    log.info("updateUserPassword 호출");
+			@RequestParam("newPasswordConfirm") String newPasswordConfirm) {
+
 		UserVO vo = new UserUtil().getUserDetails();
 		// 기존 비밀번호가 일치하는지 확인
 		if (!passwordEncoder.matches(currentPassword, vo.getPassword())) {
-			rttr.addFlashAttribute("error", "기존 비밀번호가 일치하지 않습니다.");
-			log.info("기존 비밀번호가 일치하지 않습니다.");
-			return "redirect:/updatePw";
+			return "fail_current_pw";
 		}
 		// 새 비밀번호와 비밀번호 확인이 일치하는지 확인
 		if (!newPassword.equals(newPasswordConfirm)) {
-			rttr.addFlashAttribute("error", "새로운 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-	        log.info("새로운 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-			return "redirect:/updatePw";
+			return "fail_new_pw_confirm";
 		}
 		// 새 비밀번호를 암호화하여 업데이트
-		vo.setPassword(newPassword);
+		vo.setPassword(passwordEncoder.encode(newPassword));
 		boolean result = service.updatePw(vo);
 		if (!result) {
-			rttr.addFlashAttribute("error", "비밀번호 변경에 실패했습니다.");
-	        log.info("비밀번호 변경에 실패했습니다.");
-			return "redirect:/updatePw";
-		} else {
-			rttr.addFlashAttribute("success", "비밀번호가 변경되었습니다.");
-	    log.info("비밀번호가 변경되었습니다.");
-			return "redirect:/userinfo";
+			return "fail_update_pw";
 		}
+		log.info("비밀번호가변경되었습니다.");
+		return "success";
 	}
 
 	@GetMapping("/deleteUser")

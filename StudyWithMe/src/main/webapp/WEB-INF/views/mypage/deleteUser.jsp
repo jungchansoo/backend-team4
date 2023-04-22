@@ -19,7 +19,8 @@
 <link rel="stylesheet" href="resources/css/sidebar.css" type="text/css">
 </head>
 <!-- 헤더 -->
-<%@include file="../includes/header.jsp"%><body>
+<%@include file="../includes/header.jsp"%>
+<body>
 
 	<style>
 li a.deleteid {
