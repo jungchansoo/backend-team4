@@ -21,7 +21,7 @@ public class AdminPageController {
 
     @GetMapping("/userlist")
     public String getUserList(Model model, Criteria cri) {
-        model.addAttribute("userList", service.getUserList(cri));
+        model.addAttribute("userList", service.getListWithPaging(cri));
         int total = service.getTotal(cri);
         model.addAttribute("pageMaker", new PageDTO(cri, total));
         return "/adminpage/userManagement";

@@ -1,5 +1,6 @@
 package org.studywithme.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,8 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.studywithme.domain.ReservationCriteria;
 import org.studywithme.domain.UserVO;
-import org.studywithme.service.UserService;
+import org.studywithme.dto.ReservationPageDTO;
+import org.studywithme.service.MypageService;
 import org.studywithme.util.UserUtil;
 
 import lombok.extern.log4j.Log4j;
@@ -21,7 +24,7 @@ import lombok.extern.log4j.Log4j;
 public class MypageController {
 
 	@Autowired
-	private UserService service;
+	private MypageService service;
 
 	@Autowired
 	@Qualifier("bcryptPasswordEncoder")
@@ -36,10 +39,27 @@ public class MypageController {
 		return "/mypage/userinfo";
 	}
 
+//	@GetMapping("/reservationList")
+//	 public String reservationList(Model model) {
+//		UserVO vo = new UserUtil().getUserDetails();
+//		List<ReservationVO> reservationList = service.getReservationList(vo.getUserId());
+//        model.addAttribute("reservationList", reservationList);
+//		return "/mypage/reservationList";
+//	}
+
 	@GetMapping("/reservationList")
-	public String reservationList() {
+	public String reservationList( ReservationCriteria recri,Model model) {
+		UserVO vo = new UserUtil().getUserDetails();
+		String userId = vo.getUserId();
+		recri.setUserId(userId);
+		model.addAttribute("reservationList", service.getReservationListWithPaging(recri));
+		int total = service.getTotalReservationCount(recri);
+		model.addAttribute("pageMaker", new ReservationPageDTO(recri, total));
 		return "/mypage/reservationList";
 	}
+	
+
+	
 
 	@GetMapping("/updatePw")
 	public String updatePwForm() {

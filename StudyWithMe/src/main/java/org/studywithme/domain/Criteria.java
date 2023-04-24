@@ -16,6 +16,8 @@ public class Criteria {
 
 	private String type; // 검색조건
 	private String keyword; // 검색어
+	
+	private String userId;
 
 	// 생성자 => 필드의 초기값 지정
 	public Criteria() {

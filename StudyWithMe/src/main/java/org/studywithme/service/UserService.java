@@ -11,10 +11,6 @@ public interface UserService {
 
 //	public List<UserVO> getList();
 
-	public UserVO mypageGetList(String userId);
-	public boolean updatePw(UserVO vo);
-	public boolean deleteUser(String userId);
-
 	public boolean modifyUserNameForTest(UserVO vo);
 
 
