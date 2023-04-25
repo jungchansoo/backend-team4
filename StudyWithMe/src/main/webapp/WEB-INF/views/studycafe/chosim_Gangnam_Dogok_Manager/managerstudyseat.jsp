@@ -104,10 +104,15 @@ a {
 	text-align: center;
 	
 }
-#getOut{
-	text-align: center;
+  .right-side {
+    position: relative;
+  }
 
-}
+  #getOut {
+    position: absolute;
+    right: 30%;
+    top: 80%; /* 수직 위치를 조절할 수 있는 값입니다. */
+  }
 </style>
 
 </head>
@@ -126,8 +131,7 @@ a {
 				</div>
 			</div>
 			<!-- 사이드 바 구성 (todo)-->
-			<div class="col-md-6">
-				<div class="right-side">
+			<div class="col-md-6 right-side">
 					<p class="selectedSeatInfo fs-4">사용자 정보</p>
 					<ul class="list-unstyled">
 						<li id="userName" class="fs-4">유저명 :</li>
@@ -142,7 +146,6 @@ a {
 					<!-- 외곽선만 있는 버튼 스타일 적용 -->
 					<button type="button" class="btn btn-outline-primary" id="getOut"
 						onclick="returnseat()">내보내기</button>
-				</div>
 			</div>
 		</div>
 	</div>
