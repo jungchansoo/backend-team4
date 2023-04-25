@@ -32,18 +32,19 @@
 	padding: 20px;
 }
 
+.cd2 p {
+	margin-right : 80%;
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
 #searchForm {
 	margin-left: auto;
+	padding-bottom: 10px;
 }
 
 .list {
 	text-align: center;
-}
-
-.list p {
-	text-align: left;
-	font-size: 1.2em;
-	font-weight: bold;
 }
 
 .list tbody {
@@ -80,6 +81,7 @@
 		<input id="csrfToken" type="hidden" name="${_csrf.parameterName}"
 			value="${_csrf.token}" />
 
+				<p>유저목록</p>
 		<!-- 검색 기능 -->
 		<form id='searchForm' action="/userlist" method='get'>
 			<select name='type'>
@@ -101,7 +103,6 @@
 
 		<div class="list">
 			<table>
-				<p>유저목록</p>
 				<thead>
 					<tr>
 						<th>번호</th>
@@ -140,21 +141,18 @@
 
 		<!-- 하단 페이징처리 -->
 			<ul class="pagination">
-    <li class="paginate_button previous">
-        <a href="${pageMaker.startPage - 1}">Previous</a>
-    </li>
-    <c:forEach var="num" begin="${pageMaker.startPage > 1 ? pageMaker.startPage : 1}"
-        end="${pageMaker.endPage}">
-        <li class="paginate_button ${pageMaker.cri.pageNum == num ? "active":""}">
-            <a href="${num}">${num}</a>
-        </li>
-    </c:forEach>
-    <li class="paginate_button next">
-        <a href="${pageMaker.endPage + 1}">Next</a>
-    </li>
-</ul>
-
-
+			<li class="paginate_button previous"><a
+				href="${pageMaker.startPage - 1}">Previous</a></li>
+			<c:forEach var="num" begin="${pageMaker.startPage}"
+				end="${pageMaker.endPage}">
+				<li
+					class="paginate_button ${pageMaker.cri.pageNum == num ? 'active':''}">
+					<a href="${num}">${num}</a>
+				</li>
+			</c:forEach>
+			<li class="paginate_button next"><a
+				href="${pageMaker.endPage + 1}">Next</a></li>
+		</ul>
 
 
 		<form id="actionForm" action="/userlist" method="get">
@@ -217,16 +215,32 @@
 						searchForm.submit();
 					});
 
-					var actionForm = $("#actionForm");
-					$(".paginate_button a").on(
-							"click",
-							function(e) {
-								e.preventDefault();
-								console.log('click');
-								actionForm.find("input[name='pageNum']").val(
-										$(this).attr("href"));
-								actionForm.submit();
-							});
+					 var actionForm = $("#actionForm");
+
+					  $(".paginate_button.previous a").on("click", function(e) {
+					    e.preventDefault();
+					    var page = parseInt(actionForm.find("input[name='pageNum']").val());
+					    if (page > 1) {
+					      actionForm.find("input[name='pageNum']").val(page - 1);
+					      actionForm.submit();
+					    }
+					  });
+
+					  $(".paginate_button.next a").on("click", function(e) {
+					    e.preventDefault();
+					    var page = parseInt(actionForm.find("input[name='pageNum']").val());
+					    var lastPage = parseInt("${pageMaker.endPage}");
+					    if (page < lastPage) {
+					      actionForm.find("input[name='pageNum']").val(page + 1);
+					      actionForm.submit();
+					    }
+					  });
+
+					  $(".paginate_button:not(.previous, .next) a").on("click", function(e) {
+					    e.preventDefault();
+					    actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+					    actionForm.submit();
+					  });
 
 				});
 	</script>
