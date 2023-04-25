@@ -117,49 +117,78 @@ a {
 						<li id="phoneNumber" class="fs-4">연락처 :</li>
 					</ul>
 					<!-- 외곽선만 있는 버튼 스타일 적용 -->
-					<button type="button" class="btn btn-outline-primary" id="getOut" onclick="returnseat()">내보내기</button>
+					<button type="button" class="btn btn-outline-primary" id="getOut"
+						onclick="returnseat()">내보내기</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div id="returnseat" class="modal">
-		<p class="seatnum">해당 좌석을 반납 하시겠습니까?</p>
-		<a class="yes" onclick="returnseatdb()">예</a> <a class="no"
-			onClick="location.reload()">아니오</a>
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<p class="seatnum">해당 좌석을 반납 하시겠습니까?</p>
+				<a class="yes" onclick="returnseatdb()">예</a> <a class="no"
+					onClick="location.reload()">아니오</a>
+			</div>
+		</div>
 	</div>
 
 	<div id="returnseatsuccess" class="modal">
-		<p class="checkmessage">좌석 반납이 완료되었습니다.</p>
-		<a class="check" onClick="location.reload()">확인</a>
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<p class="checkmessage">좌석 반납이 완료되었습니다.</p>
+				<a class="check" onClick="location.reload()">확인</a>
+			</div>
+		</div>
 	</div>
 
 	<div id="returnseatfail" class="modal">
-		<p class="checkmessage">좌석 반납이 실패하였습니다.</p>
-		<p class="checkmessage">잠시 후 다시 시도해 주세요.</p>
-		<a class="check" onClick="location.reload()">확인</a>
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<p class="checkmessage">좌석 반납이 실패하였습니다.</p>
+				<p class="checkmessage">잠시 후 다시 시도해 주세요.</p>
+				<a class="check" onClick="location.reload()">확인</a>
+			</div>
+		</div>
 	</div>
 
 	<div id="alreadyuse" class="modal">
-		<p class="checkmessage">사용중인 좌석을 반납후 이용해 주세요.</p>
-		<p>지점명 : ${map.NAME}</p>
-		<p>좌석번호 : ${map.NUM_USING}</p>
-		<a class="check" onClick="location.reload()">확인</a>
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<p class="checkmessage">사용중인 좌석을 반납후 이용해 주세요.</p>
+				<p>지점명 : ${map.NAME}</p>
+				<p>좌석번호 : ${map.NUM_USING}</p>
+				<a class="check" onClick="location.reload()">확인</a>
+			</div>
+		</div>
 	</div>
 
 	<div id="locker" class="modal">
-		<p class="checkmessage">상단의 사물함 메뉴를 이용해주세요.</p>
-		<a class="check" onClick="location.reload()">확인</a>
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<p class="checkmessage">상단의 사물함 메뉴를 이용해주세요.</p>
+				<a class="check" onClick="location.reload()">확인</a>
+			</div>
+		</div>
 	</div>
 
 	<div id="room" class="modal">
-		<p class="checkmessage">상단의 스터디석 메뉴를 이용해주세요.</p>
-		<a class="check" onClick="location.reload()">확인</a>
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<p class="checkmessage">상단의 스터디석 메뉴를 이용해주세요.</p>
+				<a class="check" onClick="location.reload()">확인</a>
+			</div>
+		</div>
 	</div>
 
 	<div id="returnseatfail" class="modal">
-		<p class="checkmessage">좌석 반납이 실패하였습니다.</p>
-		<p class="checkmessage">잠시 후 다시 시도해 주세요.</p>
-		<a class="check" onClick="location.reload()">확인</a>
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<p class="checkmessage">좌석 반납이 실패하였습니다.</p>
+				<p class="checkmessage">잠시 후 다시 시도해 주세요.</p>
+				<a class="check" onClick="location.reload()">확인</a>
+			</div>
+		</div>
 	</div>
 	<input id="csrfToken" type="hidden" name="${_csrf.parameterName}"
 		value="${_csrf.token}" />
