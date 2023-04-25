@@ -24,11 +24,30 @@ li a.reservatelist {
 	color: #fff;
 }
 
+#searchForm {
+	margin-left: 70%;
+	padding-bottom: 10px;
+}
+
 table {
 	border-radius: 12px;
 	border: solid 2px black;
-	width: 90%;
+	width: 95%;
 	margin: auto;
+}
+
+thead tr {
+	border-bottom: 1px solid black;
+}
+
+.pagination {
+	list-style-type: none;
+	display: flex;
+	justify-content: center;
+}
+
+.pagination li {
+	margin-right: 20px;
 }
 </style>
 
@@ -40,27 +59,32 @@ table {
 		<li><a class="deleteid" href="/deleteUser">회원탈퇴</a></li>
 	</ul>
 
-
-
 	<div class="cd1">
-		<!-- 검색 기능 -->
-		<form id='searchForm' action="/reservationList" method='get'>
-  <select name='searchType'>
-    <option value="N" <c:out value="${pageMaker.recri.searchType eq 'N'?'selected':''}"/> >이용지점</option>
-    <option value="C" <c:out value="${pageMaker.recri.searchType eq 'C'?'selected':''}"/> >좌석종류</option>
-    <option value="S" <c:out value="${pageMaker.recri.searchType eq 'S'?'selected':''}"/> >예약날짜</option>
-  </select> 
-  <input type='text' name='keyword' value='<c:out value="${pageMaker.recri.keyword}"/>' />
-  <input type='hidden' name='pageNum' value='<c:out value="${pageMaker.recri.pageNum}"/>' />
-  <input type='hidden' name='amount' value='<c:out value="${pageMaker.recri.amount}"/>' />
-  <button class='btn btn-default'>검색</button>
-</form>
 
 		<input id="csrfToken" type="hidden" name="${_csrf.parameterName}"
 			value="${_csrf.token}" />
 		<!-- 예약 목록 리스트 -->
 		<p>예약 내역</p>
 		<hr>
+
+		<!-- 검색 기능 -->
+		<form id='searchForm' action="/reservationList" method='get'>
+			<select name='searchType'>
+				<option value="N"
+					<c:out value="${pageMaker.recri.searchType eq 'N'?'selected':''}"/>>이용지점</option>
+				<option value="C"
+					<c:out value="${pageMaker.recri.searchType eq 'C'?'selected':''}"/>>좌석종류</option>
+				<option value="S"
+					<c:out value="${pageMaker.recri.searchType eq 'S'?'selected':''}"/>>예약날짜</option>
+			</select> <input type='text' name='keyword'
+				value='<c:out value="${pageMaker.recri.keyword}"/>' /> <input
+				type='hidden' name='pageNum'
+				value='<c:out value="${pageMaker.recri.pageNum}"/>' /> <input
+				type='hidden' name='amount'
+				value='<c:out value="${pageMaker.recri.amount}"/>' />
+			<button class='btn btn-default'>검색</button>
+		</form>
+
 		<table>
 			<thead>
 				<tr>
@@ -73,11 +97,10 @@ table {
 				</tr>
 			</thead>
 			<tbody>
-				<!-- tbl_reservation에 있는 db값을 넣기 -->
 				<c:forEach items="${reservationList}" var="reservation"
 					varStatus="status">
 					<tr>
-						<td>${reservationList.size() - status.index}</td>
+						<td>${pageMaker.getRealIndex(status.index)}</td>
 						<td>${reservation.name}</td>
 						<%-- <td><fmt:formatDate pattern="yyyy/MM/dd"
 								value="${reservation.start_time}" /></td> --%>
@@ -92,60 +115,75 @@ table {
 
 		<!-- 하단 페이징처리 -->
 		<ul class="pagination">
-			<c:if test="${pageMaker.prev}">
-				<li class="paginate_button previous"><a
-					href="${pageMaker.startPage -1}">Previous</a></li>
-			</c:if>
-
+			<li class="paginate_button previous"><a
+				href="${pageMaker.startPage - 1}">Previous</a></li>
 			<c:forEach var="num" begin="${pageMaker.startPage}"
 				end="${pageMaker.endPage}">
-				<li class="paginate_button  ${pageMaker.recri.pageNum == num ? "active":""} ">
+				<li
+					class="paginate_button ${pageMaker.recri.pageNum == num ? 'active':''}">
 					<a href="${num}">${num}</a>
 				</li>
 			</c:forEach>
-
-			<c:if test="${pageMaker.next}">
-				<li class="paginate_button next"><a
-					href="${pageMaker.endPage +1 }">Next</a></li>
-			</c:if>
-
+			<li class="paginate_button next"><a
+				href="${pageMaker.endPage + 1}">Next</a></li>
 		</ul>
 
 		<form id='actionForm' action="/reservationList" method='get'>
-			<input type='hidden' name='pageNum' value='${pageMaker.recri.pageNum}'>
-			<input type='hidden' name='amount' value='${pageMaker.recri.amount}'>
-			<input type='hidden' name='searchType'
-				value='<c:out value="${ pageMaker.recri.searchType }"/>'> <input
+			<input type='hidden' name='pageNum'
+				value='${pageMaker.recri.pageNum}'> <input type='hidden'
+				name='amount' value='${pageMaker.recri.amount}'> <input
+				type='hidden' name='searchType'
+				value='<c:out value="${pageMaker.recri.searchType}"/>'> <input
 				type='hidden' name='keyword'
-				value='<c:out value="${ pageMaker.recri.keyword }"/>'>
-
-
+				value='<c:out value="${pageMaker.recri.keyword}"/>'>
 		</form>
 
 	</div>
 
 	<script>
-		$(document).ready(function() {
-			history.replaceState({}, null, null);
-			var searchForm = $("#searchForm");
-			$("#searchForm button").on("click", function(e) {
-				if (!searchForm.find("input[name='keyword']").val()) {
-					alert("키워드를 입력하세요");
-					return false;
-				}
-				searchForm.find("input[name='pageNum']").val("1");
-				e.preventDefault();
-				searchForm.submit();
-			});
+	$(document).ready(function() {
+		  history.replaceState({}, null, null);
 
-			var actionForm = $("#actionForm");
-			$(".paginate_button a").on("click",	function(e) {
-				e.preventDefault();
-				console.log('click');
-				actionForm.find("input[name='pageNum']").val($(this).attr("href"));
-				actionForm.submit();
-				});
+		  var searchForm = $("#searchForm");
+
+		  $("#searchForm button").on("click", function(e) {
+		    if (!searchForm.find("input[name='keyword']").val()) {
+		      alert("키워드를 입력하세요");
+		      return false;
+		    }
+		    searchForm.find("input[name='pageNum']").val("1");
+		    e.preventDefault();
+		    searchForm.submit();
+		  });
+
+		  var actionForm = $("#actionForm");
+
+		  $(".paginate_button.previous a").on("click", function(e) {
+		    e.preventDefault();
+		    var page = parseInt(actionForm.find("input[name='pageNum']").val());
+		    if (page > 1) {
+		      actionForm.find("input[name='pageNum']").val(page - 1);
+		      actionForm.submit();
+		    }
+		  });
+
+		  $(".paginate_button.next a").on("click", function(e) {
+		    e.preventDefault();
+		    var page = parseInt(actionForm.find("input[name='pageNum']").val());
+		    var lastPage = parseInt("${pageMaker.endPage}");
+		    if (page < lastPage) {
+		      actionForm.find("input[name='pageNum']").val(page + 1);
+		      actionForm.submit();
+		    }
+		  });
+
+		  $(".paginate_button:not(.previous, .next) a").on("click", function(e) {
+		    e.preventDefault();
+		    actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+		    actionForm.submit();
+		  });
 		});
+
 	</script>
 
 </body>

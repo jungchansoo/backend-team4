@@ -12,18 +12,20 @@
 	rel="stylesheet">
 
 <style>
+.modal-content {
+    padding: 15px;
+}
+.button-container {
+    text-align: center;
+}
 a {
 	color: black;
 	text-decoration: none;
 }
 
-.yes {
-	margin-left: 0px;
-	margin-right: 40px;
-	cursor: pointer;
-}
-
-.no {
+.yes, .no {
+	display: inline-block;
+	margin: 0 10px;
 	cursor: pointer;
 }
 
@@ -72,10 +74,10 @@ a {
 
 #seatcheck, #returnseat, #reservationsuccess, #timefail, #usefail,
 	#returnseatsuccess, #returnseatfail, #alreadyuse, #room, #locker {
-	width: 400px;
+	width: auto;
+	min-width: 500px;
 	text-align: center;
-	font-family: "paybooc-Light", sans-serif;
-	font-size: 16px;
+	font-size: 20px;
 }
 
 .check {
@@ -85,6 +87,32 @@ a {
 .emptySpace {
 	margin-top: 80px;
 }
+
+.modal {
+	position: fixed !important;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	height: auto !important;
+}
+
+.modal-backdrop {
+	--bs-backdrop-zindex: 1 !important;
+}
+#desc{
+	font-size:15px;
+	text-align: center;
+	
+}
+  .right-side {
+    position: relative;
+  }
+
+  #getOut {
+    position: absolute;
+    right: 30%;
+    top: 80%; /* 수직 위치를 조절할 수 있는 값입니다. */
+  }
 </style>
 
 </head>
@@ -99,12 +127,11 @@ a {
 			<div class="col-md-6">
 				<div class="studyseat">
 					<%@ include file="studyseat.jsp"%>
-					<div id="desc">해당 좌석을 이용중인 사용자를 확인하고 싶으면 클릭하세요</div>
+					<div id="desc">이용중인 사용자를 확인하고 싶으면 좌석을 클릭하세요</div>
 				</div>
 			</div>
 			<!-- 사이드 바 구성 (todo)-->
-			<div class="col-md-6">
-				<div class="right-side">
+			<div class="col-md-6 right-side">
 					<p class="selectedSeatInfo fs-4">사용자 정보</p>
 					<ul class="list-unstyled">
 						<li id="userName" class="fs-4">유저명 :</li>
@@ -117,50 +144,62 @@ a {
 						<li id="phoneNumber" class="fs-4">연락처 :</li>
 					</ul>
 					<!-- 외곽선만 있는 버튼 스타일 적용 -->
-					<button type="button" class="btn btn-outline-primary" id="getOut" onclick="returnseat()">내보내기</button>
-				</div>
+					<button type="button" class="btn btn-outline-primary" id="getOut"
+						onclick="returnseat()">내보내기</button>
 			</div>
 		</div>
 	</div>
-	<div id="returnseat" class="modal">
-		<p class="seatnum">해당 좌석을 반납 하시겠습니까?</p>
-		<a class="yes" onclick="returnseatdb()">예</a> <a class="no"
-			onClick="location.reload()">아니오</a>
-	</div>
+	<div class="modal fade" id="returnseat">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<p class="seatnum">해당 좌석의 유저를 내보내시겠습니까?</p>
+				<div class="button-container">
+					<a class="btn btn-outline-danger yes" onclick="returnseatdb()">예</a>
+					<a class="btn btn-outline-primary no" onClick="location.reload()">아니오</a>
+				</div>
+			</div>
 
+		</div>
+	</div>
 	<div id="returnseatsuccess" class="modal">
-		<p class="checkmessage">좌석 반납이 완료되었습니다.</p>
-		<a class="check" onClick="location.reload()">확인</a>
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<p class="checkmessage">내보내기가 완료되었습니다.</p>
+				<a class="check btn btn-outline-primar" onClick="location.reload()">확인</a>
+			</div>
+		</div>
 	</div>
 
 	<div id="returnseatfail" class="modal">
-		<p class="checkmessage">좌석 반납이 실패하였습니다.</p>
-		<p class="checkmessage">잠시 후 다시 시도해 주세요.</p>
-		<a class="check" onClick="location.reload()">확인</a>
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<p class="checkmessage">내보내기가 실패하였습니다.</p>
+				<p class="checkmessage">잠시 후 다시 시도해 주세요.</p>
+				<a class="check btn btn-outline-primar" onClick="location.reload()">확인</a>
+			</div>
+		</div>
 	</div>
 
-	<div id="alreadyuse" class="modal">
-		<p class="checkmessage">사용중인 좌석을 반납후 이용해 주세요.</p>
-		<p>지점명 : ${map.NAME}</p>
-		<p>좌석번호 : ${map.NUM_USING}</p>
-		<a class="check" onClick="location.reload()">확인</a>
-	</div>
 
 	<div id="locker" class="modal">
-		<p class="checkmessage">상단의 사물함 메뉴를 이용해주세요.</p>
-		<a class="check" onClick="location.reload()">확인</a>
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<p class="checkmessage">상단의 사물함 메뉴를 이용해주세요.</p>
+				<a class="check btn btn-outline-primar" onClick="location.reload()">확인</a>
+			</div>
+		</div>
 	</div>
 
 	<div id="room" class="modal">
-		<p class="checkmessage">상단의 스터디석 메뉴를 이용해주세요.</p>
-		<a class="check" onClick="location.reload()">확인</a>
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<p class="checkmessage">상단의 스터디룸 관리 메뉴를 이용해주세요.</p>
+				<a class="check btn btn-outline-primar" onClick="location.reload()">확인</a>
+			</div>
+		</div>
 	</div>
 
-	<div id="returnseatfail" class="modal">
-		<p class="checkmessage">좌석 반납이 실패하였습니다.</p>
-		<p class="checkmessage">잠시 후 다시 시도해 주세요.</p>
-		<a class="check" onClick="location.reload()">확인</a>
-	</div>
+
 	<input id="csrfToken" type="hidden" name="${_csrf.parameterName}"
 		value="${_csrf.token}" />
 	<script
