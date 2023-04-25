@@ -48,7 +48,7 @@
 	<select id="getTotalCount" resultType="int"
 		parameterType="org.studywithme.domain.Criteria">
 		SELECT COUNT(*) FROM tbl_user where
-		<include refid="criteria"></include>
+		<include refid="criteria"/>
 		user_no > 0
 	</select>
 
@@ -63,7 +63,7 @@
 		remaining_study_room_time, remaining_locker_time
 		FROM
       	(
-      	select /*+INDEX_DESC(tbl_user user_no) */
+      	select /*+INDEX_ASC(tbl_user user_no) */
         rownum rn, user_no, user_id, username,
 		phone_number, email, role,
 		remaining_seat_time,
@@ -73,12 +73,10 @@
       	where 
   		]]>
 		<include refid="criteria"></include>
-      
   		<![CDATA[    
       	rownum <= #{pageNum} * #{amount}
       	)
   		where rn > (#{pageNum} -1) * #{amount} 
-  		ORDER BY user_no ASC  
   		]]>
 	</select>
 
@@ -135,38 +133,42 @@
 	</sql>
 
 
-	<!-- 예약 내역의 총 개수를 구하는 SQL 구문 -->
-	<select id="getTotalReservationCount" resultType="int"
-		parameterType="org.studywithme.domain.ReservationCriteria">
-		SELECT COUNT(*) FROM reservation WHERE
-		<include refid="reservationcriteria" />
-		user_id = #{userId}
-	</select>
 
 	<!-- 유저 예약 정보 페이징 + 검색 -->
 	<select id="getReservationListWithPaging"
 		resultType="org.studywithme.domain.ReservationVO"
 		parameterType="org.studywithme.domain.ReservationCriteria">
   <![CDATA[
-    SELECT r.reservation_no, s.name, r.category, r.num_using, r.start_time, r.duration
-    FROM (
-      SELECT rownum rn, r.*
-      FROM (
-        SELECT *
-        FROM reservation
-        WHERE user_id = #{userId}
-        ]]>
+   SELECT reservation_no, category, num_using, start_time, duration, name
+	FROM (
+		SELECT rownum rn, r.*
+		FROM (
+			SELECT *
+			FROM reservation r
+			INNER JOIN study_cafe c ON r.cafe_no = c.cafe_no
+			WHERE r.user_id = #{userId}
+			ORDER BY r.start_time DESC
+		) r
+		WHERE 
+			  ]]>
 		<include refid="reservationcriteria" />
-        <![CDATA[
-        ORDER BY start_time DESC
-      ) r
-      WHERE rownum <= #{pageNum} * #{amount}
-    ) r
-    JOIN study_cafe s ON s.cafe_no = r.cafe_no
-    WHERE rn > (#{pageNum} - 1) * #{amount}
+			<![CDATA[
+		rownum <= #{pageNum} * #{amount}
+	) r
+	WHERE rn > (#{pageNum} - 1) * #{amount}
   ]]>
 	</select>
 
+	<!-- 예약 내역의 총 개수를 구하는 SQL 구문 -->
+	<select id="getTotalReservationCount" resultType="int"
+		parameterType="org.studywithme.domain.ReservationCriteria">
+		SELECT COUNT(*) as total_reservation_count
+		FROM reservation r
+		INNER JOIN study_cafe c ON r.cafe_no = c.cafe_no
+		WHERE
+		<include refid="reservationcriteria" />
+		r.user_id = #{userId}
+	</select>
 
 
 	<!-- 유저 예약 정보 -->
