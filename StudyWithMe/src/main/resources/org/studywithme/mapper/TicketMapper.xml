@@ -96,5 +96,37 @@
   		 WHERE rn BETWEEN ((#{pageNum} - 1) * #{amount}) AND (#{pageNum} * #{amount}) 
 	</select>
 	
-
+	<insert id="insert">
+		INSERT INTO tbl_ticket
+		(
+		       ticket_no
+		      ,category
+		      ,ticket_name
+		      ,price
+		      ,charging_time
+		      ,start_time
+		      ,end_time
+		) VALUES (
+		       ticket_seq.nextval
+		      ,#{category}
+		      ,#{ticketName}
+		      ,#{price}
+		      ,#{chargingTime}
+		      ,TO_DATE(#{startTime},'YYYY/MM/DD')
+		      ,TO_DATE(#{endTime},'YYYY/MM/DD')
+		)
+	</insert>
+	
+	<select id="read" resultType="org.studywithme.domain.TicketVO">
+		SELECT ticket_no
+		      ,category
+		      ,ticket_name
+		      ,price
+		      ,charging_time
+		      ,TO_CHAR(start_time, 'YYYY/MM/DD')
+		      ,TO_CHAR(end_time, 'YYYY/MM/DD')
+		  FROM tbl_ticket 
+		 WHERE ticket_no = #{ticketNo}
+	</select>
+ 
 </mapper>

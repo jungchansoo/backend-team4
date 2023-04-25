@@ -2,8 +2,8 @@ package org.studywithme.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
+import org.studywithme.domain.AddTicketVO;
 import org.studywithme.domain.Criteria;
 import org.studywithme.domain.TicketVO;
 import org.studywithme.mapper.TicketMapper;
@@ -19,8 +19,23 @@ public class AdminTicketServiceImpl implements AdminTicketService {
 	private TicketMapper mapper;
 
 	@Override
-	public void register(TicketVO ticket) {
+	public void register(AddTicketVO ticket) {
+		if(ticket.getTimeType().equals("hour")) {
+			ticket.setChargingTime(ticket.getChargingTime() * 60);
+		}
+		else if(ticket.getTimeType().equals("day")) {
+			ticket.setChargingTime(ticket.getChargingTime() * 60 * 24);
+		}
+		else if(ticket.getTimeType().equals("week")) {
+			ticket.setChargingTime(ticket.getChargingTime() * 60 * 24 * 7);
+		}
+		else if(ticket.getTimeType().equals("month")) {
+			ticket.setChargingTime(ticket.getChargingTime() * 60 * 24 * 7 * 4);
+		}
 		
+		log.info("ticket" + ticket);
+		
+		mapper.insert(ticket);
 	}
 
 	@Override
@@ -30,15 +45,15 @@ public class AdminTicketServiceImpl implements AdminTicketService {
 	}
 
 	@Override
-	public boolean remove(Long bno) {
+	public boolean remove(Long ticketNo) {
 		
 		return false;
 	}
 
 	@Override
-	public TicketVO get(Long bno) {
-		
-		return null;
+	public TicketVO get(Long ticketNo) {
+		log.info("get......" + ticketNo);
+		return mapper.read(ticketNo);
 	}
 
 	@Override

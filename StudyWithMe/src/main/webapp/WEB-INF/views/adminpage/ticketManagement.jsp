@@ -119,6 +119,11 @@
 								<c:if test="${ticket.category == 'LOCKER'}">사물함</c:if>
 							</td>
 							<td>${ticket.ticketName}</td>
+							<td>
+								<a class='move' href='<c:out value="${ticket.ticketNo}"/>'>
+									<c:out value="${ticket.ticketName}" /> 
+								</a>
+							</td>
 							
 							<td>
 								<c:if test="${ticket.category == 'SEAT'}"><fmt:formatNumber value="${ticket.chargingTime / 60}" pattern="# '시간'" /></c:if>
@@ -171,11 +176,13 @@
 		<form id="actionForm" action="ticketManagement" method="get">
 			<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
 			<input type="hidden" name='amount' value='${pageMaker.cri.amount}'>
-			<input type='hidden' name='type'
-				value='<c:out value="${ pageMaker.cri.type }"/>'> <input
-				type='hidden' name='keyword'
-				value='<c:out value="${ pageMaker.cri.keyword }"/>'>
+			<input type='hidden' name='type'value='<c:out value="${ pageMaker.cri.type }"/>'>
+			<input type='hidden' name='keyword' value='<c:out value="${ pageMaker.cri.keyword }"/>'>
 		</form>
+		
+		<div>
+			<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/insertTicket'">이용권 추가</button>
+		</div>
 
 	</div>
 
@@ -204,7 +211,24 @@
 										$(this).attr("href"));
 								actionForm.submit();
 							});
+					
+					$(".move")
+					.on(
+							"click",
+							function(e) {
 
+								e.preventDefault();
+								actionForm
+										.append("<input type='hidden' name='ticketNo' value='"
+												+ $(this).attr(
+														"href")
+												+ "'>");
+								actionForm.attr("action",
+										"/getTicket");
+								actionForm.submit();
+
+							});
+					
 				});
 	</script>
 
