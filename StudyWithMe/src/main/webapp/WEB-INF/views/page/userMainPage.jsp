@@ -143,5 +143,7 @@
 	<script type="text/javascript" src="/resources/js/userMainPage.js"></script>
 
 </body>
+<%@include file="../includes/footer.jsp"%>
+
 </html>
 
