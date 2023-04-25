@@ -101,7 +101,7 @@
 					<a href="#">개인정보 처리방침</a> <a href="#">회사소개</a> <a href="#">개인정보보호정책</a>
 					<a href="#">이용약관</a>
 				</div>
-				<p>copyright(c) 2023 All rights reserved StudyWithMe</p>
+				<p>Copyrightⓒ 2023 All rights reserved StudyWithMe</p>
 			</div>
 		</div>
 	</div>
