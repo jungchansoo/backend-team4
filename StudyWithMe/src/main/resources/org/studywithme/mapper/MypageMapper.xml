@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.studywithme.mapper.MypageMapper">
+
+	<resultMap type="org.studywithme.domain.UserVO" id="userMap">
+		<id column="user_no" property="userNo" />
+		<id property="userId" column="user_id" />
+		<result property="password" column="password" />
+		<result property="userName" column="userName" />
+		<result property="phoneNumber" column="phone_Number" />
+		<result property="email" column="email" />
+		<result property="role" column="role" />
+		<result property="joinDate" column="joinDate" />
+		<result property="remainingSeatTime"
+			column="remaining_Seat_Time" />
+		<result property="remainingStudyRoomTime"
+			column="remaining_Study_Room_Time" />
+		<result property="remainingLockerTime"
+			column="remaining_Locker_Time" />
+		<result property="phoneVerified" column="phone_Verified" />
+		<result property="emailVerified" column="email_Verified" />
+	</resultMap>
+
+	<!-- 각 문자열을 이용해 검색 조건을 결합하는 형태로 하면 3개의 동적 SQL 구문 처리 -->
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'I'.toString()">
+							user_id like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'N'.toString()">
+							username like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'P'.toString()">
+							phone_number like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+
+	<!-- 전체 유저 수 조회 -->
+	<select id="getTotalCount" resultType="int"
+		parameterType="org.studywithme.domain.Criteria">
+		SELECT COUNT(*) FROM tbl_user where
+		<include refid="criteria"></include>
+		user_no > 0
+	</select>
+
+	<!-- 유저 목록 페이징 조회 -->
+	<select id="getListWithPaging" resultMap="userMap"
+		parameterType="org.studywithme.domain.Criteria">
+		<![CDATA[
+ 		SELECT
+		user_no, user_id, username,
+		phone_number, email, role,
+		remaining_seat_time,
+		remaining_study_room_time, remaining_locker_time
+		FROM
+      	(
+      	select /*+INDEX_DESC(tbl_user user_no) */
+        rownum rn, user_no, user_id, username,
+		phone_number, email, role,
+		remaining_seat_time,
+		remaining_study_room_time, remaining_locker_time
+		FROM
+		tbl_user
+      	where 
+  		]]>
+		<include refid="criteria"></include>
+      
+  		<![CDATA[    
+      	rownum <= #{pageNum} * #{amount}
+      	)
+  		where rn > (#{pageNum} -1) * #{amount} 
+  		ORDER BY user_no ASC  
+  		]]>
+	</select>
+
+	<!-- 관리자 유저목록 페이지 -->
+	<select id="getUserList" resultMap="userMap">
+		SELECT
+		user_no, user_id,
+		username,
+		phone_number, email, role,
+		remaining_seat_time,
+		remaining_study_room_time, remaining_locker_time
+		FROM
+		tbl_user
+	</select>
+
+
+
+	<!-- 회원 탈퇴 -->
+	<delete id="deleteUser">
+		DELETE FROM tbl_user
+		WHERE user_id =
+		#{userId}
+	</delete>
+
+
+	<!-- 비밀번호 변경 -->
+	<update id="updatePw">
+		update tbl_user
+		set password
+		= #{password}
+		where user_id
+		= #{userId}
+	</update>
+
+	<!-- 각 문자열을 이용해 검색 조건을 결합하는 형태로 하면 3개의 동적 SQL 구문 처리 -->
+	<sql id="reservationcriteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='searchType' collection="searchTypeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="searchType == 'N'.toString()">
+							name like '%'||#{keyword}||'%'
+						</when>
+						<when test="searchType == 'C'.toString()">
+							category like '%'||#{keyword}||'%'
+						</when>
+						<when test="searchType == 'S'.toString()">
+							start_time like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+
+
+	<!-- 예약 내역의 총 개수를 구하는 SQL 구문 -->
+	<select id="getTotalReservationCount" resultType="int"
+		parameterType="org.studywithme.domain.ReservationCriteria">
+		SELECT COUNT(*) FROM reservation WHERE
+		<include refid="reservationcriteria" />
+		user_id = #{userId}
+	</select>
+
+	<!-- 유저 예약 정보 페이징 + 검색 -->
+	<select id="getReservationListWithPaging"
+		resultType="org.studywithme.domain.ReservationVO"
+		parameterType="org.studywithme.domain.ReservationCriteria">
+  <![CDATA[
+    SELECT r.reservation_no, s.name, r.category, r.num_using, r.start_time, r.duration
+    FROM (
+      SELECT rownum rn, r.*
+      FROM (
+        SELECT *
+        FROM reservation
+        WHERE user_id = #{userId}
+        ]]>
+		<include refid="reservationcriteria" />
+        <![CDATA[
+        ORDER BY start_time DESC
+      ) r
+      WHERE rownum <= #{pageNum} * #{amount}
+    ) r
+    JOIN study_cafe s ON s.cafe_no = r.cafe_no
+    WHERE rn > (#{pageNum} - 1) * #{amount}
+  ]]>
+	</select>
+
+
+
+	<!-- 유저 예약 정보 -->
+	<select id="reservationList"
+		resultType="org.studywithme.domain.ReservationVO">
+		SELECT r.reservation_no, c.name, r.category, r.num_using,
+		r.start_time, r.duration
+		FROM reservation r
+		JOIN study_cafe c ON
+		r.cafe_no = c.cafe_no
+		WHERE r.user_id = #{userId}
+	</select>
+
+	<!-- 마이페이지 회원정보에도 사용 -->
+	<select id="read" resultMap="userMap">
+		SELECT
+		user_id, password, username,
+		phone_number, email, role, joindate,
+		remaining_seat_time,
+		remaining_study_room_time, remaining_locker_time,
+		phone_verified,
+		email_verified
+		FROM
+		tbl_user WHERE user_id = #{userId}
+	</select>
+
+</mapper>
+

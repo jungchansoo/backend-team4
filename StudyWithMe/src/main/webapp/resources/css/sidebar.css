@@ -10,7 +10,7 @@
 	position: absolute;
 }
 
-li a {
+.sidebar li a {
 	text-decoration: none;
 	padding: 20px;
 	display: block;
@@ -20,7 +20,7 @@ li a {
 	font-size: 1.2rem;
 }
 
-li a:hover {
+.sidebar li a:hover {
 	background: #333;
 	color: #fff;
 }

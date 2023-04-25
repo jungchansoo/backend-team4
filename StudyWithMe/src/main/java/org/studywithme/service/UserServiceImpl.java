@@ -39,12 +39,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserVO mypageGetList(String userId) {
-		log.info("get mypage userdata" + userId);
-		return mapper.mypageGetList(userId);
-	}
-
-	@Override
 	public boolean isUserIdDuplicate(String userId) {
 		boolean isUserIdDuplicate = false;
 		int count = mapper.checkUserId(userId);
@@ -53,25 +47,6 @@ public class UserServiceImpl implements UserService {
 		}
 		return isUserIdDuplicate;
 	}
-
-	@Override
-	public boolean updatePw(UserVO vo) {
-		try {
-			String hashedPassword = passwordEncoder.encode(vo.getPassword());
-			vo.setPassword(hashedPassword);
-			int result = mapper.updatePw(vo);
-			return (result == 1);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	@Override
-    public boolean deleteUser(String userId) {
-        int result = mapper.deleteUser(userId);
-        return result > 0;
-    }
 
 	@Override
 	public boolean modifyUserNameForTest(UserVO vo) {

@@ -19,7 +19,8 @@
 <link rel="stylesheet" href="resources/css/sidebar.css" type="text/css">
 </head>
 <!-- 헤더 -->
-<%@include file="../includes/header.jsp"%><body>
+<%@include file="../includes/header.jsp"%>
+<body>
 
 	<style>
 li a.deleteid {
@@ -56,13 +57,13 @@ li a.deleteid {
 }
 
 /* 모달 디자인 */
-#deleteModal {
+ #deleteModal {
 	text-align: center;
 }
 
 #deleteModal p {
 	font-size: 20px;
-}
+} 
 
 #deleteModal button {
 	background-color: #B2ECC7;

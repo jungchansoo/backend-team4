@@ -11,11 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.studywithme.domain.SeatVO;
 import org.studywithme.exception.SeatNotAvailableException;
 import org.studywithme.mapper.StudyseatandroomandlockerMapper;
-import org.studywithme.util.UserUtil;
 
 import lombok.AllArgsConstructor;
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
 
 @Service
 @AllArgsConstructor
@@ -26,7 +24,7 @@ public class StudyseatServiceImpl implements StudyseatService {
 
 	@Override
 	public List<SeatVO> useseat(int cafeno) {
-		return mapper.readuse(cafeno,"SEAT");
+		return mapper.readuseseat(cafeno);
 	}
 
 	@Override
