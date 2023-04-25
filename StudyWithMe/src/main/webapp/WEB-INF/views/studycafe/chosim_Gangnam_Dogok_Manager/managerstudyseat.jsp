@@ -12,18 +12,20 @@
 	rel="stylesheet">
 
 <style>
+.modal-content {
+    padding: 15px;
+}
+.button-container {
+    text-align: center;
+}
 a {
 	color: black;
 	text-decoration: none;
 }
 
-.yes {
-	margin-left: 0px;
-	margin-right: 40px;
-	cursor: pointer;
-}
-
-.no {
+.yes, .no {
+	display: inline-block;
+	margin: 0 10px;
 	cursor: pointer;
 }
 
@@ -72,10 +74,10 @@ a {
 
 #seatcheck, #returnseat, #reservationsuccess, #timefail, #usefail,
 	#returnseatsuccess, #returnseatfail, #alreadyuse, #room, #locker {
-	width: 400px;
+	width: auto;
+	min-width: 500px;
 	text-align: center;
-	font-family: "paybooc-Light", sans-serif;
-	font-size: 16px;
+	font-size: 20px;
 }
 
 .check {
@@ -84,6 +86,27 @@ a {
 
 .emptySpace {
 	margin-top: 80px;
+}
+
+.modal {
+	position: fixed !important;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	height: auto !important;
+}
+
+.modal-backdrop {
+	--bs-backdrop-zindex: 1 !important;
+}
+#desc{
+	font-size:15px;
+	text-align: center;
+	
+}
+#getOut{
+	text-align: center;
+
 }
 </style>
 
@@ -99,7 +122,7 @@ a {
 			<div class="col-md-6">
 				<div class="studyseat">
 					<%@ include file="studyseat.jsp"%>
-					<div id="desc">해당 좌석을 이용중인 사용자를 확인하고 싶으면 클릭하세요</div>
+					<div id="desc">이용중인 사용자를 확인하고 싶으면 좌석을 클릭하세요</div>
 				</div>
 			</div>
 			<!-- 사이드 바 구성 (todo)-->
@@ -123,21 +146,23 @@ a {
 			</div>
 		</div>
 	</div>
-	<div id="returnseat" class="modal">
+	<div class="modal fade" id="returnseat">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<p class="seatnum">해당 좌석을 반납 하시겠습니까?</p>
-				<a class="yes" onclick="returnseatdb()">예</a> <a class="no"
-					onClick="location.reload()">아니오</a>
+				<p class="seatnum">해당 좌석의 유저를 내보내시겠습니까?</p>
+				<div class="button-container">
+					<a class="btn btn-outline-danger yes" onclick="returnseatdb()">예</a>
+					<a class="btn btn-outline-primary no" onClick="location.reload()">아니오</a>
+				</div>
 			</div>
+
 		</div>
 	</div>
-
 	<div id="returnseatsuccess" class="modal">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<p class="checkmessage">좌석 반납이 완료되었습니다.</p>
-				<a class="check" onClick="location.reload()">확인</a>
+				<p class="checkmessage">내보내기가 완료되었습니다.</p>
+				<a class="check btn btn-outline-primar" onClick="location.reload()">확인</a>
 			</div>
 		</div>
 	</div>
@@ -145,29 +170,19 @@ a {
 	<div id="returnseatfail" class="modal">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<p class="checkmessage">좌석 반납이 실패하였습니다.</p>
+				<p class="checkmessage">내보내기가 실패하였습니다.</p>
 				<p class="checkmessage">잠시 후 다시 시도해 주세요.</p>
-				<a class="check" onClick="location.reload()">확인</a>
+				<a class="check btn btn-outline-primar" onClick="location.reload()">확인</a>
 			</div>
 		</div>
 	</div>
 
-	<div id="alreadyuse" class="modal">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<p class="checkmessage">사용중인 좌석을 반납후 이용해 주세요.</p>
-				<p>지점명 : ${map.NAME}</p>
-				<p>좌석번호 : ${map.NUM_USING}</p>
-				<a class="check" onClick="location.reload()">확인</a>
-			</div>
-		</div>
-	</div>
 
 	<div id="locker" class="modal">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<p class="checkmessage">상단의 사물함 메뉴를 이용해주세요.</p>
-				<a class="check" onClick="location.reload()">확인</a>
+				<a class="check btn btn-outline-primar" onClick="location.reload()">확인</a>
 			</div>
 		</div>
 	</div>
@@ -175,21 +190,13 @@ a {
 	<div id="room" class="modal">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<p class="checkmessage">상단의 스터디석 메뉴를 이용해주세요.</p>
-				<a class="check" onClick="location.reload()">확인</a>
+				<p class="checkmessage">상단의 스터디룸 관리 메뉴를 이용해주세요.</p>
+				<a class="check btn btn-outline-primar" onClick="location.reload()">확인</a>
 			</div>
 		</div>
 	</div>
 
-	<div id="returnseatfail" class="modal">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<p class="checkmessage">좌석 반납이 실패하였습니다.</p>
-				<p class="checkmessage">잠시 후 다시 시도해 주세요.</p>
-				<a class="check" onClick="location.reload()">확인</a>
-			</div>
-		</div>
-	</div>
+
 	<input id="csrfToken" type="hidden" name="${_csrf.parameterName}"
 		value="${_csrf.token}" />
 	<script
