@@ -78,7 +78,7 @@
 			<sec:authorize access="hasAnyRole('ROLE_USER')">
 				<li><a href="/userstudyseat" class="header-link">스터디석</a></li>
 				<li><a href="#" class="header-link">사물함</a></li>
-				<li><a href="#" class="header-link">스터디룸</a></li>
+				<li><a href="/userstudyroom" class="header-link">스터디룸</a></li>
 				<li><a href="#" class="header-link">응원리뷰</a></li>
 				<li><a href="/userinfo" class="header-link">마이페이지</a></li>
 			</sec:authorize>

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.studywithme.domain.Criteria;
 import org.studywithme.domain.UserVO;
+import org.studywithme.mapper.MypageMapper;
 import org.studywithme.mapper.UserMapper;
 
 import lombok.AllArgsConstructor;
@@ -15,10 +16,10 @@ import lombok.AllArgsConstructor;
 public class AdminPageServiceImpl implements AdminPageService {
 
 	@Autowired
-	private UserMapper mapper;
+	private MypageMapper mapper;
 
 	@Override
-	public List<UserVO> getUserList(Criteria cri) {
+	public List<UserVO> getListWithPaging(Criteria cri) {
 		return mapper.getListWithPaging(cri);
 	}
 

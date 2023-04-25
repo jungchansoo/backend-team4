@@ -14,14 +14,10 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 
+
 <title>MyPage</title>
 
 <link rel="stylesheet" href="resources/css/sidebar.css" type="text/css">
-</head>
-<!-- 헤더 -->
-<%@include file="../includes/header.jsp"%>
-<body>
-
 	<style>
 li a.chagepw {
 	background: #333;
@@ -56,11 +52,25 @@ li a.chagepw {
 	width: calc(100%/ 3 - 2px);
 }
 /* 모달 디자인 */
-#updateModal,#inputnull,#checkpw,#pwconfirmfail,#updatepwsuccess,#updatepwfail {
+.modal {
 	text-align: center;
-	
 }
 
+.modal p {
+	font-size: 20px;
+}
+.modal button {
+	background-color: #B2ECC7;
+	color: #000;
+	border-radius: 12px;
+	padding: 8px 30px;
+	border: none;
+	margin: 30px;
+	display: inline-block;
+	font-weight: bold;
+	font-size: 15px;
+	margin: auto;
+}
 
 
 .submit-button, .back-button {
@@ -75,6 +85,12 @@ li a.chagepw {
 	font-size: 15px;
 }
 </style>
+</head>
+
+<body>
+<!-- 헤더 -->
+<%@include file="../includes/header.jsp"%>
+
 
 
 
@@ -121,29 +137,27 @@ li a.chagepw {
 		<button class="yes" >확인</button>
 		<button class="no" >취소</button>
 	</div>
-	<!-- check 1,2,3 -->
     <div id="inputnull" class="modal">
 		<p class="checkmessage">모든항목을 입력해주세요.</p>
-		<button class="check" onClick="location.reload()">확인</button>
+		<button class="check" >확인</button>
 	</div>
 
-    <div id="checkpw" class="modal">
+    <!-- <div id="checkpw" class="modal">
 		<p class="checkmessage">기존 비밀번호가 일치하지 않습니다.</p>
-		<button class="check" onClick="location.reload()">확인</button>
-	</div>
+		<button class="check" >확인</button>
+	</div> -->
 
     <div id="pwconfirmfail" class="modal">
 		<p class="checkmessage">새로운 비밀번호와 새로운 비밀번호 확인이 일치하지 않습니다.</p>
-		<button class="check" onClick="location.reload()">확인</button>
+		<button class="check" >확인</button>
 	</div>
-	<!-- boolean -->
     <div id="updatepwsuccess" class="modal">
 		<p class="checkmessage">비밀번호가 변경되었습니다.</p>
-		<button class="check" onclick="location.href='userinfo'">확인</button>
+		<button class="logout" >확인</button>
 	</div>
      <div id="updatepwfail" class="modal">
 		<p class="checkmessage">비밀번호 변경에 실패하였습니다. 다시 시도해주세요.</p>
-		<button class="check" onClick="location.reload()">확인</button>
+		<button class="check" >확인</button>
 	</div>
 
 <script>
@@ -160,17 +174,17 @@ $(document).ready(function() {
 	    
 	    // 입력값이 비어있는 경우
 	    if (currentPassword == '' || newPassword == '' || newPasswordConfirm == '') {
-	      $('#inputnull').show();
+	      $('#inputnull').modal();
 	    }
 	    // 입력값이 모두 존재하는 경우
 	    else {
 	      // 기존 비밀번호와 새 비밀번호 확인값이 일치하지 않는 경우
 	      if (newPassword != newPasswordConfirm) {
-	        $('#pwconfirmfail').show();
+	        $('#pwconfirmfail').modal();
 	      }
 	      else {
 	        // 변경 모달 띄우기
-	        $('#updateModal').show();
+	        $('#updateModal').modal();
 	      }
 	    }
 	  });
@@ -188,11 +202,11 @@ $(document).ready(function() {
 	      success: function(result) {
 	        // 비밀번호 변경 성공시
 	        if (result == 'success') {
-	          $('#updatepwsuccess').show();
+	          $('#updatepwsuccess').modal();
 	        }
 	        // 비밀번호 변경 실패시
 	        else {
-	          $('#updatepwfail').show();
+	          $('#updatepwfail').modal();
 	        }
 	      }
 	    });
@@ -208,6 +222,16 @@ $(document).ready(function() {
 	  $('.check').click(function() {
 	    location.reload();
 	  });
+	  
+	// updatepwsuccess 모달 속 확인 버튼 클릭시
+	  $('.logout').click(function() {
+	    // 로그아웃 요청하지 않고 3초 후 로그아웃 및 로그인 페이지 이동
+	    setTimeout(function(){
+	      window.location.href = "/logout";
+	    });
+	   location.href='/';
+	  });
+	  
 	});
 
 </script>
