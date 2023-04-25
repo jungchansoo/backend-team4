@@ -88,6 +88,39 @@
     	height: 20px;
     	weight: 20px;
     }
+    .modal {
+		display: none;
+		position: fixed;
+		z-index: 1;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		overflow: auto;
+		background-color: rgba(0, 0, 0, 0.4);
+	}
+	
+	.modal-content {
+		background-color: #fefefe;
+		margin: 15% auto;
+		padding: 20px;
+		border: 1px solid #888;
+		width: 80%;
+	}
+	
+	.close {
+		color: #aaa;
+		float: right;
+		font-size: 28px;
+		font-weight: bold;
+	}
+	
+	.close:hover,
+	.close:focus {
+		color: black;
+		text-decoration: none;
+		cursor: pointer;
+	}
 </style>
 
 <!-- 헤드 태그 안에 들어가는 공통코드 -->
@@ -110,7 +143,7 @@
 		</form> -->
 
 		<div class="list">
-			<p>이용권 추가</p>
+			<p>이용권 조회</p>
 		</div>
 
 		<div class='pull-right'>
@@ -119,16 +152,16 @@
 				<tr>
 					<td>요금제 이름</td>
 					<td class="input-content">
- 							<input type="text" id="ticketName" name="ticketName" value='<c:out value="${board.title }"/>' readonly="readonly">
+						${ticket.ticketName}
 					</td>
 				</tr>
 				
 				<tr>
 					<td>공간 구분</td>
 					<td class="input-content">
-						<label><input type="radio" name="category" value="SEAT">일반 좌석</label>
-					    <label><input type="radio" name="category" value="STUDY_ROOM">스터디룸</label>
-					    <label><input type="radio" name="category" value="LOCKER">사물함</label>
+						<c:if test="${ticket.category == 'SEAT'}">일반 좌석</c:if>
+						<c:if test="${ticket.category == 'STUDY_ROOM'}">스터디룸</c:if>
+						<c:if test="${ticket.category == 'LOCKER'}">사물함</c:if>
 					</td>
 				</tr>
 				
@@ -136,13 +169,9 @@
 					<td>충전 시간</td>
 					<td class="input-content">
 						<div>
-							<input type="number" id="chargingTime" name="chargingTime" placeholder="시간을 입력해주세요" required>
-							<select name="timeType">
-								<option value="hour">시간</option>
-								<option value="day">일</option>
-								<option value="week">주</option>
-								<option value="month">개월</option>
-					    	</select>
+							<c:if test="${ticket.category == 'SEAT'}"><fmt:formatNumber value="${ticket.chargingTime / 60}" pattern="# '시간'" /></c:if>
+							<c:if test="${ticket.category == 'STUDY_ROOM'}"><fmt:formatNumber value="${ticket.chargingTime / 60}" pattern="# '시간'" /></c:if>
+							<c:if test="${ticket.category == 'LOCKER'}"><fmt:formatNumber value="${ticket.chargingTime / (60 * 24)}" pattern="# '일'" /></c:if>
 						</div>
 					</td>
 				</tr>
@@ -151,25 +180,47 @@
 					<td>적용 기간</td>
 					<td class="input-content">
 						<img src="resources/image/calendar.png" id="datepicker-trigger">
-						<input type="text" id="startTime" name="startTime" class="datepicker">
+						${ticket.startTime}
 						&nbsp; - &nbsp; 
 						<img src="resources/image/calendar.png" id="datepicker-trigger">
-						<input type="text" id="endTime" name="endTime" class="datepicker">
+						${ticket.endTime}
 					</td>
 				</tr>
 				
 				<tr>
 					<td>가격</td>
 					<td class="input-content">
-						<input type="number" id="price" name="price" placeholder="숫자만 입력" required> 원
+						<fmt:formatNumber value="${ticket.price}" pattern="#,##0원" />
 					</td>
 				</tr>
 			</table>
 			
 			<div>
+			
+				<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+				  <div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="deleteModalLabel">Ticket 삭제</h5>
+				        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				      </div>
+				      <div class="modal-body">
+				        진짜 삭제하시겠습니까?
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+				        <button type="button" class="btn btn-primary" onclick="deleteTicket()">확인</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+			
 				<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/ticketManagement'">목록으로</button>
-				<button>이용권 삭제</button>
-				<button type="submit" class="btnForModal btn btn-outline-primary btn-lg">이용권 추가</button>
+				<button class="btnForModal btn btn-outline-primary btn-lg" onclick="confirmDelete()" >이용권 삭제</button>
+				<button data-oper='modify' class="btnForModal btn btn-outline-primary btn-lg">이용권 수정</button>
+				<form id='operForm' action="updateTicket" method="get">
+                    <input type='hidden' id='ticketNo' name='ticketNo' value='<c:out value="${ticket.ticketNo}"/>'>
+                </form>
 			</div>
 				
 		</div>
@@ -181,6 +232,19 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 	<script>
+		$(document).ready(function() {
+			var operForm = $("#operForm"); 
+			$("button[data-oper='modify']").on("click", function(e){
+				operForm.attr("action","/updateTicket").submit();
+			});
+		    
+			/* $("button[data-oper='list']").on("click", function(e){
+				operForm.find("#bno").remove();
+				operForm.attr("action","/board/list")
+				operForm.submit();
+			});   */
+		});
+	
 		$(function() {
 			$("#start-date").datepicker();
 			$("#end-date").datepicker();
@@ -191,6 +255,7 @@
 				dateFormat: "yy-mm-dd"
 			});
 		});
+		
 		$(function() {
 			$("#datepicker").datepicker({
 				dateFormat: "yy-mm-dd",
@@ -203,6 +268,33 @@
 		    	$("#datepicker").datepicker("show");
 		    });
 		});
+		
+		function confirmDelete() {
+			// 모달창 띄우기
+			log.info("=============================");
+			var modal = $("#deleteModal");
+			modal.modal('show');
+		}
+
+		function deleteTicket() {
+			// ticket 삭제 요청을 보내는 AJAX 요청 코드
+			$.ajax({
+				url: "/deleteTicket",
+			    type: "POST",
+			    data: { ticketNo: "${ticket.ticketNo}" },
+			    success: function(result) {
+			    	// 삭제가 성공한 경우
+			    	window.location.href = "/ticketManagement";
+			    },
+			    error: function(xhr, status, error) {
+			    	// 삭제가 실패한 경우
+			    	alert("삭제에 실패하였습니다.");
+			    }
+			});
+		}
+        
+        
+        
 	</script>
 
 

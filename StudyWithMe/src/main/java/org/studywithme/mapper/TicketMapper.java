@@ -14,9 +14,9 @@ public interface TicketMapper {
 	public List<TicketVO> getLockerTicketList(@Param("category") String category);
 	
 	public void insert(AddTicketVO ticket);
-	public int update(TicketVO ticket);
+	public int update(AddTicketVO ticket);
 	public int delete(Long ticketNo);
-	public TicketVO read(Long ticketNo);
+	public AddTicketVO read(Long ticketNo);
 	//public List<TicketVO> getTicketList(@Param("keyword") String keyword, @Param("pageNum") int pageNum, @Param("amount") int amount);
 	public List<TicketVO> getTicketList(@Param("keyword") String keyword, @Param("pageNum") int pageNum, @Param("amount") int amount);
 	public int getTotalCount(Criteria cri);

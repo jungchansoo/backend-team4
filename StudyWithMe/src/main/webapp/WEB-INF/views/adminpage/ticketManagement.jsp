@@ -118,7 +118,6 @@
 								<c:if test="${ticket.category == 'STUDY_ROOM'}">스터디룸</c:if>
 								<c:if test="${ticket.category == 'LOCKER'}">사물함</c:if>
 							</td>
-							<td>${ticket.ticketName}</td>
 							<td>
 								<a class='move' href='<c:out value="${ticket.ticketNo}"/>'>
 									<c:out value="${ticket.ticketName}" /> 

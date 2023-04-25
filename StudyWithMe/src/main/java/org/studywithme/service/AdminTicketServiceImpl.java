@@ -39,9 +39,22 @@ public class AdminTicketServiceImpl implements AdminTicketService {
 	}
 
 	@Override
-	public boolean modify(TicketVO ticket) {
+	public boolean modify(AddTicketVO ticket) {
+		if(ticket.getTimeType().equals("hour")) {
+			ticket.setChargingTime(ticket.getChargingTime() * 60);
+		}
+		else if(ticket.getTimeType().equals("day")) {
+			ticket.setChargingTime(ticket.getChargingTime() * 60 * 24);
+		}
+		else if(ticket.getTimeType().equals("week")) {
+			ticket.setChargingTime(ticket.getChargingTime() * 60 * 24 * 7);
+		}
+		else if(ticket.getTimeType().equals("month")) {
+			ticket.setChargingTime(ticket.getChargingTime() * 60 * 24 * 7 * 4);
+		}
 		
-		return false;
+		log.info("modify....." + ticket);
+		return mapper.update(ticket) == 1;
 	}
 
 	@Override
@@ -51,7 +64,7 @@ public class AdminTicketServiceImpl implements AdminTicketService {
 	}
 
 	@Override
-	public TicketVO get(Long ticketNo) {
+	public AddTicketVO get(Long ticketNo) {
 		log.info("get......" + ticketNo);
 		return mapper.read(ticketNo);
 	}

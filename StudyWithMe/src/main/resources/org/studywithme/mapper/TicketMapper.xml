@@ -117,16 +117,30 @@
 		)
 	</insert>
 	
-	<select id="read" resultType="org.studywithme.domain.TicketVO">
-		SELECT ticket_no
-		      ,category
-		      ,ticket_name
-		      ,price
-		      ,charging_time
-		      ,TO_CHAR(start_time, 'YYYY/MM/DD')
-		      ,TO_CHAR(end_time, 'YYYY/MM/DD')
+	<select id="read" resultType="org.studywithme.domain.AddTicketVO">
+		SELECT ticket_no AS ticketNo
+		      ,category AS category
+		      ,ticket_name AS ticketName
+		      ,price AS price
+		      ,charging_time AS chargingTime
+		      ,TO_CHAR(start_time, 'YYYY/MM/DD') AS startTime
+		      ,TO_CHAR(end_time, 'YYYY/MM/DD') AS endTime
+		      ,CASE WHEN TO_DATE(TO_CHAR(start_time, 'YYYY/MM/DD'), 'YYYY/MM/DD') <![CDATA[<=]]> TO_DATE(TO_CHAR(SYSDATE, 'YYYY/MM/DD'), 'YYYY/MM/DD') 
+		       AND TO_DATE(TO_CHAR(end_time, 'YYYY/MM/DD'), 'YYYY/MM/DD') <![CDATA[>=]]> TO_DATE(TO_CHAR(SYSDATE, 'YYYY/MM/DD'), 'YYYY/MM/DD')
+		       THEN 1 ELSE 0 END AS isSale
 		  FROM tbl_ticket 
 		 WHERE ticket_no = #{ticketNo}
 	</select>
+	
+	<update id="update">
+		UPDATE tbl_ticket
+		   SET category = #{category}
+		      ,ticket_name = #{ticketName}
+		      ,price = #{price}
+		      ,charging_time = #{chargingTime}
+		      ,start_time = #{startTime}
+		      ,end_time = #{endTime}
+		 WHERE ticket_no = #{ticketNo}
+  </update>
  
 </mapper>
