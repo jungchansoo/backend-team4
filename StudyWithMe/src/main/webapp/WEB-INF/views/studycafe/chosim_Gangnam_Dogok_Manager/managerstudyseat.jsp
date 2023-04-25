@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,11 +15,13 @@
 
 <style>
 .modal-content {
-    padding: 15px;
+	padding: 15px;
 }
+
 .button-container {
-    text-align: center;
+	text-align: center;
 }
+
 a {
 	color: black;
 	text-decoration: none;
@@ -96,23 +100,24 @@ a {
 	height: auto !important;
 }
 
-.modal-backdrop {
-	--bs-backdrop-zindex: 1 !important;
+.modal-backdrop { -
+	-bs-backdrop-zindex: 1 !important;
 }
-#desc{
-	font-size:15px;
-	text-align: center;
-	
-}
-  .right-side {
-    position: relative;
-  }
 
-  #getOut {
-    position: absolute;
-    right: 30%;
-    top: 80%; /* 수직 위치를 조절할 수 있는 값입니다. */
-  }
+#desc {
+	font-size: 15px;
+	text-align: center;
+}
+
+.right-side {
+	position: relative;
+}
+
+#getOut {
+	position: absolute;
+	right: 30%;
+	top: 80%; /* 수직 위치를 조절할 수 있는 값입니다. */
+}
 </style>
 
 </head>
@@ -132,20 +137,19 @@ a {
 			</div>
 			<!-- 사이드 바 구성 (todo)-->
 			<div class="col-md-6 right-side">
-					<p class="selectedSeatInfo fs-4">사용자 정보</p>
-					<ul class="list-unstyled">
-						<li id="userName" class="fs-4">유저명 :</li>
-						<li class="day fs-4">사용시작일자 : <b class="today"></b> <b
-							class="now"></b></li>
-						<li class="usingTime fs-4">사용 시간 :</li>
-						<!-- 현재시간 - reservation 에서 가져온 값 -->
-						<li class="leftTime fs-4">잔여 시간 :</li>
-						<!-- reaminingtime - 사용시간 -->
-						<li id="phoneNumber" class="fs-4">연락처 :</li>
-					</ul>
-					<!-- 외곽선만 있는 버튼 스타일 적용 -->
-					<button type="button" class="btn btn-outline-primary" id="getOut"
-						onclick="returnseat()">내보내기</button>
+				<p class="selectedSeatInfo fs-4">사용자 정보</p>
+				<ul class="list-unstyled">
+					<li id="userName" class="fs-4">유저명 :</li>
+					<li id="startTime" class="fs-4">사용시작일자 :</li>
+					<li class="usingTime fs-4">사용 시간 :</li>
+					<!-- 현재시간 - reservation 에서 가져온 값 -->
+					<li class="leftTime fs-4">잔여 시간 :</li>
+					<!-- reaminingtime - 사용시간 -->
+					<li id="phoneNumber" class="fs-4">연락처 :</li>
+				</ul>
+				<!-- 외곽선만 있는 버튼 스타일 적용 -->
+				<button type="button" class="btn btn-outline-primary" id="getOut"
+					onclick="returnseat()">내보내기</button>
 			</div>
 		</div>
 	</div>
@@ -198,6 +202,7 @@ a {
 			</div>
 		</div>
 	</div>
+<%@include file="../../includes/footer.jsp"%>
 
 
 	<input id="csrfToken" type="hidden" name="${_csrf.parameterName}"
@@ -215,7 +220,8 @@ a {
 		var idOnUse;
 		var startTime;
 		var remainingSeatTimeInMinutes
-
+		var elapsedTime;
+		
 		function clickseat(num) {
 		    var clickedElementId = event.target.id;
 			clickedSeatNumber = clickedElementId.split('_')[1]; // "seat_2"의 경우 "2"를 얻습니다.
@@ -227,7 +233,6 @@ a {
 			seatnum = arguments[0];
 			$('.selectedSeatInfo').text(arguments[0] + '번 좌석 사용자 정보');
 			//UserVO 객체를 가져와야함.
-			//toDO
 		    // AJAX를 사용하여 UserVO 객체를 가져옵니다.
 		    $.ajax({
 		        type: "GET",
@@ -240,9 +245,8 @@ a {
 		            console.log("User name: " + data.userName);
 
 		            remainingSeatTimeInMinutes = data.remainingSeatTime;
-		            var remainingSeatTimeInHours = remainingSeatTimeInMinutes / 60;
-		            var remainingSeatTimeInDays = remainingSeatTimeInHours / 24;
-					
+		            console.log("remainingSeatTimeInMinutes from Data : "+remainingSeatTimeInMinutes);
+		            displayStartTime(startTime);
 		            $("#phoneNumber").text("전화번호 : " + data.phoneNumber);
 		            $("#userName").text("유저 이름 : " + data.userName);
 		        },
@@ -250,6 +254,8 @@ a {
 		            console.log("Error while fetching UserVO: " + JSON.stringify(error));
 		        }
 		    });
+			
+			
 
 
 			
@@ -315,7 +321,8 @@ a {
 				idOnUse =  '${item.user_id}';
 				console.log("idOnUse: "+idOnUse);
 
-				startTime = '${item.start_time}';
+		     	<fmt:formatDate value="${item.start_time}" pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" var="formattedStartTime"/>
+		     	startTime = '${formattedStartTime}';
 				console.log("startTime: "+startTime);
 
 			}
@@ -340,6 +347,82 @@ a {
 				}
 				
 			});
+		}
+		
+		function formatDate(date) {
+			  console.log("formatRawDate :" +date);
+			  var year = date.getFullYear();
+			  var month = ('0' + (date.getMonth() + 1)).slice(-2);
+			  var day = ('0' + date.getDate()).slice(-2);
+
+			  var hours = date.getHours();
+			  var amPm = hours < 12 ? '오전' : '오후';
+			  hours = hours % 12;
+			  hours = hours ? hours : 12; // 12-hour format
+			  hours = ('0' + hours).slice(-2);
+			  var minutes = ('0' + date.getMinutes()).slice(-2);
+
+			  return year + '년 ' + month + '월 ' + day + '일 ' + amPm+ ' ' + hours + '시 ' + minutes + '분';
+		}
+		function getElapsedTime(startTime) {
+			  var currentTime = new Date();
+			  elapsedTime = currentTime - startTime; // 밀리초 단위
+
+			  return formatMillisecondsToDaysHoursMinutes(elapsedTime);
+		}
+
+		function formatMillisecondsToDaysHoursMinutes(timeInMilliseconds) {
+			  var oneMinute = 60 * 1000; // 밀리초
+			  var oneHour = 60 * oneMinute;
+			  var oneDay = 24 * oneHour;
+
+			  var days = Math.floor(timeInMilliseconds / oneDay);
+			  timeInMilliseconds %= oneDay;
+
+			  var hours = Math.floor(timeInMilliseconds / oneHour);
+			  timeInMilliseconds %= oneHour;
+
+			  var minutes = Math.floor(timeInMilliseconds / oneMinute);
+
+			  return days + '일 ' + hours + '시간 ' + minutes + '분';
+		}
+		function getRemainingTime(remainingSeatTimeInMinutes) {
+			  console.log("remainingSeatTimeInMinutes : " + remainingSeatTimeInMinutes);
+
+			  // 잔여시간(분)을 밀리초로 변환
+			  var remainingSeatTimeInMilliseconds = remainingSeatTimeInMinutes * 60 * 1000;
+
+			  // 잔여시간 계산
+			  var remainingTimeInMilliseconds =
+			    remainingSeatTimeInMilliseconds - elapsedTime;
+			  console.log("remainingTimeInMilliseconds : " + remainingTimeInMilliseconds);
+
+			  // 잔여시간을 일, 시간, 분 형태로 변환
+			  var remainingTime = formatMillisecondsToDaysHoursMinutes(remainingTimeInMilliseconds);
+
+			  return remainingTime;
+		}
+		function displayStartTime(startTime) {
+			  // startTime 문자열을 Date 객체로 변환
+			  var startTimeDate = new Date(startTime);
+			  console.log("startTimeDate"+startTimeDate);
+
+			  // 한국 시간으로 조정 (UTC에서 9시간 더하기)
+			  var kstOffset = 9 * 60 * 60 * 1000; // 9 hours in milliseconds
+			  startTimeDate.setTime(startTimeDate.getTime());
+
+			  // 시작 시간을 원하는 형식으로 출력
+			  var formattedStartTime = formatDate(startTimeDate);
+			  console.log("formattedStartTime : "+formattedStartTime);
+	          $("#startTime").text("사용 시작 일자 : " + formattedStartTime);
+	          
+	          // 사용시간 계산 및 출력
+	          var elapsedTime = getElapsedTime(startTimeDate);
+	          $(".usingTime").text("사용 시간 : " + elapsedTime);
+	          
+	          // 잔여시간 계산 및 출력
+	          var remainingTime = getRemainingTime(remainingSeatTimeInMinutes);
+	          $(".leftTime").text("잔여 시간 : " + remainingTime);
 		}
 	</script>
 </body>
