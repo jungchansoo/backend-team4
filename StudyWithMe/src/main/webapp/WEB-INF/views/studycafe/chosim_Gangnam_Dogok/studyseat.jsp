@@ -13,6 +13,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <style>
 
+.modal{
+	max-width: 800px;
+}
+
 .close-modal  {
     display: none !important;
 }

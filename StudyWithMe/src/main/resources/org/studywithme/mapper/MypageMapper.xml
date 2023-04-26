@@ -63,18 +63,29 @@
 		remaining_study_room_time, remaining_locker_time
 		FROM
       	(
-      	select /*+INDEX_ASC(tbl_user user_no) */
-        rownum rn, user_no, user_id, username,
+      	select 
+      	rownum rn,user_no, user_id, username,
+		phone_number, email, role,
+		remaining_seat_time,
+		remaining_study_room_time, remaining_locker_time
+		FROM
+      	(
+      	select 
+      	rownum rn, user_no, user_id, username,
 		phone_number, email, role,
 		remaining_seat_time,
 		remaining_study_room_time, remaining_locker_time
 		FROM
 		tbl_user
+		order by user_no
+		)
       	where 
   		]]>
-		<include refid="criteria"></include>
   		<![CDATA[    
       	rownum <= #{pageNum} * #{amount}
+      	]]>
+      	<include refid="criteria"></include>
+      	<![CDATA[
       	)
   		where rn > (#{pageNum} -1) * #{amount} 
   		]]>

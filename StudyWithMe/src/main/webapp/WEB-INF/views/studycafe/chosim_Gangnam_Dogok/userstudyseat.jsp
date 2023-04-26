@@ -12,6 +12,7 @@
 
 .modal-dialog {
   pointer-events: auto;
+  
 }
 
 a {
@@ -32,10 +33,10 @@ a {
 #seatreservation {
 	padding: 0px;
 	padding-bottom: 10px;
-	width: 300px;
+	width: 400px;
 	text-align: center;
 	font-family: "paybooc-Light", sans-serif;
-	font-size: 16px;
+	font-size: 25px;
 }
 
 ul {
@@ -51,20 +52,20 @@ li {
 
 ul>.name {
 	margin-left: 25px;
-	margin-right: 45px;
+	margin-right: 145px;
 }
 
 ul>.id {
 	margin-left: 20px;
-	margin-right: 40px;
+	margin-right: 140px;
 }
 
 ul>.day {
-	margin-right: 20px;
+	margin-right: 65px;
 }
 
 ul>.time {
-	margin-right: 20px;
+	margin-right: 100px;
 }
 
 .outline:hover {
@@ -73,10 +74,9 @@ ul>.time {
 }
 
 .reservation {
-	width: 80px;
-	height: 30px;
 	border-radius: 15px;
 	font-family: "paybooc-Light", sans-serif;
+	font-size : 25px;
 	border: 3px solid #ff5f2e;
 	background-color: white;
 	color: #4a4948;
@@ -84,10 +84,10 @@ ul>.time {
 }
 
 #seatcheck, #returnseat, #reservationsuccess, #timefail, #usefail, #returnseatsuccess, #returnseatfail, #alreadyuse, #room, #locker{
-	width: 400px;
+	width :600px;
 	text-align: center;
 	font-family: "paybooc-Light", sans-serif;
-	font-size: 16px;
+	font-size:25px;
 }
 
 .check{
@@ -120,7 +120,7 @@ ul>.time {
 		<hr>
 		<ul>
 			<li class="name">이름</li>
-			<li>${name}</li>
+			<li >${name}</li>
 		</ul>
 		<br>
 		<ul>
@@ -200,6 +200,7 @@ ul>.time {
 	<input id="csrfToken" type="hidden" name="${_csrf.parameterName}"
 		value="${_csrf.token}" />
 	
+	<%@include file ="../../includes/footer.jsp" %>
 	
 	<script>
 		var seatnum;
