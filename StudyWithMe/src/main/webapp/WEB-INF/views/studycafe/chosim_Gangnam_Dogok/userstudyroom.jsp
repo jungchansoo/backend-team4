@@ -35,7 +35,6 @@
 	border-radius: 5px;
 	font-size: 20px;
 	border: 1px solid black;
-	border: 1px solid black;
 }
 
 .list-container ul {
@@ -113,11 +112,11 @@ select {
 }
 
 .w-btn-indigo {
-    background-color: #94dbff;
+    background-color: #2196F3;
     color: white;
 }
 
-#emptyoption ,#success ,#fail{
+#emptyoption ,#reservationsuccess ,#reservationfail, #canclesuccess, #canclefail, #emptytime, #{
 	width: 400px;
 	text-align: center;
 	font-family: "paybooc-Light", sans-serif;
@@ -136,6 +135,14 @@ select {
 .ui-dialog-titlebar {
   display: none;
 }
+
+
+.ui-dialog {
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+}
+
 </style>
 
 
@@ -211,15 +218,39 @@ select {
 		<a class="check" onClick="location.reload()">확인</a>
 	</div>
 	
-	<div id="success">
+	<div id="reservationsuccess">
 		<p class="checkmessage">예약되었습니다.</p>
 		<a class="check" onClick="location.reload()">확인</a>
 	</div>
 	
-	<div id="fail">
+	<div id="reservationfail">
 		<p class="checkmessage">예약에 실패하였습니다.</p>
+		<p class="checkmessage">시간변경 후 다시 예약해주세요.</p>
 		<a class="check" onClick="location.reload()">확인</a>
 	</div>
+	
+	<div id="canclesuccess">
+		<p class="checkmessage">예약취소 되었습니다.</p>
+		<a class="check" onClick="location.reload()">확인</a>
+	</div>
+	
+	<div id="canclefail">
+		<p class="checkmessage">예약취소 실패하였습니다.</p>
+		<p class="checkmessage">잠시후 다시 시도해주세요.</p>
+		<a class="check" onClick="location.reload()">확인</a>
+	</div>
+	
+	<div id="emptytime">
+		<p class="checkmessage">보유시간이 부족합니다.</p>
+		<a class="check" onClick="location.reload()">확인</a>
+	</div>
+	
+	<div id="returnroom">
+		<p class="checkmessage">해당 스터디룸 예약을 취소하시겠습니까?</p>
+		<a class="check" onClick="location.reload()">확인</a>
+	</div>
+	
+	
 	<input id="csrfToken" type="hidden" name="${_csrf.parameterName}"
 		value="${_csrf.token}" />
 		
@@ -243,15 +274,32 @@ select {
 				    autoOpen: false,
 				    modal: true
 			});
-			 $("#success").dialog({
+			 $("#reservationsuccess").dialog({
 				    autoOpen: false,
 				    modal: true
 			});
-			 $("#fail").dialog({
+			 $("#reservationfail").dialog({
+				    autoOpen: false,
+				    modal: true
+			});
+			 $("#canclesuccess").dialog({
+				    autoOpen: false,
+				    modal: true
+			});
+			 $("#canclefail").dialog({
+				    autoOpen: false,
+				    modal: true
+			});
+			 $("#emptytime").dialog({
+				    autoOpen: false,
+				    modal: true
+			});
+			 $("#returnroom").dialog({
 				    autoOpen: false,
 				    modal: true
 			});
 			createreservationinfo(1);
+			
 		});
 		
 		document.getElementById("roomno").addEventListener("change", function() {
@@ -281,22 +329,43 @@ select {
 				    ul.appendChild(li4);
 				    
 				    contentDiv.appendChild(ul);
+				    
+				    if('${item.user_id}' == '${my_id}'){
+				    	ul.setAttribute("data-num-using", "${item.num_using}");
+					    ul.setAttribute("data-start-time", "${item.start_time}");
+					    ul.setAttribute("data-end-time", "${item.end_time}");
+					    ul.setAttribute("data-user-id", "${item.user_id}");
+					    ul.onclick = function() {
+					      click(this.getAttribute("data-num-using"), this.getAttribute("data-start-time"), this.getAttribute("data-end-time"), this.getAttribute("data-user-id"));
+					    };
+					    ul.style.cursor = "pointer";
+				    }
 				}
 			</c:forEach>
 		}
+		function click(num_using, start_time, end_time, user_id){
+			
+			$("#returnroom").dialog("open");
+		}
 		
 		function reservation(){
+		
 			if (!document.getElementById('datepicker').value) {
 				$("#emptyoption").dialog("open");
 			}else{
-				
-				const datetimeString = document.getElementById('datepicker').value + ' ' + document.getElementById('timepicker').value;
-				const start_time = new Date(datetimeString);
-				const end_time = new Date(datetimeString);
-				var usetime =  parseInt(document.getElementById('usetimes').value);
-				end_time.setHours(end_time.getHours() + usetime);
-				send(roomno,start_time,end_time,usetime);
+				if('${time}' < (parseInt(document.getElementById('usetimes').value) * 60)){
+					$("#emptytime").dialog("open");
+				}
+				else{
+					const datetimeString = document.getElementById('datepicker').value + ' ' + document.getElementById('timepicker').value;
+					const start_time = new Date(datetimeString);
+					const end_time = new Date(datetimeString);
+					var usetime =  parseInt(document.getElementById('usetimes').value);
+					end_time.setHours(end_time.getHours() + usetime);
+					send(roomno,start_time,end_time,usetime);
+				}
 			}
+			
 		}
 		
 		function send(roomno,start_time, end_time,usetime) {
@@ -314,15 +383,14 @@ select {
 					usetime : usetime
 				},
 				success : function(result) {
-					$("#success").dialog("open");
+					$("#reservationsuccess").dialog("open");
 				},
 				error : function(jqXHR, textStatus, errorThrown) {
-					$("#fail").dialog("open");
+					$("#reservationfail").dialog("open");
 				}
 				
 			}); 
 		}
-		
 	</script>
 </body>
 </html>

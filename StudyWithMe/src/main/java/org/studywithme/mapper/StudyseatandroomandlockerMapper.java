@@ -14,6 +14,8 @@ public interface StudyseatandroomandlockerMapper {
 	public Map<String, Object> getmyreservationInfo(@Param("user_id")String user_id, @Param("category")String category);
 	public void insert(@Param("cafe_no")int cafe_no, @Param("num_using")int num_using, @Param("user_id")String user_id , @Param("category")String category);
 	public void insertroom(@Param("cafe_no")int cafe_no, @Param("num_using")int num_using, @Param("user_id")String user_id , @Param("start_time")Date start_time, @Param("end_time")Date end_time, @Param("duration")int duration);
+	public boolean checkduration(@Param("cafe_no")int cafe_no, @Param("num_using")int num_using, @Param("start_time")Date start_time, @Param("end_time")Date end_time);
+	public void updateRemainingRoomTime(@Param("duration") int duration,@Param("user_id") String user_id);
 	
 	public boolean isAvailable(@Param("cafe_no")int cafe_no, @Param("num_using")int num_using, @Param("category")String category);
 	public void movedata(@Param("user_id")String user_id, @Param("category")String category);

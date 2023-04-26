@@ -1,10 +1,13 @@
 package org.studywithme.service;
 
 import java.util.Date;
-import java.util.List;import javax.xml.stream.events.EndDocument;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.studywithme.domain.RoomVO;
 import org.studywithme.mapper.StudyseatandroomandlockerMapper;
 
@@ -24,10 +27,14 @@ public class StudyroomServiceImpl implements StudyroomService {
 	}
 
 	@Override
+	@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
 	public void insert(String user_id,int cafe_no, int num_using, Date start_time, Date end_time, int usetime) {
-		
+		boolean check = mapper.checkduration(cafe_no, num_using,  new java.sql.Date(start_time.getTime()),  new java.sql.Date(end_time.getTime()));
+		if (check) {
+		       throw new RuntimeException("선택한 시간에 예약이 이미 존재합니다.");
+		}
 		mapper.insertroom(cafe_no, num_using, user_id, new java.sql.Date(start_time.getTime()), new java.sql.Date(end_time.getTime()), usetime*60);
-		//2. 시간빼기
+		mapper.updateRemainingRoomTime(usetime*60, user_id);
 	}
 
 	@Override

@@ -1,6 +1,5 @@
 package org.studywithme.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.http.HttpSession;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.studywithme.domain.UserVO;
-import org.studywithme.exception.SeatNotAvailableException;
 import org.studywithme.service.StudyroomService;
 import org.studywithme.util.UserUtil;
 
@@ -36,6 +34,7 @@ public class UserStudyRoomController {
 		int cafeno = (int) session.getAttribute("cafeNum");
 		model.addAttribute("my_id", vo.getUserId());
 		model.addAttribute("lists", service.useroom(cafeno));
+		model.addAttribute("time", vo.getRemainingStudyRoomTime());
 		
 		//branch부분을 메인에서 넘어온 카페이름으로 바꿔야함. 당연히 view 폴더 이름도 같음.
 		String cafe_name = "studycafe/";
@@ -53,9 +52,11 @@ public class UserStudyRoomController {
 			System.out.println("완료");
 			return ResponseEntity.ok("Reservation Successful");
 		} catch (Exception e) {
-			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Reservation Failed");
+		}finally {
+			util.refreshUserDetails(vo.getUserId());
 		}
+		
 	}
 	
 	@PostMapping("/userstudyroom/return")
