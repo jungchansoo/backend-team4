@@ -58,12 +58,10 @@
 	</sql>
 	
 	<select id="getTotalCount"
-	        resultType="int"
-	        parameterType="org.studywithme.domain.Criteria">
+	        resultType="int">
 		SELECT COUNT(1)
 		  FROM tbl_ticket
-		 WHERE <include refid="criteria"></include>
-		       ticket_no > 0
+		 WHERE category like '%'||#{keyword}||'%'
 	</select>
 	
 	<select id="getTicketList"

@@ -26,7 +26,8 @@ public class AdminTicketController {
 	public String getTicketList(Model model, Criteria cri) {
 		
 		String keyword = cri.getKeyword() == null ? "" : cri.getKeyword();
-		model.addAttribute("ticketList", service.getListTicket(keyword, cri.getPageNum(), cri.getAmount()));
+		cri.setKeyword(keyword);
+		model.addAttribute("ticketList", service.getListTicket(cri.getKeyword(), cri.getPageNum(), cri.getAmount()));
 		
 		int total = service.getTotal(cri);
         model.addAttribute("pageMaker", new PageDTO(cri, total));

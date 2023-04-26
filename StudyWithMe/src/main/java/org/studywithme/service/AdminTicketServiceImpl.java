@@ -72,7 +72,7 @@ public class AdminTicketServiceImpl implements AdminTicketService {
 	@Override
 	public int getTotal(Criteria cri) {
 		log.info("cri" + cri);
-		return mapper.getTotalCount(cri);
+		return mapper.getTotalCount(cri.getKeyword());
 	}
 
 	@Override

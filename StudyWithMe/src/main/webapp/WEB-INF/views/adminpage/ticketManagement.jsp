@@ -95,9 +95,9 @@
 		<!-- 검색 기능 -->
 		<form id='searchForm' action="/ticketManagement" method='get'>
 			<input type='hidden' name='type' value="category" ${pageMaker.cri.type}/>
-			<label><input type="radio" name="keyword" value="SEAT" ${pageMaker.cri.keyword == 'SEAT' ? 'checked' : ''} />일반 좌석</label>
-			<label><input type="radio" name="keyword" value="STUDY_ROOM" ${pageMaker.cri.keyword == 'STUDY_ROOM' ? 'checked' : ''} />스터디룸</label>
-			<label><input type="radio" name="keyword" value="LOCKER" ${pageMaker.cri.keyword == 'LOCKER' ? 'checked' : ''} />사물함</label>
+			<label><input type="radio" name="keyword" value="SEAT" ${pageMaker.cri.keyword == 'SEAT' ? 'checked' : ''} /> 일반 좌석 &nbsp;&nbsp;&nbsp;</label>
+			<label><input type="radio" name="keyword" value="STUDY_ROOM" ${pageMaker.cri.keyword == 'STUDY_ROOM' ? 'checked' : ''} /> 스터디룸 &nbsp;&nbsp;&nbsp;</label>
+			<label><input type="radio" name="keyword" value="LOCKER" ${pageMaker.cri.keyword == 'LOCKER' ? 'checked' : ''} /> 사물함</label>
 			<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' />
 			<input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' />
 		</form>
@@ -194,7 +194,7 @@
 		</form>
 		
 		<div>
-			<button type="button" class="btn btn-primary btn-lg mr-2" onclick="location.href='/insertTicket'">이용권 추가</button>
+			<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/insertTicket'">이용권 추가</button>
 		</div>
 
 	</div>
