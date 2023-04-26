@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<!DOCTYPE html>
+
 <html>
 <head>
 
@@ -116,7 +117,7 @@ select {
     color: white;
 }
 
-#emptyoption ,#reservationsuccess ,#reservationfail, #canclesuccess, #canclefail, #emptytime, #{
+#emptyoption ,#reservationsuccess ,#reservationfail, #canclesuccess, #canclefail, #emptytime{
 	width: 400px;
 	text-align: center;
 	font-family: "paybooc-Light", sans-serif;

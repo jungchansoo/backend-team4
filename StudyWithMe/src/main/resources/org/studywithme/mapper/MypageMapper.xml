@@ -81,13 +81,13 @@
 		)
       	where 
   		]]>
+      	<include refid="criteria"></include>
   		<![CDATA[    
       	rownum <= #{pageNum} * #{amount}
       	]]>
-      	<include refid="criteria"></include>
       	<![CDATA[
       	)
-  		where rn > (#{pageNum} -1) * #{amount} 
+  		where rn > (#{pageNum} -1) * #{amount}
   		]]>
 	</select>
 
