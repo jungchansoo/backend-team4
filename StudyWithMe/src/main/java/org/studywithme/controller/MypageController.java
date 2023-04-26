@@ -39,14 +39,6 @@ public class MypageController {
 		return "/mypage/userinfo";
 	}
 
-//	@GetMapping("/reservationList")
-//	 public String reservationList(Model model) {
-//		UserVO vo = new UserUtil().getUserDetails();
-//		List<ReservationVO> reservationList = service.getReservationList(vo.getUserId());
-//        model.addAttribute("reservationList", reservationList);
-//		return "/mypage/reservationList";
-//	}
-
 	@GetMapping("/reservationList")
 	public String reservationList( ReservationCriteria recri,Model model) {
 		UserVO vo = new UserUtil().getUserDetails();
@@ -58,9 +50,6 @@ public class MypageController {
 		return "/mypage/reservationList";
 	}
 	
-
-	
-
 	@GetMapping("/updatePw")
 	public String updatePwForm() {
 		return "/mypage/updatePw";
@@ -108,7 +97,6 @@ public class MypageController {
 		if (!password.equals(passwordConfirm)) {
 			// 비밀번호 확인이 일치하지 않으면 에러 메시지를 전달하고 마이페이지로 돌아갑니다.
 			rttr.addFlashAttribute("error", "비밀번호 확인이 일치하지 않습니다.");
-//	        log.info("비밀번호 확인이 일치하지 않습니다.");
 			return "redirect:/deleteUser";
 		}
 
@@ -117,8 +105,6 @@ public class MypageController {
 
 		// DB에 저장된 비밀번호를 가져옵니다.
 		String dbPassword = vo.getPassword();
-//	    log.info("encodedPassword : "+encodedPassword);
-//	    log.info("dbPassword: "+dbPassword);
 
 		// 암호화된 비밀번호와 DB에 저장된 비밀번호를 비교합니다.
 		if (passwordEncoder.matches(password, dbPassword)) {
@@ -127,18 +113,15 @@ public class MypageController {
 			if (success) {
 				// 회원 탈퇴가 성공하면 로그아웃하고 로그인 화면으로 이동합니다.
 				rttr.addFlashAttribute("message", "회원 탈퇴가 완료되었습니다. 이용해 주셔서 감사합니다.");
-//	            log.info("회원탈퇴완료");
 				return "redirect:/login";
 			} else {
 				// 회원 탈퇴가 실패하면 에러 메시지를 전달하고 마이페이지로 돌아갑니다.
 				rttr.addFlashAttribute("error", "회원 탈퇴에 실패했습니다. 입력한 정보를 다시 확인해주세요.");
-//	            log.info("회원탈퇴실패");
 				return "redirect:/deleteUser";
 			}
 		} else {
 			// 비밀번호가 일치하지 않으면 에러 메시지를 전달하고 마이페이지로 돌아갑니다.
 			rttr.addFlashAttribute("error", "비밀번호가 일치하지 않습니다.");
-//	        log.info("비밀번호가 일치하지 않습니다.");
 			return "redirect:/deleteUser";
 		}
 	}

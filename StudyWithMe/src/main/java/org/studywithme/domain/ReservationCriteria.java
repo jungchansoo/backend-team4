@@ -21,24 +21,23 @@ public class ReservationCriteria {
 
     // 생성자 => 필드의 초기값 지정
     public ReservationCriteria() {
-        this(1, 10, null); // userId 필드를 null로 초기화
+        this(1, 10); // userId 필드를 null로 초기화
     }
 
-    public ReservationCriteria(int pageNum, int amount, String userId) { // 외부에서 별도 지정
+    public ReservationCriteria(int pageNum, int amount) { // 외부에서 별도 지정
         // 필드 = 매개변수
         this.pageNum = pageNum;
         this.amount = amount;
-        this.userId = userId;
     }
 
 	public String[] getSearchTypeArr() {
 		// 삼항연산자 searchType == (조건식) ? 참 : 거짓
 		return searchType == null ? new String[] {} : searchType.split("");
 	}
-	// searchTypeArr 프로퍼티에 대한 getter 메소드 추가
-    public String[] getTypeArr() {
-        return this.getSearchTypeArr();
-    }
+//	// searchTypeArr 프로퍼티에 대한 getter 메소드 추가
+//    public String[] getTypeArr() {
+//        return this.getSearchTypeArr();
+//    }
 
 }
 
