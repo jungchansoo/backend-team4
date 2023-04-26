@@ -11,8 +11,8 @@
 <meta charset="UTF-8">
 <title>MyPage</title>
 
-<link rel="stylesheet" href="resources/css/sidebar.css"	type="text/css">
-	<style>
+<link rel="stylesheet" href="resources/css/sidebar.css" type="text/css">
+<style>
 li a.userinfo {
 	background: #333;
 	color: #fff;
@@ -41,8 +41,8 @@ td {
 
 </head>
 <body>
-<!-- 헤더 -->
-<%@include file="../includes/header.jsp"%>
+	<!-- 헤더 -->
+	<%@include file="../includes/header.jsp"%>
 
 
 
@@ -82,10 +82,9 @@ td {
 				</tr>
 				<tr>
 					<th>잔여시간</th>
-					<td>스터디석 :<sec:authentication
-							property="principal.user.remainingSeatTime" /><br> 스터디룸 :<sec:authentication
-							property="principal.user.remainingStudyRoomTime" /><br> 사물함
-						:<sec:authentication property="principal.user.remainingLockerTime" />
+					<td>스터디석 : ${seattime}<br> 
+					스터디룸 : ${roomtime}  <br>
+					사물함 : ${lockertime}
 					</td>
 				</tr>
 			</table>

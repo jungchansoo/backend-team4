@@ -16,6 +16,7 @@ import org.studywithme.domain.UserVO;
 import org.studywithme.dto.ReservationPageDTO;
 import org.studywithme.service.MypageService;
 import org.studywithme.util.UserUtil;
+import org.studywithme.util.changetime;
 
 import lombok.extern.log4j.Log4j;
 
@@ -33,9 +34,13 @@ public class MypageController {
 	@GetMapping("/userinfo")
 	public String mypageuserinfo(Model model) {
 		UserVO vo = new UserUtil().getUserDetails();
-		model.addAttribute("loginUser", vo);
-		model.addAttribute("name", vo.getUserName());
-		model.addAttribute("password", vo.getPassword());
+		changetime changer = new changetime();
+		String remainingSeatTime = changer.time_longtoString(vo.getRemainingSeatTime());
+		String remainingRoomTime = changer.time_longtoString(vo.getRemainingStudyRoomTime());
+		String remainingLockerTime = changer.time_longtoString(vo.getRemainingLockerTime());
+		model.addAttribute("seattime", remainingSeatTime);
+		model.addAttribute("roomtime", remainingRoomTime);
+		model.addAttribute("lockertime", remainingLockerTime);
 		return "/mypage/userinfo";
 	}
 
