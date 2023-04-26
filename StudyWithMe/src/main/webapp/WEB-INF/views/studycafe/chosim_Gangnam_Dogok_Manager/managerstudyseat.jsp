@@ -115,8 +115,8 @@ a {
 
 #getOut {
 	position: absolute;
-	right: 30%;
-	top: 80%; /* 수직 위치를 조절할 수 있는 값입니다. */
+	right: 5%;
+	top: 95%;
 }
 </style>
 
@@ -137,29 +137,31 @@ a {
 			</div>
 			<!-- 사이드 바 구성 (todo)-->
 			<div class="col-md-6 right-side">
-				<p class="selectedSeatInfo fs-4">사용자 정보</p>
+			<div class="emptySpace-right-side" style="margin-top: 20px;"></div>
+				<p class="selectedSeatInfo fs-2 font-weight-bold">사용자 정보</p>
+				<div class="emptySpace-right-side" style="margin-top: 30px;"></div>
 				<div class="table-responsive">
 					<table class="table">
 						<tbody>
 							<tr>
-								<td class="fs-4">유저명 :</td>
-								<td id="userName" class="fs-4"></td>
+								<td class="fs-4">유저명</td>
+								<td id="userName" class="fs-5"></td>
 							</tr>
 							<tr>
-								<td class="fs-4">사용 시작 일자 :</td>
-								<td id="startTime" class="fs-4"></td>
+								<td class="fs-4">시작 시간</td>
+								<td id="startTime" class="fs-5"></td>
 							</tr>
 							<tr>
-								<td class="fs-4">사용 시간 :</td>
-								<td class="usingTime fs-4"></td>
+								<td class="fs-4">사용 시간</td>
+								<td class="usingTime fs-5"></td>
 							</tr>
 							<tr>
-								<td class="fs-4">잔여 시간 :</td>
-								<td class="leftTime fs-4"></td>
+								<td class="fs-4">잔여 시간</td>
+								<td class="leftTime fs-5"></td>
 							</tr>
 							<tr>
-								<td class="fs-4">연락처 :</td>
-								<td id="phoneNumber" class="fs-4"></td>
+								<td class="fs-4">연락처</td>
+								<td id="phoneNumber" class="fs-5"></td>
 							</tr>
 						</tbody>
 					</table>
@@ -264,8 +266,8 @@ a {
 		            remainingSeatTimeInMinutes = data.remainingSeatTime;
 		            console.log("remainingSeatTimeInMinutes from Data : "+remainingSeatTimeInMinutes);
 		            displayStartTime(startTime);
-		            $("#phoneNumber").text("전화번호 : " + data.phoneNumber);
-		            $("#userName").text("유저 이름 : " + data.userName);
+		            $("#phoneNumber").text(data.phoneNumber);
+		            $("#userName").text(data.userName);
 		        },
 		        error: function (error) {
 		            console.log("Error while fetching UserVO: " + JSON.stringify(error));
@@ -431,15 +433,15 @@ a {
 			  // 시작 시간을 원하는 형식으로 출력
 			  var formattedStartTime = formatDate(startTimeDate);
 			  console.log("formattedStartTime : "+formattedStartTime);
-	          $("#startTime").text("사용 시작 일자 : " + formattedStartTime);
+	          $("#startTime").text(formattedStartTime);
 	          
 	          // 사용시간 계산 및 출력
 	          var elapsedTime = getElapsedTime(startTimeDate);
-	          $(".usingTime").text("사용 시간 : " + elapsedTime);
+	          $(".usingTime").text(elapsedTime);
 	          
 	          // 잔여시간 계산 및 출력
 	          var remainingTime = getRemainingTime(remainingSeatTimeInMinutes);
-	          $(".leftTime").text("잔여 시간 : " + remainingTime);
+	          $(".leftTime").text(remainingTime);
 		}
 	</script>
 </body>
