@@ -4,21 +4,24 @@
 	prefix="sec"%>
 <style>
 .footer {
-	width: 65%;
-	padding: 20px 0;
-	margin: 0 auto;
-	font-size: 17px;
+	width: 100%%;
+
 }
 
 .footer-container {
+	width: 75%;
 	padding-top: 50px;
+	padding: 20px 0;
+	margin: 0 auto;
+	font-size: 16px;
 }
 
 .footer-line {
+	margin-top: 90px;
 	border: 0;
 	height: 1px;
 	background-color: #ccc;
-	margin-bottom: 20px;
+	margin-bottom: 1px;
 }
 
 .footer-content {
@@ -84,8 +87,9 @@
 
 <!-- Footer 시작 -->
 <footer class="footer">
+	<hr class="footer-line">
+
 	<div class="footer-container">
-		<hr class="footer-line">
 		<div class="footer-content">
 			<div class="footer-left">
 				<img class="footer-logo" src="resources/image/logo.png"
