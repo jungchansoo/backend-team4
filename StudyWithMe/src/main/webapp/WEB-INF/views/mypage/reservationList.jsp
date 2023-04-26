@@ -34,10 +34,13 @@ table {
 	border: solid 2px black;
 	width: 95%;
 	margin: auto;
+	text-align: center;
+	padding: 3px;
+	
 }
 
-thead tr {
-	border-bottom: 1px solid black;
+th,td {
+padding: 5px;
 }
 
 .pagination {

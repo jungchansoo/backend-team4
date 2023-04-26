@@ -27,20 +27,20 @@
 	justify-content: center;
 	align-items: center;
 	margin: auto;
-	width: 80%;
-	min-height: 500px; /* 최소 높이 지정 */
+	width: 90%;
 	padding: 20px;
 }
 
 .cd2 p {
-	margin-right : 80%;
+	margin-right: 80%;
 	font-size: 1.2em;
 	font-weight: bold;
 }
 
 #searchForm {
-	margin-left: auto;
-	padding-bottom: 10px;
+	margin-right: 70px; padding-right : 20px;
+	padding-bottom: 20px;
+	padding-right: 20px
 }
 
 .list {
@@ -49,8 +49,8 @@
 
 .list tbody {
 	margin-top: 20px;
-	font-size: 16px;
-	line-height: 2;
+	font-size: 19px;
+	line-height: 3;
 }
 
 .list table {
@@ -81,7 +81,7 @@
 		<input id="csrfToken" type="hidden" name="${_csrf.parameterName}"
 			value="${_csrf.token}" />
 
-				<p>유저목록</p>
+		<p>유저목록</p>
 		<!-- 검색 기능 -->
 		<form id='searchForm' action="/userlist" method='get'>
 			<select name='type'>
@@ -140,7 +140,7 @@
 
 
 		<!-- 하단 페이징처리 -->
-			<ul class="pagination">
+		<ul class="pagination">
 			<li class="paginate_button previous"><a
 				href="${pageMaker.startPage - 1}">Previous</a></li>
 			<c:forEach var="num" begin="${pageMaker.startPage}"
@@ -197,52 +197,84 @@
 
 
 	<script>
-		$(document).ready(
-				function() {
-					history.replaceState({}, null, null);
-					var searchForm = $("#searchForm");
-					$("#searchForm button").on("click", function(e) {
-						/* if (!searchForm.find("option:selected").val()) {
-							alert("검색종류를 선택하세요");
-							return false;
-						} */
-						if (!searchForm.find("input[name='keyword']").val()) {
-							alert("키워드를 입력하세요");
-							return false;
-						}
-						searchForm.find("input[name='pageNum']").val("1");
-						e.preventDefault();
-						searchForm.submit();
-					});
+		$(document)
+				.ready(
+						function() {
+							history.replaceState({}, null, null);
+							var searchForm = $("#searchForm");
+							$("#searchForm button")
+									.on(
+											"click",
+											function(e) {
+												/* if (!searchForm.find("option:selected").val()) {
+													alert("검색종류를 선택하세요");
+													return false;
+												} */
+												if (!searchForm
+														.find(
+																"input[name='keyword']")
+														.val()) {
+													alert("키워드를 입력하세요");
+													return false;
+												}
+												searchForm
+														.find(
+																"input[name='pageNum']")
+														.val("1");
+												e.preventDefault();
+												searchForm.submit();
+											});
 
-					 var actionForm = $("#actionForm");
+							var actionForm = $("#actionForm");
 
-					  $(".paginate_button.previous a").on("click", function(e) {
-					    e.preventDefault();
-					    var page = parseInt(actionForm.find("input[name='pageNum']").val());
-					    if (page > 1) {
-					      actionForm.find("input[name='pageNum']").val(page - 1);
-					      actionForm.submit();
-					    }
-					  });
+							$(".paginate_button.previous a")
+									.on(
+											"click",
+											function(e) {
+												e.preventDefault();
+												var page = parseInt(actionForm
+														.find(
+																"input[name='pageNum']")
+														.val());
+												if (page > 1) {
+													actionForm
+															.find(
+																	"input[name='pageNum']")
+															.val(page - 1);
+													actionForm.submit();
+												}
+											});
 
-					  $(".paginate_button.next a").on("click", function(e) {
-					    e.preventDefault();
-					    var page = parseInt(actionForm.find("input[name='pageNum']").val());
-					    var lastPage = parseInt("${pageMaker.endPage}");
-					    if (page < lastPage) {
-					      actionForm.find("input[name='pageNum']").val(page + 1);
-					      actionForm.submit();
-					    }
-					  });
+							$(".paginate_button.next a")
+									.on(
+											"click",
+											function(e) {
+												e.preventDefault();
+												var page = parseInt(actionForm
+														.find(
+																"input[name='pageNum']")
+														.val());
+												var lastPage = parseInt("${pageMaker.endPage}");
+												if (page < lastPage) {
+													actionForm
+															.find(
+																	"input[name='pageNum']")
+															.val(page + 1);
+													actionForm.submit();
+												}
+											});
 
-					  $(".paginate_button:not(.previous, .next) a").on("click", function(e) {
-					    e.preventDefault();
-					    actionForm.find("input[name='pageNum']").val($(this).attr("href"));
-					    actionForm.submit();
-					  });
+							$(".paginate_button:not(.previous, .next) a").on(
+									"click",
+									function(e) {
+										e.preventDefault();
+										actionForm
+												.find("input[name='pageNum']")
+												.val($(this).attr("href"));
+										actionForm.submit();
+									});
 
-				});
+						});
 	</script>
 
 
