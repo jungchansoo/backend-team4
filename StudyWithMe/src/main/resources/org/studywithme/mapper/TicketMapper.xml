@@ -5,36 +5,147 @@
 <mapper namespace="org.studywithme.mapper.TicketMapper">
 
 	<select id="getSeatTicketList" parameterType="map" resultType="org.studywithme.domain.TicketVO">
-		SELECT ticket_no AS "ticketNo"
-		      ,category AS "category"
-		      ,ticket_name AS "ticketName"
-		      ,price AS "price"
-		      ,charging_time AS "chargingTime"
+		SELECT ticket_no AS ticketNo
+		      ,category AS category
+		      ,ticket_name AS ticketName
+		      ,price AS price
+		      ,charging_time AS chargingTime
+		      ,TO_CHAR(start_time, 'YYYY/MM/DD') AS startTime
+		      ,TO_CHAR(end_time, 'YYYY/MM/DD') AS endTime
 		  FROM tbl_ticket
 		 WHERE SYSDATE BETWEEN start_time AND end_time
 		   AND category = #{category}
 	</select>
 	
 	<select id="getStudyRoomTicketList" parameterType="map" resultType="org.studywithme.domain.TicketVO">
-		SELECT ticket_no AS "ticketNo"
-		      ,category AS "category"
-		      ,ticket_name AS "ticketName"
-		      ,price AS "price"
-		      ,charging_time AS "chargingTime"
+		SELECT ticket_no AS ticketNo
+		      ,category AS category
+		      ,ticket_name AS ticketName
+		      ,price AS price
+		      ,charging_time AS chargingTime
+		      ,TO_CHAR(start_time, 'YYYY/MM/DD') AS startTime
+		      ,TO_CHAR(end_time, 'YYYY/MM/DD') AS endTime
 		  FROM tbl_ticket
 		 WHERE SYSDATE BETWEEN start_time AND end_time
 		   AND category = #{category}
 	</select>
 	
 	<select id="getLockerTicketList" parameterType="map" resultType="org.studywithme.domain.TicketVO">
-		SELECT ticket_no AS "ticketNo"
-		      ,category AS "category"
-		      ,ticket_name AS "ticketName"
+		SELECT ticket_no AS ticketNo
+		      ,category AS category
+		      ,ticket_name AS ticketName
 		      ,price AS "price"
-		      ,charging_time AS "chargingTime"
+		      ,charging_time AS chargingTime
+		      ,TO_CHAR(start_time, 'YYYY/MM/DD') AS startTime
+		      ,TO_CHAR(end_time, 'YYYY/MM/DD') AS endTime
 		  FROM tbl_ticket
 		 WHERE SYSDATE BETWEEN start_time AND end_time
 		   AND category = #{category}
 	</select>
-
+	
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'category'.toString()">
+							category like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+	
+	<select id="getTotalCount"
+	        resultType="int"
+	        parameterType="org.studywithme.domain.Criteria">
+		SELECT COUNT(1)
+		  FROM tbl_ticket
+		 WHERE <include refid="criteria"></include>
+		       ticket_no > 0
+	</select>
+	
+	<select id="getTicketList"
+	        resultType="org.studywithme.domain.TicketVO">
+ 		SELECT ticket_no AS ticketNo
+		       ,category AS category
+		       ,ticket_name AS ticketName
+		       ,price AS price
+		       ,charging_time AS chargingTime
+		       ,TO_CHAR(start_time, 'YYYY/MM/DD') AS startTime
+		       ,TO_CHAR(end_time, 'YYYY/MM/DD') AS endTime
+		       ,CASE WHEN TO_DATE(TO_CHAR(start_time, 'YYYY/MM/DD'), 'YYYY/MM/DD') <![CDATA[<=]]> TO_DATE(TO_CHAR(SYSDATE, 'YYYY/MM/DD'), 'YYYY/MM/DD') 
+		       AND TO_DATE(TO_CHAR(end_time, 'YYYY/MM/DD'), 'YYYY/MM/DD') <![CDATA[>=]]> TO_DATE(TO_CHAR(SYSDATE, 'YYYY/MM/DD'), 'YYYY/MM/DD')
+		       THEN 1 ELSE 0 END AS isSale
+		  FROM (
+		       SELECT /*+ index_desc(tbl_ticket SYS_C0021886) */ -- 인덱스 힌트
+		              rownum rn
+		             ,ticket_no
+		             ,category
+		             ,ticket_name
+		             ,price
+		             ,charging_time
+		             ,start_time
+		             ,end_time
+		         FROM tbl_ticket
+		        WHERE category LIKE '%' || #{keyword} || '%'
+		          AND rownum <![CDATA[<=]]> #{pageNum} * #{amount}
+      	 )
+  		 WHERE rn BETWEEN ((#{pageNum} - 1) * #{amount}) AND (#{pageNum} * #{amount}) 
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO tbl_ticket
+		(
+		       ticket_no
+		      ,category
+		      ,ticket_name
+		      ,price
+		      ,charging_time
+		      ,start_time
+		      ,end_time
+		) VALUES (
+		       ticket_seq.nextval
+		      ,#{category}
+		      ,#{ticketName}
+		      ,#{price}
+		      ,#{chargingTime}
+		      ,TO_DATE(#{startTime},'YYYY/MM/DD')
+		      ,TO_DATE(#{endTime},'YYYY/MM/DD')
+		)
+	</insert>
+	
+	<select id="read" resultType="org.studywithme.domain.AddTicketVO">
+		SELECT ticket_no AS ticketNo
+		      ,category AS category
+		      ,ticket_name AS ticketName
+		      ,price AS price
+		      ,charging_time AS chargingTime
+		      ,TO_CHAR(start_time, 'YYYY/MM/DD') AS startTime
+		      ,TO_CHAR(end_time, 'YYYY/MM/DD') AS endTime
+		      ,CASE WHEN TO_DATE(TO_CHAR(start_time, 'YYYY/MM/DD'), 'YYYY/MM/DD') <![CDATA[<=]]> TO_DATE(TO_CHAR(SYSDATE, 'YYYY/MM/DD'), 'YYYY/MM/DD') 
+		       AND TO_DATE(TO_CHAR(end_time, 'YYYY/MM/DD'), 'YYYY/MM/DD') <![CDATA[>=]]> TO_DATE(TO_CHAR(SYSDATE, 'YYYY/MM/DD'), 'YYYY/MM/DD')
+		       THEN 1 ELSE 0 END AS isSale
+		  FROM tbl_ticket 
+		 WHERE ticket_no = #{ticketNo}
+	</select>
+	
+	<update id="update">
+		UPDATE tbl_ticket
+		   SET category = #{category}
+		      ,ticket_name = #{ticketName}
+		      ,price = #{price}
+		      ,charging_time = #{chargingTime}
+		      ,start_time = #{startTime}
+		      ,end_time = #{endTime}
+		 WHERE ticket_no = #{ticketNo}
+	</update>
+	
+	<delete id="delete">
+		DELETE tbl_ticket
+		 WHERE ticket_no=#{ticketNo}
+	</delete>
+  
+ 
 </mapper>
