@@ -15,7 +15,6 @@
 <!-- 헤드 태그 안에 들어가는 공통코드 -->
 
 <link rel="stylesheet" href="resources/css/paymentSeatPage.css" type="text/css">
-<link rel="stylesheet" href="resources/css/userMainPage.css" type="text/css">
 </head>
 <!-- 헤더 -->
 <%@include file="../includes/header.jsp"%>
@@ -167,4 +166,5 @@
 	</script>
 	
 </body>
+<%@include file="../includes/footer.jsp"%>
 </html>
