@@ -19,14 +19,15 @@
 	margin: auto;
 	width: 90%;
 	padding: 20px;
-	font-size: 1.2rem;
+	font-size: 1.2em;
 }
 
 .cd2 p {
-	margin-right: 80%;
+	margin: 10 0;
+    width: inherit;
 	font-size: 1.2em;
 	font-weight: bold;
-	height:40px;
+	height:20px;
 }
 
 #searchForm {
@@ -41,7 +42,6 @@
 
 .list tbody {
 	margin-top: 20px;
-	font-size: 19px;
 	line-height: 3;
 }
 
