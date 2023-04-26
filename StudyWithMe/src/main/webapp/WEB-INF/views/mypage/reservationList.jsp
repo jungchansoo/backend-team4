@@ -14,10 +14,6 @@
 <title>MyPage</title>
 <link rel="stylesheet" href="resources/css/sidebar.css" type="text/css">
 
-</head>
-<!-- 헤더 -->
-<%@include file="../includes/header.jsp"%>
-<body>
 	<style>
 li a.reservatelist {
 	background: #333;
@@ -53,6 +49,10 @@ padding: 5px;
 	margin-right: 20px;
 }
 </style>
+</head>
+<body>
+<!-- 헤더 -->
+<%@include file="../includes/header.jsp"%>
 
 	<ul class="sidebar">
 		<li class="side_title">Mypage</li>
@@ -190,4 +190,5 @@ padding: 5px;
 	</script>
 
 </body>
+<%@include file="../includes/footer.jsp"%>
 </html>

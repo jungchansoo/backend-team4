@@ -9,16 +9,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <title>유저관리</title>
-<!-- 헤드 태그 안에 들어가는 공통코드 -->
-<link rel="stylesheet" href="resources/css/userMainPage.css"
-	type="text/css">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"
-	rel="stylesheet">
-</head>
-<!-- 헤더 -->
-<%@include file="../includes/header.jsp"%>
-<body>
 
 	<style>
 .cd2 {
@@ -29,18 +19,20 @@
 	margin: auto;
 	width: 90%;
 	padding: 20px;
+	font-size: 1.2rem;
 }
 
 .cd2 p {
 	margin-right: 80%;
 	font-size: 1.2em;
 	font-weight: bold;
+	height:40px;
 }
 
 #searchForm {
-	margin-right: 70px; padding-right : 20px;
+	margin-left: 70%; 
+	padding-right : 20px;
 	padding-bottom: 20px;
-	padding-right: 20px
 }
 
 .list {
@@ -75,6 +67,11 @@
 	margin-right: 20px;
 }
 </style>
+</head>
+<body>
+<!-- 헤더 -->
+<%@include file="../includes/header.jsp"%>
+
 
 
 	<div class="cd2">
@@ -280,4 +277,5 @@
 
 
 </body>
+<%@include file="../includes/footer.jsp"%>
 </html>

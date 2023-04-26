@@ -10,19 +10,8 @@
 <head>
 <meta charset="UTF-8">
 <title>MyPage</title>
-<!-- 헤드 태그 안에 들어가는 공통코드 -->
-<link rel="stylesheet" href="resources/css/userMainPage.css"
-	type="text/css">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"
-	rel="stylesheet">
-<link rel="stylesheet" href="resources/css/sidebar.css"
-	type="text/css">
 
-</head>
-<!-- 헤더 -->
-<%@include file="../includes/header.jsp"%><body>
-
+<link rel="stylesheet" href="resources/css/sidebar.css"	type="text/css">
 	<style>
 li a.userinfo {
 	background: #333;
@@ -30,7 +19,6 @@ li a.userinfo {
 }
 /* 폼태그속 디자인 */
 #actionForm {
-	min-height: 500px;
 	margin: auto;
 }
 
@@ -50,6 +38,12 @@ td {
 	padding: 20px;
 }
 </style>
+
+</head>
+<body>
+<!-- 헤더 -->
+<%@include file="../includes/header.jsp"%>
+
 
 
 	<ul class="sidebar">
@@ -102,4 +96,5 @@ td {
 
 
 </body>
+<%@include file="../includes/footer.jsp"%>
 </html>
