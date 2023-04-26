@@ -19,11 +19,29 @@
 		values (active_reservation_pk.nextval, sysdate, #{category},
 		#{num_using}, #{cafe_no}, #{user_id})
 	</insert>
+	
+	<select id="checkduration" resultType="boolean">
+	<![CDATA[
+		SELECT COUNT(*) as count
+		FROM reservation 
+		WHERE cafe_no = #{cafe_no} 
+		AND num_using = #{num_using} 
+		AND (
+   		 (#{start_time} >= start_time AND #{start_time} < end_time) OR 
+   		 (#{end_time} > start_time AND #{end_time} <= end_time) OR
+   		 (#{start_time} <= start_time AND #{end_time} >= end_time)
+		)
+	]]>	
+	</select>
 
 	<insert id="insertroom" parameterType="map">
 		insert into reservation 
 		values (tbl_reservation_pk.nextval, #{user_id}, #{cafe_no}, 'ROOM', #{num_using}, #{start_time}, #{end_time}, #{duration})
 	</insert>
+	
+	<update id="updateRemainingRoomTime" parameterType="map">
+  		UPDATE tbl_user SET REMAINING_STUDY_ROOM_TIME = REMAINING_STUDY_ROOM_TIME - #{duration} WHERE USER_ID = #{user_id}
+	</update>
 	
 	<select id="isAvailable" resultType="boolean">
 		SELECT COUNT(*) as count
