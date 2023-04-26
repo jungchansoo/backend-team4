@@ -13,6 +13,12 @@
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="resources/css/userMainPage.css" type="text/css">
 
+<!-- Add Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <style>
 	.cd2 {
 		display: flex;
@@ -31,12 +37,16 @@
 	
 	.list {
 		text-align: center;
+		border: 3px solid black;
+		padding: 20px;
+		border-radius: 50px;
 	}
 	
 	.list p {
 		text-align: left;
 		font-size: 1.2em;
 		font-weight: bold;
+		text-align: center;
 	}
 	
 	.list tbody {
@@ -121,6 +131,13 @@
 		text-decoration: none;
 		cursor: pointer;
 	}
+	.btn-group-lg>.btn, .btn-lg {
+		padding: 0.5rem 3.0rem;
+	    font-size: 1.25rem;
+	    line-height: 1.5;
+	    border-radius: 1rem;
+	}
+	
 </style>
 
 <!-- 헤드 태그 안에 들어가는 공통코드 -->
@@ -132,91 +149,84 @@
 <body>
 	<div class="cd2">
 		<input id="csrfToken" type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-
-	
 		
-		<!-- <form id="searchForm" action="search" method="get">
-			<input type="radio" name="ticketType" value="male">일반 좌석
-			<input type="radio" name="ticketType" value="female">스터디룸
-			<input type="radio" name="ticketType" value="female">사물함
-			<input type="submit" value="조회">
-		</form> -->
-
 		<div class="list">
-			<p>이용권 조회</p>
-		</div>
+			<p>이용권</p>
+		
 
-		<div class='pull-right'>
-			<input type="hidden" id="csrfToken" name="${_csrf.parameterName}" value="${_csrf.token}" />
-			<table>
-				<tr>
-					<td>요금제 이름</td>
-					<td class="input-content">
-						${ticket.ticketName}
-					</td>
-				</tr>
-				
-				<tr>
-					<td>공간 구분</td>
-					<td class="input-content">
-						<c:if test="${ticket.category == 'SEAT'}">일반 좌석</c:if>
-						<c:if test="${ticket.category == 'STUDY_ROOM'}">스터디룸</c:if>
-						<c:if test="${ticket.category == 'LOCKER'}">사물함</c:if>
-					</td>
-				</tr>
-				
-				<tr>
-					<td>충전 시간</td>
-					<td class="input-content">
-						<div>
-							<c:if test="${ticket.category == 'SEAT'}"><fmt:formatNumber value="${ticket.chargingTime / 60}" pattern="# '시간'" /></c:if>
-							<c:if test="${ticket.category == 'STUDY_ROOM'}"><fmt:formatNumber value="${ticket.chargingTime / 60}" pattern="# '시간'" /></c:if>
-							<c:if test="${ticket.category == 'LOCKER'}"><fmt:formatNumber value="${ticket.chargingTime / (60 * 24)}" pattern="# '일'" /></c:if>
-						</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td>적용 기간</td>
-					<td class="input-content">
-						<img src="resources/image/calendar.png" id="datepicker-trigger">
-						${ticket.startTime}
-						&nbsp; - &nbsp; 
-						<img src="resources/image/calendar.png" id="datepicker-trigger">
-						${ticket.endTime}
-					</td>
-				</tr>
-				
-				<tr>
-					<td>가격</td>
-					<td class="input-content">
-						<fmt:formatNumber value="${ticket.price}" pattern="#,##0원" />
-					</td>
-				</tr>
-			</table>
-			
+			<div class='pull-right'>
+				<input type="hidden" id="csrfToken" name="${_csrf.parameterName}" value="${_csrf.token}" />
+				<table>
+					<tr>
+						<td>요금제 이름</td>
+						<td class="input-content">
+							${ticket.ticketName}
+						</td>
+					</tr>
+					
+					<tr>
+						<td>공간 구분</td>
+						<td class="input-content">
+							<c:if test="${ticket.category == 'SEAT'}">일반 좌석</c:if>
+							<c:if test="${ticket.category == 'STUDY_ROOM'}">스터디룸</c:if>
+							<c:if test="${ticket.category == 'LOCKER'}">사물함</c:if>
+						</td>
+					</tr>
+					
+					<tr>
+						<td>충전 시간</td>
+						<td class="input-content">
+							<div>
+								<c:if test="${ticket.category == 'SEAT'}"><fmt:formatNumber value="${ticket.chargingTime / 60}" pattern="# '시간'" /></c:if>
+								<c:if test="${ticket.category == 'STUDY_ROOM'}"><fmt:formatNumber value="${ticket.chargingTime / 60}" pattern="# '시간'" /></c:if>
+								<c:if test="${ticket.category == 'LOCKER'}"><fmt:formatNumber value="${ticket.chargingTime / (60 * 24)}" pattern="# '일'" /></c:if>
+							</div>
+						</td>
+					</tr>
+					
+					<tr>
+						<td>적용 기간</td>
+						<td class="input-content">
+							<img src="resources/image/calendar.png" id="datepicker-trigger">
+							${ticket.startTime}
+							&nbsp; - &nbsp; 
+							<img src="resources/image/calendar.png" id="datepicker-trigger">
+							${ticket.endTime}
+						</td>
+					</tr>
+					
+					<tr>
+						<td>가격</td>
+						<td class="input-content">
+							<fmt:formatNumber value="${ticket.price}" pattern="#,##0원" />
+						</td>
+					</tr>
+				</table>
+				</div>
 			<div>
 			
+				<!-- 모달창 -->
 				<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
 				  <div class="modal-dialog">
 				    <div class="modal-content">
 				      <div class="modal-header">
-				        <h5 class="modal-title" id="deleteModalLabel">Ticket 삭제</h5>
+				        <h5 class="modal-title" id="deleteModalLabel">이용권 삭제</h5>
 				        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				      </div>
 				      <div class="modal-body">
-				        진짜 삭제하시겠습니까?
+				        정말로 이용권을 삭제하시겠습니까?
 				      </div>
 				      <div class="modal-footer">
 				        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-				        <button type="button" class="btn btn-primary" onclick="deleteTicket()">확인</button>
+				        <button type="button" class="btn btn-danger" onclick="deleteTicket()">삭제</button>
 				      </div>
 				    </div>
 				  </div>
 				</div>
 			
 				<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/ticketManagement'">목록으로</button>
-				<button class="btnForModal btn btn-outline-primary btn-lg" onclick="confirmDelete()" >이용권 삭제</button>
+				<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="if(confirm('정말로 삭제하시겠습니까?')) { location.href='/deleteTicket?ticketNo=${ticket.ticketNo}'; }">이용권 삭제</button>
+				
 				<button data-oper='modify' class="btnForModal btn btn-outline-primary btn-lg">이용권 수정</button>
 				<form id='operForm' action="updateTicket" method="get">
                     <input type='hidden' id='ticketNo' name='ticketNo' value='<c:out value="${ticket.ticketNo}"/>'>
@@ -270,31 +280,36 @@
 		});
 		
 		function confirmDelete() {
-			// 모달창 띄우기
-			log.info("=============================");
-			var modal = $("#deleteModal");
-			modal.modal('show');
+		    // 모달창 띄우기
+		    $('#deleteModal').modal('show');
 		}
 
 		function deleteTicket() {
-			// ticket 삭제 요청을 보내는 AJAX 요청 코드
-			$.ajax({
-				url: "/deleteTicket",
-			    type: "POST",
-			    data: { ticketNo: "${ticket.ticketNo}" },
-			    success: function(result) {
-			    	// 삭제가 성공한 경우
-			    	window.location.href = "/ticketManagement";
-			    },
-			    error: function(xhr, status, error) {
-			    	// 삭제가 실패한 경우
-			    	alert("삭제에 실패하였습니다.");
-			    }
-			});
+		    // ticket 삭제 요청을 보내는 AJAX 요청 코드
+		    $.ajax({
+		        url: '/deleteTicket',
+		        type: 'POST',
+		        data: { ticketNo: '${ticket.ticketNo}' },
+		        success: function(result) {
+		            // 삭제가 성공한 경우
+		            window.location.href = '/ticketManagement';
+		        },
+		        error: function(xhr, status, error) {
+		            // 삭제가 실패한 경우
+		            alert('삭제에 실패하였습니다.');
+		        }
+		    });
 		}
+		
+		$(document).on("click", "button.btn-danger", function() {
+			confirmDelete();
+		});
+
+		$(document).on("click", "button#delete-confirm-button", function() {
+			deleteTicket();
+		});
         
-        
-        
+
 	</script>
 
 

@@ -13,6 +13,12 @@
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="resources/css/userMainPage.css" type="text/css">
 
+<!-- Add Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <style>
 	.cd2 {
 		display: flex;
@@ -31,12 +37,16 @@
 	
 	.list {
 		text-align: center;
+		border: 3px solid black;
+		padding: 20px;
+		border-radius: 50px;
 	}
 	
 	.list p {
 		text-align: left;
 		font-size: 1.2em;
 		font-weight: bold;
+		text-align: center;
 	}
 	
 	.list tbody {
@@ -88,6 +98,13 @@
     	height: 20px;
     	weight: 20px;
     }
+    .btn-group-lg>.btn, .btn-lg {
+		padding: 0.5rem 3.0rem;
+	    font-size: 1.25rem;
+	    line-height: 1.5;
+	    border-radius: 1rem;
+	}
+    
 </style>
 
 <!-- 헤드 태그 안에 들어가는 공통코드 -->
@@ -111,7 +128,7 @@
 
 		<div class="list">
 			<p>이용권 추가</p>
-		</div>
+		
 
 		<div class='pull-right'>
 			<form action="/addTicket" method="post">
@@ -176,7 +193,7 @@
 		</div>
 
 		
-
+	</div>
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

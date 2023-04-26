@@ -31,6 +31,7 @@ public class AdminTicketController {
 		int total = service.getTotal(cri);
         model.addAttribute("pageMaker", new PageDTO(cri, total));
 		
+		log.info("total" + total);
 		return "/adminpage/ticketManagement";
 	}
 	
@@ -85,14 +86,15 @@ public class AdminTicketController {
 		log.info("modify:" + addTicketVO);
 	    service.modify(addTicketVO);
 	    
-	    return "/adminpage/ticketManagement";
+	    return "redirect:/ticketManagement";
 	}
 	
 	@GetMapping("/deleteTicket")
 	public String deleteTicket(@RequestParam("ticketNo") Long ticketNo) {
-		if (service.remove(ticketNo)) {
-		      return "success";
-		}
-		return "fail";
+		
+		log.info("ticketNo" + ticketNo);
+		service.remove(ticketNo);
+		
+		return "redirect:/ticketManagement";
 	}
 }

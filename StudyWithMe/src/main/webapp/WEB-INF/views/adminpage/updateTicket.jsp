@@ -31,12 +31,16 @@
 	
 	.list {
 		text-align: center;
+		border: 3px solid black;
+		padding: 20px;
+		border-radius: 50px;
 	}
 	
 	.list p {
 		text-align: left;
 		font-size: 1.2em;
 		font-weight: bold;
+		text-align: center;
 	}
 	
 	.list tbody {
@@ -111,72 +115,72 @@
 
 		<div class="list">
 			<p>이용권 수정</p>
-		</div>
+		
 
-		<div class='pull-right'>
-			<form action="/modifyTicket" method="post">
-				<input type="hidden" id="csrfToken" name="${_csrf.parameterName}" value="${_csrf.token}" />
-				<table>
-					<tr>
-						<td>요금제 이름</td>
-						<td class="input-content">
-  							<input id="ticketName" name="ticketName" value="${ticket.ticketName}" required>
-						</td>
-					</tr>
+			<div class='pull-right'>
+				<form action="/modifyTicket" method="post">
+					<input type="hidden" id="csrfToken" name="${_csrf.parameterName}" value="${_csrf.token}" />
+					<table>
+						<tr>
+							<td>요금제 이름</td>
+							<td class="input-content">
+	  							<input id="ticketName" name="ticketName" value="${ticket.ticketName}" required>
+							</td>
+						</tr>
+						
+						<tr>
+							<td>공간 구분</td>
+							<td class="input-content">
+								<label><input type="radio" name="category" value="SEAT" ${ticket.category == 'SEAT' ? 'checked' : ''} >일반 좌석</label>
+						        <label><input type="radio" name="category" value="STUDY_ROOM" ${ticket.category == 'STUDY_ROOM' ? 'checked' : ''} >스터디룸</label>
+						        <label><input type="radio" name="category" value="LOCKER" ${ticket.category == 'LOCKER' ? 'checked' : ''} >사물함</label>
+							</td>
+						</tr>
+						
+						<tr>
+							<td>충전 시간</td>
+							<td class="input-content">
+								<div>
+									<input type="number" id="ChargingTime" name="ChargingTime" placeholder="시간을 입력해주세요" required>
+									<select name="timeType">
+										<option value="hour" ${ticket.chargingTime < 60*24 ? 'selected' : ''}>시간</option>
+										<option value="day" ${ticket.chargingTime >= 60*24 && ticket.chargingTime < 60*24*7 ? 'selected' : ''}>일</option>
+										<option value="week" ${ticket.chargingTime >= 60*24*7 && ticket.chargingTime < 60*24*7*4 ? 'selected' : ''}>주</option>
+										<option value="month" ${ticket.chargingTime >= 60*24*7*4 ? 'selected' : ''}>개월</option>
+							    	</select>
+								</div>
+							</td>
+						</tr>
+						
+						<tr>
+							<td>적용 기간</td>
+							<td class="input-content">
+								<img src="resources/image/calendar.png" id="datepicker-trigger">
+								<input type="text" id="startTime" name="startTime" class="datepicker" value="${ticket.startTime}" required>
+								&nbsp; - &nbsp; 
+								<img src="resources/image/calendar.png" id="datepicker-trigger">
+								<input type="text" id="endTime" name="endTime" class="datepicker" value="${ticket.endTime}" required>
+							</td>
+						</tr>
+						
+						<tr>
+							<td>가격</td>
+							<td class="input-content">
+								<input type="number" id="price" name="price" value="${ticket.price}" required> 원
+							</td>
+						</tr>
+					</table>
 					
-					<tr>
-						<td>공간 구분</td>
-						<td class="input-content">
-							<label><input type="radio" name="category" value="SEAT" ${ticket.category == 'SEAT' ? 'checked' : ''} >일반 좌석</label>
-					        <label><input type="radio" name="category" value="STUDY_ROOM" ${ticket.category == 'STUDY_ROOM' ? 'checked' : ''} >스터디룸</label>
-					        <label><input type="radio" name="category" value="LOCKER" ${ticket.category == 'LOCKER' ? 'checked' : ''} >사물함</label>
-						</td>
-					</tr>
+					<input type='hidden' id='ticketNo' name='ticketNo' value='<c:out value="${ticket.ticketNo}"/>'>
 					
-					<tr>
-						<td>충전 시간</td>
-						<td class="input-content">
-							<div>
-								<input type="number" id="ChargingTime" name="ChargingTime" placeholder="시간을 입력해주세요" required>
-								<select name="timeType">
-									<option value="hour" ${ticket.chargingTime < 60*24 ? 'selected' : ''}>시간</option>
-									<option value="day" ${ticket.chargingTime >= 60*24 && ticket.chargingTime < 60*24*7 ? 'selected' : ''}>일</option>
-									<option value="week" ${ticket.chargingTime >= 60*24*7 && ticket.chargingTime < 60*24*7*4 ? 'selected' : ''}>주</option>
-									<option value="month" ${ticket.chargingTime >= 60*24*7*4 ? 'selected' : ''}>개월</option>
-						    	</select>
-							</div>
-						</td>
-					</tr>
+					<div>
+						<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/ticketManagement'">목록으로</button>
+						<button type="submit" data-oper='modify' class="btnForModal btn btn-outline-primary btn-lg"">이용권 수정</button>
+					</div>
 					
-					<tr>
-						<td>적용 기간</td>
-						<td class="input-content">
-							<img src="resources/image/calendar.png" id="datepicker-trigger">
-							<input type="text" id="startTime" name="startTime" class="datepicker" value="${ticket.startTime}" required>
-							&nbsp; - &nbsp; 
-							<img src="resources/image/calendar.png" id="datepicker-trigger">
-							<input type="text" id="endTime" name="endTime" class="datepicker" value="${ticket.endTime}" required>
-						</td>
-					</tr>
-					
-					<tr>
-						<td>가격</td>
-						<td class="input-content">
-							<input type="number" id="price" name="price" value="${ticket.price}" required> 원
-						</td>
-					</tr>
-				</table>
-				
-				<input type='hidden' id='ticketNo' name='ticketNo' value='<c:out value="${ticket.ticketNo}"/>'>
-				
-				<div>
-					<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/ticketManagement'">목록으로</button>
-					<button type="submit" data-oper='modify' class="btnForModal btn btn-outline-primary btn-lg"">이용권 수정</button>
-				</div>
-				
-			</form>
+				</form>
+			</div>
 		</div>
-
 		
 
 	</div>

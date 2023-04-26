@@ -13,6 +13,12 @@
 
 <link rel="stylesheet" href="resources/css/userMainPage.css" type="text/css">
 
+<!-- Add Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <style>
 	.cd2 {
 		display: flex;
@@ -65,7 +71,15 @@
 	
 	.pagination li {
 		margin-right: 20px;
-}
+	}
+	
+	.btn-group-lg>.btn, .btn-lg {
+		padding: 0.5rem 3.0rem;
+	    font-size: 1.25rem;
+	    line-height: 1.5;
+	    border-radius: 1rem;
+	}
+
 </style>
 
 <!-- 헤드 태그 안에 들어가는 공통코드 -->
@@ -180,7 +194,7 @@
 		</form>
 		
 		<div>
-			<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/insertTicket'">이용권 추가</button>
+			<button type="button" class="btn btn-primary btn-lg mr-2" onclick="location.href='/insertTicket'">이용권 추가</button>
 		</div>
 
 	</div>

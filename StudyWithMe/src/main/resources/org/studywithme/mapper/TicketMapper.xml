@@ -62,9 +62,8 @@
 	        parameterType="org.studywithme.domain.Criteria">
 		SELECT COUNT(1)
 		  FROM tbl_ticket
-		 WHERE
-		      <include refid="criteria"></include>
-		      ticket_no > 0
+		 WHERE <include refid="criteria"></include>
+		       ticket_no > 0
 	</select>
 	
 	<select id="getTicketList"
@@ -141,6 +140,12 @@
 		      ,start_time = #{startTime}
 		      ,end_time = #{endTime}
 		 WHERE ticket_no = #{ticketNo}
-  </update>
+	</update>
+	
+	<delete id="delete">
+		DELETE tbl_ticket
+		 WHERE ticket_no=#{ticketNo}
+	</delete>
+  
  
 </mapper>

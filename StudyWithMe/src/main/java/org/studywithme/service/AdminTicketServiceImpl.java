@@ -59,8 +59,8 @@ public class AdminTicketServiceImpl implements AdminTicketService {
 
 	@Override
 	public boolean remove(Long ticketNo) {
-		
-		return false;
+		log.info("remove....." + ticketNo);
+		return mapper.delete(ticketNo) == 1;
 	}
 
 	@Override
@@ -71,6 +71,7 @@ public class AdminTicketServiceImpl implements AdminTicketService {
 
 	@Override
 	public int getTotal(Criteria cri) {
+		log.info("cri" + cri);
 		return mapper.getTotalCount(cri);
 	}
 
