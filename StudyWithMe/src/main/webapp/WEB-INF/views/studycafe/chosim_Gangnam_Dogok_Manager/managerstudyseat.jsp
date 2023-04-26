@@ -100,8 +100,8 @@ a {
 	height: auto !important;
 }
 
-.modal-backdrop { -
-	-bs-backdrop-zindex: 1 !important;
+.modal-backdrop { 
+	--bs-backdrop-zindex: 1 !important;
 }
 
 #desc {
@@ -138,15 +138,32 @@ a {
 			<!-- 사이드 바 구성 (todo)-->
 			<div class="col-md-6 right-side">
 				<p class="selectedSeatInfo fs-4">사용자 정보</p>
-				<ul class="list-unstyled">
-					<li id="userName" class="fs-4">유저명 :</li>
-					<li id="startTime" class="fs-4">사용시작일자 :</li>
-					<li class="usingTime fs-4">사용 시간 :</li>
-					<!-- 현재시간 - reservation 에서 가져온 값 -->
-					<li class="leftTime fs-4">잔여 시간 :</li>
-					<!-- reaminingtime - 사용시간 -->
-					<li id="phoneNumber" class="fs-4">연락처 :</li>
-				</ul>
+				<div class="table-responsive">
+					<table class="table">
+						<tbody>
+							<tr>
+								<td class="fs-4">유저명 :</td>
+								<td id="userName" class="fs-4"></td>
+							</tr>
+							<tr>
+								<td class="fs-4">사용 시작 일자 :</td>
+								<td id="startTime" class="fs-4"></td>
+							</tr>
+							<tr>
+								<td class="fs-4">사용 시간 :</td>
+								<td class="usingTime fs-4"></td>
+							</tr>
+							<tr>
+								<td class="fs-4">잔여 시간 :</td>
+								<td class="leftTime fs-4"></td>
+							</tr>
+							<tr>
+								<td class="fs-4">연락처 :</td>
+								<td id="phoneNumber" class="fs-4"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 				<!-- 외곽선만 있는 버튼 스타일 적용 -->
 				<button type="button" class="btn btn-outline-primary" id="getOut"
 					onclick="returnseat()">내보내기</button>
@@ -202,7 +219,7 @@ a {
 			</div>
 		</div>
 	</div>
-<%@include file="../../includes/footer.jsp"%>
+	<%@include file="../../includes/footer.jsp"%>
 
 
 	<input id="csrfToken" type="hidden" name="${_csrf.parameterName}"
