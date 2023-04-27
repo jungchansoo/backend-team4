@@ -30,8 +30,8 @@ li a.chagepw {
 
 /* 버튼 디자인 */
 .submit-button, .back-button {
-	background-color: #B2ECC7;
-	color: #000;
+	background-color: #007bff;
+	color: white;
 	border-radius: 12px;
 	padding: 8px 30px;
 	border: none;
