@@ -171,7 +171,8 @@ $(document).ready(function() {
 	  // 변경 모달 취소 버튼 클릭시
 	  $('.no').click(function() {
 	    // 변경 모달 닫기
-	    $('#updateModal').hide();
+	    /* $('#updateModal').hide(); */
+		  location.reload();
 	  });
 	  
 	  // 확인 모달 확인 버튼 클릭시 페이지 새로고침
