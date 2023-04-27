@@ -1,5 +1,8 @@
 package org.studywithme.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class changetime {
 	public String time_longtoString(long time){
@@ -20,4 +23,11 @@ public class changetime {
 			strhour = '-' + strhour;
 		return strhour + ":" + strmin;
 	}
+	
+	public String convertToKoreanDate(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
+        String koreanDate = dateFormat.format(date);
+        return koreanDate;
+    }
 }

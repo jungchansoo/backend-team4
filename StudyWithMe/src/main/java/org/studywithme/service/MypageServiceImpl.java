@@ -67,9 +67,7 @@ public class MypageServiceImpl implements MypageService {
             // userId가 null인 경우, 예외 처리를 수행한다.
             throw new IllegalArgumentException("userId cannot be null");
         }
-        List<ReservationVO> reservationList = mapper.getReservationListWithPaging(recri);
-        Collections.reverse(reservationList); // 리스트를 내림차순으로 정렬
-        return reservationList;
+        return mapper.getReservationListWithPaging(recri);
     }
 
 

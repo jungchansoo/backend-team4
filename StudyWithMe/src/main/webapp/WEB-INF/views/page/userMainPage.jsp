@@ -59,8 +59,9 @@
 					<sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
 						<h2 id="study-title" class="mr-auto title-text-color">스터디카페를
 							선택해주세요.</h2>
-						<button type="button"
-							class="btnForModal btn btn-outline-custom search-button">
+						<button type="button" id="searchBtn"
+							class="btnForModal btn btn-outline-custom search-button"
+							onclick="clickSearchBtn()">
 							<i class="bi bi-search"></i>
 						</button>
 					</sec:authorize>
@@ -74,8 +75,9 @@
 					<sec:authorize access="hasRole('ROLE_USER')">
 						<button type="button" class="btn btn-primary btn-lg mr-2"
 							onclick="location.href='/paymentSeatPage'">충전하기</button>
-						<button type="button"
-							class="btnForModal btn btn-outline-primary btn-lg">QR 코드</button>
+						<button type="button" id="qrBtn"
+							class="btnForModal btn btn-outline-primary btn-lg"
+							onclick="clickQrBtn()">QR 코드</button>
 					</sec:authorize>
 					<sec:authorize access="!isAuthenticated()">
 						<button type="button" class="btn btn-outline-primary btn-lg"
@@ -97,7 +99,7 @@
 
 
 	<!-- Modal -->
-	<div class="modal">
+	<div class="modal" id="searchModal">
 		<div class="modal-content">
 			<div class="modal-top">
 				<span class="close">&times;</span>
@@ -126,14 +128,15 @@
 				<div id="page-numbers"></div>
 			</div>
 		</div>
-		<!-- QR 코드 -->
-		<div class="modal">
-			<div class="modal-content">
-				<div class="modal-top">
-					<span class="close">&times;</span>
-					<p>출입문 개폐를 위해 QR코드를 인식해 주세요.</p>
-					<hr>
-				</div>
+	</div>
+
+	<!-- QR 코드 -->
+	<div class="modal" id="qrModal">
+		<div class="modal-content">
+			<div class="modal-top">
+				<span class="close">&times;</span>
+				<p>출입문 개폐를 위해 QR코드를 인식해 주세요.</p>
+				<hr>
 			</div>
 		</div>
 	</div>

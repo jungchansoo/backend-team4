@@ -84,8 +84,6 @@
       	<include refid="criteria"></include>
   		<![CDATA[    
       	rownum <= #{pageNum} * #{amount}
-      	]]>
-      	<![CDATA[
       	)
   		where rn > (#{pageNum} -1) * #{amount}
   		]]>

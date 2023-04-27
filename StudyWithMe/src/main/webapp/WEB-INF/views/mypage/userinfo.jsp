@@ -10,27 +10,15 @@
 <head>
 <meta charset="UTF-8">
 <title>MyPage</title>
-<!-- 헤드 태그 안에 들어가는 공통코드 -->
-<link rel="stylesheet" href="resources/css/userMainPage.css"
-	type="text/css">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"
-	rel="stylesheet">
-<link rel="stylesheet" href="resources/css/sidebar.css"
-	type="text/css">
 
-</head>
-<!-- 헤더 -->
-<%@include file="../includes/header.jsp"%><body>
-
-	<style>
+<link rel="stylesheet" href="resources/css/sidebar.css" type="text/css">
+<style>
 li a.userinfo {
 	background: #333;
 	color: #fff;
 }
 /* 폼태그속 디자인 */
 #actionForm {
-	min-height: 500px;
 	margin: auto;
 }
 
@@ -50,6 +38,12 @@ td {
 	padding: 20px;
 }
 </style>
+
+</head>
+<body>
+	<!-- 헤더 -->
+	<%@include file="../includes/header.jsp"%>
+
 
 
 	<ul class="sidebar">
@@ -88,10 +82,9 @@ td {
 				</tr>
 				<tr>
 					<th>잔여시간</th>
-					<td>스터디석 :<sec:authentication
-							property="principal.user.remainingSeatTime" /><br> 스터디룸 :<sec:authentication
-							property="principal.user.remainingStudyRoomTime" /><br> 사물함
-						:<sec:authentication property="principal.user.remainingLockerTime" />
+					<td>스터디석 : ${seattime}<br> 
+					스터디룸 : ${roomtime}  <br>
+					사물함 : ${lockertime}
 					</td>
 				</tr>
 			</table>
@@ -102,4 +95,5 @@ td {
 
 
 </body>
+<%@include file="../includes/footer.jsp"%>
 </html>
