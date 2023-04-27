@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page language="java" import="java.time.LocalDate, java.time.format.DateTimeFormatter" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
@@ -106,12 +107,26 @@
 	    border-radius: 1rem;
 	}
 	input{
+		width: 700px;
 		font-size: 15px;
 		border: 0;
 		border-radius: 15px;
 		outline: none;
 		padding-left: 10px;
 		background-color: rgb(233, 233, 233);
+	}
+	textarea {
+		width: 700px;
+		height: 300px;
+		padding: 10px;
+		box-sizing: border-box;
+		border: solid 2px #1E90FF;
+		border-radius: 5px;
+		font-size: 16px;
+		resize: both;
+	}
+	.btn-div{
+		float:right;
 	}
 	
 </style>
@@ -125,67 +140,85 @@
 		<input id="csrfToken" type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
 		<div class="list">
-			<p>이용권 수정</p>
+			<p>공지사항 수정</p>
 		
 			<div class='pull-right'>
-				<form action="/modifyTicket" method="post">
+				<form action="/modifyNotice" method="post">
 					<input type="hidden" id="csrfToken" name="${_csrf.parameterName}" value="${_csrf.token}" />
 					<table>
 						<tr>
-							<td>요금제 이름</td>
+							<td>번호</td>
 							<td class="input-content">
-	  							<input id="ticketName" name="ticketName" value="${ticket.ticketName}" required>
+	  							${board.noticeNo}
+	  							
+	  							<input type="hidden" name="noticeNo" value="${board.noticeNo}">
 							</td>
 						</tr>
 						
 						<tr>
-							<td>공간 구분</td>
+							<td>제목</td>
 							<td class="input-content">
-								<label><input type="radio" name="category" value="SEAT" ${ticket.category == 'SEAT' ? 'checked' : ''} >일반 좌석</label>
-						        <label><input type="radio" name="category" value="STUDY_ROOM" ${ticket.category == 'STUDY_ROOM' ? 'checked' : ''} >스터디룸</label>
-						        <label><input type="radio" name="category" value="LOCKER" ${ticket.category == 'LOCKER' ? 'checked' : ''} >사물함</label>
+	  							<input type="text" id="title" name="title" value="${board.title}" placeholder="제목을 입력" required>
 							</td>
 						</tr>
 						
 						<tr>
-							<td>충전 시간</td>
+							<td>작성자</td>
 							<td class="input-content">
-								<div>
-									<input type="number" id="ChargingTime" name="ChargingTime" placeholder="시간을 입력" required>
-									<select name="timeType">
-										<option value="hour" ${ticket.chargingTime < 60*24 ? 'selected' : ''}>시간</option>
-										<option value="day" ${ticket.chargingTime >= 60*24 && ticket.chargingTime < 60*24*7 ? 'selected' : ''}>일</option>
-										<option value="week" ${ticket.chargingTime >= 60*24*7 && ticket.chargingTime < 60*24*7*4 ? 'selected' : ''}>주</option>
-										<option value="month" ${ticket.chargingTime >= 60*24*7*4 ? 'selected' : ''}>개월</option>
-							    	</select>
+								${board.userId}
+							</td>
+						</tr>
+						
+						<tr>
+							<td>등록날짜</td>
+							<td class="input-content">
+								<img src="resources/image/calendar.png" id="datepicker-trigger">
+								${board.createdDate}
+								
+								<input type="hidden" name="createdDate" value="${board.createdDate}">
+							</td>
+						</tr>
+						
+						<tr>
+							<td>수정날짜</td>
+							<td class="input-content">
+	  							<%
+								// 현재 날짜 가져오기
+								LocalDate currentDate = LocalDate.now();
+								
+								// 원하는 포맷의 날짜 포매터 생성하기
+								DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+								
+								// 포맷터를 사용하여 날짜를 원하는 형식으로 변환하기
+								String formattedDate = currentDate.format(formatter);
+								%>
+								
+								<img src="resources/image/calendar.png" id="datepicker-trigger">
+								
+								<!-- 변환된 날짜 출력하기 -->
+								<%= formattedDate %>
+								<!-- hidden input 태그에 날짜 값 추가하기 -->
+	    						<input type="hidden" name="updatedDate" value="<%= formattedDate %>">
+	    						
+							</td>
+						</tr>
+						
+						<tr>
+							<td>내용</td>
+							<td class="input-content">
+								<div class="form-group">
+									<textarea  rows="3" name='content'>${board.content}</textarea>
 								</div>
 							</td>
 						</tr>
 						
-						<tr>
-							<td>적용 기간</td>
-							<td class="input-content">
-								<img src="resources/image/calendar.png" id="datepicker-trigger">
-								<input type="text" id="startTime" name="startTime" class="datepicker" value="${ticket.startTime}" required>
-								&nbsp; - &nbsp; 
-								<img src="resources/image/calendar.png" id="datepicker-trigger">
-								<input type="text" id="endTime" name="endTime" class="datepicker" value="${ticket.endTime}" required>
-							</td>
-						</tr>
-						
-						<tr>
-							<td>가격</td>
-							<td class="input-content">
-								<input type="number" id="price" name="price" value="${ticket.price}" required> 원
-							</td>
-						</tr>
 					</table>
 					
-					<input type='hidden' id='ticketNo' name='ticketNo' value='<c:out value="${ticket.ticketNo}"/>'>
+					<input type='hidden' id='noticeNo' name='noticeNo' value='<c:out value="${board.noticeNo}"/>'>
 					
-					<div>
-						<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/ticketManagement'">목록으로</button>
+					<div class="btn-div">
 						<button type="submit" data-oper='modify' class="btnForModal btn btn-outline-primary btn-lg">이용권 수정</button>
+						<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/noticeBoard'">목록으로</button>
 					</div>
 					
 				</form>

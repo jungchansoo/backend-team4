@@ -142,7 +142,7 @@
 	
 	<delete id="delete">
 		DELETE tbl_ticket
-		 WHERE ticket_no=#{ticketNo}
+		 WHERE ticket_no = #{ticketNo}
 	</delete>
   
  

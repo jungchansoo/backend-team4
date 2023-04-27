@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.studywithme.mapper.NoticeBoardMapper">
+   
+   <select id="getTotalCount"
+           resultType="int"
+           parameterType="map">
+      SELECT COUNT(1)
+        FROM tbl_notice
+       <where>
+	       <if test="type.equals('title')">
+	       		 title LIKE '%'||#{keyword}||'%'
+	       </if>
+	       <if test="type.equals('content')">
+	       		 content LIKE '%'||#{keyword}||'%'
+	       </if>
+	       <if test="type.equals('userId')">
+	       		 user_id LIKE '%'||#{keyword}||'%'
+	       </if>
+       </where>
+   </select>
+   
+   <select id="getBoardList"
+           resultType="org.studywithme.domain.NoticeVO"
+           parameterType="org.studywithme.domain.Criteria">
+       SELECT notice_no AS noticeNo
+             ,title AS title
+             ,TO_CHAR(created_date, 'YYYY/MM/DD') AS createdDate
+             ,TO_CHAR(updated_date, 'YYYY/MM/DD') AS updatedDate
+             ,user_id AS userId
+             ,content AS content
+        FROM (
+             SELECT /*+ index_desc(tbl_ticket SYS_C0021886) */ -- 인덱스 힌트
+                    rownum rn
+                   ,notice_no
+                   ,title
+                   ,created_date
+                   ,updated_date
+                   ,user_id
+                   ,content
+               FROM tbl_notice
+              WHERE
+                    rownum <![CDATA[<=]]> #{pageNum} * #{amount}
+                    <if test="type.equals('title')">
+                    	AND title LIKE '%'||#{keyword}||'%'
+                    </if>
+			        <if test="type.equals('content')">
+			       		 AND content LIKE '%'||#{keyword}||'%'
+			        </if>
+			        <if test="type.equals('userId')">
+			       		 AND user_id LIKE '%'||#{keyword}||'%'
+			        </if>
+          )
+         WHERE rn BETWEEN ((#{pageNum} - 1) * #{amount}) AND (#{pageNum} * #{amount}) 
+   </select>
+   
+   <insert id="insert">
+   		INSERT INTO tbl_notice
+   		(
+   			 notice_no
+   			,title
+   			,created_date
+   			,updated_date
+   			,user_id
+   			,content
+   		) VALUES (
+   			 seq_notice.nextval
+   			,#{title}
+   			,TO_DATE(#{createdDate},'YYYY/MM/DD')
+		    ,TO_DATE(#{createdDate},'YYYY/MM/DD')
+   			,#{userId}
+   			,#{content}
+   		)
+   </insert>
+   
+   <select id="read" resultType="org.studywithme.domain.NoticeVO">
+   		SELECT notice_no AS noticeNo
+              ,title AS title
+              ,TO_CHAR(created_date, 'YYYY/MM/DD') AS createdDate
+              ,TO_CHAR(updated_date, 'YYYY/MM/DD') AS updatedDate
+              ,user_id AS userId
+              ,content AS content
+          FROM tbl_notice
+         WHERE notice_no = #{noticeNo}
+   </select>
+   
+   <update id="update">
+		UPDATE tbl_notice
+		   SET title = #{title}
+		      ,created_date = #{createdDate}
+		      ,updated_date = #{updatedDate}
+		      ,content = #{content}
+		 WHERE notice_no = #{noticeNo}
+	</update>
+	
+	<delete id="delete">
+		DELETE tbl_notice
+		 WHERE notice_no = #{notice}
+	</delete>
+   
+   
+</mapper>
