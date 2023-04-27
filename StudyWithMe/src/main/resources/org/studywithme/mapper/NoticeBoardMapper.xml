@@ -40,20 +40,29 @@
                    ,updated_date
                    ,user_id
                    ,content
-               FROM tbl_notice
-              WHERE
-                    rownum <![CDATA[<=]]> #{pageNum} * #{amount}
-                    <if test="type.equals('title')">
-                    	AND title LIKE '%'||#{keyword}||'%'
-                    </if>
-			        <if test="type.equals('content')">
-			       		 AND content LIKE '%'||#{keyword}||'%'
-			        </if>
-			        <if test="type.equals('userId')">
-			       		 AND user_id LIKE '%'||#{keyword}||'%'
-			        </if>
+               FROM (
+               		SELECT notice_no
+               		     , title
+               		     , created_date
+               		     , updated_date
+               		     , user_id
+               		     , content
+               		  FROM tbl_notice
+               		 WHERE 
+               		 <if test="type.equals('title')">
+                    	title LIKE '%'||#{keyword}||'%'
+                     </if>
+			         <if test="type.equals('content')">
+			       		 content LIKE '%'||#{keyword}||'%'
+			         </if>
+			         <if test="type.equals('userId')">
+			       		 user_id LIKE '%'||#{keyword}||'%'
+			         </if>
+			        ORDER BY notice_no DESC
+               )
+              WHERE ROWNUM <![CDATA[<=]]> #{pageNum} * #{amount}
           )
-         WHERE rn BETWEEN ((#{pageNum} - 1) * #{amount}) AND (#{pageNum} * #{amount}) 
+         WHERE rn BETWEEN ((#{pageNum} - 1) * #{amount} + 1) AND (#{pageNum} * #{amount}) 
    </select>
    
    <insert id="insert">
