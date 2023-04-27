@@ -22,6 +22,8 @@
 <link rel="stylesheet"
 	href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.min.css">
 
+
+
 <meta charset="UTF-8">
 <title>Study With Me</title>
 
@@ -169,8 +171,11 @@ margin-left : -140px;
 	margin-right: -5px;
 }
 
-.emptyarea{
-	margin-top: 30px;
+footer {
+	width: 100%;
+    position: absolute;  
+    bottom: 0;
+    left: 0;
 }
 </style>
 
@@ -178,7 +183,7 @@ margin-left : -140px;
 </head>
 <body>
 	<%@include file="../../includes/header.jsp"%>
-	<div class="emptyarea"></div>
+
 	
 	<div id="studyroomname" class="list-container">
 		<ul>
@@ -186,35 +191,6 @@ margin-left : -140px;
 			<li class="list"><select id="roomno">
 					<option value="1">스터디룸1</option>
 					<option value="2">스터디룸2</option>
-			</select></li>
-		</ul>
-	</div>
-
-
-	<div id="reservationdate" class="list-container">
-
-		<ul>
-			<li class="list">예약일자</li>
-			<li class="list"><input type="text" id="datepicker"
-				readonly="true">
-				<button id="calendar-btn"></button></li>
-		</ul>
-	</div>
-
-	<div id="starttime" class="list-container">
-		<ul>
-			<li class="list">시작시간</li>
-			<li class="list"><input type="text" id="timepicker"
-				class="form-control"></li>
-		</ul>
-	</div>
-	<div id="usetime" class="list-container">
-		<ul>
-			<li class="list">사용시간</li>
-			<li class="list"><select id="usetimes">
-					<option value="1">1시간</option>
-					<option value="2">2시간</option>
-					<option value="3">3시간</option>
 			</select></li>
 		</ul>
 	</div>
@@ -233,29 +209,10 @@ margin-left : -140px;
 		</div>
 		<div id="content"></div>
 	</div>
-	<div id="reservationarea">
-		<button id="reservationbutton" class="w-btn w-btn-indigo"
-			onclick="reservation()">예약하기</button>
-	</div>
 
 
-	<div id="emptyoption">
-		<p class="checkmessage">예약일 선택 후 다시 예약해 주세요</p>
-		<a class="check" onClick="location.reload()">확인</a>
-	</div>
-
-	<div id="reservationsuccess">
-		<p class="checkmessage">예약되었습니다.</p>
-		<a class="check" onClick="location.reload()">확인</a>
-	</div>
-
-	<div id="reservationfail">
-		<p class="checkmessage">예약에 실패하였습니다.</p>
-		<p class="checkmessage">시간변경 후 다시 예약해주세요.</p>
-		<a class="check" onClick="location.reload()">확인</a>
-	</div>
-
-	<div id="canclesuccess">
+<!-- modal창 -->
+<div id="canclesuccess">
 		<p class="checkmessage">예약취소 되었습니다.</p>
 		<a class="check" onClick="location.reload()">확인</a>
 	</div>
@@ -289,7 +246,8 @@ margin-left : -140px;
 	<input id="csrfToken" type="hidden" name="${_csrf.parameterName}"
 		value="${_csrf.token}" />
 
-	<%@include file ="../../includes/footer.jsp" %>
+	<%@include file="../../includes/footer.jsp"%>
+
 	<script>
 		$(document).ready(function() {
 			$("#datepicker").datepicker({
@@ -374,18 +332,15 @@ margin-left : -140px;
 				    ul.appendChild(li4);
 				    
 				    contentDiv.appendChild(ul);
-				     
-				    if('${item.user_id}' == '${my_id}'){
-				    	ul.setAttribute("data-num-using", "${item.num_using}");
-					    ul.setAttribute("data-start-time", "${item.start_time}");
-					    ul.setAttribute("data-end-time", "${item.end_time}");
-					    ul.setAttribute("data-user-id", "${item.user_id}");
-					    ul.onclick = function() {
-					      click(this.getAttribute("data-num-using"), this.getAttribute("data-start-time"), this.getAttribute("data-end-time"), this.getAttribute("data-user-id"));
-					    };
-					    ul.style.cursor = "pointer";
-					    ul.style.textDecorationLine = "underline";
-				    }
+			     
+			    	ul.setAttribute("data-num-using", "${item.num_using}");
+				    ul.setAttribute("data-start-time", "${item.start_time}");
+				    ul.setAttribute("data-end-time", "${item.end_time}");
+				    ul.setAttribute("data-user-id", "${item.user_id}");
+				    ul.onclick = function() {
+				      click(this.getAttribute("data-num-using"), this.getAttribute("data-start-time"), this.getAttribute("data-end-time"), this.getAttribute("data-user-id"));
+				    };
+				    ul.style.cursor = "pointer";
 				}
 			</c:forEach>
 		}
@@ -400,55 +355,6 @@ margin-left : -140px;
 			user_id = id;
 			$("#returnroom").dialog("open");
 		}
-		
-		function reservation(){
-			
-			if (!document.getElementById('datepicker').value) {
-				$("#emptyoption").dialog("open");
-			}else{
-				if('${time}' < (parseInt(document.getElementById('usetimes').value) * 60)){
-					$("#emptytime").dialog("open");
-				}
-				else{
-					const now = new Date();
-					const datetimeString = document.getElementById('datepicker').value + ' ' + document.getElementById('timepicker').value;
-					const start_time = new Date(datetimeString);
-					const end_time = new Date(datetimeString);
-					var usetime =  parseInt(document.getElementById('usetimes').value);
-					end_time.setHours(end_time.getHours() + usetime);
-					if(start_time.getTime() > now.getTime()){
-						send(roomno,start_time,end_time,usetime);
-					}else{
-						$("#timedateerror").dialog("open");
-					}
-				}
-			}
-		}
-		
-		function send(roomno,start_time, end_time,usetime) {
-			const csrfTokenValue = $('#csrfToken').val();
-			$.ajax({
-				type : 'post',
-				url : "/userstudyroom/reservation",
-				headers : {
-					'X-CSRF-TOKEN' : csrfTokenValue
-				},
-				data : {
-					num_using : roomno.value,
-					start_time : start_time,
-					end_time : end_time,
-					usetime : usetime
-				},
-				success : function(result) {
-					$("#reservationsuccess").dialog("open");
-				},
-				error : function(jqXHR, textStatus, errorThrown) {
-					$("#reservationfail").dialog("open");
-				}
-				
-			}); 
-		}
-		
 		function returnroom(){
 			$("#returnroom").dialog("close");
 			const currentTime = new Date();
@@ -465,7 +371,7 @@ margin-left : -140px;
 			const csrfTokenValue = $('#csrfToken').val();
 			$.ajax({
 				type : 'post',
-				url : "/userstudyroom/return",
+				url : "/managerstudyroom/return",
 				headers : {
 					'X-CSRF-TOKEN' : csrfTokenValue
 				},

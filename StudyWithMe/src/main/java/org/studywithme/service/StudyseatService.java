@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.studywithme.domain.SeatVO;
 
-
 public interface StudyseatService {
 	public List<SeatVO> useseat(int cafeno);
 	public Map<String, Object> myuseseat(String id);
