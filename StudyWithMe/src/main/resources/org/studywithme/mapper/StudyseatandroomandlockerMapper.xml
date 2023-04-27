@@ -9,13 +9,15 @@
 		select user_id,num_using, start_time from active_reservation where cafe_no = #{cafe_no} AND category = 'SEAT'
 	</select>
 	
-	
-	
 	<select id="readuseroom" resultType="org.studywithme.domain.RoomVO">
 	<bind name="now" value="new java.util.Date()" />
 	<![CDATA[
 		select user_id,num_using,TO_CHAR(start_time, 'YYYY-MM-DD HH24:MI:SS') AS start_time,TO_CHAR(end_time, 'YYYY-MM-DD HH24:MI:SS') AS end_time from reservation where cafe_no = #{cafe_no} AND category = 'ROOM' AND end_time > #{now} order by start_time
 	    ]]>	
+	</select>
+	
+	<select id="readuselocker" resultType="org.studywithme.domain.SeatVO">
+		select user_id,num_using, start_time from active_reservation where cafe_no = #{cafe_no} AND category = 'LOCKER'
 	</select>
 	
 	<insert id="insert" parameterType="map">
@@ -47,10 +49,6 @@
 		DELETE FROM reservation WHERE user_id = #{user_id} AND cafe_no = #{cafe_no} AND category = 'ROOM' AND num_using = ${num_using} and
 		start_time = #{start_time} and end_time = #{end_time}
 	</delete>
-	
-	<update id="updateRemainingRoomTime" parameterType="map">
-  		UPDATE tbl_user SET REMAINING_STUDY_ROOM_TIME = REMAINING_STUDY_ROOM_TIME - #{duration} WHERE USER_ID = #{user_id}
-	</update>
 	
 	<select id="isAvailable" resultType="boolean">
 		SELECT COUNT(*) as count
@@ -90,6 +88,14 @@
 	
 	<update id="updateRemainingSeatTime" parameterType="map">
   		UPDATE tbl_user SET REMAINING_SEAT_TIME = REMAINING_SEAT_TIME - #{duration} WHERE USER_ID = #{user_id}
+	</update>
+	
+	<update id="updateRemainingRoomTime" parameterType="map">
+  		UPDATE tbl_user SET REMAINING_STUDY_ROOM_TIME = REMAINING_STUDY_ROOM_TIME - #{duration} WHERE USER_ID = #{user_id}
+	</update>
+	
+	<update id="updateRemainingLockerTime" parameterType="map">
+  		UPDATE tbl_user SET REMAINING_LOCKER_TIME = REMAINING_LOCKER_TIME - #{duration} WHERE USER_ID = #{user_id}
 	</update>
 	
 </mapper>
