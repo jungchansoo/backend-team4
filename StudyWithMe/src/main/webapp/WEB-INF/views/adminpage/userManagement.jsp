@@ -9,18 +9,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <title>유저관리</title>
-<!-- 헤드 태그 안에 들어가는 공통코드 -->
-<link rel="stylesheet" href="resources/css/userMainPage.css"
-	type="text/css">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"
-	rel="stylesheet">
-</head>
-<!-- 헤더 -->
-<%@include file="../includes/header.jsp"%>
-<body>
 
-	<style>
+<style>
 .cd2 {
 	display: flex;
 	flex-direction: column;
@@ -29,18 +19,21 @@
 	margin: auto;
 	width: 90%;
 	padding: 20px;
+	font-size: 1.2em;
 }
 
 .cd2 p {
-	margin-right: 80%;
+	margin: 10 0;
+	width: inherit;
 	font-size: 1.2em;
 	font-weight: bold;
+	height: 20px;
 }
 
 #searchForm {
-	margin-right: 70px; padding-right : 20px;
+	margin-left: 70%;
+	padding-right: 20px;
 	padding-bottom: 20px;
-	padding-right: 20px
 }
 
 .list {
@@ -49,7 +42,6 @@
 
 .list tbody {
 	margin-top: 20px;
-	font-size: 19px;
 	line-height: 3;
 }
 
@@ -75,6 +67,11 @@
 	margin-right: 20px;
 }
 </style>
+</head>
+<body>
+	<!-- 헤더 -->
+	<%@include file="../includes/header.jsp"%>
+
 
 
 	<div class="cd2">
@@ -126,9 +123,9 @@
 							<td>${user.userName}</td>
 							<td>${user.email}</td>
 							<td>${user.phoneNumber}</td>
-							<td>${user.remainingSeatTime}</td>
-							<td>${user.remainingStudyRoomTime}</td>
-							<td>${user.remainingLockerTime}</td>
+							<td>${changer.time_longtoString(user.remainingSeatTime)}</td>
+							<td>${changer.time_longtoString(user.remainingStudyRoomTime)}</td>
+							<td>${changer.time_longtoString(user.remainingLockerTime)}</td>
 							<td>
 								<button onclick="deleteUser('${user.userId}')">삭제</button>
 							</td>
@@ -280,4 +277,5 @@
 
 
 </body>
+<%@include file="../includes/footer.jsp"%>
 </html>

@@ -34,9 +34,6 @@ public class MypageController {
 	@GetMapping("/userinfo")
 	public String mypageuserinfo(Model model) {
 		UserVO vo = new UserUtil().getUserDetails();
-		model.addAttribute("loginUser", vo);
-		model.addAttribute("name", vo.getUserName());
-		model.addAttribute("password", vo.getPassword());
 		changetime changer = new changetime();
 		String remainingSeatTime = changer.time_longtoString(vo.getRemainingSeatTime());
 		String remainingRoomTime = changer.time_longtoString(vo.getRemainingStudyRoomTime());
@@ -44,8 +41,7 @@ public class MypageController {
 		model.addAttribute("seattime", remainingSeatTime);
 		model.addAttribute("roomtime", remainingRoomTime);
 		model.addAttribute("lockertime", remainingLockerTime);
-		
-		
+
 		return "/mypage/userinfo";
 	}
 
@@ -57,6 +53,8 @@ public class MypageController {
 		model.addAttribute("reservationList", service.getReservationListWithPaging(recri));
 		int total = service.getTotalReservationCount(recri);
 		model.addAttribute("pageMaker", new ReservationPageDTO(recri, total));
+		changetime changer = new changetime();
+		model.addAttribute("changer", changer);
 		return "/mypage/reservationList";
 	}
 	

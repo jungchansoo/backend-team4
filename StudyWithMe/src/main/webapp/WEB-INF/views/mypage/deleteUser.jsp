@@ -17,11 +17,6 @@
 <title>MyPage</title>
 
 <link rel="stylesheet" href="resources/css/sidebar.css" type="text/css">
-</head>
-<!-- 헤더 -->
-<%@include file="../includes/header.jsp"%>
-<body>
-
 	<style>
 li a.deleteid {
 	background: #333;
@@ -32,52 +27,7 @@ li a.deleteid {
 	margin: auto;
 }
 
-.text {
-	padding: 40px 60px;
-}
-
-.clickbutton {
-	text-align: center;
-}
-
-.text div label {
-	width: calc(100%/ 4 - 2px);
-	display: inline-block;
-	padding: 10px;
-	margin: 10px 5px;
-}
-
-.text div input {
-	border: solid 2px #efefef;
-	border-radius: 10px;
-	background-color: #efefef;
-	height: 45px;
-	font-size: 16px;
-	width: calc(100%/ 3 - 2px);
-}
-
-/* 모달 디자인 */
- #deleteModal {
-	text-align: center;
-}
-
-#deleteModal p {
-	font-size: 20px;
-} 
-
-#deleteModal button {
-	background-color: #B2ECC7;
-	color: #000;
-	border-radius: 12px;
-	padding: 8px 30px;
-	border: none;
-	margin: 30px;
-	display: inline-block;
-	font-weight: bold;
-	font-size: 15px;
-	margin: auto;
-}
-
+/* 버튼 디자인 */
 .submit-button {
 	background-color: #B2ECC7;
 	color: #000;
@@ -90,6 +40,11 @@ li a.deleteid {
 	font-size: 15px;
 }
 </style>
+</head>
+<body>
+<!-- 헤더 -->
+<%@include file="../includes/header.jsp"%>
+
 
 	<ul class="sidebar">
 		<li class="side_title">Mypage</li>
@@ -175,7 +130,5 @@ li a.deleteid {
 
 
 </body>
-
-
+<%@include file="../includes/footer.jsp"%>
 </html>
-
