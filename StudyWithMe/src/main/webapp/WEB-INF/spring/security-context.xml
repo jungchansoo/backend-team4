@@ -35,6 +35,7 @@
 		<security:form-login login-page="/user/login"
 			authentication-success-handler-ref="customLoginSuccess" />
 
+		<!-- 604800초 = 7일 -->
 		<security:remember-me
 			data-source-ref="dataSource" token-validity-seconds="604800" />
 
