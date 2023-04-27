@@ -85,7 +85,7 @@
 			<sec:authorize access="hasAnyRole('ROLE_MANAGER')">
 				<li><a href="/managerstudyseat" class="header-link">스터디석 관리</a></li>
 				<li><a href="/managerlocker" class="header-link">사물함 관리</a></li>
-				<li><a href="#" class="header-link">스터디룸 관리</a></li>
+				<li><a href="managerstudyroom" class="header-link">스터디룸 관리</a></li>
 				<li><a href="#" class="header-link">응원리뷰 관리</a></li>
 			</sec:authorize>
 			<sec:authorize access="isAuthenticated()">
