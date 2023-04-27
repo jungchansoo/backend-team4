@@ -33,4 +33,11 @@ public class AdminPageServiceImpl implements AdminPageService {
         return mapper.deleteUser(userId);
 	}
 
+
+	@Override
+	public List<UserVO> getUserList() {
+		
+		return mapper.getUserList();
+	}
+
 }

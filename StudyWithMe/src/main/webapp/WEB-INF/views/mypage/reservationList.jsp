@@ -105,12 +105,10 @@ padding: 5px;
 					<tr>
 						<td>${pageMaker.getRealIndex(status.index)}</td>
 						<td>${reservation.name}</td>
-						<%-- <td><fmt:formatDate pattern="yyyy/MM/dd"
-								value="${reservation.start_time}" /></td> --%>
-						<td>${reservation.start_time}</td>
+						<td>${changer.convertToKoreanDate(reservation.start_time)}</td>
 						<td>${reservation.category}</td>
 						<td>${reservation.num_using}</td>
-						<td>${reservation.duration}</td>
+						<td>${changer.time_longtoString(reservation.duration)}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -169,16 +167,16 @@ padding: 5px;
 		      actionForm.submit();
 		    }
 		  });
-
+		  
 		  $(".paginate_button.next a").on("click", function(e) {
-		    e.preventDefault();
-		    var page = parseInt(actionForm.find("input[name='pageNum']").val());
-		    var lastPage = parseInt("${pageMaker.endPage}");
-		    if (page < lastPage) {
-		      actionForm.find("input[name='pageNum']").val(page + 1);
-		      actionForm.submit();
-		    }
-		  });
+			    e.preventDefault();
+			    var page = parseInt(actionForm.find("input[name='pageNum']").val());
+			    var lastPage = parseInt("${pageMaker.realEnd}");
+			    if (page < lastPage) {
+			        actionForm.find("input[name='pageNum']").val(page + 1);
+			        actionForm.submit();
+			    }
+			});
 
 		  $(".paginate_button:not(.previous, .next) a").on("click", function(e) {
 		    e.preventDefault();
@@ -188,6 +186,8 @@ padding: 5px;
 		});
 
 	</script>
+	
+	
 
 </body>
 <%@include file="../includes/footer.jsp"%>

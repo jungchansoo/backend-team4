@@ -17,6 +17,7 @@ public class ReservationPageDTO {
 	private ReservationCriteria recri; // 페이징
 	private int pageSize; // 페이지당 데이터 수
 	private int page; // 현재 페이지 번호
+	private int realEnd;
 
 	public ReservationPageDTO(ReservationCriteria recri, int total) {
 
@@ -28,7 +29,7 @@ public class ReservationPageDTO {
 		this.endPage = (int) (Math.ceil(page / 10.0)) * 10;
 		this.startPage = this.endPage - 9;
 
-		int realEnd = (int) (Math.ceil(total * 1.0 / pageSize));
+		this.realEnd = (int) (Math.ceil(total * 1.0 / pageSize));
 
 		if (realEnd <= this.endPage) {
 			this.endPage = realEnd;

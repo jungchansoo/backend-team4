@@ -10,7 +10,7 @@
 
 <title>유저관리</title>
 
-	<style>
+<style>
 .cd2 {
 	display: flex;
 	flex-direction: column;
@@ -24,15 +24,15 @@
 
 .cd2 p {
 	margin: 10 0;
-    width: inherit;
+	width: inherit;
 	font-size: 1.2em;
 	font-weight: bold;
-	height:20px;
+	height: 20px;
 }
 
 #searchForm {
-	margin-left: 70%; 
-	padding-right : 20px;
+	margin-left: 70%;
+	padding-right: 20px;
 	padding-bottom: 20px;
 }
 
@@ -69,8 +69,8 @@
 </style>
 </head>
 <body>
-<!-- 헤더 -->
-<%@include file="../includes/header.jsp"%>
+	<!-- 헤더 -->
+	<%@include file="../includes/header.jsp"%>
 
 
 
@@ -123,9 +123,9 @@
 							<td>${user.userName}</td>
 							<td>${user.email}</td>
 							<td>${user.phoneNumber}</td>
-							<td>${user.remainingSeatTime}</td>
-							<td>${user.remainingStudyRoomTime}</td>
-							<td>${user.remainingLockerTime}</td>
+							<td>${changer.time_longtoString(user.remainingSeatTime)}</td>
+							<td>${changer.time_longtoString(user.remainingStudyRoomTime)}</td>
+							<td>${changer.time_longtoString(user.remainingLockerTime)}</td>
 							<td>
 								<button onclick="deleteUser('${user.userId}')">삭제</button>
 							</td>

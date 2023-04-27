@@ -41,6 +41,7 @@ public class MypageController {
 		model.addAttribute("seattime", remainingSeatTime);
 		model.addAttribute("roomtime", remainingRoomTime);
 		model.addAttribute("lockertime", remainingLockerTime);
+
 		return "/mypage/userinfo";
 	}
 
@@ -52,6 +53,8 @@ public class MypageController {
 		model.addAttribute("reservationList", service.getReservationListWithPaging(recri));
 		int total = service.getTotalReservationCount(recri);
 		model.addAttribute("pageMaker", new ReservationPageDTO(recri, total));
+		changetime changer = new changetime();
+		model.addAttribute("changer", changer);
 		return "/mypage/reservationList";
 	}
 	
