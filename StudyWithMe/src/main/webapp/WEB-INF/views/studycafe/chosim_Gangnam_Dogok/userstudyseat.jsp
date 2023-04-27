@@ -69,15 +69,16 @@ ul>.time {
 }
 
 .outline:hover {
-	background-color: #ff5f2e;
+	background-color: #3B71CA;
 	color: #e1eef6;
 }
 
 .reservation {
+	width : 150px;
 	border-radius: 15px;
 	font-family: "paybooc-Light", sans-serif;
 	font-size : 25px;
-	border: 3px solid #ff5f2e;
+	border: 3px solid #3B71CA;
 	background-color: white;
 	color: #4a4948;
 	cursor: pointer;
