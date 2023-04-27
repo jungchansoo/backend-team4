@@ -12,16 +12,11 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <style>
-body {
-	font-size: 10px;
-}
 
 #lockerimage {
 	position: relative;
-	width: 283px;
+	width: 800px;
 	height: 500px;
-	background: url("resources/image/locker.png");
-	background-repeat: no-repeat;
 	margin: 0 auto;
 }
 
@@ -30,7 +25,13 @@ body {
 	width: 53px;
 	height: 53px;
 	cursor: pointer;
-	opacity: 0.5;
+	
+	background-color: #454954;
+	color: white;
+	font-size: 30px;
+	display: flex;
+  	justify-content: center;
+  	align-items: center;
 }
 
 #lockerimage>#locker_1 {
@@ -61,7 +62,7 @@ body {
 }
 
 #lockerimage>#locker_6 {
-	top: 58px;
+	top: 59px;
 	left: 3px;
 }
 
@@ -202,7 +203,7 @@ body {
 
 #lockerimage>#locker_34 {
 	top: 333px;
-	left: 117px;
+	left: 171px;
 }
 
 #lockerimage>#locker_35 {
@@ -261,31 +262,30 @@ body {
 }
  
 #lockerimageheader {
-	width: 380px;
-	height : 16px;
+	width: 800px;
+	height : 40px;
 	margin: 7px auto;
 }
 
 #state {
-width: 370px;
-margin-left: 18px;
+	width: 700px;
+	display: flex;
+  justify-content: center;
 }
 
 #state>li {
 	float: left;
-	margin-right: 10px;
 }
 
 #state>.word {
-	float: left;
-	margin-right: 30px;
+	font-size: 25px;
+	margin-right: 20px;
 }
 
 #state>.color {
 	width: 15px;
 	height: 15px;
 	border: 1px solid black;
-	opacity: 0.6;
 }
 
 #state>.use {
@@ -293,13 +293,12 @@ margin-left: 18px;
 }
 
 #state>.empty {
-	background-color: gray;
+	background-color: #454954;
 }
 
-#state>.me {
-	background-color: red;
+li{
+	list-style-type: none;
 }
-
 </style>
 </head>
 <body>
@@ -308,13 +307,13 @@ margin-left: 18px;
 			<li class="use color"></li>
 			<li class="word">사용중인 사물함</li>
 			<li class="empty color"></li>
-			<li class="word">비어있는 비어있는 사물함</li>
+			<li class="word">비어있는 사물함</li>
 		</ul>
 	</div>
 	<div id="lockerimage">
-		<div id="locker_1" class="locker" onclick="clicklocker('1')"></div>
-		<div id="locker_2" class="locker" onclick="clicklocker('2')"></div>
-		<div id="locker_3" class="locker" onclick="clicklocker('3')"></div>
+		<div id="locker_1" class="locker" onclick="clicklocker('1')">1</div>
+		<div id="locker_2" class="locker" onclick="clicklocker('2')">2</div>
+		<div id="locker_3" class="locker" onclick="clicklocker('3')">3</div>
 		<div id="locker_4" class="locker" onclick="clicklocker('4')"></div>
 		<div id="locker_5" class="locker" onclick="clicklocker('5')"></div>
 		<div id="locker_6" class="locker" onclick="clicklocker('6')"></div>

@@ -22,8 +22,6 @@
 <link rel="stylesheet"
 	href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.min.css">
 
-
-
 <meta charset="UTF-8">
 <title>Study With Me</title>
 
@@ -170,13 +168,18 @@ margin-left : -140px;
 	margin-left : 50px;
 	margin-right: -5px;
 }
+
+.emptyarea{
+	margin-top: 30px;
+}
 </style>
 
 
 </head>
 <body>
 	<%@include file="../../includes/header.jsp"%>
-
+	<div class="emptyarea"></div>
+	
 	<div id="studyroomname" class="list-container">
 		<ul>
 			<li class="list">스터디룸</li>
@@ -286,6 +289,7 @@ margin-left : -140px;
 	<input id="csrfToken" type="hidden" name="${_csrf.parameterName}"
 		value="${_csrf.token}" />
 
+	<%@include file ="../../includes/footer.jsp" %>
 	<script>
 		$(document).ready(function() {
 			$("#datepicker").datepicker({
@@ -380,6 +384,7 @@ margin-left : -140px;
 					      click(this.getAttribute("data-num-using"), this.getAttribute("data-start-time"), this.getAttribute("data-end-time"), this.getAttribute("data-user-id"));
 					    };
 					    ul.style.cursor = "pointer";
+					    ul.style.textDecorationLine = "underline";
 				    }
 				}
 			</c:forEach>
