@@ -2,15 +2,19 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
 <mapper namespace="org.studywithme.mapper.StudyseatandroomandlockerMapper">
-
+	
 	<select id="readuseseat" resultType="org.studywithme.domain.SeatVO">
 		select user_id,num_using, start_time from active_reservation where cafe_no = #{cafe_no} AND category = 'SEAT'
 	</select>
 	
+	
+	
 	<select id="readuseroom" resultType="org.studywithme.domain.RoomVO">
+	<bind name="now" value="new java.util.Date()" />
 	<![CDATA[
-		select user_id,num_using,TO_CHAR(start_time, 'YYYY-MM-DD HH24:MI:SS') AS start_time,TO_CHAR(end_time, 'YYYY-MM-DD HH24:MI:SS') AS end_time from reservation where cafe_no = #{cafe_no} AND category = 'ROOM' AND end_time > sysdate order by start_time
+		select user_id,num_using,TO_CHAR(start_time, 'YYYY-MM-DD HH24:MI:SS') AS start_time,TO_CHAR(end_time, 'YYYY-MM-DD HH24:MI:SS') AS end_time from reservation where cafe_no = #{cafe_no} AND category = 'ROOM' AND end_time > #{now} order by start_time
 	    ]]>	
 	</select>
 	
@@ -38,6 +42,11 @@
 		insert into reservation 
 		values (tbl_reservation_pk.nextval, #{user_id}, #{cafe_no}, 'ROOM', #{num_using}, #{start_time}, #{end_time}, #{duration})
 	</insert>
+	
+	<delete id="returnroom" parameterType="map">
+		DELETE FROM reservation WHERE user_id = #{user_id} AND cafe_no = #{cafe_no} AND category = 'ROOM' AND num_using = ${num_using} and
+		start_time = #{start_time} and end_time = #{end_time}
+	</delete>
 	
 	<update id="updateRemainingRoomTime" parameterType="map">
   		UPDATE tbl_user SET REMAINING_STUDY_ROOM_TIME = REMAINING_STUDY_ROOM_TIME - #{duration} WHERE USER_ID = #{user_id}

@@ -38,9 +38,9 @@ public class StudyroomServiceImpl implements StudyroomService {
 	}
 
 	@Override
-	public void returnroom(String id) {
-		// TODO Auto-generated method stub
-
+	public void returnroom(String user_id, int cafe_no, int num_using, Date start_time, Date end_time, int usetime) {
+		mapper.returnroom(cafe_no, num_using, user_id, new java.sql.Date(start_time.getTime()), new java.sql.Date(end_time.getTime()));
+		mapper.updateRemainingRoomTime(usetime, user_id);
 	}
 
 }
