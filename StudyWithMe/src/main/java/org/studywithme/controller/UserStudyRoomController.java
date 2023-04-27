@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.studywithme.domain.UserVO;
 import org.studywithme.service.StudyroomService;
 import org.studywithme.util.UserUtil;
+import org.studywithme.util.changetime;
 
 @Controller
 public class UserStudyRoomController {
@@ -32,9 +33,13 @@ public class UserStudyRoomController {
 		
 		UserVO vo = new UserUtil().getUserDetails();
 		int cafeno = (int) session.getAttribute("cafeNum");
+		changetime changer = new changetime();
+		String remainingRoomTime = changer.time_longtoString(vo.getRemainingStudyRoomTime());
+		
 		model.addAttribute("my_id", vo.getUserId());
 		model.addAttribute("lists", service.useroom(cafeno));
 		model.addAttribute("time", vo.getRemainingStudyRoomTime());
+		model.addAttribute("remainingRoomTime", remainingRoomTime);
 		
 		//branch부분을 메인에서 넘어온 카페이름으로 바꿔야함. 당연히 view 폴더 이름도 같음.
 		String cafe_name = "studycafe/";
@@ -49,7 +54,6 @@ public class UserStudyRoomController {
 		int cafe_no = (int) session.getAttribute("cafeNum");
 		try {
 			service.insert(vo.getUserId(),cafe_no, num_using, start_time, end_time, usetime);
-			System.out.println("완료");
 			return ResponseEntity.ok("Reservation Successful");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Reservation Failed");
@@ -60,8 +64,19 @@ public class UserStudyRoomController {
 	}
 	
 	@PostMapping("/userstudyroom/return")
-	public ResponseEntity<String> returnseat(@RequestParam("user_id") String user_id) {
-		return null;
+	public ResponseEntity<String> returnroom(@RequestParam("num_using") int num_using,@RequestParam("start_time") Date start_time,@RequestParam("end_time") Date end_time,@RequestParam("user_id") String user_id) {
+		UserVO vo = new UserUtil().getUserDetails();
+		int usetime = (int) ((start_time.getTime() - end_time.getTime()) / 60000);
+		int cafe_no = (int) session.getAttribute("cafeNum");
+		try {
+			service.returnroom(user_id,cafe_no, num_using, start_time, end_time, usetime);
+			return ResponseEntity.ok("Reservation Successful");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Reservation Failed");
+		}finally {
+			util.refreshUserDetails(vo.getUserId());
+		}
 	}
 	
 }

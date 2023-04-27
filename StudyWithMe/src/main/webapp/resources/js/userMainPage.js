@@ -1,57 +1,42 @@
-    $(document).ready(function(){
-        var actionForm = $("#actionForm");
+function clickQrBtn() {
+    console.log("clickQrBtn 호출");
 
-        $(".paginate_button a").on(
-                "click",
-                function(e) {
+    $('#qrModal').modal('show');
+}
+function clickSearchBtn() {
+    console.log("clickSearchBtn 호출");
+    $('#searchModal').modal('show');
+}
+$(document).ready(function(){
+    var actionForm = $("#actionForm");
 
-                    e.preventDefault();
+    $(".paginate_button a").on(
+            "click",
+            function(e) {
 
-                    actionForm.find("input[name='pageNum']")
-                            .val($(this).attr("href"));
-                    actionForm.submit();
-                });
-        
-        search("", 1);
-        getTotalCount("");
-        addPageNumbersEvent();
+                e.preventDefault();
+
+                actionForm.find("input[name='pageNum']")
+                        .val($(this).attr("href"));
+                actionForm.submit();
+            });
+    
+    search("", 1);
+    getTotalCount("");
+    addPageNumbersEvent();
+
+    // 모든 .close 클래스를 가진 요소에 클릭 이벤트 추가
+    $(".close").on("click", function() {
+        // 부모 .modal 요소를 찾아서 닫기
+        $(this).closest(".modal").modal('hide');
     });
+
+});
     
     const PER_PAGE = 10;
     const PAGE_SIZE = 5;
 
-    // Modal을 가져옵니다.
-    var modals = document.getElementsByClassName("modal");
-    // Modal을 띄우는 클래스 이름을 가져옵니다.
-    var btns = document.getElementsByClassName("btnForModal");
-    // Modal을 닫는 close 클래스를 가져옵니다.
-    var spanes = document.getElementsByClassName("close");
-    var funcs = [];
 
-    // Modal을 띄우고 닫는 클릭 이벤트를 정의한 함수
-    function Modal(num) {
-        return function() {
-            // 해당 클래스의 내용을 클릭하면 Modal을 띄웁니다.
-            btns[num].onclick = function() {
-                modals[num].style.display = "block";
-            };
-
-            // <span> 태그(X 버튼)를 클릭하면 Modal이 닫습니다.
-            spanes[num].onclick = function() {
-                modals[num].style.display = "none";
-            };
-        };
-    }
-
-    // 원하는 Modal 수만큼 Modal 함수를 호출해서 funcs 함수에 정의합니다.
-    for (var i = 0; i < btns.length; i++) {
-        funcs[i] = Modal(i);
-    }
-
-    // 원하는 Modal 수만큼 funcs 함수를 호출합니다.
-    for (var j = 0; j < btns.length; j++) {
-        funcs[j]();
-    }
 
     // Modal 영역 밖을 클릭하면 Modal을 닫습니다.
     window.onclick = function(event) {
@@ -172,7 +157,7 @@
         $("#study-table tr td a").click(function() {
             const text = $(this).html();
             $("#study-title").html(text);
-            modals[0].style.display = "none";
+            $('#searchModal').modal('hide');
 
             // 선택된 카페의 cafeNum를 세션에 저장하는 Ajax 요청 추가
             const cafeNum = $(this).data("cafe-num");
