@@ -88,7 +88,7 @@
 								<small id="mail-check-warn" class="form-text text-muted"></small>
 								<span id="email-countdown-timer"></span>
 							</div>
-							<div class="form-group">
+<!-- 							<div class="form-group">
 								<label for="role">역할</label>
 								<div>
 									<div class="form-check form-check-inline">
@@ -107,7 +107,7 @@
 											class="form-check-label" for="ROLE_ADMIN">관리자</label>
 									</div>
 								</div>
-							</div>
+							</div> -->
 							<button id="register-btn" class="btn btn-primary">회원가입</button>
 							<input id="csrfToken" type="hidden" name="${_csrf.parameterName}"
 								value="${_csrf.token}" />

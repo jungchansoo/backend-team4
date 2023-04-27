@@ -44,7 +44,7 @@
 		VALUES
 		(user_no_seq.nextval, #{userId}, #{password},
 		#{userName},
-		#{phoneNumber}, #{email}, #{role}, sysdate)
+		#{phoneNumber}, #{email}, 'ROLE_USER', sysdate)
 	</insert>
 	
 	<!-- 중복 확인 -->
