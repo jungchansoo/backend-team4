@@ -140,7 +140,7 @@
 		<input id="csrfToken" type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
 		<div class="list">
-			<p>이용권 추가</p>
+			<p>공지사항 추가</p>
 		
 		<div class='pull-right'>
 			<form action="/addNotice" method="post">
