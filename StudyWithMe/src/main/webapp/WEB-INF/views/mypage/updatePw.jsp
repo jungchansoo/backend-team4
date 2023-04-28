@@ -30,8 +30,8 @@ li a.chagepw {
 
 /* 버튼 디자인 */
 .submit-button, .back-button {
-	background-color: #B2ECC7;
-	color: #000;
+	background-color: #007bff;
+	color: white;
 	border-radius: 12px;
 	padding: 8px 30px;
 	border: none;
@@ -74,6 +74,7 @@ li a.chagepw {
 				<div>
 					<label for="new_pw">새로운 비밀번호</label> <input type="password"
 						id="new_pw" name="newPassword">
+						<small id="password-check-result" class="form-text text-muted"></small>
 				</div>
 				<div>
 					<label for="pw_confirm">새로운 비밀번호 확인</label> <input type="password"
@@ -118,32 +119,57 @@ li a.chagepw {
 
 <script>
 $(document).ready(function() {
-	  // 변경 버튼 클릭시
-	  $('.submit-button').click(function(event) {
-	    // 폼의 기본 동작을 막음
-	    event.preventDefault();
-	    
-	    // 입력된 값 가져오기
-	    var currentPassword = $('#current_pw').val();
-	    var newPassword = $('#new_pw').val();
-	    var newPasswordConfirm = $('#pw_confirm').val();
-	    
-	    // 입력값이 비어있는 경우
-	    if (currentPassword == '' || newPassword == '' || newPasswordConfirm == '') {
-	      $('#inputnull').modal();
-	    }
-	    // 입력값이 모두 존재하는 경우
-	    else {
+	
+	// 새로운 비밀번호 검증 함수
+	function validatePassword(password) {
+	  // 비밀번호가 8자 이상인지 검사
+	  if (password.length < 8 || password.length > 20) {
+	    return false;
+	  }
+	  // 대문자, 소문자, 숫자, 특수 문자 중 3가지 이상 종류가 포함되어 있는지 검사
+	  let categories = 0;
+	  if (/[A-Z]/.test(password)) categories++;
+	  if (/[a-z]/.test(password)) categories++;
+	  if (/\d/.test(password)) categories++;
+	  if (/[\W_]/.test(password)) categories++;
+	  if (categories < 3) {
+	    return false;
+	  }
+	  return true;
+	}
+
+	// 변경 버튼 클릭시
+	$('.submit-button').click(function(event) {
+	  // 폼의 기본 동작을 막음
+	  event.preventDefault();
+	  // 입력된 값 가져오기
+	  var currentPassword = $('#current_pw').val();
+	  var newPassword = $('#new_pw').val();
+	  var newPasswordConfirm = $('#pw_confirm').val();
+	  // 입력값이 비어있는 경우
+	  if (currentPassword == '' || newPassword == '' || newPasswordConfirm == '') {
+	    $('#inputnull').modal();
+	  }
+	  // 입력값이 모두 존재하는 경우
+	  else {
+	    // 새 비밀번호가 조건을 만족하는지 검사
+	    if (!validatePassword(newPassword)) {
+	      // 조건을 만족하지 않으면 오류 메시지 출력
+	    	$("#password-check-result").text(
+			"문자, 숫자, 특수문자 포함 8~20자리")
+			.css({"color": "red", "font-size": "12pt"});
+	    } else {
 	      // 기존 비밀번호와 새 비밀번호 확인값이 일치하지 않는 경우
 	      if (newPassword != newPasswordConfirm) {
 	        $('#pwconfirmfail').modal();
-	      }
-	      else {
+	      } else {
 	        // 변경 모달 띄우기
 	        $('#updateModal').modal();
 	      }
 	    }
-	  });
+	  }
+	});
+
 	  
 	  // 변경 모달 확인 버튼 클릭시
 	  $('.yes').click(function() {
@@ -171,7 +197,8 @@ $(document).ready(function() {
 	  // 변경 모달 취소 버튼 클릭시
 	  $('.no').click(function() {
 	    // 변경 모달 닫기
-	    $('#updateModal').hide();
+	    /* $('#updateModal').hide(); */
+		  location.reload();
 	  });
 	  
 	  // 확인 모달 확인 버튼 클릭시 페이지 새로고침
