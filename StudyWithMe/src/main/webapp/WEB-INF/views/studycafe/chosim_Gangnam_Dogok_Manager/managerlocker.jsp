@@ -33,7 +33,7 @@ a {
 	cursor: pointer;
 }
 
-#seatreservation {
+#lockerreservation {
 	padding: 0px;
 	padding-bottom: 10px;
 	width: 300px;
@@ -76,8 +76,8 @@ a {
 	color: #e1eef6;
 }
 
-#seatcheck, #returnseat, #reservationsuccess, #timefail, #usefail,
-	#returnseatsuccess, #returnseatfail, #alreadyuse, #room, #locker {
+#lockercheck, #returnlocker, #reservationsuccess, #timefail, #usefail,
+	#returnlockersuccess, #returnlockerfail, #alreadyuse, #room, #locker {
 	width: auto;
 	min-width: 500px;
 	text-align: center;
@@ -106,7 +106,7 @@ a {
 
 #desc {
 	font-size: 15px;
-	text-align: center;
+  	margin-left: 113px;
 }
 
 .right-side {
@@ -116,29 +116,43 @@ a {
 #getOut {
 	position: absolute;
 	right: 5%;
-	top: 95%;
+	top: 65%;
 }
+.studylocker{
+	transform: scale(0.7);
+}
+.emptySpace-right-side{
+	margin-top: 50px;
+}
+.emptySpace-left-side{
+	margin-top: -100px;
+
+}
+
 </style>
 
 </head>
 
-<%@include file="../../includes/header.jsp"%>
 
 <body>
 	<!-- 헤더 -->
-	<div class="emptySpace"></div>
-	<div class="container">
+<%@include file="../../includes/header.jsp"%>
+
+	<div class="container" id="body-container">
 		<div class="row">
 			<div class="col-md-6">
-				<div class="studyseat">
+				<div class="emptySpace-left-side"></div>
+			
+				<div class="studylocker">
 					<%@ include file="locker.jsp"%>
-					<div id="desc">이용중인 사용자를 확인하고 싶으면 좌석을 클릭하세요</div>
+					<div id="desc">이용중인 사용자를 확인하고 싶으면 각 사물함을 클릭하세요</div>
 				</div>
 			</div>
 			<!-- 사이드 바 구성 (todo)-->
+			
 			<div class="col-md-6 right-side">
-			<div class="emptySpace-right-side" style="margin-top: 20px;"></div>
-				<p class="selectedSeatInfo fs-2 font-weight-bold">사용자 정보</p>
+			<div class="emptySpace-right-side"></div>
+				<p class="selectedLockerInfo fs-2 font-weight-bold">사용자 정보</p>
 				<div class="emptySpace-right-side" style="margin-top: 30px;"></div>
 				<div class="table-responsive">
 					<table class="table">
@@ -168,23 +182,22 @@ a {
 				</div>
 				<!-- 외곽선만 있는 버튼 스타일 적용 -->
 				<button type="button" class="btn btn-outline-primary" id="getOut"
-					onclick="returnseat()">내보내기</button>
+					onclick="returnlocker()">내보내기</button>
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="returnseat">
+	<div class="modal fade" id="returnlocker">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<p class="seatnum">해당 좌석의 유저를 내보내시겠습니까?</p>
+				<p class="lockernum">해당 사물함을 이용하는 유저를 내보내시겠습니까?</p>
 				<div class="button-container">
-					<a class="btn btn-outline-danger yes" onclick="returnseatdb()">예</a>
+					<a class="btn btn-outline-danger yes" onclick="returnlockerdb()">예</a>
 					<a class="btn btn-outline-primary no" onClick="location.reload()">아니오</a>
 				</div>
 			</div>
-
 		</div>
 	</div>
-	<div id="returnseatsuccess" class="modal">
+	<div id="returnlockersuccess" class="modal">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<p class="checkmessage">내보내기가 완료되었습니다.</p>
@@ -193,7 +206,7 @@ a {
 		</div>
 	</div>
 
-	<div id="returnseatfail" class="modal">
+	<div id="returnlockerfail" class="modal">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<p class="checkmessage">내보내기가 실패하였습니다.</p>
@@ -213,14 +226,6 @@ a {
 		</div>
 	</div>
 
-	<div id="room" class="modal">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<p class="checkmessage">상단의 스터디룸 관리 메뉴를 이용해주세요.</p>
-				<a class="check btn btn-outline-primar" onClick="location.reload()">확인</a>
-			</div>
-		</div>
-	</div>
 	<%@include file="../../includes/footer.jsp"%>
 
 
@@ -231,31 +236,31 @@ a {
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 	<script>	
-		var seatnum;
+		var lockernum;
 		var dateString;
 		var timeString;
 		
-		var clickedSeatNumber;
+		var clickedLockerNumber;
 		var idOnUse;
 		var startTime;
-		var remainingSeatTimeInMinutes
+		var remainingLockerTimeInMinutes
 		var elapsedTime;
 		
-		function clickseat(num) {
+		function clicklocker(num) {
 		    var clickedElementId = event.target.id;
-			clickedSeatNumber = clickedElementId.split('_')[1]; // "seat_2"의 경우 "2"를 얻습니다.
-			console.log("clickedSeatNumber: "+clickedSeatNumber);
+			clickedLockerNumber = clickedElementId.split('_')[1]; // "locker_2"의 경우 "2"를 얻습니다.
+			console.log("clickedLockerNumber: "+clickedLockerNumber);
 			setIdOnUseAndStartTime();
 			console.log("idOnUse: "+idOnUse);
 			console.log("startTime: "+startTime);
 
-			seatnum = arguments[0];
-			$('.selectedSeatInfo').text(arguments[0] + '번 좌석 사용자 정보');
+			lockernum = arguments[0];
+			$('.selectedLockerInfo').text(arguments[0] + '번 사물함 사용자 정보');
 			//UserVO 객체를 가져와야함.
 		    // AJAX를 사용하여 UserVO 객체를 가져옵니다.
 		    $.ajax({
 		        type: "GET",
-		        url: "/managerstudyseat/getUserDetail",
+		        url: "/managerlocker/getUserDetail",
 		        data: {
 		            user_id: idOnUse
 		        },
@@ -263,8 +268,8 @@ a {
 		            // UserVO 객체를 사용하여 필요한 정보를 표시합니다.
 		            console.log("User name: " + data.userName);
 
-		            remainingSeatTimeInMinutes = data.remainingSeatTime;
-		            console.log("remainingSeatTimeInMinutes from Data : "+remainingSeatTimeInMinutes);
+		            remainingLockerTimeInMinutes = data.remainingLockerTime;
+		            console.log("remainingLockerTimeInMinutes from Data : "+remainingLockerTimeInMinutes);
 		            displayStartTime(startTime);
 		            $("#phoneNumber").text(data.phoneNumber);
 		            $("#userName").text(data.userName);
@@ -273,23 +278,9 @@ a {
 		            console.log("Error while fetching UserVO: " + JSON.stringify(error));
 		        }
 		    });
-			
-			
 
-
-			
 		}
 
-		function clickroom(num) {
-			$('#room').modal('show');
-		}
-		function clicklocker(num) {
-			$('#locker').modal('show');
-		}
-		function reservation() {
-			today();
-			$('#seatreservation').modal('show');
-		}
 
 		function today() {
 			var today = new Date();
@@ -308,7 +299,7 @@ a {
 			$('.now').text(timeString);
 		}
 		function timecheck(){
-			var remainingSeatTime = '${time}';
+			var remainingLockerTime = '${time}';
 			if('${long_time}' <= 0){
 				$('#timefail').modal('show');
 			}else{
@@ -319,24 +310,24 @@ a {
 		//순회하면서 사용중인 시트를 오렌지 색으로 표시
 		(function() {
 			<c:forEach items='${lists}' var='item'>
-				var seat = 'seat_' + '${item.num_using}';
-				var seatnum = document.getElementById(seat);
-				seatnum.style.backgroundColor = "orange";
+				var locker = 'locker_' + '${item.num_using}';
+				var lockernum = document.getElementById(locker);
+				lockernum.style.backgroundColor = "orange";
 			</c:forEach>
 		})();
 		
- 		function returnseat() {
+ 		function returnlocker() {
 
-			$('#returnseat').modal('show');
+			$('#returnlocker').modal('show');
 		}
 		
-		function returnseatsuccess() {
-			$('#returnseatsuccess').modal('show');
+		function returnlockersuccess() {
+			$('#returnlockersuccess').modal('show');
 		}
 		
 		function setIdOnUseAndStartTime(){
 			<c:forEach items='${lists}' var='item'>
-			if(${item.num_using} == clickedSeatNumber){
+			if(${item.num_using} == clickedLockerNumber){
 				idOnUse =  '${item.user_id}';
 				console.log("idOnUse: "+idOnUse);
 
@@ -347,11 +338,11 @@ a {
 			}
 			</c:forEach>
 		}
-		function returnseatdb() {
+		function returnlockerdb() {
 			const csrfTokenValue = $('#csrfToken').val();
 			$.ajax({
 				type : 'post',
-				url : "/managerstudyseat/return",
+				url : "/managerlocker/return",
 				headers : {
 					'X-CSRF-TOKEN' : csrfTokenValue
 				},
@@ -359,10 +350,10 @@ a {
 					user_id : idOnUse
 				},
 				success : function(result) {
-					$('#returnseatsuccess').modal('show');
+					$('#returnlockersuccess').modal('show');
 				},
 				error : function(jqXHR, textStatus, errorThrown) {
-					$('#returnseatfail').modal('show');
+					$('#returnlockerfail').modal('show');
 				}
 				
 			});
@@ -405,15 +396,15 @@ a {
 
 			  return days + '일 ' + hours + '시간 ' + minutes + '분';
 		}
-		function getRemainingTime(remainingSeatTimeInMinutes) {
-			  console.log("remainingSeatTimeInMinutes : " + remainingSeatTimeInMinutes);
+		function getRemainingTime(remainingLockerTimeInMinutes) {
+			  console.log("remainingLockerTimeInMinutes : " + remainingLockerTimeInMinutes);
 
 			  // 잔여시간(분)을 밀리초로 변환
-			  var remainingSeatTimeInMilliseconds = remainingSeatTimeInMinutes * 60 * 1000;
+			  var remainingLockerTimeInMilliseconds = remainingLockerTimeInMinutes * 60 * 1000;
 
 			  // 잔여시간 계산
 			  var remainingTimeInMilliseconds =
-			    remainingSeatTimeInMilliseconds - elapsedTime;
+			    remainingLockerTimeInMilliseconds - elapsedTime;
 			  console.log("remainingTimeInMilliseconds : " + remainingTimeInMilliseconds);
 
 			  // 잔여시간을 일, 시간, 분 형태로 변환
@@ -440,7 +431,7 @@ a {
 	          $(".usingTime").text(elapsedTime);
 	          
 	          // 잔여시간 계산 및 출력
-	          var remainingTime = getRemainingTime(remainingSeatTimeInMinutes);
+	          var remainingTime = getRemainingTime(remainingLockerTimeInMinutes);
 	          $(".leftTime").text(remainingTime);
 		}
 	</script>

@@ -32,7 +32,10 @@
 	}
 	
 	#searchForm {
-		margin-left: auto;
+		margin-right: 70px;
+		padding-right : 20px;
+		padding-bottom: 20px;
+		padding-right: 20px
 	}
 	
 	.list {
@@ -41,7 +44,7 @@
 	
 	form {
 		text-align: left;
-		padding-right: 400px;
+		padding-right: 500px;
 	}
 	
 	.cd2 p {
@@ -67,7 +70,7 @@
 	}
 	
 	.list th, .list td {
-		padding: 10px;
+		padding: 20px;
 	}
 	
 	.pagination {
@@ -98,16 +101,19 @@
 	<div class="cd2">
 		<input id="csrfToken" type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
-		<p>이용권 목록</p>
+		<p>공지사항</p>
 		
 		<!-- 검색 기능 -->
-		<form id='searchForm' action="/ticketManagement" method='get'>
-			<input type='hidden' name='type' value="category" ${pageMaker.cri.type}/>
-			<label><input type="radio" name="keyword" value="SEAT" ${pageMaker.cri.keyword == 'SEAT' ? 'checked' : ''} /> 일반 좌석 &nbsp;&nbsp;&nbsp;</label>
-			<label><input type="radio" name="keyword" value="STUDY_ROOM" ${pageMaker.cri.keyword == 'STUDY_ROOM' ? 'checked' : ''} /> 스터디룸 &nbsp;&nbsp;&nbsp;</label>
-			<label><input type="radio" name="keyword" value="LOCKER" ${pageMaker.cri.keyword == 'LOCKER' ? 'checked' : ''} /> 사물함</label>
+		<form id='searchForm' action="/noticeBoard" method='get'>
+			<select name='type'>
+				<option value="title" <c:out value="${pageMaker.cri.type eq 'title'?'selected':''}"/>>제목</option>
+				<option value="content" <c:out value="${pageMaker.cri.type eq 'content'?'selected':''}"/>>내용</option>
+				<option value="userId" <c:out value="${pageMaker.cri.type eq 'userId'?'selected':''}"/>>작성자</option>
+			</select>
+			<input type='text' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' />
 			<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' />
 			<input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' />
+			<button class='btn btn-default'>검색</button>
 		</form>
 
 		<div class="list">
@@ -116,46 +122,26 @@
 				<thead>
 					<tr>
 						<th>번호</th>
-						<th>구분</th>
-						<th>이용권</th>
-						<th>충전시간</th>
-						<th>가격</th>
-						<th>상태</th>
-						<th>판매기간</th>
+						<th>제목</th>
+						<th>작성자</th>
+						<th>작성일</th>
+						<th>수정일</th>
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="ticket" items="${ticketList}">
+					<c:forEach var="board" items="${boardList}">
 						<tr>
-							<td>${ticket.ticketNo}</td>
+							<td>${board.noticeNo}</td>	
 							<td>
-								<c:if test="${ticket.category == 'SEAT'}">일반 좌석</c:if>
-								<c:if test="${ticket.category == 'STUDY_ROOM'}">스터디룸</c:if>
-								<c:if test="${ticket.category == 'LOCKER'}">사물함</c:if>
-							</td>
-							<td>
-								<a class='move' href='<c:out value="${ticket.ticketNo}"/>'>
-									<c:out value="${ticket.ticketName}" /> 
+								<a class='move' href='<c:out value="${board.noticeNo}"/>'>
+									<c:out value="${board.title}" /> 
 								</a>
 							</td>
-							
+							<td>${board.userId}</td>
+							<td>${board.createdDate}</td>
 							<td>
-								<c:if test="${ticket.category == 'SEAT'}"><fmt:formatNumber value="${ticket.chargingTime / 60}" pattern="# '시간'" /></c:if>
-								<c:if test="${ticket.category == 'STUDY_ROOM'}"><fmt:formatNumber value="${ticket.chargingTime / 60}" pattern="# '시간'" /></c:if>
-								<c:if test="${ticket.category == 'LOCKER'}"><fmt:formatNumber value="${ticket.chargingTime / (60 * 24)}" pattern="# '일'" /></c:if>
-							</td>
-							
-							<td><fmt:formatNumber value="${ticket.price}" pattern="#,##0원" /></td>
-							
-							<td>
-								<c:if test="${ticket.isSale == 1}">판매중</c:if>
-								<c:if test="${ticket.isSale == 0}">미판매중</c:if>
-							</td>
-							
-							<td>${ticket.startTime} - ${ticket.endTime}</td>
-							
-							<td>
-								
+								<c:if test="${board.updatedDate != null}">${board.updatedDate}</c:if>
+								<c:if test="${board.updatedDate == null}">-</c:if>
 							</td>
 						</tr>
 					</c:forEach>
@@ -185,7 +171,7 @@
 			</ul>
 		</div>
 
-		<form id="actionForm" action="ticketManagement" method="get">
+		<form id="actionForm" action="noticeBoard" method="get">
 			<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
 			<input type="hidden" name='amount' value='${pageMaker.cri.amount}'>
 			<input type='hidden' name='type'value='<c:out value="${ pageMaker.cri.type }"/>'>
@@ -193,7 +179,7 @@
 		</form>
 		
 		<div>
-			<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/insertTicket'">이용권 추가</button>
+			<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/insertNotice'">새글 등록</button>
 		</div>
 
 	</div>
@@ -206,42 +192,39 @@
 				function() {
 					history.replaceState({}, null, null);
 					var searchForm = $("#searchForm");
-					$("#searchForm").on("click", function(e) {
-						
-						searchForm.find("input[name='pageNum']").val("1");
+					$("#searchForm button").on("click", function(e) {
+						searchForm
+								.find(
+										"input[name='pageNum']")
+								.val("1");
 						e.preventDefault();
 						searchForm.submit();
 					});
 
-					var actionForm = $("#actionForm");
-					$(".paginate_button a").on(
-							"click",
-							function(e) {
-								e.preventDefault();
-								console.log('click');
-								actionForm.find("input[name='pageNum']").val(
-										$(this).attr("href"));
-								actionForm.submit();
-							});
-					
-					$(".move")
-					.on(
-							"click",
-							function(e) {
+				
 
-								e.preventDefault();
-								actionForm
-										.append("<input type='hidden' name='ticketNo' value='"
-												+ $(this).attr(
-														"href")
-												+ "'>");
-								actionForm.attr("action",
-										"/getTicket");
-								actionForm.submit();
+				var actionForm = $("#actionForm");
+				$(".paginate_button a").on(
+						"click",
+						function(e) {
+							e.preventDefault();
+							console.log('click');
+							actionForm.find("input[name='pageNum']").val(
+									$(this).attr("href"));
+							actionForm.submit();
+						});
+				
+				$(".move").on("click", function(e) {
+					e.preventDefault();
+					actionForm.append("<input type='hidden' name='noticeNo' value='"
+											+ $(this).attr("href")
+											+ "'>");
+							actionForm.attr("action", "/getNotice");
+							actionForm.submit();
 
-							});
-					
 				});
+					
+		});
 	</script>
 
 </body>

@@ -31,8 +31,7 @@ public class AdminTicketController {
 		
 		int total = service.getTotal(cri);
         model.addAttribute("pageMaker", new PageDTO(cri, total));
-		
-		log.info("total" + total);
+
 		return "/adminpage/ticketManagement";
 	}
 	
@@ -44,8 +43,6 @@ public class AdminTicketController {
 	
 	@PostMapping("/addTicket")
 	public String addTicket(@ModelAttribute AddTicketVO addTicketVO) {
-		
-		log.info("addTicketVO: {}" +  addTicketVO);
 		
 		service.register(addTicketVO);
 		
@@ -63,14 +60,8 @@ public class AdminTicketController {
 	
 	@GetMapping({"/updateTicket"})
 	public String updateTicket(@RequestParam("ticketNo") Long ticketNo, Model model) {
-		/*
-		 * log.info("/getTicket or modifyTicket"); model.addAttribute("ticket",
-		 * service.get(ticketNo));
-		 * 
-		 * return "/adminpage/getTicket";
-		 */
+		
 		AddTicketVO ticket = service.get(ticketNo);
-	    log.info("Ticket object retrieved: {}" + ticket);
 	    model.addAttribute("ticket", ticket);
 	    
 	    return "/adminpage/updateTicket";
@@ -78,13 +69,7 @@ public class AdminTicketController {
 	
 	@PostMapping({"/modifyTicket"})
 	public String modifyTicket(@ModelAttribute AddTicketVO addTicketVO, Model model) {
-		/*
-		 * log.info("/getTicket or modifyTicket"); model.addAttribute("ticket",
-		 * service.get(ticketNo));
-		 * 
-		 * return "/adminpage/getTicket";
-		 */
-		log.info("modify:" + addTicketVO);
+		
 	    service.modify(addTicketVO);
 	    
 	    return "redirect:/ticketManagement";
@@ -93,7 +78,6 @@ public class AdminTicketController {
 	@GetMapping("/deleteTicket")
 	public String deleteTicket(@RequestParam("ticketNo") Long ticketNo) {
 		
-		log.info("ticketNo" + ticketNo);
 		service.remove(ticketNo);
 		
 		return "redirect:/ticketManagement";

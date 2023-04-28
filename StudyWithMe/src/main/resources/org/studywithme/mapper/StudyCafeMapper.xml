@@ -40,7 +40,7 @@
                 FROM study_cafe
 			   WHERE name LIKE '%' || #{keyword} || '%'
 		) 
-		WHERE rnum BETWEEN ((#{currentPage} - 1) * #{perPage}) AND (#{currentPage} * #{perPage}) 
+		WHERE rnum BETWEEN ((#{currentPage} - 1) * #{perPage} + 1) AND (#{currentPage} * #{perPage}) 
 	</select>
 	
 	<select id="getStudyCafeByUserID"

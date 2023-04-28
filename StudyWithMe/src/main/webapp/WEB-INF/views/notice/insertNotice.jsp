@@ -1,5 +1,6 @@
-	<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page language="java" import="java.time.LocalDate, java.time.format.DateTimeFormatter" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
@@ -106,12 +107,26 @@
 	    border-radius: 1rem;
 	}
 	input{
+		width: 700px;
 		font-size: 15px;
 		border: 0;
 		border-radius: 15px;
 		outline: none;
 		padding-left: 10px;
 		background-color: rgb(233, 233, 233);
+	}
+	textarea {
+		width: 700px;
+		height: 300px;
+		padding: 10px;
+		box-sizing: border-box;
+		border: solid 2px #1E90FF;
+		border-radius: 5px;
+		font-size: 16px;
+		resize: both;
+	}
+	.btn-div{
+		float:right;
 	}
 	
 </style>
@@ -125,65 +140,64 @@
 		<input id="csrfToken" type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
 		<div class="list">
-			<p>이용권 추가</p>
+			<p>공지사항 추가</p>
 		
 		<div class='pull-right'>
-			<form action="/addTicket" method="post">
+			<form action="/addNotice" method="post">
 				<input type="hidden" id="csrfToken" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				<table>
 					<tr>
-						<td>요금제 이름</td>
+						<td>제목</td>
 						<td class="input-content">
-  							<input type="text" id="ticketName" name="ticketName" placeholder="이용권 이름을 입력" required>
+  							<input type="text" id="title" name="title" placeholder="제목을 입력" required>
 						</td>
 					</tr>
 					
 					<tr>
-						<td>공간 구분</td>
+						<td>작성자</td>
 						<td class="input-content">
-							<label><input type="radio" name="category" value="SEAT" required>일반 좌석</label>
-						    <label><input type="radio" name="category" value="STUDY_ROOM" required>스터디룸</label>
-						    <label><input type="radio" name="category" value="LOCKER" required>사물함</label>
+							<sec:authentication property="principal.user.userId" />
 						</td>
 					</tr>
 					
 					<tr>
-						<td>충전 시간</td>
+						<td>날짜</td>
 						<td class="input-content">
-							<div>
-								<input type="number" id="ChargingTime" name="ChargingTime" placeholder="시간을 입력" required>
-								<select name="timeType">
-									<option value="hour">시간</option>
-									<option value="day">일</option>
-									<option value="week">주</option>
-									<option value="month">개월</option>
-						    	</select>
+  							<%
+							// 현재 날짜 가져오기
+							LocalDate currentDate = LocalDate.now();
+							
+							// 원하는 포맷의 날짜 포매터 생성하기
+							DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+							
+							// 포맷터를 사용하여 날짜를 원하는 형식으로 변환하기
+							String formattedDate = currentDate.format(formatter);
+							%>
+							
+							<img src="resources/image/calendar.png" id="datepicker-trigger">
+							
+							<!-- 변환된 날짜 출력하기 -->
+							<%= formattedDate %>
+							<!-- hidden input 태그에 날짜 값 추가하기 -->
+    						<input type="hidden" name="createdDate" value="<%= formattedDate %>">
+    						
+						</td>
+					</tr>
+					
+					<tr>
+						<td>내용</td>
+						<td class="input-content">
+							<div class="form-group">
+								<textarea rows="3" name='content'></textarea>
 							</div>
 						</td>
 					</tr>
 					
-					<tr>
-						<td>적용 기간</td>
-						<td class="input-content">
-							<img src="resources/image/calendar.png" id="datepicker-trigger">
-							<input type="text" id="startTime" name="startTime" class="datepicker">
-							&nbsp; - &nbsp; 
-							<img src="resources/image/calendar.png" id="datepicker-trigger">
-							<input type="text" id="endTime" name="endTime" class="datepicker">
-						</td>
-					</tr>
-					
-					<tr>
-						<td>가격</td>
-						<td class="input-content">
-							<input type="number" id="price" name="price" placeholder="숫자만 입력" required> 원
-						</td>
-					</tr>
 				</table>
 				
-				<div>
-					<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/ticketManagement'">목록으로</button>
-					<button type="submit" class="btnForModal btn btn-outline-primary btn-lg">이용권 추가</button>
+				<div class="btn-div">
+					<button type="submit" class="btnForModal btn btn-outline-primary btn-lg">새글 등록</button>
+					<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/noticeBoard'">목록으로</button>
 				</div>
 				
 			</form>
@@ -194,28 +208,7 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 	<script>
-		$(function() {
-			$("#start-date").datepicker();
-			$("#end-date").datepicker();
-		});
 		
-		$(function() {
-			$(".datepicker").datepicker({
-				dateFormat: "yy-mm-dd"
-			});
-		});
-		$(function() {
-			$("#datepicker").datepicker({
-				dateFormat: "yy-mm-dd",
-				onSelect: function(dateText) {
-					$("#selected-date").text("Selected date: " + dateText);
-				}
-		    });
-		    
-		    $("#datepicker-trigger").click(function() {
-		    	$("#datepicker").datepicker("show");
-		    });
-		});
 	</script>
 
 </body>

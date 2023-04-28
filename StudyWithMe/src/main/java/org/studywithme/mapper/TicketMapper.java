@@ -17,7 +17,6 @@ public interface TicketMapper {
 	public int update(AddTicketVO ticket);
 	public int delete(Long ticketNo);
 	public AddTicketVO read(Long ticketNo);
-	//public List<TicketVO> getTicketList(@Param("keyword") String keyword, @Param("pageNum") int pageNum, @Param("amount") int amount);
 	public List<TicketVO> getTicketList(@Param("keyword") String keyword, @Param("pageNum") int pageNum, @Param("amount") int amount);
 	public int getTotalCount(@Param("keyword") String keyword);
 }

@@ -138,6 +138,19 @@
 	    line-height: 1.5;
 	    border-radius: 1rem;
 	}
+	textarea {
+		width: 700px;
+		height: 300px;
+		padding: 10px;
+		box-sizing: border-box;
+		border: solid 2px #1E90FF;
+		border-radius: 5px;
+		font-size: 16px;
+		resize: both;
+	}
+	.btn-div{
+		float:right;
+	}
 	
 </style>
 
@@ -150,84 +163,87 @@
 		<input id="csrfToken" type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		
 		<div class="list">
-			<p>이용권</p>
+			<p>공지사항</p>
 
 			<div class='pull-right'>
 				<input type="hidden" id="csrfToken" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				<table>
 					<tr>
-						<td>요금제 이름</td>
+						<td>번호</td>
 						<td class="input-content">
-							${ticket.ticketName}
+  							${board.noticeNo}
 						</td>
 					</tr>
 					
 					<tr>
-						<td>공간 구분</td>
+						<td>제목</td>
 						<td class="input-content">
-							<c:if test="${ticket.category == 'SEAT'}">일반 좌석</c:if>
-							<c:if test="${ticket.category == 'STUDY_ROOM'}">스터디룸</c:if>
-							<c:if test="${ticket.category == 'LOCKER'}">사물함</c:if>
+  							${board.title}
 						</td>
 					</tr>
 					
 					<tr>
-						<td>충전 시간</td>
+						<td>작성자</td>
 						<td class="input-content">
-							<div>
-								<c:if test="${ticket.category == 'SEAT'}"><fmt:formatNumber value="${ticket.chargingTime / 60}" pattern="# '시간'" /></c:if>
-								<c:if test="${ticket.category == 'STUDY_ROOM'}"><fmt:formatNumber value="${ticket.chargingTime / 60}" pattern="# '시간'" /></c:if>
-								<c:if test="${ticket.category == 'LOCKER'}"><fmt:formatNumber value="${ticket.chargingTime / (60 * 24)}" pattern="# '일'" /></c:if>
+							${board.userId}
+						</td>
+					</tr>
+					
+					<tr>
+						<td>등록날짜</td>
+						<td class="input-content">
+							<img src="resources/image/calendar.png" id="datepicker-trigger">
+							${board.createdDate}
+						</td>
+					</tr>
+					
+					<tr>
+						<td>수정날짜</td>
+						<td class="input-content">
+							<img src="resources/image/calendar.png" id="datepicker-trigger">
+							${board.updatedDate}
+						</td>
+					</tr>
+					
+					<tr>
+						<td>내용</td>
+						<td class="input-content">
+							<div class="form-group">
+								<textarea  rows="3" name='content' readonly>${board.content}</textarea>
 							</div>
-						</td>
-					</tr>
-					
-					<tr>
-						<td>적용 기간</td>
-						<td class="input-content">
-							<img src="resources/image/calendar.png" id="datepicker-trigger">
-							${ticket.startTime}
-							&nbsp; - &nbsp; 
-							<img src="resources/image/calendar.png" id="datepicker-trigger">
-							${ticket.endTime}
-						</td>
-					</tr>
-					
-					<tr>
-						<td>가격</td>
-						<td class="input-content">
-							<fmt:formatNumber value="${ticket.price}" pattern="#,##0원" />
 						</td>
 					</tr>
 				</table>
 				</div>
-			<div>
+			<div class="btn-div">
 			
 				<!-- 모달창 -->
 				<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
 				  <div class="modal-dialog">
 				    <div class="modal-content">
 				      <div class="modal-header">
-				        <h5 class="modal-title" id="deleteModalLabel">이용권 삭제</h5>
+				        <h5 class="modal-title" id="deleteModalLabel">공지사항 삭제</h5>
 				        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				      </div>
 				      <div class="modal-body">
-				        정말로 이용권을 삭제하시겠습니까?
+				        정말로 공지사항을 삭제하시겠습니까?
 				      </div>
 				      <div class="modal-footer">
 				        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-				        <button type="button" class="btn btn-danger" onclick="deleteTicket()">삭제</button>
+				        <button type="button" class="btn btn-danger" onclick="deleteNotice()">삭제</button>
 				      </div>
 				    </div>
 				  </div>
 				</div>
 			
-				<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/ticketManagement'">목록으로</button>
-				<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="if(confirm('정말로 삭제하시겠습니까?')) { location.href='/deleteTicket?ticketNo=${ticket.ticketNo}'; }">이용권 삭제</button>
-				
-				<button data-oper='modify' class="btnForModal btn btn-outline-primary btn-lg">이용권 수정</button>
-				<form id='operForm' action="updateTicket" method="get">
-                    <input type='hidden' id='ticketNo' name='ticketNo' value='<c:out value="${ticket.ticketNo}"/>'>
+				<c:if test="${board.userId == loginUser.userId}">
+				    <!-- userId와 board.userId가 일치할 때만 수정/삭제 버튼을 보여줌 -->
+				    <button data-oper='modify' class="btnForModal btn btn-outline-primary btn-lg">공지사항 수정</button>
+				    <button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="if(confirm('정말로 삭제하시겠습니까?')) { location.href='/deleteNotice?noticeNo=${board.noticeNo}'; }">공지사항 삭제</button>
+				</c:if>
+                <button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/noticeBoard'">목록으로</button>
+				<form id='operForm' action="updateNotice" method="get">
+                    <input type='hidden' id='noticeNo' name='noticeNo' value='<c:out value="${board.noticeNo}"/>'>
                 </form>
 			</div>	
 		</div>
@@ -239,14 +255,8 @@
 		$(document).ready(function() {
 			var operForm = $("#operForm"); 
 			$("button[data-oper='modify']").on("click", function(e){
-				operForm.attr("action","/updateTicket").submit();
+				operForm.attr("action","/updateNotice").submit();
 			});
-		    
-			/* $("button[data-oper='list']").on("click", function(e){
-				operForm.find("#bno").remove();
-				operForm.attr("action","/board/list")
-				operForm.submit();
-			});   */
 		});
 	
 		$(function() {
@@ -278,15 +288,15 @@
 		    $('#deleteModal').modal('show');
 		}
 
-		function deleteTicket() {
-		    // ticket 삭제 요청을 보내는 AJAX 요청 코드
+		function deleteNotice() {
+		    // notice 삭제 요청을 보내는 AJAX 요청 코드
 		    $.ajax({
-		        url: '/deleteTicket',
+		        url: '/deleteNotice',
 		        type: 'POST',
-		        data: { ticketNo: '${ticket.ticketNo}' },
+		        data: { noticeNo: '${board.noticeNo}' },
 		        success: function(result) {
 		            // 삭제가 성공한 경우
-		            window.location.href = '/ticketManagement';
+		            window.location.href = '/noticeBoard';
 		        },
 		        error: function(xhr, status, error) {
 		            // 삭제가 실패한 경우
@@ -300,7 +310,7 @@
 		});
 
 		$(document).on("click", "button#delete-confirm-button", function() {
-			deleteTicket();
+			deleteNotice();
 		});
         
 	</script>

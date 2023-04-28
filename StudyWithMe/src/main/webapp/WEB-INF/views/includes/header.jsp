@@ -70,10 +70,10 @@
 					class="header-logo">
 			</a></li>
 			<li><a href="/" class="active header-link">Home</a></li>
-			<li><a href="#" class="header-link">공지사항</a></li>
+			<li><a href="/noticeBoard" class="header-link">공지사항</a></li>
 			<sec:authorize access="hasRole('ROLE_ADMIN')">
 				<li><a href="/userlist" class="header-link">유저 관리</a></li>
-				<li><a href="/ticketManagement" class="header-link">요금 관리</a></li>
+				<li><a href="/ticketManagement" class="header-link">이용권 관리</a></li>
 			</sec:authorize>
 			<sec:authorize access="hasAnyRole('ROLE_USER')">
 				<li><a href="/userstudyseat" class="header-link">스터디석</a></li>

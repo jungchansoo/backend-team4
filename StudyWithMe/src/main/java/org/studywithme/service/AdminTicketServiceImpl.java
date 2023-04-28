@@ -33,8 +33,6 @@ public class AdminTicketServiceImpl implements AdminTicketService {
 			ticket.setChargingTime(ticket.getChargingTime() * 60 * 24 * 7 * 4);
 		}
 		
-		log.info("ticket" + ticket);
-		
 		mapper.insert(ticket);
 	}
 
@@ -53,31 +51,26 @@ public class AdminTicketServiceImpl implements AdminTicketService {
 			ticket.setChargingTime(ticket.getChargingTime() * 60 * 24 * 7 * 4);
 		}
 		
-		log.info("modify....." + ticket);
 		return mapper.update(ticket) == 1;
 	}
 
 	@Override
 	public boolean remove(Long ticketNo) {
-		log.info("remove....." + ticketNo);
 		return mapper.delete(ticketNo) == 1;
 	}
 
 	@Override
 	public AddTicketVO get(Long ticketNo) {
-		log.info("get......" + ticketNo);
 		return mapper.read(ticketNo);
 	}
 
 	@Override
 	public int getTotal(Criteria cri) {
-		log.info("cri" + cri);
 		return mapper.getTotalCount(cri.getKeyword());
 	}
 
 	@Override
 	public List<TicketVO> getListTicket(String keyword, int pageNum, int amount) {
-		log.info("getListTicket=============" + keyword + " " + pageNum + " " + amount);
 		return mapper.getTicketList(keyword, pageNum, amount);
 	}
 
