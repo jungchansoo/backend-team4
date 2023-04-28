@@ -222,11 +222,11 @@
 				  <div class="modal-dialog">
 				    <div class="modal-content">
 				      <div class="modal-header">
-				        <h5 class="modal-title" id="deleteModalLabel">이용권 삭제</h5>
+				        <h5 class="modal-title" id="deleteModalLabel">공지사항 삭제</h5>
 				        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				      </div>
 				      <div class="modal-body">
-				        정말로 이용권을 삭제하시겠습니까?
+				        정말로 공지사항을 삭제하시겠습니까?
 				      </div>
 				      <div class="modal-footer">
 				        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
@@ -238,8 +238,8 @@
 			
 				<c:if test="${board.userId == loginUser.userId}">
 				    <!-- userId와 board.userId가 일치할 때만 수정/삭제 버튼을 보여줌 -->
-				    <button data-oper='modify' class="btnForModal btn btn-outline-primary btn-lg">이용권 수정</button>
-				    <button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="if(confirm('정말로 삭제하시겠습니까?')) { location.href='/deleteNotice?noticeNo=${board.noticeNo}'; }">이용권 삭제</button>
+				    <button data-oper='modify' class="btnForModal btn btn-outline-primary btn-lg">공지사항 수정</button>
+				    <button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="if(confirm('정말로 삭제하시겠습니까?')) { location.href='/deleteNotice?noticeNo=${board.noticeNo}'; }">공지사항 삭제</button>
 				</c:if>
                 <button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/noticeBoard'">목록으로</button>
 				<form id='operForm' action="updateNotice" method="get">

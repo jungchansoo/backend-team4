@@ -217,7 +217,7 @@
 					<input type='hidden' id='noticeNo' name='noticeNo' value='<c:out value="${board.noticeNo}"/>'>
 					
 					<div class="btn-div">
-						<button type="submit" data-oper='modify' class="btnForModal btn btn-outline-primary btn-lg">이용권 수정</button>
+						<button type="submit" data-oper='modify' class="btnForModal btn btn-outline-primary btn-lg">공지사항 수정</button>
 						<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/noticeBoard'">목록으로</button>
 					</div>
 					
