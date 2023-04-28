@@ -14,17 +14,19 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
 <script>
-	$(document).ready(function() {
-		$('input[type=radio][name=find-method]').change(function() {
-			if (this.value === 'phone') {
-				$('#phone-method').show();
-				$('#email-method').hide();
-			} else if (this.value === 'email') {
-				$('#phone-method').hide();
-				$('#email-method').show();
-			}
-		});
-	});
+$(document).ready(function() {
+    $('input[type=radio][name=find-method]').change(function() {
+        if (this.value === 'phone') {
+            $('#phone-method').show();
+            $('#email-method').hide();
+        } else if (this.value === 'email') {
+            $('#phone-method').hide();
+            $('#email-method').show();
+        }
+    });
+    // 페이지 로드 시 초기 상태 설정
+    $('input[type=radio][name=find-method]:checked').trigger('change');
+});
 </script>
 </head>
 <body>
@@ -34,33 +36,29 @@
 				<div class="card">
 					<div class="card-body">
 						<h1 class="text-center my-5">아이디 찾기</h1>
-						<div class="mb-3">
-							<label class="form-label">아이디 찾기 방법 선택</label>
-						<form>
-							<div class="row">
-								<div class="col-md-6">
-									<div class="form-check">
-										<input class="form-check-input" type="radio"
-											name="find-method" id="find-by-phone" value="phone" checked>
-										<label class="form-check-label" for="find-by-phone">등록된
-											전화번호로 찾기</label>
-									</div>
+						<form action="/searchId" method="post" class="mt-4">
+							<label class="form-label mb-3">아이디 찾기 방법 선택</label>
+
+							<div class="text-center mt-3 row">
+								<div class="form-check form-check-inline col text-center">
+									<input class="form-check-input" type="radio" name="find-method"
+										id="find-by-phone" value="phone" checked> <label
+										class="form-check-label" for="find-by-phone">등록된 전화번호로
+										찾기</label>
 								</div>
-								<div class="col-md-6">
-									<div class="form-check">
-										<input class="form-check-input" type="radio"
-											name="find-method" id="find-by-email" value="email">
-										<label class="form-check-label" for="find-by-email">등록된
-											이메일로 찾기</label>
-									</div>
+								<div class="form-check form-check-inline col text-center">
+									<input class="form-check-input" type="radio" name="find-method"
+										id="find-by-email" value="email"> <label
+										class="form-check-label" for="find-by-email">등록된 이메일로
+										찾기</label>
 								</div>
 							</div>
-						</div>
+							<!-- 입력란 -->
 							<div class="form-group mb-3">
 								<label for="name" class="form-label">이름</label> <input
 									type="text" class="form-control" id="name">
 							</div>
-							<div class="form-group phone-method"  style="display:none;">
+							<div class="form-group" id="phone-method">
 								<!-- 문자 인증 -->
 								<div class="input-group">
 									<input type="text" class="form-control sms-check-input"
@@ -75,7 +73,7 @@
 								<span id="sms-countdown-timer"></span>
 							</div>
 
-							<div class="form-group email-method">
+							<div class="form-group" id="email-method">
 								<label for="email">이메일</label><input type="text"
 									class="form-control" id="email" name="email" required>
 								<div class="input-group">
