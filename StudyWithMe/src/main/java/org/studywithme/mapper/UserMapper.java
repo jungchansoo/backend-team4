@@ -1,8 +1,6 @@
 package org.studywithme.mapper;
 
-import java.util.List;
-
-import org.studywithme.domain.Criteria;
+import org.apache.ibatis.annotations.Param;
 import org.studywithme.domain.UserVO;
 
 public interface UserMapper {
@@ -13,5 +11,7 @@ public interface UserMapper {
 	int checkUserId(String userid); //아이디 중복확인
 
 	public int updateUserNameForTest(UserVO vo); // UserName 변경(테스트용)
+	public String searchIdbyEmail(@Param("userName") String userName, @Param("email") String email);
+	public String searchIdbyPhoneNumber(@Param("userName") String userName, @Param("phoneNumber") String phoneNumber);
 
 }
