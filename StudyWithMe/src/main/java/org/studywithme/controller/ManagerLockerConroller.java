@@ -14,13 +14,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.studywithme.domain.UserVO;
+import org.studywithme.service.LockerService;
 import org.studywithme.service.StudyseatService;
 import org.studywithme.service.UserService;
 
 @Controller
 public class ManagerLockerConroller {
 	@Autowired
-	private StudyseatService service;
+	private LockerService service;
 	
 	@Autowired
 	HttpSession session;
@@ -33,7 +34,7 @@ public class ManagerLockerConroller {
 		
 		int cafeno = (int) session.getAttribute("cafeNum");
 		model.addAttribute("cafeno", cafeno);
-		model.addAttribute("lists", service.useseat(cafeno));
+		model.addAttribute("lists", service.uselocker(cafeno));
 
 		//branch부분을 메인에서 넘어온 카페이름으로 바꿔야함. 당연히 view 폴더 이름도 같음.
 		String cafe_name = "studycafe/";
@@ -47,7 +48,7 @@ public class ManagerLockerConroller {
 	public ResponseEntity<String> returnseat(@RequestParam("user_id") String user_id) {
 		try {
 			//todo(return seat에서 return locker로 수정 필요)
-			service.returnseat(user_id);
+			service.returnlocker(user_id);
 			return ResponseEntity.ok("Returnseat Successful");
 		} catch (Exception e) {
 			e.printStackTrace();
