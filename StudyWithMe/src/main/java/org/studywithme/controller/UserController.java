@@ -94,7 +94,9 @@ public class UserController {
 		}
     }
 
-
-
-
+	//아이디 찾기 폼으로 이동
+	@GetMapping("/searchId")
+	public String searchId() {
+		return "user/searchId";
+	}
 }
