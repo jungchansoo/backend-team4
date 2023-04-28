@@ -16,6 +16,22 @@
 
 <link rel="stylesheet" href="resources/css/paymentRoomPage.css" type="text/css">
 <link rel="stylesheet" href="resources/css/userMainPage.css" type="text/css">
+
+<!-- Add Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<style>
+.btn-group-lg>.btn, .btn-lg {
+    	margin: 0.5em;
+		padding: 0.5rem 2.0rem;
+	    font-size: 1.0rem;
+	    line-height: 1.5;
+	    border-radius: 1rem;
+</style>
+
 </head>
 <!-- 헤더 -->
 <%@include file="../includes/header.jsp"%>
@@ -63,7 +79,7 @@
 			</div>
 	
 			<div class="positionBtn">
-		    	<button type="submit" id="modal_open_btn" class="paymentBtn">결제</button>
+		    	<button type="submit" id="modal_open_btn" class="btnForModal btn btn-outline-primary btn-lg">결제</button>
 			</div>
 		
 			<div id="modal">
@@ -89,10 +105,10 @@
 						<form method="get" action="/kakaoPay">
 							<input type="hidden" name="product" id="product">
 							<input type="hidden" name="price" id="price">
-							<button id="pay-btn" class="paymentBtn">결제</button>
+							<button id="pay-btn" class="btnForModal btn btn-outline-primary btn-lg">결제</button>
 						</form>
 	
-						<button type="button" id="modal_close_btn" class="paymentBtn">취소</button>
+						<button type="button" id="modal_close_btn" class="btnForModal btn btn-outline-primary btn-lg">취소</button>
 					</div>
 				</div>
 				

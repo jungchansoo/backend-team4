@@ -90,7 +90,7 @@
 		        WHERE category LIKE '%' || #{keyword} || '%'
 		          AND rownum <![CDATA[<=]]> #{pageNum} * #{amount}
       	 )
-  		 WHERE rn BETWEEN ((#{pageNum} - 1) * #{amount}) AND (#{pageNum} * #{amount}) 
+  		 WHERE rn BETWEEN ((#{pageNum} - 1) * #{amount} + 1) AND (#{pageNum} * #{amount}) 
 	</select>
 	
 	<insert id="insert">
@@ -142,7 +142,7 @@
 	
 	<delete id="delete">
 		DELETE tbl_ticket
-		 WHERE ticket_no=#{ticketNo}
+		 WHERE ticket_no = #{ticketNo}
 	</delete>
   
  

@@ -120,7 +120,7 @@ public class SmsServiceImpl implements SmsService {
 	    int verificationCode = util.makeRandomNumber();
 
 	    // 인증 번호를 포함한 문자 메시지 내용 작성
-	    String messageContent = "인증 번호는 [" + verificationCode+"] 입니다.";
+	    String messageContent = "Study with Me 회원가입 문자 인증 번호는 [" + verificationCode+"] 입니다.";
 
 	    // 수신자 전화번호와 메시지 내용을 포함한 MessageDTO 객체 생성
 	    MessageDTO messageDto = new MessageDTO(phoneNumber, messageContent);

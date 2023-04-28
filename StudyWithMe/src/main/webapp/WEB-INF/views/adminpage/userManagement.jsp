@@ -82,18 +82,13 @@
 		<!-- 검색 기능 -->
 		<form id='searchForm' action="/userlist" method='get'>
 			<select name='type'>
-				<option value="N"
-					<c:out value="${pageMaker.cri.type eq 'N'?'selected':''}"/>>이름</option>
-				<option value="I"
-					<c:out value="${pageMaker.cri.type eq 'I'?'selected':''}"/>>아이디</option>
-				<option value="P"
-					<c:out value="${pageMaker.cri.type eq 'P'?'selected':''}"/>>전화번호</option>
-			</select> <input type='text' name='keyword'
-				value='<c:out value="${pageMaker.cri.keyword}"/>' /> <input
-				type='hidden' name='pageNum'
-				value='<c:out value="${pageMaker.cri.pageNum}"/>' /> <input
-				type='hidden' name='amount'
-				value='<c:out value="${pageMaker.cri.amount}"/>' />
+				<option value="N" <c:out value="${pageMaker.cri.type eq 'N'?'selected':''}"/>>이름</option>
+				<option value="I" <c:out value="${pageMaker.cri.type eq 'I'?'selected':''}"/>>아이디</option>
+				<option value="P" <c:out value="${pageMaker.cri.type eq 'P'?'selected':''}"/>>전화번호</option>
+			</select>
+				<input type='text' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' />
+				<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' />
+				<input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' />
 			<button class='btn btn-default'>검색</button>
 		</form>
 
