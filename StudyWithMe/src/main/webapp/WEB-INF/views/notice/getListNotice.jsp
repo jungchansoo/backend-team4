@@ -101,7 +101,7 @@
 	<div class="cd2">
 		<input id="csrfToken" type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
-		<p>공지사항 목록</p>
+		<p>공지사항</p>
 		
 		<!-- 검색 기능 -->
 		<form id='searchForm' action="/noticeBoard" method='get'>
