@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.studywithme.mapper.ReviewBoardMapper">
+<resultMap id="reviewResultMap" type="org.studywithme.domain.ReviewVO">
+    <result property="reviewNo" column="review_no" />
+    <result property="cafeNo" column="cafe_no" />
+    <result property="title" column="title" />
+    <result property="createdDate" column="created_date" />
+    <result property="updatedDate" column="updated_date" />
+    <result property="userId" column="user_id" />
+    <result property="content" column="content" />
+    <result property="upvotes" column="upvotes" />
+    <result property="downvotes" column="downvotes" />
+    <result property="replyCnt" column="reply_cnt" />
+</resultMap>
+
+
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND" prefixOverrides="OR">
+			<foreach item='type' collection="criteria.typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							title like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							content like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'W'.toString()">
+							user_id like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+	<select id="getTotalCount" resultType="int">
+		select count(*) from tbl_review where
+		<include refid="criteria"></include>
+		review_no > 0 and cafe_no=#{cafeNo}
+	</select>
+
+	<select id="getBoardList"
+	    resultMap="reviewResultMap"
+		parameterType="org.studywithme.domain.Criteria">
+		SELECT
+			review_no,
+			title,
+			created_Date,
+			user_id,
+			reply_cnt
+		FROM (
+		SELECT
+				rownum rn,
+				review_no,
+				title,
+				created_date,
+				user_id,
+				reply_cnt
+		FROM (
+			SELECT
+			rownum rn,
+			review_no,
+			title,
+			created_date,
+			user_id,
+			reply_cnt
+		FROM
+		tbl_review where cafe_no = #{cafeNo} ORDER BY review_no DESC
+		)
+		WHERE
+		<include refid="criteria"></include>
+		<![CDATA[
+		rownum <= #{criteria.pageNum} * #{criteria.amount}
+		)
+		where rn > (#{criteria.pageNum} -1) * #{criteria.amount}
+		]]>
+	</select>
+
+	<insert id="insert">
+		INSERT INTO tbl_review
+		(
+		review_no,
+		title,
+		created_date,
+		user_id,
+		content,
+		cafe_no
+		) VALUES (
+		seq_review.nextval,
+		#{review.title},
+		sysdate,
+		#{review.userId},
+		#{review.content},
+		#{cafeNo}
+		)
+	</insert>
+
+	<select id="read" resultMap="reviewResultMap">
+		SELECT
+			review_no,
+			title,
+			created_Date,
+			updated_Date,
+			user_id,
+			content,
+			upvotes,
+			downvotes,
+			reply_cnt
+		FROM tbl_review
+		WHERE review_no = #{reviewNo}
+	</select>
+
+	<update id="update">
+		UPDATE tbl_review
+		SET title = #{title},
+		updated_date = sysdate,
+		content = #{content}
+		WHERE review_no = #{reviewNo}
+	</update>
+	<!-- 댓글을 모두 지운 후에 delete 수행  -->
+	<delete id="deleteComments">
+		DELETE FROM tbl_review_comment
+		WHERE review_no =
+		#{review_no}
+	</delete>
+	<delete id="delete">
+		DELETE FROM tbl_review
+		WHERE review_no = #{review_no}
+	</delete>
+
+	<update id="increaseUpvotes">
+	    UPDATE tbl_review
+	    SET upvotes = upvotes + 1
+	    WHERE review_no = #{reviewNo}
+	</update>
+	
+	<update id="increaseDownvotes">
+	    UPDATE tbl_review
+	    SET downvotes = downvotes + 1
+	    WHERE review_no = #{reviewNo}
+	</update>
+</mapper>
