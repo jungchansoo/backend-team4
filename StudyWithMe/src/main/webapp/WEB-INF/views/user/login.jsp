@@ -59,7 +59,7 @@
 								<a href="/searchId">아이디 찾기</a>
 							</div>
 							<div class="col text-center">
-								<a href="/searchPassword">비밀번호 찾기</a>
+								<a href="/searchPw">비밀번호 찾기</a>
 							</div>
 						</div>
 					</div>
