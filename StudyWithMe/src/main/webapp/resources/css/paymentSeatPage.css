@@ -18,11 +18,6 @@ li a {
 	font-weight: bold;
 }
 
-li a:hover {
-	background: #333;
-	color: #fff;
-}
-
 li a.seat {
 	background: #333;
 	color: #fff;
@@ -89,7 +84,7 @@ th, td {
 	margin: 15% auto; /* 15% from the top and centered */
 	padding: 50px;
 	border: 1px solid #888;
-	width: 30%; /* Could be more or less, depending on screen size */
+	width: 35%; /* Could be more or less, depending on screen size */
 	border-radius: 20px;
 }
 
@@ -102,6 +97,11 @@ th, td {
 	background: rgba(0, 0, 0, 0.5);
 	z-index: -1;
 }
+
+.text-center {
+	text-align: center;
+}
+
 /* The Close Button */
 .close {
 	color: #aaa;
@@ -135,4 +135,8 @@ th, td {
 
 form {
 	display: inline-block;
+}
+
+.paymentType {
+	margin-top:20px;
 }

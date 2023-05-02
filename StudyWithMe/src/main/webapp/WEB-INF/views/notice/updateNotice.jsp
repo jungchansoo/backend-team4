@@ -211,7 +211,6 @@
 								</div>
 							</td>
 						</tr>
-						
 					</table>
 					
 					<input type='hidden' id='noticeNo' name='noticeNo' value='<c:out value="${board.noticeNo}"/>'>

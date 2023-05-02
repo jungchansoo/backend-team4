@@ -179,9 +179,10 @@
 		</form>
 		
 		<div>
-			<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/insertNotice'">새글 등록</button>
+			<c:if test="${loginUser.role != 'ROLE_USER'}">
+				<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/insertNotice'">새글 등록</button>
+			</c:if>
 		</div>
-
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -201,8 +202,6 @@
 						searchForm.submit();
 					});
 
-				
-
 				var actionForm = $("#actionForm");
 				$(".paginate_button a").on(
 						"click",
@@ -221,7 +220,6 @@
 											+ "'>");
 							actionForm.attr("action", "/getNotice");
 							actionForm.submit();
-
 				});
 					
 		});

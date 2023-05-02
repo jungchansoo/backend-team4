@@ -137,6 +137,7 @@
 				<span class="close">&times;</span>
 				<p>출입문 개폐를 위해 QR코드를 인식해 주세요.</p>
 				<hr>
+				<img id="qr_image" alt="스터디카페를 먼저 선택해주세요" src="">
 			</div>
 		</div>
 	</div>
@@ -149,4 +150,3 @@
 <%@include file="../includes/footer.jsp"%>
 
 </html>
-
