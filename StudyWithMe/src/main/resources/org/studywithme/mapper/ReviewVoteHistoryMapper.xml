@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="org.studywithme.mapper.ReviewVoteHistoryMapper">
+	<resultMap id="reviewVoteHistoryMap"
+		type="org.studywithme.domain.ReviewVO">
+		<result property="reviewVoteNo" column="REVIEW_VOTE_NO" />
+		<result property="reviewNo" column="review_no" />
+		<result property="userId" column="user_Id" />
+		<result property="action" column="action" />
+	</resultMap>
+	<select id="getVoteHistory" resultMap="reviewVoteHistoryMap">
+		SELECT * FROM
+		TBL_REVIEW_VOTE_HISTORY
+		WHERE user_id = #{userId} AND review_no =
+		#{reviewNo}
+	</select>
+
+	<insert id="insertVoteHistory">
+		INSERT INTO TBL_REVIEW_VOTE_HISTORY
+		(
+		REVIEW_VOTE_NO,
+		review_no,
+		user_id,
+		action
+		) VALUES (
+		seq_REVIEW_VOTE_HISTORY.nextval,
+		#{reviewNo},
+		#{userId},
+		#{action}
+		)
+	</insert>
+	<delete id="deleteVoteHistory">
+		DELETE FROM TBL_REVIEW_VOTE_HISTORY
+		WHERE review_no = #{review_no} and user_id = #{userId} and action=#{action}
+	</delete>
+</mapper>
