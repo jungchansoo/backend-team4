@@ -17,8 +17,7 @@ public interface UserMapper {
 
 	public String searchIdbyPhoneNumber(@Param("userName") String userName, @Param("phoneNumber") String phoneNumber);
 
-	public UserVO searchUserPassword(@Param("userId") String userId, @Param("userName") String userName,
-			@Param("email") String email);
+	public UserVO searchUserPassword(@Param("userId") String userId, @Param("userName") String userName, @Param("email") String email);
 
 	public int updatePasswordByEmail(@Param("email") String email, @Param("encodedPw") String encodedPw);
 }

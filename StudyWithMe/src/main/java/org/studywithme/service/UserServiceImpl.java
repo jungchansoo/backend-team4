@@ -1,5 +1,7 @@
 package org.studywithme.service;
 
+import java.security.SecureRandom;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -68,34 +70,39 @@ public class UserServiceImpl implements UserService {
 		return mapper.searchIdbyPhoneNumber(userName, PhoneNumber);
 	}
 	
+	private String generateTempPassword() {
+	    final String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	    SecureRandom secureRandom = new SecureRandom();
+	    StringBuilder stringBuilder = new StringBuilder(8);
+	    for (int i = 0; i < 8; i++) {
+	        int randomIndex = secureRandom.nextInt(characters.length());
+	        stringBuilder.append(characters.charAt(randomIndex));
+	    }
+	    return stringBuilder.toString();
+	}
+
 	@Override
 	public String sendTempPwMail(@Param("userId") String userId, @Param("userName") String userName,
-			@Param("email") String email) {
+	        @Param("email") String email) {
 	    // DB에서 해당하는 유저 정보 확인
 	    UserVO user = mapper.searchUserPassword(userId, userName, email);
 	    if (user == null) {
 	        throw new IllegalArgumentException("해당하는 유저 정보를 찾을 수 없습니다.");
 	    }
-	    log.info("유저확인완료");
 
 	    // 임시 비밀번호 생성
-	    String tempPw = Double.toString(Math.random()).substring(2);
+	    String tempPw = generateTempPassword();
 
 	    // 메일 전송
 	    authMailSendService.sendTempPwMail(email, tempPw);
-	    log.info("메일전송");
 
 	    // 임시 비밀번호 암호화
 	    String encodedPw = passwordEncoder.encode(tempPw);
 
 	    // DB에 저장
 	    mapper.updatePasswordByEmail(email, encodedPw);
-	    log.info("임시비밀번호 암호화 후 db에 저장");
 
 	    return tempPw;
 	}
-
-
-
 
 }
