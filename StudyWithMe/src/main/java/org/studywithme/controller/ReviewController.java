@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.studywithme.domain.Criteria;
 import org.studywithme.domain.ReviewVO;
 import org.studywithme.domain.ReviewVO;
@@ -86,9 +87,22 @@ public class ReviewController {
 
 	@GetMapping("/deleteReview")
 	public String deleteReview(@RequestParam("reviewNo") Long reviewNo) {
-
 		service.remove(reviewNo);
-
 		return "redirect:/reviewlist";
 	}
+	
+	@PostMapping("/upvoteReview")
+	@ResponseBody
+	public String upvoteReview(@RequestParam("reviewNo") Long reviewNo) {
+		log.info("upvoteReview...........");
+		service.upvote(reviewNo);
+		return "success";
+		}
+	
+	@PostMapping("/downvoteReview")
+	@ResponseBody
+	public String downvoteReview(@RequestParam("reviewNo") Long reviewNo) {
+		service.downvote(reviewNo);
+		return "success";
+		}
 }
