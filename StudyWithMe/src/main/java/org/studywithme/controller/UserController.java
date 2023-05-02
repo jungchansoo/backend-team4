@@ -4,8 +4,14 @@ import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +37,8 @@ public class UserController {
 	private AuthMailSendService mailService;
 	@Autowired
 	private SmsService smsService;
+	@Autowired
+	private HttpSession session;
 
 	//회원가입 폼으로 이동
 	@GetMapping("/join")
@@ -94,7 +102,49 @@ public class UserController {
 		}
     }
 
+	//아이디 찾기 폼으로 이동
+	@GetMapping("/searchId")
+	public String searchId() {
+		return "user/searchId";
+	}
+	
+	@PostMapping("/searchIdbyEmail")
+	@ResponseBody
+	public ResponseEntity<Map<String, String>> searchIdbyEmail(String userName, String email) {
+	    Map<String, String> response = new HashMap<>();
+	    try {
+	        String userId = service.searchIdbyEmail(userName, email);
+	        session.setAttribute("foundUserId", userId);
+	        log.info("userId : " + userId);
+	        log.info("아이디 찾기 성공");
+	        response.put("userId", userId);
+	        return new ResponseEntity<>(response, HttpStatus.OK);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+	    }
+	}
 
-
-
+	@PostMapping("/searchIdbyPhoneNumber")
+	@ResponseBody
+	public ResponseEntity<Map<String, String>> searchIdbyPhoneNumber(String userName, String phoneNumber) {
+	    Map<String, String> response = new HashMap<>();
+	    try {
+	        String userId = service.searchIdbyPhoneNumber(userName, phoneNumber);
+	        log.info("userId : " + userId);
+	        session.setAttribute("foundUserId", userId);
+	        log.info("아이디 찾기 성공");
+	        response.put("userId", userId);
+	        return new ResponseEntity<>(response, HttpStatus.OK);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+	    }
+	}
+	
+	@GetMapping("/searchIdResult")
+	public String searchIdResult() {
+		return "user/searchIdResult";
+	}
+	
 }

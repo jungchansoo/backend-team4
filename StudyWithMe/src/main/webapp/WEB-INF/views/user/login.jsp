@@ -18,9 +18,7 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-
 	<div class="container mt-5">
-
 		<div class="row justify-content-center">
 			<div class="col-md-6">
 				<div class="card">
@@ -54,9 +52,15 @@
 								value="${_csrf.token}">
 							<button type="submit" class="btn btn-primary btn-block">로그인</button>
 						</form>
-
-						<div class="text-center mt-3">
-							<a href="/join">회원가입</a>
+						<button class="btn btn-outline-primary btn-block  mt-1"
+							onClick="location.href='/join.html'">회원가입</button>
+						<div class="text-center mt-3 row">
+							<div class="col text-center">
+								<a href="/searchId">아이디 찾기</a>
+							</div>
+							<div class="col text-center">
+								<a href="/searchPassword">비밀번호 찾기</a>
+							</div>
 						</div>
 					</div>
 				</div>

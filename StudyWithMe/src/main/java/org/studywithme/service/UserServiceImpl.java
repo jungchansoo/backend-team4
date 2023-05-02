@@ -54,5 +54,15 @@ public class UserServiceImpl implements UserService {
 		return mapper.updateUserNameForTest(vo)==1;
 	}
 
+	@Override
+	public String searchIdbyEmail(String userName, String email) {
+		return mapper.searchIdbyEmail(userName, email);
+	}
+
+	@Override
+	public String searchIdbyPhoneNumber(String userName, String PhoneNumber) {
+		return mapper.searchIdbyPhoneNumber(userName, PhoneNumber);
+	}
+
 
 }

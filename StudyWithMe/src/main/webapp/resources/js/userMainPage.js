@@ -1,6 +1,8 @@
+var cafenoforqr;
 function clickQrBtn() {
     console.log("clickQrBtn 호출");
-
+    var qrImage = document.getElementById("qr_image");
+	qrImage.setAttribute("src", "../resources/image/QR_"+cafenoforqr+".png");
     $('#qrModal').modal('show');
 }
 function clickSearchBtn() {
@@ -170,6 +172,7 @@ $(document).ready(function(){
                 },
                 success: function(response) {
                     console.log(response);
+                    cafenoforqr = cafeNum;
                 }
             });
             
