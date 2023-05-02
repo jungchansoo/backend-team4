@@ -134,7 +134,7 @@
 					<tr>
 						<td>요금제 이름</td>
 						<td class="input-content">
-  							<input type="text" id="ticketName" name="ticketName" placeholder="이용권 이름을 입력" required>
+  							<input type="text" id="ticketName" name="ticketName" placeholder="이용권 이름을 입력" required size="35">
 						</td>
 					</tr>
 					

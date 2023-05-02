@@ -58,15 +58,33 @@
 		set USERNAME
 		=
 		#{userName}
-		where user_id = #{userId}
+		where user_id
+		= #{userId}
 	</update>
 	<!-- 아이디 찾기 -->
 	<select id="searchIdbyPhoneNumber" resultType="String">
-		SELECT user_id FROM tbl_user
-		WHERE phone_number = #{phoneNumber} and userName = #{userName}
+		SELECT user_id
+		FROM tbl_user
+		WHERE phone_number = #{phoneNumber} and userName =
+		#{userName}
 	</select>
 	<select id="searchIdbyEmail" resultType="String">
-		SELECT user_id FROM tbl_user
+		SELECT user_id FROM
+		tbl_user
 		WHERE email = #{email} and userName = #{userName}
 	</select>
+
+	<!-- 비밀번호 찾기 -->
+	<select id="searchUserPassword" resultMap="userMap">
+		SELECT user_id, username, email
+		FROM tbl_user
+		WHERE user_id = #{userId} AND username = #{userName} AND email = #{email}
+	</select>
+	
+	<update id="updatePasswordByEmail">
+	  UPDATE tbl_user
+	  SET password = #{encodedPw}
+	  WHERE email = #{email}
+	</update>
+
 </mapper>

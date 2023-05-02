@@ -39,7 +39,7 @@
 <body>
 	<div id="parent">
 		<div class="sideMenu">
-			<h1>이용권구매</h1>
+			<h3 class="text-center">이용권구매</h3>
 			<ul>
 				<li><a class="seat" href="/paymentSeatPage">스터디석</a></li>
 				<li><a class="room" href="/paymentRoomPage">스터디룸</a></li>
@@ -60,11 +60,11 @@
 						<th>금액</th>
 					</tr>
 					
-					<c:forEach items="${ticketList}" var="ticket">
+					<c:forEach items="${ticketList}" var="ticket" varStatus="status">
 						<tr>
 							<td>
 								<label>
-									<input type="radio" name="product" value="${ticket.ticketName}">
+									<input type="radio" name="product" value="${ticket.ticketName}" ${status.first ? 'checked' : ''}>
 									<input type="hidden" name="price" value="${ticket.price}">
 									<input type="hidden" name="amount" value="<fmt:formatNumber value="${ticket.price}" pattern="#,##0원" />">
 								</label>
@@ -89,7 +89,7 @@
 						<div id="select-product"></div>
 					</div>
 					
-					<div>
+					<div class="paymentType">
 						<div><p>결제 방법</p></div>
 						<div>
 							<table>
