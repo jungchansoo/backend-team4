@@ -213,3 +213,21 @@ $(document).ready(function(){
             search(keyword, currentPage);
         });
     };
+    
+   	
+
+function maploading() {
+	var mapWrapper = document.getElementById('map-wrapper');
+	var mainImage = document.getElementById('mainImage');
+	
+  mainImage.style.display = 'none';
+  mapWrapper.style.display = 'block';
+  
+  var map = new kakao.maps.Map(document.getElementById('map'), {
+    center: new kakao.maps.LatLng(37.506502, 127.053617),
+    level: 3
+  });
+  
+}
+
+	

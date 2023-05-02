@@ -22,7 +22,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Study with me</title>
-
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=668e2764ef6779f586b8a2228df4aa7c"></script>
 
 <!-- Add Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
@@ -71,6 +71,18 @@
 
 				</div>
 				<hr class="line-divider">
+
+				<sec:authorize access="hasRole('ROLE_USER')">
+					<div id="mapsearch">
+						<h5 class="title-text-color">지도에서 찾기</h5>
+						<button type="button" id="mapBtn"
+							class="btnForModal btn btn-outline-custom search-button"
+							onclick="maploading()">
+							<i class="bi bi-search"></i>
+						</button>
+					</div>
+				</sec:authorize>
+
 				<div class="d-flex buttons-container mb-3">
 					<sec:authorize access="hasRole('ROLE_USER')">
 						<button type="button" class="btn btn-primary btn-lg mr-2"
@@ -90,8 +102,11 @@
 				</div>
 			</div>
 			<div class="col-lg-6 col-md-12 mb-3">
-				<img class="img-fluid" src="/resources/image/mainPageImage.png"
+				<img class="img-fluid" id="mainImage" src="/resources/image/mainPageImage.png"
 					style="width: 130%;">
+				<div id="map-wrapper">
+					<div id="map" style="width: 100%; height: 100%;"></div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -141,7 +156,6 @@
 			</div>
 		</div>
 	</div>
-
 
 	<!-- js 파일 경로 -->
 	<script type="text/javascript" src="/resources/js/userMainPage.js"></script>
