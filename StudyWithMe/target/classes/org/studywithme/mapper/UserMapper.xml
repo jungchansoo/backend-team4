@@ -46,17 +46,45 @@
 		#{userName},
 		#{phoneNumber}, #{email}, 'ROLE_USER', sysdate)
 	</insert>
-	
+
 	<!-- 중복 확인 -->
 	<select id="checkUserId" parameterType="string" resultType="int">
 		SELECT COUNT(*) FROM tbl_user WHERE user_id = #{userId}
 	</select>
-	
+
 	<!-- UserName변경(테스트용) -->
-	<update id="updateUserNameForTest" >
+	<update id="updateUserNameForTest">
 		update tbl_user
 		set USERNAME
-		= #{userName}
-		where user_id = #{userId}
+		=
+		#{userName}
+		where user_id
+		= #{userId}
 	</update>
+	<!-- 아이디 찾기 -->
+	<select id="searchIdbyPhoneNumber" resultType="String">
+		SELECT user_id
+		FROM tbl_user
+		WHERE phone_number = #{phoneNumber} and userName =
+		#{userName}
+	</select>
+	<select id="searchIdbyEmail" resultType="String">
+		SELECT user_id FROM
+		tbl_user
+		WHERE email = #{email} and userName = #{userName}
+	</select>
+
+	<!-- 비밀번호 찾기 -->
+	<select id="searchUserPassword" resultMap="userMap">
+		SELECT user_id, username, email
+		FROM tbl_user
+		WHERE user_id = #{userId} AND username = #{userName} AND email = #{email}
+	</select>
+	
+	<update id="updatePasswordByEmail">
+	  UPDATE tbl_user
+	  SET password = #{encodedPw}
+	  WHERE email = #{email}
+	</update>
+
 </mapper>

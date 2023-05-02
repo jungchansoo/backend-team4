@@ -3,27 +3,33 @@ package org.studywithme.mapper;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import javax.servlet.http.HttpSession;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.studywithme.domain.UserVO;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 @RunWith(SpringJUnit4ClassRunner.class)
+@WebAppConfiguration
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml"
 		,"file:src/main/webapp/WEB-INF/spring/security-context.xml"
-		}
+		,"file:src/main/webapp/WEB-INF/spring/mailAuth-context.xml"
+}
 )
 @Log4j
 public class UserMapperTests {
 	@Setter(onMethod_ = @Autowired)
 	private UserMapper mapper;
 
+	
 	@Test
 	public void testRead() {
 		UserVO vo = mapper.read("testuser5");
@@ -62,5 +68,13 @@ public class UserMapperTests {
 		mapper.join(vo);
 
 		log.info(vo);
+	}
+	@Test
+	public void testSearchIdbyPhoneNumber() {
+		String userName = "테스트매니저";
+		String phoneNumber = "010-1111-1111";
+		String userid = mapper.searchIdbyPhoneNumber(userName, phoneNumber);
+		log.info(userid);
+		
 	}
 }

@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+.container {
+	margin-top: 2rem;
+}
+
+.cd2 {
+	margin-top: 1rem;
+}
+
+.cd2 p {
+	font-size: 1.5rem;
+	font-weight: bold;
+	margin-bottom: 1rem;
+}
+
+.list {
+	margin-top: 1rem;
+}
+
+.pagination {
+	justify-content: center;
+}

@@ -127,12 +127,13 @@ select {
 	margin-top: 40px;
 }
 
-#reservationfail, #canclefail, #emptytime{
+#reservationfail, #canclefail, #emptytime {
 	margin-top: 25px;
 }
 
 .check {
 	cursor: pointer;
+	float: left;
 }
 
 .ui-dialog {
@@ -155,22 +156,34 @@ select {
 	height: 200px !important;
 }
 
-#header2> * {
-margin-left : -140px;
-  /* 마진값으로 간격을 조정 */
+#header2>* {
+	margin-left: -140px;
+	/* 마진값으로 간격을 조정 */
 }
-#header4> * {
-  margin-right : 10px;
-  /* 마진값으로 간격을 조정 */
+
+#header4>* {
+	margin-right: 10px;
+	/* 마진값으로 간격을 조정 */
 }
 
 #content li:first-child {
-	margin-left : 50px;
+	margin-left: 50px;
 	margin-right: -5px;
 }
 
-.emptyarea{
+.emptyarea {
 	margin-top: 30px;
+}
+
+.checkbuttons {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 10px;
+}
+
+.checkbuttons a {
+	margin-right: 60px;
+	margin-left: 60px;
 }
 </style>
 
@@ -179,7 +192,7 @@ margin-left : -140px;
 <body>
 	<%@include file="../../includes/header.jsp"%>
 	<div class="emptyarea"></div>
-	
+
 	<div id="studyroomname" class="list-container">
 		<ul>
 			<li class="list">스터디룸</li>
@@ -268,20 +281,23 @@ margin-left : -140px;
 
 	<div id="emptytime">
 		<p class="checkmessage">보유시간이 부족합니다.</p>
-		<p class="checkmessage">현재보유시간 : ${remainingRoomTime} </p>
+		<p class="checkmessage">현재보유시간 : ${remainingRoomTime}</p>
 		<a class="check" onClick="location.reload()">확인</a>
 	</div>
 
 	<div id="returnroom">
 		<p class="checkmessage">해당 스터디룸 예약을 취소하시겠습니까?</p>
-		<a class="check" onClick="returnroom()">확인</a>
+		<div class="checkbuttons">
+			<a class="check" onClick="returnroom()">예</a> <a class="check"
+				onClick="location.reload()">아니오</a>
+		</div>
 	</div>
 
 	<div id="timeout">
 		<p class="checkmessage">사용중인 룸은 예약취소가 불가능합니다.</p>
 		<a class="check" onClick="location.reload()">확인</a>
 	</div>
-	
+
 	<div id="timedateerror">
 		<p class="checkmessage">현재시간 보다 이후 시간으로 예약해주세요.</p>
 		<a class="check" onClick="location.reload()">확인</a>
@@ -289,7 +305,7 @@ margin-left : -140px;
 	<input id="csrfToken" type="hidden" name="${_csrf.parameterName}"
 		value="${_csrf.token}" />
 
-	<%@include file ="../../includes/footer.jsp" %>
+	<%@include file="../../includes/footer.jsp"%>
 	<script>
 		$(document).ready(function() {
 			$("#datepicker").datepicker({
