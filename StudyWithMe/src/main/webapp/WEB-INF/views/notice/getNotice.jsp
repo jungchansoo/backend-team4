@@ -146,10 +146,19 @@
 		border: solid 2px #1E90FF;
 		border-radius: 5px;
 		font-size: 16px;
-		resize: both;
+		resize: none;
+    	overflow: hidden;
 	}
-	.btn-div{
+	.btn-div {
 		float:right;
+	}
+	
+	.contentArea {
+		white-space: pre-wrap;
+		border : 1px solid black;
+		text-align: left;
+		padding : 30px;
+		border-radius: 1rem;
 	}
 	
 </style>
@@ -208,15 +217,21 @@
 					<tr>
 						<td>내용</td>
 						<td class="input-content">
-							<div class="form-group">
+						
+							<div class="contentArea"><c:out value="${board.content.trim()}" /></div>
+							<%-- <div class="form-group">
 								<textarea  rows="3" name='content' readonly>${board.content}</textarea>
+							</div> --%>
+							<%-- 
+							<div class="contentArea" style="white-space: pre; border : 1px solid black; text-align: left; padding : 30px; border-radius: 1rem;">
+								<c:out value="${board.content}" />
 							</div>
+							 --%>
 						</td>
 					</tr>
 				</table>
 				</div>
 			<div class="btn-div">
-			
 				<!-- 모달창 -->
 				<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
 				  <div class="modal-dialog">

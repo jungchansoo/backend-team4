@@ -34,6 +34,25 @@ public class AuthMailSendServiceImpl implements AuthMailSendService {
 		mailSend(setFrom, userMail, title, content);
 		return Integer.toString(authNumber);
 	}
+	
+	// 임시 비밀번호 전송
+	@Override
+	public String sendTempPwMail(String userMail, String tempPw) {
+	    //메일 작성
+	    String setFrom = "StudyWithMeForEgg@gmail.com"; // 보내는 사람
+	    String title = "Study With Me 서비스 임시 비밀번호 안내 이메일 입니다."; // 이메일 제목
+	    String content =
+	        "안녕하세요, Study with Me 서비스입니다." +  //html 형식으로 작성 !
+	            "<br><br>" +
+	            "회원님의 임시 비밀번호는 <Strong>" + tempPw + "</Strong>입니다." +
+	            "<br>" +
+	            "로그인 후 반드시 비밀번호를 변경해주세요."; //이메일 내용 삽입
+	    //메일 전송
+	    mailSend(setFrom, userMail, title, content);
+	    return tempPw;
+	}
+
+
 
 	@Override
 	public void mailSend(String setFrom, String setTo, String title, String content) {

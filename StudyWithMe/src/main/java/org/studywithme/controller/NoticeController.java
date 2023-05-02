@@ -27,17 +27,18 @@ public class NoticeController {
 	@GetMapping("/noticeBoard")
 	public String getNoticeBoardList(Model model, Criteria cri) {
 		
-		  String keyword = cri.getKeyword() == null ? "" : cri.getKeyword();
-		  String type = cri.getType() == null ? "title" : cri.getType();
-		  cri.setKeyword(keyword);
-		  cri.setType(type);
+		UserVO vo = new UserUtil().getUserDetails();
+		model.addAttribute("loginUser", vo);
+		
+		String keyword = cri.getKeyword() == null ? "" : cri.getKeyword();
+		String type = cri.getType() == null ? "title" : cri.getType();
+		cri.setKeyword(keyword);
+		cri.setType(type);
 		  
-		  model.addAttribute("boardList", service.getBoardList(cri.getType(), cri.getKeyword(), cri.getPageNum(), cri.getAmount()));
-		  //log.info("model" + model);
+		model.addAttribute("boardList", service.getBoardList(cri.getType(), cri.getKeyword(), cri.getPageNum(), cri.getAmount()));
 			
-		  int total = service.getTotal(cri);
-		  model.addAttribute("pageMaker", new PageDTO(cri, total));
-			 
+		int total = service.getTotal(cri);
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		
 		return "/notice/getListNotice";
 	}
@@ -55,7 +56,7 @@ public class NoticeController {
 		
 		UserVO vo = new UserUtil().getUserDetails();
 		noticeVO.setUserId(vo.getUserId());
-		log.info("noticeVO*************************** " + noticeVO);
+		
 		service.register(noticeVO);
 		
 		return "redirect:/noticeBoard";
@@ -67,7 +68,6 @@ public class NoticeController {
 		model.addAttribute("loginUser", vo);
 		
 	    NoticeVO board = service.get(noticeNo);
-	    log.info("Board object retrieved: {}" + board);
 	    model.addAttribute("board", board);
 	    
 	    return "/notice/getNotice";

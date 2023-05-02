@@ -1,5 +1,6 @@
 package org.studywithme.service;
 
+import org.apache.ibatis.annotations.Param;
 import org.studywithme.domain.UserVO;
 
 public interface UserService {
@@ -16,5 +17,7 @@ public interface UserService {
 
 	public boolean modifyUserNameForTest(UserVO vo);
 
+	public String sendTempPwMail(@Param("userId") String userId, @Param("userName") String userName,
+			@Param("email") String email);
 
 }

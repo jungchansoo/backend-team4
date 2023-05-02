@@ -19,11 +19,6 @@ public class NoticeServiceImpl implements NoticeService {
 
 	@Override
 	public List<NoticeVO> getBoardList(String type, String keyword, int pageNum, int amount) {
-		log.info("=============");
-		log.info("type " + type);
-		log.info("keyword " + keyword);
-		log.info("pageNum " + pageNum);
-		log.info("amount " + amount);
 		return mapper.getBoardList(type, keyword, pageNum, amount);
 	}
 

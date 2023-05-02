@@ -16,6 +16,9 @@ import org.studywithme.service.StudyseatService;
 import org.studywithme.util.UserUtil;
 import org.studywithme.util.changetime;
 
+import lombok.extern.log4j.Log4j;
+
+@Log4j
 @Controller
 public class UserStudySeatController {
 	@Autowired
@@ -33,8 +36,15 @@ public class UserStudySeatController {
 		UserVO vo = new UserUtil().getUserDetails();
 		changetime changer = new changetime();
 		String remainingSeatTime = changer.time_longtoString(vo.getRemainingSeatTime());
+		Integer cafeno = (Integer) session.getAttribute("cafeNum");
+	    
+	    if (cafeno == null) {
+	    	model.addAttribute("errorMessage", "스터디카페를 선택해주세요.");
+	        return "redirect:/";
+	    }
 		
-		int cafeno = (int) session.getAttribute("cafeNum");
+		log.info("cafeNo" + cafeno);
+		
 		model.addAttribute("map", service.myuseseat(vo.getUserId()));
 		model.addAttribute("cafeno", cafeno);
 		model.addAttribute("lists", service.useseat(cafeno));
