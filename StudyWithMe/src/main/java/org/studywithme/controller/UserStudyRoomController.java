@@ -1,5 +1,6 @@
 package org.studywithme.controller;
 
+import java.io.Console;
 import java.util.Date;
 
 import javax.servlet.http.HttpSession;
@@ -16,6 +17,8 @@ import org.studywithme.domain.UserVO;
 import org.studywithme.service.StudyroomService;
 import org.studywithme.util.UserUtil;
 import org.studywithme.util.changetime;
+
+import lombok.extern.log4j.Log4j;
 
 @Controller
 public class UserStudyRoomController {
