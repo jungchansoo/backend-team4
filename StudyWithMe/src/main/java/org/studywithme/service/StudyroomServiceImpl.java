@@ -29,17 +29,17 @@ public class StudyroomServiceImpl implements StudyroomService {
 	@Override
 	@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
 	public void insert(String user_id,int cafe_no, int num_using, Date start_time, Date end_time, int usetime) {
-		boolean check = mapper.checkduration(cafe_no, num_using,  new java.sql.Date(start_time.getTime()),  new java.sql.Date(end_time.getTime()));
+		boolean check = mapper.checkduration(cafe_no, num_using, start_time, end_time);
 		if (check) {
 		       throw new RuntimeException("선택한 시간에 예약이 이미 존재합니다.");
 		}
-		mapper.insertroom(cafe_no, num_using, user_id, new java.sql.Date(start_time.getTime()), new java.sql.Date(end_time.getTime()), usetime*60);
+		mapper.insertroom(cafe_no, num_using, user_id, start_time, end_time, usetime*60);
 		mapper.updateRemainingRoomTime(usetime*60, user_id);
 	}
 
 	@Override
 	public void returnroom(String user_id, int cafe_no, int num_using, Date start_time, Date end_time, int usetime) {
-		mapper.returnroom(cafe_no, num_using, user_id, new java.sql.Date(start_time.getTime()), new java.sql.Date(end_time.getTime()));
+		mapper.returnroom(cafe_no, num_using, user_id, start_time, end_time);
 		mapper.updateRemainingRoomTime(usetime, user_id);
 	}
 

@@ -410,11 +410,17 @@ select {
 		var end_time;
 		var user_id;
 		function click(num, start, end, id){
-			num_using = num;
-			start_time = start;
-			end_time = end;
-			user_id = id;
-			$("#returnroom").dialog("open");
+			const now = new Date();
+			const check_time = new Date(start);
+			if(now.getTime() > check_time.getTime()){
+				$("#timeout").dialog("open");
+			}else{
+				num_using = num;
+				start_time = start;
+				end_time = end;
+				user_id = id;
+				$("#returnroom").dialog("open");
+			}
 		}
 		
 		function reservation(){
