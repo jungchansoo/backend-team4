@@ -16,5 +16,6 @@ public interface ReviewBoardService {
 	
 	public boolean upvote(Long reviewNo);
 	public boolean downvote(Long reviewNo);
-
+	public boolean cancelUpvote(Long reviewNo);
+	public boolean canceldownvote(Long reviewNo);
 }
