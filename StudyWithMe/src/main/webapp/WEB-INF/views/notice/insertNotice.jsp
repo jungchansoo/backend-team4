@@ -193,7 +193,7 @@
 						</td>
 					</tr>
 					
-					<tr>
+					<!-- <tr>
 						<td>이미지 업로드</td>
 						<td>
 							<div class='uploadDiv'>
@@ -202,7 +202,7 @@
 	
 							<button id='uploadBtn'> Upload </button>
 						</td>
-					</tr>
+					</tr> -->
 				</table>
 				
 				<div class="btn-div">

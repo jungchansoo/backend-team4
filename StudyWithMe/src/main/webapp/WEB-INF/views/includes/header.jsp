@@ -108,66 +108,89 @@
 	</nav>
 	
 	<script>
-		var cafeNum = <%= session.getAttribute("cafeNum") %>;
-		console.log("*******cafeNum : " + cafeNum);
-		
+		var cafeNum;
 		function checkCafeNoForSeat(event) {
-			cafeNum = <%= session.getAttribute("cafeNum") %>;
-			console.log("*******cafeNum : " + cafeNum);
+			event.preventDefault();
 			
-	    	event.preventDefault();
-	    	
-		    if (cafeNum === null || cafeNum === undefined || cafeNum === '') {
-		        alert('스터디카페 선택 후 이용해주세요');
-		        
-		        window.location.href = '/';
-		        return false;
-		      }
-		    else {
-		        window.location.href = '/userstudyseat';
-		      }
+			$.ajax({
+				type: "GET",
+				url: "/getCafeNum",
+				success: function(data) {
+					cafeNum = data;
+					
+					if (cafeNum === null || cafeNum === undefined || cafeNum === '') {
+				        alert('스터디카페 선택 후 이용해주세요');
+				        
+				        window.location.href = '/';
+				        return false;
+				      }
+				    else {
+				        window.location.href = '/userstudyseat';
+				      }
+				}
+			});
 		}
 		
 		function checkCafeNoForLocker(event) {
-	    	event.preventDefault();
-	    	
-		    if (cafeNum === null || cafeNum === undefined || cafeNum === '') {
-		        alert('스터디카페 선택 후 이용해주세요');
-		        
-		        window.location.href = '/';
-		        return false;
-		      }
-		      else {
-		        window.location.href = '/userstudylocker';
-		      }
+			event.preventDefault();
+			
+			$.ajax({
+				type: "GET",
+				url: "/getCafeNum",
+				success: function(data) {
+					cafeNum = data;
+					
+					if (cafeNum === null || cafeNum === undefined || cafeNum === '') {
+				        alert('스터디카페 선택 후 이용해주세요');
+				        
+				        window.location.href = '/';
+				        return false;
+				      }
+				    else {
+				        window.location.href = '/userstudylocker';
+				      }
+				}
+			});
 		}
 		
 		function checkCafeNoForStudyRoom(event) {
-	    	event.preventDefault();
-	    	
-		    if (cafeNum === null || cafeNum === undefined || cafeNum === '') {
-		        alert('스터디카페 선택 후 이용해주세요');
-		        
-		        window.location.href = '/';
-		        return false;
-		      }
-		      else {
-		        window.location.href = '/userstudyroom';
-		      }
+			$.ajax({
+				type: "GET",
+				url: "/getCafeNum",
+				success: function(data) {
+					cafeNum = data;
+					
+					if (cafeNum === null || cafeNum === undefined || cafeNum === '') {
+				        alert('스터디카페 선택 후 이용해주세요');
+				        
+				        window.location.href = '/';
+				        return false;
+				      }
+				    else {
+				        window.location.href = '/userstudyroom';
+				      }
+				}
+			});
 		}
 		
 		function checkCafeNoForReview(event) {
-	    	event.preventDefault();
-	    	
-		    if (cafeNum === null || cafeNum === undefined || cafeNum === '') {
-		        alert('스터디카페 선택 후 이용해주세요');
-		        
-		        window.location.href = '/';
-		        return false;
-		      }
-		      else {
-		        window.location.href = '/reviewlist';
-		      }
+			$.ajax({
+				type: "GET",
+				url: "/getCafeNum",
+				success: function(data) {
+					cafeNum = data;
+					
+					if (cafeNum === null || cafeNum === undefined || cafeNum === '') {
+				        alert('스터디카페 선택 후 이용해주세요');
+				        
+				        window.location.href = '/';
+				        return false;
+				      }
+				    else {
+				        window.location.href = '/reviewlist';
+				      }
+				}
+			});
 		}
 	</script>
 </header>
