@@ -65,7 +65,7 @@
 				</table>
 
 
-
+				<div class="mb-3">
 				<button id="upvote-btn" class="btn btn-primary">
 					<i class="bi bi-hand-thumbs-up" id="upvote-count"> ${board.upvotes} </i>
 				</button>
@@ -75,45 +75,38 @@
 				<button id="downvote-btn" class="btn btn-danger">
 					<i class="bi bi-hand-thumbs-down" id="downvote-count"> ${board.downvotes}</i>
 				</button>
+				</div>
 
 			</div>
 			<input type="hidden" id="reviewNo" data-review-no="${board.reviewNo}">
 			<input type="hidden" id="userId" value="${pageContext.request.userPrincipal.name}" />
-
-			<div class="btn-div">
-				<!-- 모달창 -->
-				<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="deleteModalLabel">리뷰 삭제</h5>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-							<div class="modal-body">정말로 리뷰 글을 삭제하시겠습니까?</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary cancel" data-bs-dismiss="modal">취소</button>
-								<button type="button" class="btn btn-danger delete" onclick="deleteReview()">삭제</button>
-							</div>
-						</div>
-					</div>
+			<div>
+				<div>
+					<!-- userId와 board.userId가 일치할 때만 수정/삭제 버튼을 보여줌 -->
+					<sec:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin" />
+					<c:if test="${board.userId == pageContext.request.userPrincipal.name or isAdmin}">
+						<button data-oper='modify' class="btnForModal btn btn-outline-primary btn-lg">리뷰 수정</button>
+						<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="if(confirm('정말로 삭제하시겠습니까?')) { location.href='/deleteReview?reviewNo=${board.reviewNo}'; }">리뷰 삭제</button>
+					</c:if>
+					<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/reviewlist'">목록으로</button>
+					<form id='operForm' action="updateReview" method="get">
+						<input type='hidden' id='reviewNo' name='reviewNo' value='<c:out value="${board.reviewNo}"/>'>
+					</form>
 				</div>
 
-
-				<!-- userId와 board.userId가 일치할 때만 수정/삭제 버튼을 보여줌 -->
-				<sec:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin" />
-				<c:if test="${board.userId == pageContext.request.userPrincipal.name or isAdmin}">
-					<button data-oper='modify' class="btnForModal btn btn-outline-primary btn-lg">리뷰 수정</button>
-					<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="if(confirm('정말로 삭제하시겠습니까?')) { location.href='/deleteReview?reviewNo=${board.reviewNo}'; }">리뷰 삭제</button>
-				</c:if>
-				<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/reviewlist'">목록으로</button>
-				<form id='operForm' action="updateReview" method="get">
-					<input type='hidden' id='reviewNo' name='reviewNo' value='<c:out value="${board.reviewNo}"/>'>
-				</form>
+			<!-- Comment List -->
+			<div class="comment-list mt-5">
+				<ul id="comments" class="list-unstyled">
+					<!-- 댓글 목록이 추가될 위치 -->
+				</ul>
+				<nav aria-label="Page navigation">
+					<ul id="pagination" class="pagination justify-content-center">
+						<!-- 페이지 버튼이 추가될 위치 -->
+					</ul>
+				</nav>
 			</div>
-
 			<!-- Comment Input Form -->
 			<div class="comment-input">
-				<h3>댓글 작성</h3>
 				<form id="comment-form">
 					<div class="form-group">
 						<textarea id="comment-content" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>
@@ -121,13 +114,25 @@
 					<button type="submit" class="btn btn-primary">댓글 작성</button>
 				</form>
 			</div>
-
-			<!-- Comment List -->
-			<div class="comment-list">
-				<h3>댓글 목록</h3>
-				<ul id="comments" class="list-unstyled">
-					<!-- 댓글 목록이 추가될 위치 -->
-				</ul>
+		</div>
+		</div>
+	</div>
+		
+	<div class="btn-div">
+		<!-- 모달창 -->
+		<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="deleteModalLabel">리뷰 삭제</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">정말로 리뷰 글을 삭제하시겠습니까?</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary cancel" data-bs-dismiss="modal">취소</button>
+						<button type="button" class="btn btn-danger delete" onclick="deleteReview()">삭제</button>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -138,7 +143,8 @@
 	<script>
 		var reviewNo = $('#reviewNo').data('review-no');
 		var userId = $('#userId').val();
-
+		var isAdmin = ${isAdmin};
+		
 		const csrfTokenValue = $('#csrfToken').val();
 
 		var hasUpvoted;
@@ -372,7 +378,6 @@
 
 			var userId = $("#userId").val();
 			var reviewNo = $("#reviewNo").data("review-no");
-			var csrfTokenValue = $("#csrfToken").val();
 
 			$.ajax({
 				type : "POST",
@@ -398,28 +403,167 @@
 				alert("댓글 등록 중 오류가 발생했습니다.");
 			});
 		});
-
-		// Load comments
-		function loadComments() {
-			console.log("loadComments.... reviewNo : "+reviewNo);
-			$.getJSON("/replies/pages/" + reviewNo + "/1", function(data) {
-				console.log("data : " + JSON.stringify(data));
-
-				var comments = data.list;
-				console.log("comments : "+comments);
-				var commentList = $("#comments");
-				commentList.empty();
-				$.each(comments, function(index, comment) {
-					var commentItem = $("<li>").addClass("comment-item");
-					commentItem.append($("<p>").text(comment.content));
-					commentItem.append($("<small>").text(comment.userId + " | " + comment.createdDate));
-					commentList.append(commentItem);
-				});
-			});
+		
+		// 서버에 삭제 요청
+		function deleteComment(commentNo) {
+		    $.ajax({
+		        url: "/replies/" + commentNo,
+		        type: "DELETE",
+		        contentType: "text/plain",
+		        success: function (result) {
+		            if (result === "success") {
+		                alert("댓글이 삭제되었습니다.");
+		                loadComments(currentPage);
+		            } else {
+		                alert("댓글 삭제에 실패했습니다.");
+		            }
+		        },
+		        error: function (error) {
+		            console.log("Error:", error);
+		            alert("댓글 삭제에 실패했습니다.");
+		        }
+		    });
 		}
 
-		// Initialize comment list
-		loadComments();
+		// 서버에 수정된 내용 전송
+		function updateComment(commentNo, updatedContent) {
+		    var updatedComment = {
+		        content: updatedContent
+		    };
+
+		    $.ajax({
+		        url: "/replies/" + commentNo,
+		        type: "PUT",
+		        data: JSON.stringify(updatedComment),
+		        contentType: "application/json",
+		        success: function (result) {
+		            if (result === "success") {
+		                alert("댓글이 수정되었습니다.");
+		                loadComments(currentPage);
+		            } else {
+		                alert("댓글 수정에 실패했습니다.");
+		            }
+		        },
+		        error: function (error) {
+		            console.log("Error:", error);
+		            alert("댓글 수정에 실패했습니다.");
+		        }
+		    });
+		}
+		// Load comments
+		function loadComments(page) {
+		    if (!page) {
+		        page = 1;
+		    }
+		    console.log("loadComments.... reviewNo : " + reviewNo);
+		    console.log("Loading page: " + page);
+		    $.getJSON("/replies/pages/" + reviewNo + "/" + page, function (data) {
+		        console.log("data : " + JSON.stringify(data));
+
+		        var comments = data.list;
+		        console.log("comments : " + comments);
+		        var commentList = $("#comments");
+		        commentList.empty();
+		        $.each(comments, function (index, comment) {
+		            var commentItem = $("<li>").addClass("comment-item media mb-3");
+		            var commentBody = $("<div>").addClass("media-body");
+
+		            var commentHeader = $("<div>").addClass("d-flex mb-3");
+		            var userIdElem = $("<h6>").addClass("text-muted").text(comment.userId);
+		            var contentElem = $("<h6>").addClass("mt-0 mb-1 text-left").text(comment.content);
+		            var createdDateElem = $("<small>").addClass("text-muted text-right").text(comment.createdDate);
+
+		            commentHeader.append(userIdElem);
+/* 		            commentHeader.append(contentElem);
+ */		            commentHeader.append(createdDateElem);
+
+
+		            commentBody.append(commentHeader);
+ 		            commentBody.append(contentElem);
+            		commentItem.append(commentBody);
+		            commentList.append(commentItem);
+		            
+		         	// 수정/삭제 버튼 추가
+		            if (userId === comment.userId || isAdmin) {
+		                var editButton = $("<button>").addClass("btn btn-sm btn-secondary mr-1").text("수정");
+		                var deleteButton = $("<button>").addClass("btn btn-sm btn-danger").text("삭제");
+
+		                // 수정 버튼 클릭 이벤트
+		                editButton.on("click", function () {
+		                    var originalContent = commentItem.find("h6").text();
+		                    var inputContent = $("<input>").attr("type", "text").val(originalContent);
+		                    commentItem.find("h6").replaceWith(inputContent);
+		                    editButton.text("수정완료");
+
+		                    // 수정 완료 버튼 클릭 이벤트
+		                    editButton.on("click", function () {
+		                        var updatedContent = inputContent.val();
+		                     	// 수정 완료 버튼 클릭 이벤트
+		                        updateBtn.on("click", function () {
+		                            var updatedContent = editArea.val();
+		                            updateComment(comment.commentNo, updatedContent);
+		                        });
+		                        inputContent.replaceWith($("<h6>").addClass("mt-0 mb-1").text(updatedContent));
+		                        editButton.text("수정");
+		                    });
+		                });
+
+		                // 삭제 버튼 클릭 이벤트
+		                deleteButton.on("click", function () {
+		                    // 서버에 삭제 요청
+							deleteBtn.on("click", function () {
+							    deleteComment(comment.commentNo);
+							});	
+		                    commentItem.remove();
+		                });
+
+		                commentItem.append(editButton);
+		                commentItem.append(deleteButton);
+		            }
+		        });
+		        commentList.css({
+		            "width": "95%",
+		            "margin": "0 auto"
+		        });
+		        
+		        /* 페이징 처리 */
+		        var pagination = $("#pagination");
+		        pagination.empty();
+		        var totalPages = Math.ceil(data.commentCnt / 10);
+		        var startPage = Math.floor((page - 1) / 10) * 10 + 1;
+		        var endPage = startPage + 9;
+		        if (endPage > totalPages) {
+		            endPage = totalPages;
+		        }
+
+		        if (startPage > 10) {
+		            var prevBtn = $("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "#").text("Prev").on("click", function (e) {
+		                e.preventDefault();
+		                loadComments(startPage - 10);
+		            }));
+		            pagination.append(prevBtn);
+		        }
+
+		        for (var i = startPage; i <= endPage; i++) {
+		            (function (i) {
+		                var pageBtn = $("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "#").text(i).on("click", function (e) {
+		                    e.preventDefault();
+		                    loadComments(i);
+		                }));
+		                pagination.append(pageBtn);
+		            })(i);
+		        }
+
+		        if (endPage < totalPages) {
+		            var nextBtn = $("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "#").text("Next").on("click", function (e) {
+		                e.preventDefault();
+		                loadComments(endPage + 1);
+		            }));
+		            pagination.append(nextBtn);
+		        }
+		    });
+		}
+		loadComments(1);
 	</script>
 </body>
 <%@include file="../includes/footer.jsp"%>

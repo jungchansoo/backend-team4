@@ -49,7 +49,7 @@
 			and review_No>0
 			and rownum <= #{cri.pageNum} * #{cri.amount}
 			)
-			where rn > (#{cri.pageNum} -1) * #{cri.amount}
+			where rn > (#{cri.pageNum} -1) * #{cri.amount} order by comment_no ASC
 	]]>
 
 	</select>
