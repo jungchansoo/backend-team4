@@ -13,6 +13,13 @@ function clickSearchBtn() {
     console.log("clickSearchBtn 호출");
     $('#searchModal').modal('show');
 }
+
+// errorMessage 파라미터가 있는 경우, 모달을 보여줍니다.
+var errorMessage = '${errorMessage}';
+if (errorMessage !== null && errorMessage !== undefined && errorMessage.length !== 0) {
+	$('#errorMessageModal').modal('show');
+}
+
 $(document).ready(function(){
     var actionForm = $("#actionForm");
 
@@ -218,6 +225,14 @@ $(document).ready(function(){
         });
     };
     
+    // 배너 페이징 처리
+    const carouselElement = document.querySelector('#carouselExampleControls');
+const carousel = new bootstrap.Carousel(carouselElement);
 
+document.querySelector('.carousel-control-prev').addEventListener('click', () => {
+  carousel.prev();
+});
 
-	
+document.querySelector('.carousel-control-next').addEventListener('click', () => {
+  carousel.next();
+});

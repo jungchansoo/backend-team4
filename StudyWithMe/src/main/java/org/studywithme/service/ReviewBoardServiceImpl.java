@@ -59,4 +59,14 @@ public class ReviewBoardServiceImpl implements ReviewBoardService {
 		return mapper.increaseDownvotes(reviewNo)==1;
 	}
 
+	@Override
+	public boolean cancelUpvote(Long reviewNo) {
+		return mapper.decreaseDownvotes(reviewNo)==1;
+	}
+
+	@Override
+	public boolean canceldownvote(Long reviewNo) {
+		return mapper.decreaseDownvotes(reviewNo)==1;
+	}
+
 }

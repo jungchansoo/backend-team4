@@ -1,5 +1,7 @@
 package org.studywithme.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.studywithme.domain.Criteria;
 import org.studywithme.domain.ReviewVO;
-import org.studywithme.domain.ReviewVO;
 import org.studywithme.domain.UserVO;
 import org.studywithme.dto.PageDTO;
-import org.studywithme.service.AdminPageService;
 import org.studywithme.service.ReviewBoardService;
+import org.studywithme.service.ReviewVoteHistoryService;
 import org.studywithme.util.UserUtil;
 import org.studywithme.util.changetime;
 
@@ -29,11 +30,14 @@ public class ReviewController {
 	private ReviewBoardService service;
 
 	@Autowired
+	private ReviewVoteHistoryService voteHistoryService;
+
+	@Autowired
 	private HttpSession session;
 
 	@Autowired
 	private UserUtil util;
-	
+
 	@GetMapping("/reviewlist")
 	public String getReviewList(Model model, Criteria cri) {
 		log.info("getReviewList 호출");
@@ -66,9 +70,18 @@ public class ReviewController {
 
 	@GetMapping("/getReview")
 	public String getReview(@RequestParam("reviewNo") Long reviewNo, Model model) {
+		String userId = util.getUserDetails().getUserId();
 		ReviewVO board = service.get(reviewNo);
 		log.info("Board object retrieved: {}" + board);
 		model.addAttribute("board", board);
+		Map<String, Boolean> voteResult = voteHistoryService.getVoteStatus(userId, reviewNo);
+	    
+		Boolean hasUpvoted = voteResult.get("upvoted");
+	    Boolean hasDownvoted = voteResult.get("downvoted");
+	    model.addAttribute("userId", userId);
+	    model.addAttribute("hasUpvoted", hasUpvoted);
+	    model.addAttribute("hasDownvoted", hasDownvoted);
+
 		return "/review/getReview";
 	}
 
@@ -90,19 +103,46 @@ public class ReviewController {
 		service.remove(reviewNo);
 		return "redirect:/reviewlist";
 	}
-	
+
 	@PostMapping("/upvoteReview")
 	@ResponseBody
-	public String upvoteReview(@RequestParam("reviewNo") Long reviewNo) {
+	public String upvoteReview(@RequestParam("userId") String userId, @RequestParam("reviewNo") Long reviewNo,
+			@RequestParam("action") String action) {
 		log.info("upvoteReview...........");
 		service.upvote(reviewNo);
+		voteHistoryService.insertVoteHistory(userId, reviewNo, action);
+		
 		return "success";
-		}
+	}
 	
 	@PostMapping("/downvoteReview")
 	@ResponseBody
-	public String downvoteReview(@RequestParam("reviewNo") Long reviewNo) {
+	public String downvoteReview(@RequestParam("userId") String userId, @RequestParam("reviewNo") Long reviewNo,
+			@RequestParam("action") String action) {
+		log.info("downvoteReview...........");
 		service.downvote(reviewNo);
+		voteHistoryService.insertVoteHistory(userId, reviewNo, action);
 		return "success";
 		}
+
+	@PostMapping("/cancelReviewUpvote")
+	@ResponseBody
+	public String cancelReviewUpvote(@RequestParam("userId") String userId, @RequestParam("reviewNo") Long reviewNo,
+			@RequestParam("action") String action) {
+		log.info("CancelReviewUpvote...........");
+		voteHistoryService.removeVoteHistory(userId, reviewNo, action);
+		service.cancelUpvote(reviewNo);
+		
+		return "success";
+	}
+	
+	
+	@PostMapping("/cancelReviewDownvote")
+	@ResponseBody
+	public String cancelReviewDownvote(@RequestParam("userId") String userId, @RequestParam("reviewNo") Long reviewNo,
+			@RequestParam("action") String action){
+		voteHistoryService.removeVoteHistory(userId, reviewNo, action);
+		service.canceldownvote(reviewNo);
+		return "success";
+	}
 }

@@ -123,7 +123,7 @@
 
 .buttons-container {
 	align-items: flex-end;
-	margin-top: 13rem;
+	/* margin-top: 13rem; */
 }
 .title-text-color{
 	color: #0057B6;
@@ -139,7 +139,6 @@
 .searchBar {
     margin-top: 1.2rem;
 }
-
 #mapsearch {
 	margin-top: 0px;
 	margin-bottom: 0px;
@@ -165,3 +164,12 @@
 	display: none;
 }
 
+.carousel-control-prev,
+.carousel-control-next{
+	border: none;
+	background: 0 0;
+}
+.carousel {
+	max-width: 90%;
+	margin-top: 50px;
+}

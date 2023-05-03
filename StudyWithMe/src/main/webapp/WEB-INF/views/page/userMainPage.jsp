@@ -103,7 +103,34 @@
 							onclick="location.href='/logout'">로그아웃</button>
 					</sec:authorize>
 				</div>
+
+			<div id="carouselExampleControls" class="carousel slide"
+				data-bs-ride="carousel">
+				<div class="carousel-inner">
+					<div class="carousel-item active">
+						<img src="/resources/image/banner2.jpg" class="d-block w-100">
+					</div>
+					<div class="carousel-item">
+						<img src="/resources/image/banner1.jpg" class="d-block w-100">
+					</div>
+					<!-- <div class="carousel-item">
+						<img src="..." class="d-block w-100">
+					</div> -->
+				</div>
+				<button class="carousel-control-prev" type="button"
+					data-bs-target="#carouselExampleControls" data-bs-slide="prev" aria-label="Previous image">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				</button>
+				<button class="carousel-control-next" type="button"
+					data-bs-target="#carouselExampleControls" data-bs-slide="next" aria-label="Next image">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				</button>
+				
 			</div>
+
+			</div>
+
+
 			<div class="col-lg-6 col-md-12 mb-3">
 				<img class="img-fluid" id="mainImage"
 					src="/resources/image/mainPageImage.png" style="width: 130%;">
@@ -111,8 +138,50 @@
 					<div id="map" style="width: 500px; height: 400px;"></div>
 				</div>
 			</div>
+
 		</div>
 	</div>
+
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="errorMessageModal" tabindex="-1"
+		role="dialog" aria-labelledby="errorMessageModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="errorMessageModalLabel">에러 메시지</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>${errorMessage}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	<!-- Modal -->
+<div class="modal fade" id="errorMessageModal" tabindex="-1" role="dialog" aria-labelledby="errorMessageModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="errorMessageModalLabel">에러 메시지</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>${errorMessage}</p>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 

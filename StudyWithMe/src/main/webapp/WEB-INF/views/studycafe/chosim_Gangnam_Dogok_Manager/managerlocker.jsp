@@ -418,8 +418,9 @@ a {
 			  console.log("startTimeDate"+startTimeDate);
 
 			  // 한국 시간으로 조정 (UTC에서 9시간 더하기)
+			  //알수없는 이유로 9시간이 이미 더해진 채로 값이 나오므로, 9시간을 뺌.
 			  var kstOffset = 9 * 60 * 60 * 1000; // 9 hours in milliseconds
-			  startTimeDate.setTime(startTimeDate.getTime());
+			  startTimeDate.setTime(startTimeDate.getTime()-kstOffset);
 
 			  // 시작 시간을 원하는 형식으로 출력
 			  var formattedStartTime = formatDate(startTimeDate);
