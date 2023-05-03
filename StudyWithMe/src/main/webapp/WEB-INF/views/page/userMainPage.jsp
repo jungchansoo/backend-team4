@@ -72,19 +72,19 @@
 						<h2 id="study-title" class="mr-auto title-text-color"><%=session.getAttribute("cafeName")%></h2>
 					</sec:authorize>
 
-				</div>
-				<hr class="line-divider">
-
 				<sec:authorize access="hasRole('ROLE_USER')">
 					<div id="mapsearch">
-						<h5 class="title-text-color">지도에서 찾기</h5>
+						<!-- <h5 class="title-text-color">지도에서 찾기</h5> -->
 						<button type="button" id="mapBtn"
 							class="btnForModal btn btn-outline-custom search-button"
 							onclick="maploading()">
-							<i class="bi bi-search"></i>
+							<i class="bi bi-map"></i>
 						</button>
 					</div>
 				</sec:authorize>
+
+				</div>
+				<hr class="line-divider">
 
 				<div class="d-flex buttons-container mb-3">
 					<sec:authorize access="hasRole('ROLE_USER')">
@@ -135,55 +135,12 @@
 				<img class="img-fluid" id="mainImage"
 					src="/resources/image/mainPageImage.png" style="width: 130%;">
 				<div id="map-wrapper">
-					<div id="map" style="width: 500px; height: 400px;"></div>
+					<div id="map" style="width: 550px; height: 500px;"></div>
 				</div>
 			</div>
 
 		</div>
 	</div>
-
-
-
-	<!-- Modal -->
-	<div class="modal fade" id="errorMessageModal" tabindex="-1"
-		role="dialog" aria-labelledby="errorMessageModalLabel"
-		aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="errorMessageModalLabel">에러 메시지</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<p>${errorMessage}</p>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	
-	
-	<!-- Modal -->
-<div class="modal fade" id="errorMessageModal" tabindex="-1" role="dialog" aria-labelledby="errorMessageModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="errorMessageModalLabel">에러 메시지</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>${errorMessage}</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-
 
 	<!-- Modal -->
 	<div class="modal" id="searchModal">
