@@ -34,7 +34,7 @@ public class UserPageController {
 			model.addAttribute("name",util.getUserDetails().getUserName());
 			model.addAttribute("lists", service.studycafeallList());
 			model.addAttribute("errorMessage", errorMessage);
-			
+			model.addAttribute("cafeno",session.getAttribute("cafeNum"));
 			log.info("errorMessage : " + errorMessage);
 			
 			if(util.getUserDetails().getRole().equals("ROLE_MANAGER")) {

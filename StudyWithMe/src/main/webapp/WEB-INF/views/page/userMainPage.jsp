@@ -234,6 +234,14 @@
 
 	<!-- 서버사이드로 실행하면 안되는 코드임, 일부러 jsp파일에 넣은거 -->
 	<script>
+		if('${cafeno}'){
+			<c:forEach items='${lists}' var='item'>
+				if('${cafeno}' == '${item.cafe_no}'){
+					var studytitle = document.getElementById("study-title");
+					studytitle.textContent = '${item.name}';
+				}
+			</c:forEach>
+		}
 		function maploading() {
 			var mapWrapper = document.getElementById('map-wrapper');
 			var mainImage = document.getElementById('mainImage');
