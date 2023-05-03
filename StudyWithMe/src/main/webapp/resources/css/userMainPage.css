@@ -161,3 +161,7 @@
   font-size: 1rem; /* 버튼의 글꼴 크기를 1.5rem으로 설정 */
   padding-top: 10px;
 }
+#map-wrapper {
+	display: none;
+}
+

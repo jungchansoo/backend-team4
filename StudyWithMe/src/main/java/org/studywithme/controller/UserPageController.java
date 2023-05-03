@@ -30,11 +30,11 @@ public class UserPageController {
 		if(util.getUserDetails()!=null) {
 			model.addAttribute("id", util.getUserDetails().getUserId());
 			model.addAttribute("name",util.getUserDetails().getUserName());
-			
+			model.addAttribute("lists", service.studycafeallList());
 			if(util.getUserDetails().getRole().equals("ROLE_MANAGER")) {
 				System.out.print("ROLE MANAGER 로그인");
 				StudyCafeVO cafeVO = service.getStudyCafeByUserID(util.getUserDetails().getUserId());
-
+				
 				session.setAttribute("cafeNum", cafeVO.getCafe_no());				
 				session.setAttribute("cafeName", cafeVO.getName());
 			}

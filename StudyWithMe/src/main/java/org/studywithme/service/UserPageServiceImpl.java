@@ -31,4 +31,9 @@ public class UserPageServiceImpl implements UserPageService {
 		return mapper.getStudyCafeByUserID(userId);
 	}
 
+	@Override
+	public List<StudyCafeVO> studycafeallList() {
+		return mapper.getallstudycafe();
+	}
+
 }

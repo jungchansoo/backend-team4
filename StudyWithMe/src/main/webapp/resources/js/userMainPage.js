@@ -1,4 +1,8 @@
 var cafenoforqr;
+function set_qrnum(num){
+ cafenoforqr = num;
+}
+
 function clickQrBtn() {
     console.log("clickQrBtn 호출");
     var qrImage = document.getElementById("qr_image");
@@ -172,7 +176,7 @@ $(document).ready(function(){
                 },
                 success: function(response) {
                     console.log(response);
-                    cafenoforqr = cafeNum;
+                    set_qrnum(cafeNum);
                 }
             });
             
@@ -214,20 +218,6 @@ $(document).ready(function(){
         });
     };
     
-   	
 
-function maploading() {
-	var mapWrapper = document.getElementById('map-wrapper');
-	var mainImage = document.getElementById('mainImage');
-	
-  mainImage.style.display = 'none';
-  mapWrapper.style.display = 'block';
-  
-  var map = new kakao.maps.Map(document.getElementById('map'), {
-    center: new kakao.maps.LatLng(37.506502, 127.053617),
-    level: 3
-  });
-  
-}
 
 	
