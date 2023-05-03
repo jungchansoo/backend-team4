@@ -108,6 +108,9 @@
 	transform: scale(1.15); /* 전체 크기 25% 증가 */
 	
 }
+#study-title{
+	font-size: 1.87rem;
+}
 
 .search-button {
     margin-top: 0;
@@ -129,6 +132,7 @@
 .title-text-color{
 	color: #0057B6;
 	font-weight: bold;
+	font-size: xxx-large;
 }
 .user-text-color{
 	color: #2196F3;
