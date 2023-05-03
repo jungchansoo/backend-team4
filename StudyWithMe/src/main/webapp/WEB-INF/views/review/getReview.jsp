@@ -2,6 +2,8 @@
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +14,8 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> <!-- 이 부분 추가 -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- 이 부분 추가 -->
 
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -59,26 +62,24 @@
 							</div>
 						</td>
 					</tr>
-					<tr>
-						<td>좋아요</td>
-						<td class="">
-							<button id="upvote-btn" class="btn btn-primary">
-								<i class="fas fa-thumbs-up"></i> <div id="upvote-count"> ${board.upvotes}</div>
-							</button>
-						</td>
-					</tr>
-					<tr>
-						<td>싫어요</td>
-						<td class="">
-							<button id="downvote-btn" class="btn btn-danger">
-								<i class="fas fa-thumbs-down"></i><div id="downvote-count"> ${board.downvotes}</div>
-							</button>
-						</td>
-					</tr>
 				</table>
+
+
+
+				<button id="upvote-btn" class="btn btn-primary">
+					<i class="bi bi-hand-thumbs-up" id="upvote-count"> ${board.upvotes} </i>
+				</button>
+
+
+
+				<button id="downvote-btn" class="btn btn-danger">
+					<i class="bi bi-hand-thumbs-down" id="downvote-count"> ${board.downvotes}</i>
+				</button>
+
 			</div>
 			<input type="hidden" id="reviewNo" data-review-no="${board.reviewNo}">
-			
+			<input type="hidden" id="userId" value="${pageContext.request.userPrincipal.name}" />
+
 			<div class="btn-div">
 				<!-- 모달창 -->
 				<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -96,6 +97,8 @@
 						</div>
 					</div>
 				</div>
+
+
 				<!-- userId와 board.userId가 일치할 때만 수정/삭제 버튼을 보여줌 -->
 				<sec:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin" />
 				<c:if test="${board.userId == pageContext.request.userPrincipal.name or isAdmin}">
@@ -107,11 +110,317 @@
 					<input type='hidden' id='reviewNo' name='reviewNo' value='<c:out value="${board.reviewNo}"/>'>
 				</form>
 			</div>
+
+			<!-- Comment Input Form -->
+			<div class="comment-input">
+				<h3>댓글 작성</h3>
+				<form id="comment-form">
+					<div class="form-group">
+						<textarea id="comment-content" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>
+					</div>
+					<button type="submit" class="btn btn-primary">댓글 작성</button>
+				</form>
+			</div>
+
+			<!-- Comment List -->
+			<div class="comment-list">
+				<h3>댓글 목록</h3>
+				<ul id="comments" class="list-unstyled">
+					<!-- 댓글 목록이 추가될 위치 -->
+				</ul>
+			</div>
 		</div>
 	</div>
 
 	<!-- js 파일 경로 -->
-	<script type="text/javascript" src="/resources/js/getReview.js"></script>
+	<!-- 	<script type="text/javascript" src="/resources/js/getReview.js?var=2>"></script>
+ -->
+	<script>
+		var reviewNo = $('#reviewNo').data('review-no');
+		var userId = $('#userId').val();
+
+		const csrfTokenValue = $('#csrfToken').val();
+
+		var hasUpvoted;
+		var hasDownvoted;
+
+		$(document).ready(function() {
+			var operForm = $("#operForm");
+			$("button[data-oper='modify']").on("click", function(e) {
+				operForm.attr("action", "/updateReview").submit();
+			});
+			hasUpvoted = '${hasUpvoted}' === 'true';
+			hasDownvoted = '${hasDownvoted}' === 'true';
+			updateUpvoteButton(hasUpvoted);
+			updateDownvoteButton(hasDownvoted);
+
+		});
+		function updateUpvoteButton(hasUpvoted) {
+			if (hasUpvoted) {
+				$("#upvote-btn").removeClass("btn-light").addClass(
+						"btn-primary");
+			} else {
+				$("#upvote-btn").removeClass("btn-primary").addClass(
+						"btn-light");
+			}
+		}
+
+		function updateDownvoteButton(hasDownvoted) {
+			if (hasDownvoted) {
+				$("#downvote-btn").removeClass("btn-light").addClass(
+						"btn-danger");
+			} else {
+				$("#downvote-btn").removeClass("btn-danger").addClass(
+						"btn-light");
+			}
+		}
+
+		$(function() {
+			$("#start-date").datepicker();
+			$("#end-date").datepicker();
+		});
+
+		$(function() {
+			$(".datepicker").datepicker({
+				dateFormat : "yy-mm-dd"
+			});
+		});
+
+		$(function() {
+			$("#datepicker").datepicker({
+				dateFormat : "yy-mm-dd",
+				onSelect : function(dateText) {
+					$("#selected-date").text("Selected date: " + dateText);
+				}
+			});
+
+			$("#datepicker-trigger").click(function() {
+				$("#datepicker").datepicker("show");
+			});
+		});
+
+		function confirmDelete() {
+			// 모달창 띄우기
+			$('#deleteModal').modal('show');
+		}
+
+		function deleteReview() {
+			// Review 삭제 요청을 보내는 AJAX 요청 코드
+			$.ajax({
+				url : '/deleteReview',
+				type : 'POST',
+				headers : {
+					'X-CSRF-TOKEN' : csrfTokenValue
+				},
+				data : {
+					reviewNo : '${board.reviewNo}'
+				},
+				success : function(result) {
+					window.location.href = '/reviewlist';
+				},
+				error : function(xhr, status, error) {
+					alert('삭제에 실패하였습니다.');
+				}
+			});
+		}
+
+		$(document).on("click", "button.btn-danger delete", function() {
+			confirmDelete();
+		});
+
+		$(document).on("click", "button#delete-confirm-button", function() {
+			deleteReview();
+		});
+
+		// 좋아요 버튼 클릭 이벤트
+
+		$("#upvote-btn")
+				.on(
+						"click",
+						function() {
+							console.log("reviewNo: " + reviewNo);
+							var action = hasUpvoted ? "cancelReviewUpvote"
+									: "upvoteReview";
+							console.log('userId:' + userId);
+							console.log('action:' + action);
+
+							$
+									.ajax({
+										type : "POST",
+										url : "/" + action,
+										headers : {
+											'X-CSRF-TOKEN' : csrfTokenValue
+										},
+										data : {
+											userId : userId,
+											reviewNo : reviewNo,
+											action : 'upvote'
+										}
+									})
+									.done(
+											function(data) {
+												if (data === "success") {
+													console
+															.log("Upvote success!");
+													var currentUpvotes = parseInt(
+															$("#upvote-count")
+																	.text(), 10);
+													if (action === "upvoteReview") {
+														$("#upvote-count")
+																.text(
+																		currentUpvotes + 1);
+													} else {
+														$("#upvote-count")
+																.text(
+																		currentUpvotes - 1);
+													}
+													hasUpvoted = !hasUpvoted;
+													updateUpvoteButton(hasUpvoted);
+												} else {
+													console
+															.log("Upvote failed. Data: "
+																	+ data);
+												}
+											})
+									.fail(
+											function(jqXHR, textStatus,
+													errorThrown) {
+												console
+														.log("Upvote AJAX request failed. Status: "
+																+ textStatus
+																+ ", Error: "
+																+ errorThrown);
+												console
+														.log("Response: "
+																+ JSON
+																		.stringify(jqXHR));
+											});
+						});
+
+		// 싫어요 버튼 클릭 이벤트
+		$("#downvote-btn")
+				.on(
+						"click",
+						function() {
+							console.log("reviewNo: " + reviewNo);
+							var action = hasDownvoted ? "cancelReviewDownvote"
+									: "downvoteReview";
+							console.log('userId:' + userId);
+							console.log('action:' + action);
+
+							$
+									.ajax({
+										type : "POST",
+										url : "/" + action,
+										headers : {
+											'X-CSRF-TOKEN' : csrfTokenValue
+										},
+										data : {
+											userId : userId,
+											reviewNo : reviewNo,
+											action : 'downvote'
+										}
+									})
+									.done(
+											function(data) {
+												if (data === "success") {
+													console
+															.log("Downvote success!");
+													var currentDownvotes = parseInt(
+															$("#downvote-count")
+																	.text(), 10);
+													if (action === "downvoteReview") {
+														$("#downvote-count")
+																.text(
+																		currentDownvotes + 1);
+													} else {
+														$("#downvote-count")
+																.text(
+																		currentDownvotes - 1);
+													}
+													hasDownvoted = !hasDownvoted;
+													updateDownvoteButton(hasDownvoted);
+												} else {
+													console
+															.log("Downvote failed. Data: "
+																	+ data);
+												}
+											})
+									.fail(
+											function(jqXHR, textStatus,
+													errorThrown) {
+												console
+														.log("Upvote AJAX request failed. Status: "
+																+ textStatus
+																+ ", Error: "
+																+ errorThrown);
+												console
+														.log("Response: "
+																+ JSON
+																		.stringify(jqXHR));
+											});
+						});
+
+		// Comment submission
+		$("#comment-form").submit(function(event) {
+			event.preventDefault();
+			var commentContent = $("#comment-content").val().trim();
+			if (commentContent === "") {
+				alert("댓글을 입력하세요.");
+				return;
+			}
+
+			var userId = $("#userId").val();
+			var reviewNo = $("#reviewNo").data("review-no");
+			var csrfTokenValue = $("#csrfToken").val();
+
+			$.ajax({
+				type : "POST",
+				url : "/replies/new",
+				headers : {
+					'X-CSRF-TOKEN' : csrfTokenValue
+				},
+				contentType : "application/json",
+				data : JSON.stringify({
+					userId : userId,
+					reviewNo : reviewNo,
+					content : commentContent
+				})
+			}).done(function(data) {
+				if (data === "success") {
+					alert("댓글이 성공적으로 등록되었습니다.");
+					$("#comment-content").val("");
+					loadComments();
+				} else {
+					alert("댓글 등록에 실패했습니다.");
+				}
+			}).fail(function(jqXHR, textStatus, errorThrown) {
+				alert("댓글 등록 중 오류가 발생했습니다.");
+			});
+		});
+
+		// Load comments
+		function loadComments() {
+			console.log("loadComments.... reviewNo : "+reviewNo);
+			$.getJSON("/replies/pages/" + reviewNo + "/1", function(data) {
+				console.log("data : " + JSON.stringify(data));
+
+				var comments = data.list;
+				console.log("comments : "+comments);
+				var commentList = $("#comments");
+				commentList.empty();
+				$.each(comments, function(index, comment) {
+					var commentItem = $("<li>").addClass("comment-item");
+					commentItem.append($("<p>").text(comment.content));
+					commentItem.append($("<small>").text(comment.userId + " | " + comment.createdDate));
+					commentList.append(commentItem);
+				});
+			});
+		}
+
+		// Initialize comment list
+		loadComments();
+	</script>
 </body>
 <%@include file="../includes/footer.jsp"%>
 </html>

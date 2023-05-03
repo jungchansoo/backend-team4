@@ -1,4 +1,8 @@
 var cafenoforqr;
+function set_qrnum(num){
+ cafenoforqr = num;
+}
+
 function clickQrBtn() {
     console.log("clickQrBtn 호출");
     var qrImage = document.getElementById("qr_image");
@@ -176,7 +180,7 @@ $(document).ready(function(){
                 },
                 success: function(response) {
                     console.log(response);
-                    cafenoforqr = cafeNum;
+                    set_qrnum(cafeNum);
                 }
             });
             
@@ -218,4 +222,14 @@ $(document).ready(function(){
         });
     };
     
-   
+    // 배너 페이징 처리
+    const carouselElement = document.querySelector('#carouselExampleControls');
+const carousel = new bootstrap.Carousel(carouselElement);
+
+document.querySelector('.carousel-control-prev').addEventListener('click', () => {
+  carousel.prev();
+});
+
+document.querySelector('.carousel-control-next').addEventListener('click', () => {
+  carousel.next();
+});

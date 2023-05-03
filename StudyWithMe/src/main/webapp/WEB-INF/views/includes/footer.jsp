@@ -97,7 +97,7 @@
 				<div class="footer-contact">
 					<a href="mailto:StudyWithMeForEgg4@gmail.com">Contact :
 						StudyWithMeForEgg4@gmail.com</a>
-					<p>Project team member: 정찬수, 조수빈, 황호선, 김지훈</p>
+					<p>Project team member: 정찬수, 조수빈, 황호선, 김지훈, 박미영</p>
 				</div>
 			</div>
 			<div class="footer-right">

@@ -43,6 +43,10 @@
 		WHERE rnum BETWEEN ((#{currentPage} - 1) * #{perPage} + 1) AND (#{currentPage} * #{perPage}) 
 	</select>
 	
+	<select id="getallstudycafe" resultType="org.studywithme.domain.StudyCafeVO">
+		SELECT cafe_no, name, address, qr_code, room_count, seat_count, locker_count FROM STUDY_CAFE
+	</select>
+	
 	<select id="getStudyCafeByUserID"
 		parameterType="map"
 		resultType="org.studywithme.domain.StudyCafeVO">

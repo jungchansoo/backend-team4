@@ -116,14 +116,14 @@
 .line-divider {
 	width: 30%;
 	border-bottom: 3px solid #0057B6;
-	margin-bottom: 5rem;
+	margin-bottom: 1rem;
 	margin-top: 0.5rem;
 	margin-left:0;
 }
 
 .buttons-container {
 	align-items: flex-end;
-	margin-top: 13rem;
+	/* margin-top: 13rem; */
 }
 .title-text-color{
 	color: #0057B6;
@@ -138,4 +138,38 @@
 }
 .searchBar {
     margin-top: 1.2rem;
+}
+#mapsearch {
+	margin-top: 0px;
+	margin-bottom: 0px;
+    display: flex;
+    align-items: center;
+}
+
+#mapsearch h5 {
+    margin-right: 10px;
+}
+
+#mapsearch button {
+    border: none;
+    background: none;
+    margin-left: 10px;
+}
+
+#mapBtn {
+  font-size: 1rem; /* 버튼의 글꼴 크기를 1.5rem으로 설정 */
+  padding-top: 10px;
+}
+#map-wrapper {
+	display: none;
+}
+
+.carousel-control-prev,
+.carousel-control-next{
+	border: none;
+	background: 0 0;
+}
+.carousel {
+	max-width: 90%;
+	margin-top: 50px;
 }

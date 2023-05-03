@@ -142,4 +142,16 @@
 	    SET downvotes = downvotes + 1
 	    WHERE review_no = #{reviewNo}
 	</update>
+	
+	<update id="decreaseUpvotes">
+	    UPDATE tbl_review
+	    SET upvotes = upvotes - 1
+	    WHERE review_no = #{reviewNo}
+	</update>
+	
+	<update id="decreaseDownvotes">
+	    UPDATE tbl_review
+	    SET downvotes = downvotes - 1
+	    WHERE review_no = #{reviewNo}
+	</update>
 </mapper>

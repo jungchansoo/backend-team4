@@ -33,18 +33,8 @@ public class UserStudySeatController {
 		UserVO vo = new UserUtil().getUserDetails();
 		changetime changer = new changetime();
 		String remainingSeatTime = changer.time_longtoString(vo.getRemainingSeatTime());
-		
-		
-		Integer cafeno = (Integer) session.getAttribute("cafeNum");
-		    
-	    if (cafeno == null) {
-	        model.addAttribute("message", "스터디카페를 선택한 후 이용해주세요.");
-	        model.addAttribute("redirectUrl", "/home");
-	        return "modal";
-	    }
-		
-		
-		//int cafeno = (int) session.getAttribute("cafeNum");
+
+		int cafeno = (int) session.getAttribute("cafeNum");
 		model.addAttribute("map", service.myuseseat(vo.getUserId()));
 		model.addAttribute("cafeno", cafeno);
 		model.addAttribute("lists", service.useseat(cafeno));
