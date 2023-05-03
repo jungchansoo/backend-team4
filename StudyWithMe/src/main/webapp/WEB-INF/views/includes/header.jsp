@@ -154,6 +154,8 @@
 		}
 		
 		function checkCafeNoForStudyRoom(event) {
+			event.preventDefault();
+			
 			$.ajax({
 				type: "GET",
 				url: "/getCafeNum",
@@ -174,6 +176,8 @@
 		}
 		
 		function checkCafeNoForReview(event) {
+			event.preventDefault();
+			
 			$.ajax({
 				type: "GET",
 				url: "/getCafeNum",
