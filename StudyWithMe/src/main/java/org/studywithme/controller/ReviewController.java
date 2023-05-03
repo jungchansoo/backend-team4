@@ -70,14 +70,15 @@ public class ReviewController {
 
 	@GetMapping("/getReview")
 	public String getReview(@RequestParam("reviewNo") Long reviewNo, Model model) {
+		String userId = util.getUserDetails().getUserId();
 		ReviewVO board = service.get(reviewNo);
 		log.info("Board object retrieved: {}" + board);
 		model.addAttribute("board", board);
-		Map<String, Boolean> voteResult = voteHistoryService.getVoteStatus(util.getUserDetails().getUserId(), reviewNo);
+		Map<String, Boolean> voteResult = voteHistoryService.getVoteStatus(userId, reviewNo);
 	    
 		Boolean hasUpvoted = voteResult.get("upvoted");
 	    Boolean hasDownvoted = voteResult.get("downvoted");
-	    
+	    model.addAttribute("userId", userId);
 	    model.addAttribute("hasUpvoted", hasUpvoted);
 	    model.addAttribute("hasDownvoted", hasDownvoted);
 
@@ -118,6 +119,7 @@ public class ReviewController {
 	@ResponseBody
 	public String downvoteReview(@RequestParam("userId") String userId, @RequestParam("reviewNo") Long reviewNo,
 			@RequestParam("action") String action) {
+		log.info("downvoteReview...........");
 		service.downvote(reviewNo);
 		voteHistoryService.insertVoteHistory(userId, reviewNo, action);
 		return "success";

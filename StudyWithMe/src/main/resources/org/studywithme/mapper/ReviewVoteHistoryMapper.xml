@@ -6,7 +6,7 @@
 <mapper
 	namespace="org.studywithme.mapper.ReviewVoteHistoryMapper">
 	<resultMap id="reviewVoteHistoryMap"
-		type="org.studywithme.domain.ReviewVO">
+		type="org.studywithme.domain.ReviewVoteHistoryVO">
 		<result property="reviewVoteNo" column="REVIEW_VOTE_NO" />
 		<result property="reviewNo" column="review_no" />
 		<result property="userId" column="user_Id" />
@@ -35,6 +35,6 @@
 	</insert>
 	<delete id="deleteVoteHistory">
 		DELETE FROM TBL_REVIEW_VOTE_HISTORY
-		WHERE review_no = #{review_no} and user_id = #{userId} and action=#{action}
+		WHERE review_no = #{reviewNo} and user_id = #{userId} and action=#{action}
 	</delete>
 </mapper>
