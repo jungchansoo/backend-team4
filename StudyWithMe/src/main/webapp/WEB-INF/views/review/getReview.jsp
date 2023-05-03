@@ -98,7 +98,7 @@
 					</div>
 				</div>
 
-
+			
 				<!-- userId와 board.userId가 일치할 때만 수정/삭제 버튼을 보여줌 -->
 				<sec:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin" />
 				<c:if test="${board.userId == pageContext.request.userPrincipal.name or isAdmin}">
@@ -111,23 +111,25 @@
 				</form>
 			</div>
 
+			<!-- Comment List -->
+			<div class="comment-list mt-5">
+				<ul id="comments" class="list-unstyled">
+					<!-- 댓글 목록이 추가될 위치 -->
+				</ul>
+				<nav aria-label="Page navigation">
+					<ul id="pagination" class="pagination justify-content-center">
+						<!-- 페이지 버튼이 추가될 위치 -->
+					</ul>
+				</nav>
+			</div>
 			<!-- Comment Input Form -->
 			<div class="comment-input">
-				<h3>댓글 작성</h3>
 				<form id="comment-form">
 					<div class="form-group">
 						<textarea id="comment-content" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>
 					</div>
 					<button type="submit" class="btn btn-primary">댓글 작성</button>
 				</form>
-			</div>
-
-			<!-- Comment List -->
-			<div class="comment-list">
-				<h3>댓글 목록</h3>
-				<ul id="comments" class="list-unstyled">
-					<!-- 댓글 목록이 추가될 위치 -->
-				</ul>
 			</div>
 		</div>
 	</div>
@@ -138,7 +140,8 @@
 	<script>
 		var reviewNo = $('#reviewNo').data('review-no');
 		var userId = $('#userId').val();
-
+		var isAdmin = ${isAdmin};
+		
 		const csrfTokenValue = $('#csrfToken').val();
 
 		var hasUpvoted;
@@ -372,7 +375,6 @@
 
 			var userId = $("#userId").val();
 			var reviewNo = $("#reviewNo").data("review-no");
-			var csrfTokenValue = $("#csrfToken").val();
 
 			$.ajax({
 				type : "POST",
@@ -398,28 +400,150 @@
 				alert("댓글 등록 중 오류가 발생했습니다.");
 			});
 		});
-
-		// Load comments
-		function loadComments() {
-			console.log("loadComments.... reviewNo : "+reviewNo);
-			$.getJSON("/replies/pages/" + reviewNo + "/1", function(data) {
-				console.log("data : " + JSON.stringify(data));
-
-				var comments = data.list;
-				console.log("comments : "+comments);
-				var commentList = $("#comments");
-				commentList.empty();
-				$.each(comments, function(index, comment) {
-					var commentItem = $("<li>").addClass("comment-item");
-					commentItem.append($("<p>").text(comment.content));
-					commentItem.append($("<small>").text(comment.userId + " | " + comment.createdDate));
-					commentList.append(commentItem);
-				});
-			});
+		
+		// 서버에 삭제 요청
+		function deleteComment(commentNo) {
+		    $.ajax({
+		        url: "/replies/" + commentNo,
+		        type: "DELETE",
+		        contentType: "text/plain",
+		        success: function (result) {
+		            if (result === "success") {
+		                alert("댓글이 삭제되었습니다.");
+		                loadComments(currentPage);
+		            } else {
+		                alert("댓글 삭제에 실패했습니다.");
+		            }
+		        },
+		        error: function (error) {
+		            console.log("Error:", error);
+		            alert("댓글 삭제에 실패했습니다.");
+		        }
+		    });
 		}
 
-		// Initialize comment list
-		loadComments();
+		// 서버에 수정된 내용 전송
+		function updateComment(commentNo, updatedContent) {
+		    var updatedComment = {
+		        content: updatedContent
+		    };
+
+		    $.ajax({
+		        url: "/replies/" + commentNo,
+		        type: "PUT",
+		        data: JSON.stringify(updatedComment),
+		        contentType: "application/json",
+		        success: function (result) {
+		            if (result === "success") {
+		                alert("댓글이 수정되었습니다.");
+		                loadComments(currentPage);
+		            } else {
+		                alert("댓글 수정에 실패했습니다.");
+		            }
+		        },
+		        error: function (error) {
+		            console.log("Error:", error);
+		            alert("댓글 수정에 실패했습니다.");
+		        }
+		    });
+		}
+		// Load comments
+		function loadComments(page) {
+		    if (!page) {
+		        page = 1;
+		    }
+		    console.log("loadComments.... reviewNo : " + reviewNo);
+		    console.log("Loading page: " + page);
+		    $.getJSON("/replies/pages/" + reviewNo + "/" + page, function (data) {
+		        console.log("data : " + JSON.stringify(data));
+
+		        var comments = data.list;
+		        console.log("comments : " + comments);
+		        var commentList = $("#comments");
+		        commentList.empty();
+		        $.each(comments, function (index, comment) {
+		            var commentItem = $("<li>").addClass("comment-item");
+		            commentItem.append($("<p>").text(comment.content));
+		            commentItem.append($("<small>").text(comment.userId + " | " + comment.createdDate));
+		            commentList.append(commentItem);
+		            
+		         	// 수정/삭제 버튼 추가
+		            if (userId === comment.userId || isAdmin) {
+		                var editButton = $("<button>").addClass("btn btn-sm btn-secondary").text("수정");
+		                var deleteButton = $("<button>").addClass("btn btn-sm btn-danger").text("삭제");
+
+		                // 수정 버튼 클릭 이벤트
+		                editButton.on("click", function () {
+		                    var originalContent = commentItem.find("p").text();
+		                    var inputContent = $("<input>").attr("type", "text").val(originalContent);
+		                    commentItem.find("p").replaceWith(inputContent);
+		                    editButton.text("수정완료");
+
+		                    // 수정 완료 버튼 클릭 이벤트
+		                    editButton.on("click", function () {
+		                        var updatedContent = inputContent.val();
+		                     	// 수정 완료 버튼 클릭 이벤트
+		                        updateBtn.on("click", function () {
+		                            var updatedContent = editArea.val();
+		                            updateComment(comment.commentNo, updatedContent);
+		                        });
+		                        inputContent.replaceWith($("<p>").text(updatedContent));
+		                        editButton.text("수정");
+		                    });
+		                });
+
+		                // 삭제 버튼 클릭 이벤트
+		                deleteButton.on("click", function () {
+		                    // 서버에 삭제 요청
+							deleteBtn.on("click", function () {
+							    deleteComment(comment.commentNo);
+							});	
+		                    commentItem.remove();
+		                });
+
+		                commentItem.append(editButton);
+		                commentItem.append(deleteButton);
+		            }
+		        });
+
+		        /* 페이징 처리 */
+		        var pagination = $("#pagination");
+		        pagination.empty();
+		        var totalPages = Math.ceil(data.commentCnt / 10);
+		        var startPage = Math.floor((page - 1) / 10) * 10 + 1;
+		        var endPage = startPage + 9;
+		        if (endPage > totalPages) {
+		            endPage = totalPages;
+		        }
+
+		        if (startPage > 10) {
+		            var prevBtn = $("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "#").text("Prev").on("click", function (e) {
+		                e.preventDefault();
+		                loadComments(startPage - 10);
+		            }));
+		            pagination.append(prevBtn);
+		        }
+
+		        for (var i = startPage; i <= endPage; i++) {
+		            (function (i) {
+		                var pageBtn = $("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "#").text(i).on("click", function (e) {
+		                    e.preventDefault();
+		                    loadComments(i);
+		                }));
+		                pagination.append(pageBtn);
+		            })(i);
+		        }
+
+		        if (endPage < totalPages) {
+		            var nextBtn = $("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "#").text("Next").on("click", function (e) {
+		                e.preventDefault();
+		                loadComments(endPage + 1);
+		            }));
+		            pagination.append(nextBtn);
+		        }
+		    });
+		}
+		loadComments(1);
 	</script>
 </body>
 <%@include file="../includes/footer.jsp"%>
