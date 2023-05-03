@@ -242,6 +242,7 @@
 				}
 			</c:forEach>
 		}
+		
 		function maploading() {
 			var mapWrapper = document.getElementById('map-wrapper');
 			var mainImage = document.getElementById('mainImage');
@@ -251,7 +252,49 @@
 			var options;
 			
 			if (navigator.geolocation) {
-				alert("gps지원가능");
+				navigator.geolocation.getCurrentPosition(function(position) {
+					var lat = position.coords.latitude;
+					var lng = position.coords.longitude;
+					options = {
+						center : new kakao.maps.LatLng(33.450701, 126.570667),
+						level : 3
+					};
+
+					var map = new kakao.maps.Map(container, options);
+					var geocoder = new kakao.maps.services.Geocoder();
+
+					<c:forEach items='${lists}' var='item'>
+					geocoder.addressSearch('${item.address}',function(result, status) {
+						if (status === kakao.maps.services.Status.OK) {
+							var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+							var marker = new kakao.maps.Marker({
+								map : map,
+								position : coords
+							});
+
+							var infowindow = new kakao.maps.InfoWindow({
+								content : '<div style="width:150px;text-align:center;padding:6px 0;font-size:5px;">${item.name}</div>'
+							});
+							infowindow.open(map, marker);
+							kakao.maps.event.addListener(marker,'click',function() {
+								$.ajax({
+									type : "GET",
+									url : "/saveCafeNum",
+									data : {
+										cafeNum : '${item.cafe_no}'
+										},
+										success : function(response){
+											set_qrnum('${item.cafe_no}');
+											}
+										});
+								var studytitle = document.getElementById("study-title");
+								studytitle.textContent = '${item.name}';
+							});
+						}
+					});
+					</c:forEach>
+				});
+			} else {
 				navigator.geolocation.getCurrentPosition(function(position) {
 					var lat = position.coords.latitude;
 					var lng = position.coords.longitude;
@@ -293,15 +336,9 @@
 						}
 					});
 					</c:forEach>
-					map.setCenter(new kakao.maps.LatLng(37.497923, 127.027635));
 					map.relayout();
+					map.setCenter(new kakao.maps.LatLng(37.497923, 127.027635));
 				});
-			} else {
-				alert("gps지원불가능");
-				options = {
-					center : new kakao.maps.LatLng(37.497923, 127.027635), //지도 초기중심좌표
-					level : 3
-				};
 			}
 			
 		}
