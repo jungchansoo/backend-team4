@@ -168,9 +168,8 @@ $(document).ready(function(){
             $("#study-title").html(text);
             $('#searchModal').modal('hide')
             
-            console.log("===================cafeNum: " + cafeNum);
             // 선택된 카페의 cafeNum를 세션에 저장하는 Ajax 요청 추가
-            const cafeNum = $(this).data("cafe-num");
+            const cafeNum = $(this).data("cafe-num");            
             console.log("cafeNum: " + cafeNum);
             $.ajax({
                 type: "GET",
