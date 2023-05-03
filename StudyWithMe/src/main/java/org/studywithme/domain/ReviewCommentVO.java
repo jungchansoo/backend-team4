@@ -4,10 +4,10 @@ import lombok.Data;
 
 @Data
 public class ReviewCommentVO {
-	private int comment_No;
-	private int review_No;
-	private String created_Date;
-	private String updated_Date;
-	private String user_Id;
+	private long commentNo;
+	private long reviewNo;
+	private String createdDate;
+	private String updatedDate;
+	private String userId;
 	private String content;
 }
