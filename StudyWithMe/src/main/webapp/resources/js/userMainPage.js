@@ -213,3 +213,16 @@ $(document).ready(function(){
             search(keyword, currentPage);
         });
     };
+    
+    // 배너 페이징 처리
+    const carouselElement = document.querySelector('#carouselExampleControls');
+const carousel = new bootstrap.Carousel(carouselElement);
+
+document.querySelector('.carousel-control-prev').addEventListener('click', () => {
+  carousel.prev();
+});
+
+document.querySelector('.carousel-control-next').addEventListener('click', () => {
+  carousel.next();
+});
+    
