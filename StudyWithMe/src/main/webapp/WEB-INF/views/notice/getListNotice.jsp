@@ -185,23 +185,6 @@
 		</div>
 	</div>
 	
-	
-	<!-- Modal -->
-	<div id="errorMessageModal" class="modal fade" tabindex="-1" role="dialog">
-		<div class="modal-dialog modal-dialog-centered" role="document">
-	    	<div class="modal-content modal-content-size">
-		    	<div class="modal-body modal-textsize">
-		        	<p></p>
-		        </div>
-		        <div class="modal-footer modal-footer-size">
-		        	<button type="button" class="btn btn-secondary" data-dismiss="modal">확인</button>
-		        </div>
-		    </div>
-		</div>
-	</div>
-	
-
-	
 	<script>
 		const csrfTokenValue = $('#csrfToken').val();
 
@@ -237,23 +220,7 @@
 							actionForm.attr("action", "/getNotice");
 							actionForm.submit();
 				});
-					
 		});
-		
-		var cafeNum = <%= session.getAttribute("cafeNum") %>;
-		function checkCafeNo(event) {
-	    	event.preventDefault();
-	    
-		    if (cafeNum === null || cafeNum === undefined || cafeNum === '') {
-		      $('#errorMessageModal').find('.modal-body').text('스터디카페 선택 후 이용해주세요');
-		      $('#errorMessageModal').modal('show');
-		      
-		      return false;
-		    }
-		    else {
-		    	window.location.href = '/userstudyseat';
-		    }
-		}
 	</script>
 
 </body>
