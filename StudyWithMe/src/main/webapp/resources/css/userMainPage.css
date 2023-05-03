@@ -54,6 +54,7 @@
 	background-color: transparent;
 	color: #007bff;
 	border-color: #007bff;
+	margin-right: 15px;
 }
 
 .btn-outline-custom:hover {
@@ -104,8 +105,11 @@
 }
 .title-container {
 	margin-top: 5rem;
-	transform: scale(1.1); /* 전체 크기 25% 증가 */
+	transform: scale(1.15); /* 전체 크기 25% 증가 */
 	
+}
+#study-title{
+	font-size: 1.87rem;
 }
 
 .search-button {
@@ -123,11 +127,12 @@
 
 .buttons-container {
 	align-items: flex-end;
-	/* margin-top: 13rem; */
+	margin-top: 2rem;
 }
 .title-text-color{
 	color: #0057B6;
 	font-weight: bold;
+	font-size: xxx-large;
 }
 .user-text-color{
 	color: #2196F3;
@@ -138,31 +143,12 @@
 }
 .searchBar {
     margin-top: 1.2rem;
-}
-#mapsearch {
-	margin-top: 0px;
-	margin-bottom: 0px;
-    display: flex;
-    align-items: center;
+    margin-right: 2rem;
 }
 
-#mapsearch h5 {
-    margin-right: 10px;
-}
-
-#mapsearch button {
-    border: none;
-    background: none;
-    margin-left: 10px;
-}
-
-#mapBtn {
-  font-size: 1rem; /* 버튼의 글꼴 크기를 1.5rem으로 설정 */
-  padding-top: 10px;
-}
 #map-wrapper {
 	display: none;
-}
+} 
 
 .carousel-control-prev,
 .carousel-control-next{
@@ -171,5 +157,5 @@
 }
 .carousel {
 	max-width: 90%;
-	margin-top: 50px;
+	margin-top: 2.1rem;
 }

@@ -59,12 +59,22 @@
 .header-nav a:hover {
 	color: #035a9e;
 }
+.modal-content-size {
+	width: 80%;
+}
+
+.modal-textsize {
+	font-size:1.2em;
+}
+
+.modal-footer-size {
+	height: 50px;
+}
 </style>
 
 <header class="header">
 	<nav class="header-nav">
 		<ul>
-
 			<li><a href="/"> <img
 					src="resources/image/logo.png" alt="로고" width="100" height="100"
 					class="header-logo">
@@ -76,10 +86,10 @@
 				<li><a href="/ticketManagement" class="header-link">이용권 관리</a></li>
 			</sec:authorize>
 			<sec:authorize access="hasAnyRole('ROLE_USER')">
-				<li><a href="/userstudyseat" class="header-link">스터디석</a></li>
-				<li><a href="/userstudylocker" class="header-link">사물함</a></li>
-				<li><a href="/userstudyroom" class="header-link">스터디룸</a></li>
-				<li><a href="/reviewlist" class="header-link">응원리뷰</a></li>
+				<li><a href="/userstudyseat" onclick="checkCafeNo(event)" class="header-link">스터디석</a></li>
+				<li><a href="/userstudylocker" onclick="checkCafeNo(event)" class="header-link">사물함</a></li>
+				<li><a href="/userstudyroom" onclick="checkCafeNo(event)" class="header-link">스터디룸</a></li>
+				<li><a href="/reviewlist" onclick="checkCafeNo(event)" class="header-link">응원리뷰</a></li>
 				<li><a href="/userinfo" class="header-link">마이페이지</a></li>
 			</sec:authorize>
 			<sec:authorize access="hasAnyRole('ROLE_MANAGER')">
@@ -96,4 +106,21 @@
 			</sec:authorize>
 		</ul>
 	</nav>
+	
+	<script>
+		var cafeNum = <%= session.getAttribute("cafeNum") %>;
+		function checkCafeNo(event) {
+	    	event.preventDefault();
+	    	
+		    if (cafeNum === null || cafeNum === undefined || cafeNum === '') {
+		        alert('스터디카페 선택 후 이용해주세요');
+		        
+		        window.location.href = '/';
+		        return false;
+		      }
+		      else {
+		        window.location.href = '/userstudyseat';
+		      }
+		}
+	</script>
 </header>
