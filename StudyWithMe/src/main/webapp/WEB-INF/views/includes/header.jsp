@@ -59,6 +59,17 @@
 .header-nav a:hover {
 	color: #035a9e;
 }
+.modal-content-size {
+	width: 80%;
+}
+
+.modal-textsize {
+	font-size:1.2em;
+}
+
+.modal-footer-size {
+	height: 50px;
+}
 </style>
 
 <header class="header">
@@ -76,9 +87,9 @@
 				<li><a href="/ticketManagement" class="header-link">이용권 관리</a></li>
 			</sec:authorize>
 			<sec:authorize access="hasAnyRole('ROLE_USER')">
-				<li><a href="/userstudyseat" class="header-link">스터디석</a></li>
-				<li><a href="/userstudylocker" class="header-link">사물함</a></li>
-				<li><a href="/userstudyroom" class="header-link">스터디룸</a></li>
+				<li><a href="/userstudyseat" onclick="checkCafeNo(event)" class="header-link">스터디석</a></li>
+				<li><a href="/userstudylocker" onclick="checkCafeNo(event)" class="header-link">사물함</a></li>
+				<li><a href="/userstudyroom" onclick="checkCafeNo(event)" class="header-link">스터디룸</a></li>
 				<li><a href="/reviewlist" class="header-link">응원리뷰</a></li>
 				<li><a href="/userinfo" class="header-link">마이페이지</a></li>
 			</sec:authorize>
@@ -96,4 +107,35 @@
 			</sec:authorize>
 		</ul>
 	</nav>
+	
+	<!-- Modal -->
+	<div id="errorMessageModal" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+	    	<div class="modal-content modal-content-size">
+		    	<div class="modal-body modal-textsize">
+		        	<p></p>
+		        </div>
+		        <div class="modal-footer modal-footer-size">
+		        	<button type="button" class="btn btn-secondary" data-dismiss="modal">확인</button>
+		        </div>
+		    </div>
+		</div>
+	</div>
+	
+	<script>
+		var cafeNum = <%= session.getAttribute("cafeNum") %>;
+		function checkCafeNo(event) {
+	    	event.preventDefault();
+	    
+		    if (cafeNum === null || cafeNum === undefined || cafeNum === '') {
+		      $('#errorMessageModal').find('.modal-body').text('스터디카페 선택 후 이용해주세요');
+		      $('#errorMessageModal').modal('show');
+		      
+		      return false;
+		    }
+		    else {
+		    	window.location.href = '/userstudyseat';
+		    }
+		}
+	</script>
 </header>

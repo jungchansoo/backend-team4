@@ -10,13 +10,9 @@ function clickSearchBtn() {
     $('#searchModal').modal('show');
 }
 
-// errorMessage 파라미터가 있는 경우, 모달을 보여줍니다.
-var errorMessage = '${errorMessage}';
-if (errorMessage !== null && errorMessage !== undefined && errorMessage.length !== 0) {
-	$('#errorMessageModal').modal('show');
-}
-
 $(document).ready(function(){
+	
+
     var actionForm = $("#actionForm");
 
     $(".paginate_button a").on(
@@ -166,11 +162,12 @@ $(document).ready(function(){
         $("#study-table tr td a").click(function() {
             const text = $(this).html();
             $("#study-title").html(text);
-            $('#searchModal').modal('hide');
-
+            $('#searchModal').modal('hide')
+            
+            console.log("===================cafeNum: " + cafeNum);
             // 선택된 카페의 cafeNum를 세션에 저장하는 Ajax 요청 추가
             const cafeNum = $(this).data("cafe-num");
-            console.log("cafeNum: "+cafeNum);
+            console.log("cafeNum: " + cafeNum);
             $.ajax({
                 type: "GET",
                 url: "/saveCafeNum",
@@ -220,3 +217,5 @@ $(document).ready(function(){
             search(keyword, currentPage);
         });
     };
+    
+   
