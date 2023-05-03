@@ -65,7 +65,7 @@
 				</table>
 
 
-
+				<div class="mb-3">
 				<button id="upvote-btn" class="btn btn-primary">
 					<i class="bi bi-hand-thumbs-up" id="upvote-count"> ${board.upvotes} </i>
 				</button>
@@ -75,41 +75,24 @@
 				<button id="downvote-btn" class="btn btn-danger">
 					<i class="bi bi-hand-thumbs-down" id="downvote-count"> ${board.downvotes}</i>
 				</button>
+				</div>
 
 			</div>
 			<input type="hidden" id="reviewNo" data-review-no="${board.reviewNo}">
 			<input type="hidden" id="userId" value="${pageContext.request.userPrincipal.name}" />
-
-			<div class="btn-div">
-				<!-- 모달창 -->
-				<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="deleteModalLabel">리뷰 삭제</h5>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-							<div class="modal-body">정말로 리뷰 글을 삭제하시겠습니까?</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary cancel" data-bs-dismiss="modal">취소</button>
-								<button type="button" class="btn btn-danger delete" onclick="deleteReview()">삭제</button>
-							</div>
-						</div>
-					</div>
+			<div>
+				<div>
+					<!-- userId와 board.userId가 일치할 때만 수정/삭제 버튼을 보여줌 -->
+					<sec:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin" />
+					<c:if test="${board.userId == pageContext.request.userPrincipal.name or isAdmin}">
+						<button data-oper='modify' class="btnForModal btn btn-outline-primary btn-lg">리뷰 수정</button>
+						<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="if(confirm('정말로 삭제하시겠습니까?')) { location.href='/deleteReview?reviewNo=${board.reviewNo}'; }">리뷰 삭제</button>
+					</c:if>
+					<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/reviewlist'">목록으로</button>
+					<form id='operForm' action="updateReview" method="get">
+						<input type='hidden' id='reviewNo' name='reviewNo' value='<c:out value="${board.reviewNo}"/>'>
+					</form>
 				</div>
-
-			
-				<!-- userId와 board.userId가 일치할 때만 수정/삭제 버튼을 보여줌 -->
-				<sec:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin" />
-				<c:if test="${board.userId == pageContext.request.userPrincipal.name or isAdmin}">
-					<button data-oper='modify' class="btnForModal btn btn-outline-primary btn-lg">리뷰 수정</button>
-					<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="if(confirm('정말로 삭제하시겠습니까?')) { location.href='/deleteReview?reviewNo=${board.reviewNo}'; }">리뷰 삭제</button>
-				</c:if>
-				<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/reviewlist'">목록으로</button>
-				<form id='operForm' action="updateReview" method="get">
-					<input type='hidden' id='reviewNo' name='reviewNo' value='<c:out value="${board.reviewNo}"/>'>
-				</form>
-			</div>
 
 			<!-- Comment List -->
 			<div class="comment-list mt-5">
@@ -130,6 +113,26 @@
 					</div>
 					<button type="submit" class="btn btn-primary">댓글 작성</button>
 				</form>
+			</div>
+		</div>
+		</div>
+	</div>
+		
+	<div class="btn-div">
+		<!-- 모달창 -->
+		<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="deleteModalLabel">리뷰 삭제</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">정말로 리뷰 글을 삭제하시겠습니까?</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary cancel" data-bs-dismiss="modal">취소</button>
+						<button type="button" class="btn btn-danger delete" onclick="deleteReview()">삭제</button>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -462,21 +465,34 @@
 		        var commentList = $("#comments");
 		        commentList.empty();
 		        $.each(comments, function (index, comment) {
-		            var commentItem = $("<li>").addClass("comment-item");
-		            commentItem.append($("<p>").text(comment.content));
-		            commentItem.append($("<small>").text(comment.userId + " | " + comment.createdDate));
+		            var commentItem = $("<li>").addClass("comment-item media mb-3");
+		            var commentBody = $("<div>").addClass("media-body");
+
+		            var commentHeader = $("<div>").addClass("d-flex mb-3");
+		            var userIdElem = $("<h6>").addClass("text-muted").text(comment.userId);
+		            var contentElem = $("<h6>").addClass("mt-0 mb-1 text-left").text(comment.content);
+		            var createdDateElem = $("<small>").addClass("text-muted text-right").text(comment.createdDate);
+
+		            commentHeader.append(userIdElem);
+/* 		            commentHeader.append(contentElem);
+ */		            commentHeader.append(createdDateElem);
+
+
+		            commentBody.append(commentHeader);
+ 		            commentBody.append(contentElem);
+            		commentItem.append(commentBody);
 		            commentList.append(commentItem);
 		            
 		         	// 수정/삭제 버튼 추가
 		            if (userId === comment.userId || isAdmin) {
-		                var editButton = $("<button>").addClass("btn btn-sm btn-secondary").text("수정");
+		                var editButton = $("<button>").addClass("btn btn-sm btn-secondary mr-1").text("수정");
 		                var deleteButton = $("<button>").addClass("btn btn-sm btn-danger").text("삭제");
 
 		                // 수정 버튼 클릭 이벤트
 		                editButton.on("click", function () {
-		                    var originalContent = commentItem.find("p").text();
+		                    var originalContent = commentItem.find("h6").text();
 		                    var inputContent = $("<input>").attr("type", "text").val(originalContent);
-		                    commentItem.find("p").replaceWith(inputContent);
+		                    commentItem.find("h6").replaceWith(inputContent);
 		                    editButton.text("수정완료");
 
 		                    // 수정 완료 버튼 클릭 이벤트
@@ -487,7 +503,7 @@
 		                            var updatedContent = editArea.val();
 		                            updateComment(comment.commentNo, updatedContent);
 		                        });
-		                        inputContent.replaceWith($("<p>").text(updatedContent));
+		                        inputContent.replaceWith($("<h6>").addClass("mt-0 mb-1").text(updatedContent));
 		                        editButton.text("수정");
 		                    });
 		                });
@@ -505,7 +521,11 @@
 		                commentItem.append(deleteButton);
 		            }
 		        });
-
+		        commentList.css({
+		            "width": "95%",
+		            "margin": "0 auto"
+		        });
+		        
 		        /* 페이징 처리 */
 		        var pagination = $("#pagination");
 		        pagination.empty();
