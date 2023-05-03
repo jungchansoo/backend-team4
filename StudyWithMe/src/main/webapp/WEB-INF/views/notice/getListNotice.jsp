@@ -179,13 +179,12 @@
 		</form>
 		
 		<div>
-			<c:if test="${loginUser.role != 'ROLE_USER'}">
+			<c:if test="${loginUser.role == 'ROLE_ADMIN' || loginUser.role == 'ROLE_MANAGER'}">
 				<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/insertNotice'">새글 등록</button>
 			</c:if>
 		</div>
 	</div>
-
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	
 	<script>
 		const csrfTokenValue = $('#csrfToken').val();
 
@@ -221,7 +220,6 @@
 							actionForm.attr("action", "/getNotice");
 							actionForm.submit();
 				});
-					
 		});
 	</script>
 
