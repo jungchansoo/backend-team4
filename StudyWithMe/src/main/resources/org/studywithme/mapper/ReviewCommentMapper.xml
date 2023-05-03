@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.studywithme.mapper.ReviewCommentMapper">
+	<resultMap id="reviewCommentResultMap"
+		type="org.studywithme.domain.ReviewCommentVO">
+		<result property="commentNo" column="comment_no" />
+		<result property="reviewNo" column="review_no" />
+		<result property="createdDate" column="created_date" />
+		<result property="updatedDate" column="updated_date" />
+		<result property="userId" column="user_id" />
+		<result property="content" column="content" />
+
+	</resultMap>
+
+	<insert id="insert">
+		insert into tbl_review_comment (comment_no,
+		review_No, content, user_Id, created_Date)
+		values (seq_review_comment.nextval,
+		#{reviewNo}, #{content}, #{userId}, sysdate)
+	</insert>
+
+	<select id="read" resultMap="reviewCommentResultMap">
+		select * from tbl_review_comment
+		where
+		comment_no=#{commentNo}
+	</select>
+	<delete id="delete">
+		delete from tbl_review_comment where comment_no =
+		#{commentNo}
+	</delete>
+	<update id="update">
+		update tbl_review_comment set content = #{content},
+		updated_date =
+		sysdate where comment_no = #{commentNo}
+	</update>
+
+	<select id="getListWithPaging" resultMap="reviewCommentResultMap">
+<![CDATA[
+		select comment_no, review_No, content, user_Id, created_Date, updated_date
+		from
+			(
+			select /*+INDEX(tbl_review SYS_C0021906) */
+			rownum rn, comment_no, review_No, content, user_Id, created_Date, updated_date
+			from tbl_review_comment
+			where review_No=#{reviewNo}
+			and review_No>0
+			and rownum <= #{cri.pageNum} * #{cri.amount}
+			)
+			where rn > (#{cri.pageNum} -1) * #{cri.amount}
+	]]>
+
+	</select>
+
+	<select id="getCountByReviewNo" resultType="int">
+	<![CDATA[
+	select count(comment_no) from tbl_review_comment where review_no = #{reviewNo}
+]]>
+	</select>
+</mapper>
+	

@@ -97,6 +97,8 @@
 						</div>
 					</div>
 				</div>
+
+
 				<!-- userId와 board.userId가 일치할 때만 수정/삭제 버튼을 보여줌 -->
 				<sec:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin" />
 				<c:if test="${board.userId == pageContext.request.userPrincipal.name or isAdmin}">
@@ -107,6 +109,25 @@
 				<form id='operForm' action="updateReview" method="get">
 					<input type='hidden' id='reviewNo' name='reviewNo' value='<c:out value="${board.reviewNo}"/>'>
 				</form>
+			</div>
+
+			<!-- Comment Input Form -->
+			<div class="comment-input">
+				<h3>댓글 작성</h3>
+				<form id="comment-form">
+					<div class="form-group">
+						<textarea id="comment-content" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>
+					</div>
+					<button type="submit" class="btn btn-primary">댓글 작성</button>
+				</form>
+			</div>
+
+			<!-- Comment List -->
+			<div class="comment-list">
+				<h3>댓글 목록</h3>
+				<ul id="comments" class="list-unstyled">
+					<!-- 댓글 목록이 추가될 위치 -->
+				</ul>
 			</div>
 		</div>
 	</div>
@@ -339,6 +360,66 @@
 																		.stringify(jqXHR));
 											});
 						});
+
+		// Comment submission
+		$("#comment-form").submit(function(event) {
+			event.preventDefault();
+			var commentContent = $("#comment-content").val().trim();
+			if (commentContent === "") {
+				alert("댓글을 입력하세요.");
+				return;
+			}
+
+			var userId = $("#userId").val();
+			var reviewNo = $("#reviewNo").data("review-no");
+			var csrfTokenValue = $("#csrfToken").val();
+
+			$.ajax({
+				type : "POST",
+				url : "/replies/new",
+				headers : {
+					'X-CSRF-TOKEN' : csrfTokenValue
+				},
+				contentType : "application/json",
+				data : JSON.stringify({
+					userId : userId,
+					reviewNo : reviewNo,
+					content : commentContent
+				})
+			}).done(function(data) {
+				if (data === "success") {
+					alert("댓글이 성공적으로 등록되었습니다.");
+					$("#comment-content").val("");
+					loadComments();
+				} else {
+					alert("댓글 등록에 실패했습니다.");
+				}
+			}).fail(function(jqXHR, textStatus, errorThrown) {
+				alert("댓글 등록 중 오류가 발생했습니다.");
+			});
+		});
+
+		// Load comments
+		function loadComments() {
+			console.log("loadComments.... reviewNo : "+reviewNo);
+			$.getJSON("/replies/pages/" + reviewNo + "/1", function(data) {
+				console.log("data : " + JSON.stringify(data));
+
+				var comments = data.list;
+				console.log("comments : "+comments);
+				var commentList = $("#comments");
+				commentList.empty();
+				$.each(comments, function(index, comment) {
+					var commentItem = $("<li>").addClass("comment-item");
+					commentItem.append($("<p>").text(comment.content));
+					commentItem.append($("<small>").text(comment.userId + " | " + comment.createdDate));
+					commentList.append(commentItem);
+				});
+			});
+		}
+
+		// Initialize comment list
+		loadComments();
 	</script>
 </body>
 <%@include file="../includes/footer.jsp"%>

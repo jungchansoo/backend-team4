@@ -8,10 +8,9 @@ import org.studywithme.domain.ReviewCommentVO;
 
 public interface ReviewCommentMapper {
 	public int insert(ReviewCommentVO vo);
-	public ReviewCommentVO read(Long rno);
-	public int delete(Long rno);
-	public int update(ReviewCommentVO reply);
-	public List<ReviewCommentVO> getListWithPaging(@Param("cri") Criteria cri, @Param("bno") Long bno);	
-	public int getCountByBno(Long bno);
-	
+	public ReviewCommentVO read(Long commentNo);
+	public int delete(Long commentNo);
+	public int update(ReviewCommentVO content);
+	public List<ReviewCommentVO> getListWithPaging(@Param("cri") Criteria cri, @Param("reviewNo") Long reviewNo);	
+	public int getCountByReviewNo(Long reviewNo);
 }
