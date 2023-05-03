@@ -111,7 +111,7 @@
 					<div class="form-group">
 						<textarea id="comment-content" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>
 					</div>
-					<button type="submit" class="btn btn-primary">댓글 작성</button>
+					<button type="submit" class="btn btn-primary">댓글 추가</button>
 				</form>
 			</div>
 		</div>
@@ -418,8 +418,7 @@
 		        success: function (result) {
 		            if (result === "success") {
 		                alert("댓글이 삭제되었습니다.");
-		                loadComments(currentPage);
-		            } else {
+	            } else {
 		                alert("댓글 삭제에 실패했습니다.");
 		            }
 		        },
@@ -448,8 +447,7 @@
 		        success: function (result) {
 		            if (result === "success") {
 		                alert("댓글이 수정되었습니다.");
-		                loadComments(currentPage);
-		            } else {
+	            } else {
 		                alert("댓글 수정에 실패했습니다.");
 		            }
 		        },
@@ -491,8 +489,8 @@
 		            
 		         	// 수정/삭제 버튼 추가
 		            if (userId === comment.userId || isAdmin) {
-		            	var editButton = $("<a>").addClass("text-secondary mr-1").attr("href", "#").text("수정");
-		            	var deleteButton = $("<a>").addClass("text-danger").attr("href", "#").text("삭제");
+		            	var editButton = $("<a>").addClass("text-secondary mr-1 font-weight-bold").attr("href", "#").text("수정");
+		            	var deleteButton = $("<a>").addClass("text-danger font-weight-bold").attr("href", "#").text("삭제");
 		            	
 		            	// 수정 버튼 클릭 이벤트
 						var inputContent;
