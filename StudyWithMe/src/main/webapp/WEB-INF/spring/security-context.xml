@@ -18,7 +18,6 @@
 	<bean id="customUserDetailsService"
 		class="org.studywithme.security.CustomUserDetailsService"></bean>
 
-
 	<security:http>
 		<!-- <security:intercept-url pattern="/sample/user" access="hasRole('ROLE_user')" 
 			/> <security:intercept-url pattern="/sample/admin" access="hasRole('ROLE_admin')" 
@@ -33,7 +32,8 @@
 		<!-- <security:csrf disabled="true"/> -->
 
 		<security:form-login login-page="/user/login"
-			authentication-success-handler-ref="customLoginSuccess" />
+			authentication-success-handler-ref="customLoginSuccess"
+			authentication-failure-url="/login?error=true" />
 
 		<!-- 604800초 = 7일 -->
 		<security:remember-me
@@ -44,7 +44,8 @@
 
 		<security:session-management>
 			<security:concurrency-control
-				max-sessions="1" expired-url="/login" error-if-maximum-exceeded="false" />
+				max-sessions="1" expired-url="/login"
+				error-if-maximum-exceeded="false" />
 		</security:session-management>
 	</security:http>
 
