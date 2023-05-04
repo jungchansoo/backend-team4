@@ -207,7 +207,7 @@
 			mapWrapper.style.display = 'block';
 			var container = document.getElementById('map');
 			var options;
-			
+			var markers = []; // 마커를 저장할 배열 선언
 			if (navigator.geolocation) {
 				navigator.geolocation.getCurrentPosition(function(position) {
 					var lat = position.coords.latitude;
@@ -247,9 +247,16 @@
 								var studytitle = document.getElementById("study-title");
 								studytitle.textContent = '${item.name}';
 							});
+							markers.push(marker); // 생성된 마커를 배열에 추가
+							
 						}
 					});
 					</c:forEach>
+					var bounds = new kakao.maps.LatLngBounds();
+					for (var i = 0; i < markers.length; i++) {
+					    bounds.extend(markers[i].getPosition());
+					}
+					map.setBounds(bounds);
 				});
 			} else {
 				navigator.geolocation.getCurrentPosition(function(position) {
