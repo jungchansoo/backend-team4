@@ -9,6 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <title>MyPage</title>
 
 <link rel="stylesheet" href="resources/css/sidebar.css" type="text/css">
