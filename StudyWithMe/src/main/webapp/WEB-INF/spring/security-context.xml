@@ -18,12 +18,33 @@
 	<bean id="customUserDetailsService"
 		class="org.studywithme.security.CustomUserDetailsService"></bean>
 
-
 	<security:http>
 		<!-- <security:intercept-url pattern="/sample/user" access="hasRole('ROLE_user')" 
 			/> <security:intercept-url pattern="/sample/admin" access="hasRole('ROLE_admin')" 
 			/> <security:intercept-url pattern="/sample/manager" access="hasRole('ROLE_manager')" 
 			/> -->
+		
+		<!-- 접근 제한 설정 -->
+
+		<!-- admin -->		
+		<security:intercept-url pattern="/userlist" access="hasRole('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/ticketManagement" access="hasRole('ROLE_ADMIN')"/>
+		
+		<!-- Manager -->			
+		<security:intercept-url pattern="/managerstudyseat" access="hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/managerlocker" access="hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/managerstudyroom" access="hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')"/>
+
+		<!-- user -->			
+		<security:intercept-url pattern="/userstudyseat" access="isAuthenticated()"/>
+		<security:intercept-url pattern="/userstudylocker" access="isAuthenticated()"/>
+		<security:intercept-url pattern="/userstudyroom" access="isAuthenticated()"/>
+		<security:intercept-url pattern="/userinfo" access="isAuthenticated()"/>
+		<security:intercept-url pattern="/reservationList" access="isAuthenticated()"/>
+		<security:intercept-url pattern="/updatePw" access="isAuthenticated()"/>
+		<security:intercept-url pattern="/deleteUser" access="isAuthenticated()"/>
+		
+		<!-- 미인증 유저 -->				
 		<security:intercept-url pattern="/**"
 			access="permitAll" />
 
@@ -33,7 +54,8 @@
 		<!-- <security:csrf disabled="true"/> -->
 
 		<security:form-login login-page="/user/login"
-			authentication-success-handler-ref="customLoginSuccess" />
+			authentication-success-handler-ref="customLoginSuccess"
+			authentication-failure-url="/login?error=true" />
 
 		<!-- 604800초 = 7일 -->
 		<security:remember-me
@@ -44,7 +66,8 @@
 
 		<security:session-management>
 			<security:concurrency-control
-				max-sessions="1" expired-url="/login" error-if-maximum-exceeded="false" />
+				max-sessions="1" expired-url="/login"
+				error-if-maximum-exceeded="false" />
 		</security:session-management>
 	</security:http>
 

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.studywithme.domain.Criteria;
 import org.studywithme.domain.ReviewCommentVO;
@@ -28,10 +29,10 @@ public class ReviewCommentController {
 	private ReviewCommentService service;
 	
 	@PostMapping(value ="/new", consumes="application/json", produces= {MediaType.TEXT_PLAIN_VALUE})
-	public ResponseEntity<String> create(@RequestBody ReviewCommentVO vo) {
+	public ResponseEntity<String> create(@RequestBody ReviewCommentVO vo, @RequestParam("reviewNo") Long reviewNo) {
 		
 		log.info("ReviewCommentVO: " + vo);
-		int insertCount = service.register(vo);
+		int insertCount = service.register(vo, reviewNo);
 		
 		log.info("Reply INSERT COUNT: " + insertCount);
 		
@@ -64,9 +65,9 @@ public class ReviewCommentController {
 	
 	
 	@DeleteMapping(value="/{commentNo}", produces = {	MediaType.TEXT_PLAIN_VALUE	}) 
-	public ResponseEntity<String> remove(@PathVariable("commentNo") Long commentNo){
+	public ResponseEntity<String> remove(@PathVariable("commentNo") Long commentNo, @RequestParam("reviewNo") Long reviewNo){
 		log.info("remove : " + commentNo);
-		return service.remove(commentNo) == 1
+		return service.remove(commentNo, reviewNo) == 1
 				? new ResponseEntity<>("success", HttpStatus.OK)
 						: new ResponseEntity<> (HttpStatus.INTERNAL_SERVER_ERROR);
 	}	

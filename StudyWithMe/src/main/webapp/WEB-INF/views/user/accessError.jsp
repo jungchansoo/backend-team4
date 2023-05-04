@@ -10,14 +10,17 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>Access Denied Page</h1>
+<!-- 헤더 -->
+<%@include file="../includes/header.jsp"%>
+
+<h1>접근이 불가능한 페이지입니다.</h1>
 
 <input type="hidden"name="${_csrf.parameterName}"value="${_csrf.token}"/>
 
 <h2><c:out value="${SPRING_SECURITY_403_EXCEPTION.getMessage()}"/></h2>
 
 <h2><c:out value="${msg}"/></h2>
-
+<h2>권한이 충분한지 확인해주세요. 불편이 계속될 경우 시스템 관리자에게 문의 부탁드립니다.</h2>
 
 </body>
 </html>

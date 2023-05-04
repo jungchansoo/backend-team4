@@ -87,6 +87,9 @@
 	    line-height: 1.5;
 	    border-radius: 1rem;
 	}
+	.pagination li.active a {
+	  font-weight: bold;
+	}
 
 </style>
 

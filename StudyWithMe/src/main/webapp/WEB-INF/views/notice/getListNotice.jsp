@@ -90,6 +90,9 @@
 	    line-height: 1.5;
 	    border-radius: 1rem;
 	}
+	.pagination li.active a {
+		font-weight: bold;
+	}
 
 </style>
 
@@ -189,40 +192,58 @@
 		const csrfTokenValue = $('#csrfToken').val();
 
 		$(document).ready(
-				function() {
-					history.replaceState({}, null, null);
-					var searchForm = $("#searchForm");
-					$("#searchForm button").on("click", function(e) {
-						searchForm
-								.find(
-										"input[name='pageNum']")
-								.val("1");
-						e.preventDefault();
-						searchForm.submit();
-					});
+		    function () {
+		        history.replaceState({}, null, null);
+		        var searchForm = $("#searchForm");
+		        $("#searchForm button").on("click",
+		            function (e) {
+		                if (!searchForm.find(
+		                    "input[name='keyword']").val()) {
+		                        alert("키워드를 입력하세요");
+		                    return false;
+		                }
+		                searchForm.find("input[name='pageNum']").val("1");
+		                e.preventDefault();
+		                searchForm.submit();
+		            });
 
-				var actionForm = $("#actionForm");
-				$(".paginate_button a").on(
-						"click",
-						function(e) {
-							e.preventDefault();
-							console.log('click');
-							actionForm.find("input[name='pageNum']").val(
-									$(this).attr("href"));
-							actionForm.submit();
-						});
-				
-				$(".move").on("click", function(e) {
-					e.preventDefault();
-					actionForm.append("<input type='hidden' name='noticeNo' value='"
-											+ $(this).attr("href")
-											+ "'>");
-							actionForm.attr("action", "/getNotice");
-							actionForm.submit();
-				});
-		});
-	</script>
+		        var actionForm = $("#actionForm");
+		        $(".paginate_button.previous a").on("click", function (e) {
+		            e.preventDefault();
+		            var page = parseInt(actionForm.find("input[name='pageNum']").val());
+		            var startPage = parseInt("${pageMaker.startPage}");
+		            if (page > 1) {
+		                actionForm.find("input[name='pageNum']").val(startPage - 1);
+		                actionForm.submit();
+		            }
+		        });
 
+		        $(".paginate_button.next a").on("click", function (e) {
+		            e.preventDefault();
+		            var page = parseInt(actionForm.find("input[name='pageNum']").val());
+		            var endPage = parseInt("${pageMaker.endPage}");
+		            var lastPage = parseInt("${pageMaker.total / pageMaker.cri.amount + (pageMaker.total % pageMaker.cri.amount == 0 ? 0 : 1)}");
+		            if (page < lastPage) {
+		                actionForm.find("input[name='pageNum']").val(endPage + 1);
+		                actionForm.submit();
+		            }
+		        });
+		        $(".paginate_button:not(.previous, .next) a").on("click",
+		            function (e) {
+		                e.preventDefault();
+		                actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+		                actionForm.submit();
+		            });
+		        $(".move").on("click",
+		            function (e) {
+		                e.preventDefault();
+		                actionForm.append("<input type='hidden' name='noticeNo' value='" + $(this).attr("href") + "'>");
+		                actionForm.attr("action", "/getNotice");
+		                actionForm.submit();
+		            });
+
+		    });
+		</script>
 </body>
 <%@include file="../includes/footer.jsp"%>
 </html>
