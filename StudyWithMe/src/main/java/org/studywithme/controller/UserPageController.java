@@ -48,7 +48,6 @@ public class UserPageController {
 		
 
 		return "page/userMainPage";
-	
 	}
 	
 }

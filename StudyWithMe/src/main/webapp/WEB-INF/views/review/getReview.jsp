@@ -81,14 +81,14 @@
 			<input type="hidden" id="reviewNo" data-review-no="${board.reviewNo}">
 			<input type="hidden" id="userId" value="${pageContext.request.userPrincipal.name}" />
 			<div>
-				<div>
+				<div class="d-flex justify-content-end">
 					<!-- userId와 board.userId가 일치할 때만 수정/삭제 버튼을 보여줌 -->
 					<sec:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin" />
 					<c:if test="${board.userId == pageContext.request.userPrincipal.name or isAdmin}">
-						<button data-oper='modify' class="btnForModal btn btn-outline-primary btn-lg">리뷰 수정</button>
-						<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="if(confirm('정말로 삭제하시겠습니까?')) { location.href='/deleteReview?reviewNo=${board.reviewNo}'; }">리뷰 삭제</button>
+						<button data-oper='modify' class="btnForModal btn btn-outline-primary btn-lg">수정</button>
+						<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="if(confirm('정말로 삭제하시겠습니까?')) { location.href='/deleteReview?reviewNo=${board.reviewNo}'; }">삭제</button>
 					</c:if>
-					<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/reviewlist'">목록으로</button>
+					<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/reviewlist'">목록</button>
 					<form id='operForm' action="updateReview" method="get">
 						<input type='hidden' id='reviewNo' name='reviewNo' value='<c:out value="${board.reviewNo}"/>'>
 					</form>
@@ -111,7 +111,7 @@
 					<div class="form-group">
 						<textarea id="comment-content" class="form-control" rows="3" placeholder="댓글을 입력하세요."></textarea>
 					</div>
-					<button type="submit" class="btn btn-primary">댓글 작성</button>
+					<button type="submit" class="btn btn-primary">댓글 추가</button>
 				</form>
 			</div>
 		</div>
@@ -406,15 +406,19 @@
 		
 		// 서버에 삭제 요청
 		function deleteComment(commentNo) {
+			console.log("deleteComment....");
+
 		    $.ajax({
 		        url: "/replies/" + commentNo,
+				headers : {
+					'X-CSRF-TOKEN' : csrfTokenValue
+				},
 		        type: "DELETE",
 		        contentType: "text/plain",
 		        success: function (result) {
 		            if (result === "success") {
 		                alert("댓글이 삭제되었습니다.");
-		                loadComments(currentPage);
-		            } else {
+	            } else {
 		                alert("댓글 삭제에 실패했습니다.");
 		            }
 		        },
@@ -427,20 +431,23 @@
 
 		// 서버에 수정된 내용 전송
 		function updateComment(commentNo, updatedContent) {
+			console.log("updateComment....");
 		    var updatedComment = {
 		        content: updatedContent
 		    };
 
 		    $.ajax({
 		        url: "/replies/" + commentNo,
+				headers : {
+					'X-CSRF-TOKEN' : csrfTokenValue
+				},
 		        type: "PUT",
 		        data: JSON.stringify(updatedComment),
 		        contentType: "application/json",
 		        success: function (result) {
 		            if (result === "success") {
 		                alert("댓글이 수정되었습니다.");
-		                loadComments(currentPage);
-		            } else {
+	            } else {
 		                alert("댓글 수정에 실패했습니다.");
 		            }
 		        },
@@ -465,61 +472,60 @@
 		        var commentList = $("#comments");
 		        commentList.empty();
 		        $.each(comments, function (index, comment) {
-		            var commentItem = $("<li>").addClass("comment-item media mb-3");
+		            var commentItem = $("<li>").addClass("comment-item media mb-3 border-bottom pb-3");
 		            var commentBody = $("<div>").addClass("media-body");
 
 		            var commentHeader = $("<div>").addClass("d-flex mb-3");
-		            var userIdElem = $("<h6>").addClass("text-muted").text(comment.userId);
+		            var userIdElem = $("<h6>").addClass("mr-5").text(comment.userId);
 		            var contentElem = $("<h6>").addClass("mt-0 mb-1 text-left").text(comment.content);
-		            var createdDateElem = $("<small>").addClass("text-muted text-right").text(comment.createdDate);
+		            var createdDateElem = $("<small>").addClass("text-muted mr-auto").text(comment.createdDate);
 
 		            commentHeader.append(userIdElem);
-/* 		            commentHeader.append(contentElem);
- */		            commentHeader.append(createdDateElem);
+		            commentHeader.append(createdDateElem);
 
 
-		            commentBody.append(commentHeader);
- 		            commentBody.append(contentElem);
-            		commentItem.append(commentBody);
-		            commentList.append(commentItem);
+
+
 		            
 		         	// 수정/삭제 버튼 추가
 		            if (userId === comment.userId || isAdmin) {
-		                var editButton = $("<button>").addClass("btn btn-sm btn-secondary mr-1").text("수정");
-		                var deleteButton = $("<button>").addClass("btn btn-sm btn-danger").text("삭제");
+		            	var editButton = $("<a>").addClass("text-secondary mr-1 font-weight-bold").attr("href", "#").text("수정");
+		            	var deleteButton = $("<a>").addClass("text-danger font-weight-bold").attr("href", "#").text("삭제");
+		            	
+		            	// 수정 버튼 클릭 이벤트
+						var inputContent;
+						editButton.on("click", function (e) {
+		            	    e.preventDefault();
+						    if (editButton.text() === "수정") {
+						        var originalContent = contentElem.text();
+						        inputContent = $("<textarea>").addClass("form-control").attr("rows", "3").val(originalContent);
+						        contentElem.replaceWith(inputContent);
+						        editButton.text("수정완료");
+						    } else {
+						        var updatedContent = inputContent.val();
+						        updateComment(comment.commentNo, updatedContent);
+						        inputContent.replaceWith(contentElem.text(updatedContent));
+						        editButton.text("수정");
+						    }
+						});
 
-		                // 수정 버튼 클릭 이벤트
-		                editButton.on("click", function () {
-		                    var originalContent = commentItem.find("h6").text();
-		                    var inputContent = $("<input>").attr("type", "text").val(originalContent);
-		                    commentItem.find("h6").replaceWith(inputContent);
-		                    editButton.text("수정완료");
+		            	// 삭제 버튼 클릭 이벤트
+		            	deleteButton.on("click", function (e) {
+		            	    e.preventDefault(); // 기본 링크 동작을 방지합니다.
+		            	    if (confirm("댓글을 삭제하시겠습니까?")) {
+		            	        deleteComment(comment.commentNo);
+		            	        commentItem.remove();
+		            	    }
+		            	});
 
-		                    // 수정 완료 버튼 클릭 이벤트
-		                    editButton.on("click", function () {
-		                        var updatedContent = inputContent.val();
-		                     	// 수정 완료 버튼 클릭 이벤트
-		                        updateBtn.on("click", function () {
-		                            var updatedContent = editArea.val();
-		                            updateComment(comment.commentNo, updatedContent);
-		                        });
-		                        inputContent.replaceWith($("<h6>").addClass("mt-0 mb-1").text(updatedContent));
-		                        editButton.text("수정");
-		                    });
-		                });
-
-		                // 삭제 버튼 클릭 이벤트
-		                deleteButton.on("click", function () {
-		                    // 서버에 삭제 요청
-							deleteBtn.on("click", function () {
-							    deleteComment(comment.commentNo);
-							});	
-		                    commentItem.remove();
-		                });
-
-		                commentItem.append(editButton);
-		                commentItem.append(deleteButton);
+		            	commentHeader.append(editButton);
+		            	commentHeader.append(deleteButton);
 		            }
+		            commentBody.append(commentHeader);
+ 		            commentBody.append(contentElem);
+		         	
+            		commentItem.append(commentBody);
+		            commentList.append(commentItem);
 		        });
 		        commentList.css({
 		            "width": "95%",
