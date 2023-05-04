@@ -381,7 +381,7 @@
 
 			$.ajax({
 				type : "POST",
-				url : "/replies/new",
+				url : "/replies/new?reviewNo=" + reviewNo,
 				headers : {
 					'X-CSRF-TOKEN' : csrfTokenValue
 				},
@@ -409,12 +409,15 @@
 			console.log("deleteComment....");
 
 		    $.ajax({
-		        url: "/replies/" + commentNo,
+		        url: "/replies/" + commentNo + "?reviewNo=" + reviewNo,
 				headers : {
 					'X-CSRF-TOKEN' : csrfTokenValue
 				},
 		        type: "DELETE",
 		        contentType: "text/plain",
+		        data: JSON.stringify({
+		            reviewNo: reviewNo
+		        }),
 		        success: function (result) {
 		            if (result === "success") {
 		                alert("댓글이 삭제되었습니다.");

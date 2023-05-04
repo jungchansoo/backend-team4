@@ -18,55 +18,23 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	align-items: center;
 	margin: auto;
-	width: 80%;
+	width: 70%;
 	min-height: 500px; /* 최소 높이 지정 */
 	padding: 20px;
 }
 
-#searchForm {
-	margin-right: 70px;
-	padding-right: 20px;
-	padding-bottom: 20px;
-	padding-right: 20px
-}
-
-.list {
+/* .list {
 	text-align: center;
-}
-
-form {
-	text-align: left;
-	padding-right: 500px;
-}
-
+} */
 .cd2 p {
-	text-align: left;
+	text-align: center;
 	font-size: 1.2em;
 	font-weight: bold;
 	padding-top: 20px;
 	padding-down: 20px;
 }
-
-.list tbody {
-	margin-top: 20px;
-	font-size: 16px;
-	line-height: 2;
-}
-
-.list table {
-	border-collapse: collapse;
-}
-
-.list thead tr {
-	border-bottom: 1px solid black;
-}
-
-.list th, .list td {
-	padding: 20px;
-}
-
+/
 .pagination {
 	list-style-type: none;
 	display: flex;
@@ -94,57 +62,51 @@ form {
 	<div class="cd2">
 		<input id="csrfToken" type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
-		<p>리뷰 목록</p>
-		<!-- 검색 기능 -->
-		<form id='searchForm' action="reviewlist" method='get'>
-			<select name='type'>
-				<option value="T" <c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>제목</option>
-				<option value="C" <c:out value="${pageMaker.cri.type eq 'C'?'selected':''}"/>>내용</option>
-				<option value="W" <c:out value="${pageMaker.cri.type eq 'W'?'selected':''}"/>>작성자</option>
-			</select>
-			<input type='text' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' />
-			<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' />
-			<input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' />
-			<button class='btn btn-default'>검색</button>
-		</form>
+		<p id="titleHead">리뷰 목록</p>
 
 
 		<div class="list">
-			<table>
-				<thead>
-					<tr>
-						<th>번호</th>
-						<th>제목</th>
-						<th>작성자</th>
-						<th>작성일</th>
-						<th>댓글</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="review" items="${reviewList}">
+			<div class="table-responsive">
+
+				<table class="table">
+					<thead>
 						<tr>
-							<td>${review.reviewNo}</td>
-							<td><a class='move' href='<c:out value="${review.reviewNo}"/>'>
-									<c:out value="${review.title}" />
-								</a></td>
-							<td>${review.userId}</td>
-							<td>${review.createdDate}</td>
-							<td>${review.replyCnt}</td>
+							<th class="col-1 text-center">번호</th>
+							<th class="col-7 text-start">제목</th>
+							<th class="col-1 text-center">작성자</th>
+							<th class="col-2 text-center">작성일</th>
+							<th class="col-1 text-center">댓글</th>
 						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						<c:forEach var="review" items="${reviewList}">
+							<tr>
+								<td class="col-1 text-center">${review.reviewNo}</td>
+								<td class="col-7 text-start"><a class='move' href='<c:out value="${review.reviewNo}"/>'>
+										<c:out value="${review.title}" />
+									</a></td>
+								<td class="col-1 text-center">${review.userId}</td>
+								<td class="col-2 text-center">${review.createdDate}</td>
+								<td class="col-1 text-center">${review.replyCnt}</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+		<div class="d-flex flex-row justify-content-end">
+			<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/insertReview'">새글 등록</button>
 		</div>
 
-
 		<div class='pull-right'>
-			<ul class="pagination">
+			<ul class="pagination d-flex flex-row justify-content-center">
 				<c:if test="${pageMaker.prev}">
 					<li class="paginate_button previous"><a href="${pageMaker.startPage -1}">Previous</a></li>
 				</c:if>
 
 				<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
-					<li class="paginate_button  ${pageMaker.cri.pageNum == num ? 'active':''} "><a href="${num}">${num}</a></li>
+<li class="paginate_button ${pageMaker.cri.pageNum == num ? 'active':''}"><a href="${num}" style="${pageMaker.cri.pageNum == num ? 'font-weight: bold;':''}">${num}</a></li>
 				</c:forEach>
 
 				<c:if test="${pageMaker.next}">
@@ -153,25 +115,101 @@ form {
 
 			</ul>
 		</div>
+		<div class="d-flex flex-row justify-content-center">
 
-		<form id="actionForm" action="noticeBoard" method="get">
+			<!-- 검색 기능 -->
+			<form id='searchForm' class="d-flex" action="reviewlist" method='get'>
+				<select name='type'>
+					<option value="T" <c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>제목</option>
+					<option value="C" <c:out value="${pageMaker.cri.type eq 'C'?'selected':''}"/>>내용</option>
+					<option value="W" <c:out value="${pageMaker.cri.type eq 'W'?'selected':''}"/>>작성자</option>
+				</select>
+				<input type='text' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' />
+				<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' />
+				<input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' />
+				<button class='btn btn-default'>검색</button>
+			</form>
+
+		</div>
+
+		<form id="actionForm" action="reviewlist" method="get">
 			<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
 			<input type="hidden" name='amount' value='${pageMaker.cri.amount}'>
 			<input type='hidden' name='type' value='<c:out value="${ pageMaker.cri.type }"/>'>
 			<input type='hidden' name='keyword' value='<c:out value="${ pageMaker.cri.keyword }"/>'>
 		</form>
 
-		<div>
-			<button type="button" class="btnForModal btn btn-outline-primary btn-lg" onclick="location.href='/insertReview'">새글 등록</button>
-		</div>
+
 
 	</div>
 
 	<input id="csrfToken" type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
 	<!-- js 파일 경로 -->
-	<script type="text/javascript" src="/resources/js/reviewList.js">	</script>
+<!-- 	<script type="text/javascript" src="/resources/js/reviewList.js">
+		
+	</script>
+	
+	 -->
+<script type="text/javascript">
+/**
+ * 
+ */
+$(document).ready(
+    function () {
+        history.replaceState({}, null, null);
+        var searchForm = $("#searchForm");
+        $("#searchForm button").on("click",
+            function (e) {
+                if (!searchForm.find(
+                    "input[name='keyword']").val()) {
+                        alert("키워드를 입력하세요");
+                    return false;
+                }
+                searchForm.find("input[name='pageNum']").val("1");
+                e.preventDefault();
+                searchForm.submit();
+            });
+
+        var actionForm = $("#actionForm");
+        $(".paginate_button.previous a").on("click", function (e) {
+            e.preventDefault();
+            var page = parseInt(actionForm.find("input[name='pageNum']").val());
+            var startPage = parseInt("${pageMaker.startPage}");
+            if (page > 1) {
+                actionForm.find("input[name='pageNum']").val(startPage - 1);
+                actionForm.submit();
+            }
+        });
+
+        $(".paginate_button.next a").on("click", function (e) {
+            e.preventDefault();
+            var page = parseInt(actionForm.find("input[name='pageNum']").val());
+            var endPage = parseInt("${pageMaker.endPage}");
+            var lastPage = parseInt("${pageMaker.total / pageMaker.cri.amount + (pageMaker.total % pageMaker.cri.amount == 0 ? 0 : 1)}");
+            if (page < lastPage) {
+                actionForm.find("input[name='pageNum']").val(endPage + 1);
+                actionForm.submit();
+            }
+        });
+        $(".paginate_button:not(.previous, .next) a").on("click",
+            function (e) {
+                e.preventDefault();
+                actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+                actionForm.submit();
+            });
+        $(".move").on("click",
+            function (e) {
+                e.preventDefault();
+                actionForm.append("<input type='hidden' name='reviewNo' value='" + $(this).attr("href") + "'>");
+                actionForm.attr("action", "/getReview");
+                actionForm.submit();
+            });
+
+    });
+</script>
 </body>
+
 <%@include file="../includes/footer.jsp"%>
 
 

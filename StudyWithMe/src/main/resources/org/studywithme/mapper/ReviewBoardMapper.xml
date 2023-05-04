@@ -154,4 +154,14 @@
 	    SET downvotes = downvotes - 1
 	    WHERE review_no = #{reviewNo}
 	</update>
+	<update id="increaseReplyCnt">
+	    UPDATE tbl_review
+	    SET reply_cnt = reply_cnt + 1
+	    WHERE review_no = #{reviewNo}
+	</update>
+	<update id="decreaseReplyCnt">
+	    UPDATE tbl_review
+	    SET reply_cnt = reply_cnt - 1
+	    WHERE review_no = #{reviewNo}
+	</update>
 </mapper>
