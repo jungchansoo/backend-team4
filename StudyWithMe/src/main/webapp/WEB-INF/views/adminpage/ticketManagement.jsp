@@ -88,7 +88,7 @@
 	    border-radius: 1rem;
 	}
 	.pagination li.active a {
-	  text-decoration: underline;
+	  font-weight: bold;
 	}
 
 </style>
