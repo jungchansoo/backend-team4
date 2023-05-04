@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.studywithme.mapper.TicketMapper">
-
+	
 	<select id="getSeatTicketList" parameterType="map" resultType="org.studywithme.domain.TicketVO">
 		SELECT ticket_no AS ticketNo
 		      ,category AS category
@@ -12,7 +12,17 @@
 		      ,charging_time AS chargingTime
 		      ,TO_CHAR(start_time, 'YYYY/MM/DD') AS startTime
 		      ,TO_CHAR(end_time, 'YYYY/MM/DD') AS endTime
-		  FROM tbl_ticket
+		  FROM (
+		       SELECT ticket_no
+		             ,category
+		             ,ticket_name
+		             ,price
+		             ,charging_time
+		             ,start_time
+		             ,end_time
+		         FROM tbl_ticket
+		        ORDER BY charging_time ASC, price ASC
+		  )
 		 WHERE SYSDATE BETWEEN start_time AND end_time
 		   AND category = #{category}
 	</select>
@@ -25,7 +35,17 @@
 		      ,charging_time AS chargingTime
 		      ,TO_CHAR(start_time, 'YYYY/MM/DD') AS startTime
 		      ,TO_CHAR(end_time, 'YYYY/MM/DD') AS endTime
-		  FROM tbl_ticket
+		  FROM (
+		       SELECT ticket_no
+		             ,category
+		             ,ticket_name
+		             ,price
+		             ,charging_time
+		             ,start_time
+		             ,end_time
+		         FROM tbl_ticket
+		        ORDER BY charging_time ASC, price ASC
+		  )
 		 WHERE SYSDATE BETWEEN start_time AND end_time
 		   AND category = #{category}
 	</select>
@@ -34,11 +54,21 @@
 		SELECT ticket_no AS ticketNo
 		      ,category AS category
 		      ,ticket_name AS ticketName
-		      ,price AS "price"
+		      ,price AS price
 		      ,charging_time AS chargingTime
 		      ,TO_CHAR(start_time, 'YYYY/MM/DD') AS startTime
 		      ,TO_CHAR(end_time, 'YYYY/MM/DD') AS endTime
-		  FROM tbl_ticket
+		  FROM (
+		       SELECT ticket_no
+		             ,category
+		             ,ticket_name
+		             ,price
+		             ,charging_time
+		             ,start_time
+		             ,end_time
+		         FROM tbl_ticket
+		        ORDER BY charging_time ASC, price ASC
+		  )
 		 WHERE SYSDATE BETWEEN start_time AND end_time
 		   AND category = #{category}
 	</select>
