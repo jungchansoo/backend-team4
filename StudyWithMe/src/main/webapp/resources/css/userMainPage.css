@@ -54,7 +54,7 @@
 	background-color: transparent;
 	color: #007bff;
 	border-color: #007bff;
-	margin-right: 15px;
+	margin-right: 0.5rem;
 }
 
 .btn-outline-custom:hover {
@@ -100,16 +100,14 @@
 
 
 /* 전체적인 틀 조정 css*/
-.mainpage{
-
-}
 .title-container {
 	margin-top: 5rem;
 	transform: scale(1.15); /* 전체 크기 25% 증가 */
-	
 }
+
 #study-title{
-	font-size: 1.87rem;
+	/* 카페이름 사이즈 조절 */
+	font-size: 1.8rem;
 }
 
 .search-button {
@@ -132,7 +130,6 @@
 .title-text-color{
 	color: #0057B6;
 	font-weight: bold;
-	font-size: xxx-large;
 }
 .user-text-color{
 	color: #2196F3;
@@ -156,6 +153,6 @@
 	background: 0 0;
 }
 .carousel {
-	max-width: 90%;
+	max-width: 93%;
 	margin-top: 2.1rem;
 }
