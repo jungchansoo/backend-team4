@@ -107,7 +107,7 @@
 
 #study-title{
 	/* 카페이름 사이즈 조절 */
-	font-size: 1.8rem;
+	font-size: 1.6rem;
 }
 
 .search-button {
@@ -122,7 +122,10 @@
 	margin-top: 0.5rem;
 	margin-left:0;
 }
-
+#chargeBtn{
+	margin-right: 3.8rem!important
+	
+}
 .buttons-container {
 	align-items: flex-end;
 	margin-top: 2rem;

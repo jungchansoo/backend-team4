@@ -88,7 +88,7 @@
 
 				<div class="d-flex buttons-container mb-3">
 					<sec:authorize access="hasRole('ROLE_USER')">
-						<button type="button" class="btn btn-primary btn-lg mr-2"
+						<button type="button" id="chargeBtn" class="btn btn-primary btn-lg"
 							onclick="location.href='/paymentSeatPage'">충전하기</button>
 						<button type="button" id="qrBtn"
 							class="btnForModal btn btn-outline-primary btn-lg"
