@@ -216,7 +216,6 @@
 				var options;
 					if(navigator.geolocation){
 					navigator.geolocation.getCurrentPosition(function(position) {
-						alert("1");
 						var lat = position.coords.latitude;
 						var lng = position.coords.longitude;
 						options = {
@@ -258,7 +257,6 @@
 						});
 						</c:forEach>
 					}, function(){
-						alert("2");
 						options = {
 								center : new kakao.maps.LatLng(37.497923, 127.027635),
 								level : 3
@@ -301,7 +299,6 @@
 				}
 			}
 				else{
-					alert("3");	
 				
 						options = {
 							center : new kakao.maps.LatLng(37.497923, 127.027635),
