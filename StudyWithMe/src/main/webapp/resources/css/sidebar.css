@@ -50,6 +50,10 @@
 
 .clickbutton {
 	text-align: center;
+	width: 90%;
+}
+.clickbutton button{
+	margin: 0.5rem;
 }
 
 .text div label {
@@ -59,7 +63,7 @@
 	margin: 10px 5px;
 }
 
-.text div input {
+.text div input,#deleteid div input {
 	border: solid 2px #efefef;
 	border-radius: 10px;
 	background-color: #efefef;
@@ -69,22 +73,20 @@
 }
 
 /* 모달 디자인 */
-.modal {
-	text-align: center;
+.modal-header {
+    padding: 2rem 1rem;
+    border-bottom: 1px solid #dee2e6;
+    border-top-left-radius: calc(0.3rem - 1px);
+    border-top-right-radius: calc(0.3rem - 1px);
+}
+.modal p {
+	font-size: 1.5rem;
+    margin: auto;
 }
 
-.modal p {
-	font-size: 20px;
-}
-.modal button {
-	background-color: #007bff;
-	color: white;
-	border-radius: 12px;
-	padding: 8px 30px;
-	border: none;
-	margin: 30px;
-	display: inline-block;
-	font-weight: bold;
-	font-size: 15px;
-	margin: auto;
+.modal-footer {
+	padding: 0.75rem;
+    border-top: 1px solid #dee2e6;
+    border-bottom-right-radius: calc(0.3rem - 1px);
+    border-bottom-left-radius: calc(0.3rem - 1px);
 }

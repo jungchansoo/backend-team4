@@ -12,6 +12,11 @@
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<!-- Add Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <title>MyPage</title>
 <link rel="stylesheet" href="resources/css/sidebar.css" type="text/css">
 
@@ -24,6 +29,8 @@ li a.reservatelist {
 #searchForm {
 	margin-left: 70%;
 	padding-bottom: 10px;
+	font-size: 0.9rem;
+    margin-right: 5%;
 }
 
 table {
@@ -33,7 +40,7 @@ table {
 	margin: auto;
 	text-align: center;
 	padding: 3px;
-	
+	margin-bottom: 1rem;
 }
 
 th,td {
@@ -50,6 +57,7 @@ padding: 5px;
 	margin-right: 20px;
 }
 </style>
+
 </head>
 <body>
 <!-- 헤더 -->
@@ -73,21 +81,19 @@ padding: 5px;
 
 		<!-- 검색 기능 -->
 		<form id='searchForm' action="/reservationList" method='get'>
-			<select name='searchType'>
-				<option value="N"
-					<c:out value="${pageMaker.recri.searchType eq 'N'?'selected':''}"/>>이용지점</option>
-				<option value="C"
-					<c:out value="${pageMaker.recri.searchType eq 'C'?'selected':''}"/>>좌석종류</option>
-				<option value="S"
-					<c:out value="${pageMaker.recri.searchType eq 'S'?'selected':''}"/>>예약날짜</option>
-			</select> <input type='text' name='keyword'
-				value='<c:out value="${pageMaker.recri.keyword}"/>' /> <input
-				type='hidden' name='pageNum'
-				value='<c:out value="${pageMaker.recri.pageNum}"/>' /> <input
-				type='hidden' name='amount'
-				value='<c:out value="${pageMaker.recri.amount}"/>' />
-			<button class='btn btn-default'>검색</button>
-		</form>
+    <div class="input-group mb-3">
+        <select class="form-select" name='searchType'>
+            <option value="N" <c:if test="${pageMaker.recri.searchType eq 'N'}">selected</c:if>>이용지점</option>
+            <option value="C" <c:if test="${pageMaker.recri.searchType eq 'C'}">selected</c:if>>좌석종류</option>
+            <option value="S" <c:if test="${pageMaker.recri.searchType eq 'S'}">selected</c:if>>예약날짜</option>
+        </select>
+        <input type='text' class="form-control" name='keyword' value='<c:out value="${pageMaker.recri.keyword}"/>' />
+        <input type='hidden' name='pageNum' value='<c:out value="${pageMaker.recri.pageNum}"/>' />
+        <input type='hidden' name='amount' value='<c:out value="${pageMaker.recri.amount}"/>' />
+        <button type="button" class="btn btn-outline-dark">검색</button>
+    </div>
+</form>
+
 
 		<table>
 			<thead>
