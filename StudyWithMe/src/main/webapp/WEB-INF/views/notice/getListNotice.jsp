@@ -234,8 +234,8 @@
 		        $(".move").on("click",
 		            function (e) {
 		                e.preventDefault();
-		                actionForm.append("<input type='hidden' name='reviewNo' value='" + $(this).attr("href") + "'>");
-		                actionForm.attr("action", "/getReview");
+		                actionForm.append("<input type='hidden' name='noticeNo' value='" + $(this).attr("href") + "'>");
+		                actionForm.attr("action", "/getNotice");
 		                actionForm.submit();
 		            });
 
