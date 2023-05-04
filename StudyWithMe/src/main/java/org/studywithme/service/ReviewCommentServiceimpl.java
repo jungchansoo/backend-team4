@@ -27,8 +27,9 @@ public class ReviewCommentServiceimpl implements ReviewCommentService {
 
 	@Transactional
 	@Override
-	public int register(ReviewCommentVO vo) {
+	public int register(ReviewCommentVO vo, Long reviewNo) {
 		log.info("register....." + vo);
+		boardMapper.increaseReplyCnt(reviewNo);
 		return mapper.insert(vo);
 	}
 
@@ -45,8 +46,9 @@ public class ReviewCommentServiceimpl implements ReviewCommentService {
 	}
 	@Transactional
 	@Override
-	public int remove(Long commentNo) {
+	public int remove(Long commentNo, Long reviewNo) {
 		log.info("get........."+commentNo);
+		boardMapper.decreaseReplyCnt(reviewNo);
 		return mapper.delete(commentNo);
 	}
 

@@ -9,15 +9,15 @@ import org.studywithme.dto.CommentPageDTO;
 
 public interface ReviewCommentService {
 
-	public int register(ReviewCommentVO vo);
+	public int register(ReviewCommentVO vo, Long reviewNo);
 
-	public ReviewCommentVO get(Long rno);
+	public ReviewCommentVO get(Long commentNo);
 
 	public int modify(ReviewCommentVO vo);
 
-	public int remove(Long rno);
+	public int remove(Long commentNo, Long reviewNo);
 
-	public List<ReviewCommentVO> getList(Criteria cri, Long bno);
+	public List<ReviewCommentVO> getList(Criteria cri, Long reviewNo);
 	
-	public CommentPageDTO getListPage(Criteria cri, Long bno);
+	public CommentPageDTO getListPage(Criteria cri, Long reviewNo);
 }

@@ -18,4 +18,7 @@ public interface ReviewBoardMapper {
     public int increaseDownvotes(Long reviewNo);
     public int decreaseUpvotes(Long reviewNo);
     public int decreaseDownvotes(Long reviewNo);
+    public int increaseReplyCnt(Long reviewNo);
+    public int decreaseReplyCnt(Long reviewNo);
+
 }
