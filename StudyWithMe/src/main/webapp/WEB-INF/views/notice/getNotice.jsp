@@ -217,16 +217,7 @@
 					<tr>
 						<td>내용</td>
 						<td class="input-content">
-						
 							<div class="contentArea"><c:out value="${board.content.trim()}" /></div>
-							<%-- <div class="form-group">
-								<textarea  rows="3" name='content' readonly>${board.content}</textarea>
-							</div> --%>
-							<%-- 
-							<div class="contentArea" style="white-space: pre; border : 1px solid black; text-align: left; padding : 30px; border-radius: 1rem;">
-								<c:out value="${board.content}" />
-							</div>
-							 --%>
 						</td>
 					</tr>
 				</table>
