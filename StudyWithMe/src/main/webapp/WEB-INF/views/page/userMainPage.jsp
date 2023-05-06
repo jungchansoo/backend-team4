@@ -196,6 +196,7 @@
 				if('${cafeno}' == '${item.cafe_no}'){
 					var studytitle = document.getElementById("study-title");
 					studytitle.textContent = '${item.name}';
+					set_qrnum('${cafeno}');
 				}
 			</c:forEach>
 		}
