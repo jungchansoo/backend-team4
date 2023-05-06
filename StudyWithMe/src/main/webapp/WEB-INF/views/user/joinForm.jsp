@@ -14,6 +14,7 @@
 	rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+<%@include file="../includes/header.jsp"%>
 <body>
 	<div class="container mt-5">
 		<div class="row justify-content-center">
@@ -127,4 +128,5 @@
 	</script>
 
 </body>
+<%@include file="../includes/footer.jsp"%>
 </html>
