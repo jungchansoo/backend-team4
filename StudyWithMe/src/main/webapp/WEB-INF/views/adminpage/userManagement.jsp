@@ -23,12 +23,14 @@
 	align-items: center;
 	margin: auto;
 	width: 90%;
+	padding: 20px;
+	font-size: 1.2em;
 }
 
 .cd2 p {
-    font-size: 1.2em;
-    font-weight: bold;
-    padding-top: 20px;
+	font-size: 1.2em;
+	font-weight: bold;
+	margin-top: 1rem;
 }
 
 #searchForm {
@@ -45,17 +47,12 @@
 	line-height: 3;
 }
 
-
 .list thead tr {
 	border-bottom: 1px solid black;
 }
 
-.list thead th{
-padding: 0.5rem;
-}
-
-.list td {
-	padding: 10px;
+.list th, .list td {
+	padding: 5px;
 }
 
 .pagination {
@@ -79,19 +76,19 @@ padding: 0.5rem;
 
 		<p>유저목록</p>
 		<!-- 검색 기능 -->
-		<form id='searchForm' action="/userlist" method='get'>
-			<div class="input-group mb-3">
-        <select class="form-select" name='searchType'>
-				<option value="N" <c:out value="${pageMaker.cri.type eq 'N'?'selected':''}"/>>이름</option>
-				<option value="I" <c:out value="${pageMaker.cri.type eq 'I'?'selected':''}"/>>아이디</option>
-				<option value="P" <c:out value="${pageMaker.cri.type eq 'P'?'selected':''}"/>>전화번호</option>
-			</select>
-				<input type='text' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' />
-				<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' />
-				<input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' />
-			<button type="button" class="btn btn-outline-dark">검색</button>
-    </div>
-		</form>
+		<form id="searchForm" action="/userlist" method="get">
+  <div class="input-group mb-3">
+    <select class="form-select" name="type">
+      <option value="N" <c:out value="${pageMaker.cri.type eq 'N'?'selected':''}"/>>이름</option>
+      <option value="I" <c:out value="${pageMaker.cri.type eq 'I'?'selected':''}"/>>아이디</option>
+      <option value="P" <c:out value="${pageMaker.cri.type eq 'P'?'selected':''}"/>>전화번호</option>
+    </select>
+    <input type="text" class="form-control" name="keyword" value="<c:out value="${pageMaker.cri.keyword}"/>"/>
+    <input type="hidden" name="pageNum" value="<c:out value="${pageMaker.cri.pageNum}"/>"/>
+    <input type="hidden" name="amount" value="<c:out value="${pageMaker.cri.amount}"/>"/>
+    <button type="submit" class="btn btn-outline-dark">검색</button>
+  </div>
+</form>
 
 
 		<div class="list">
