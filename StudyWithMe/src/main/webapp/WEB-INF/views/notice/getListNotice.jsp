@@ -32,7 +32,7 @@
 	}
 	
 	#searchForm {
-		margin-right: 70px;
+		margin-right: 5%;
 		padding-right : 20px;
 		padding-bottom: 20px;
 		padding-right: 20px
@@ -70,7 +70,7 @@
 	}
 	
 	.list th, .list td {
-		padding: 20px;
+		padding: 20px 55px;
 	}
 	
 	.pagination {
