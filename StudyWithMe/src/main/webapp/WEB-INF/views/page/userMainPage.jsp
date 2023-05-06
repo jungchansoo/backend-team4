@@ -50,7 +50,7 @@
 		<div class="row align-items-start">
 			<div class="col-lg-6 col-md-12">
 				<h1 class="display-4 title-text-color">스터디 위드 미</h1>
-				<p class="lead user-text-color">
+				<p class="lead user-text-color" id="rolecheck">
 					<sec:authorize access="isAuthenticated()">
 						<sec:authentication property="principal.username" /> 님 환영합니다.
 					</sec:authorize>
@@ -191,6 +191,15 @@
 
 	<!-- 서버사이드로 실행하면 안되는 코드임, 일부러 jsp파일에 넣은거 -->
 	<script>
+		var roletext = document.getElementById("rolecheck");
+		if('${role}' == '1'){
+			roletext.textContent = '${name}' + " 점장님 환영합니다.";
+		}else if('${role}' == '2'){
+			roletext.textContent = '${name}' + " 관리자님 환영합니다.";
+		}else if('${role}' == '0'){
+			roletext.textContent = '${name}' + " 회원님 환영합니다.";
+		}
+	
 		if('${cafeno}'){
 			<c:forEach items='${lists}' var='item'>
 				if('${cafeno}' == '${item.cafe_no}'){
