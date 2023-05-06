@@ -23,7 +23,7 @@ public class AuthMailSendServiceImpl implements AuthMailSendService {
 		//메일 작성
 
 		String setFrom = "StudyWithMeForEgg@gmail.com"; // 보내는 사람
-		String title = "Study With Me 서비스 회원 가입 인증 이메일 입니다."; // 이메일 제목
+		String title = "Study With Me 서비스 인증 이메일 입니다."; // 이메일 제목
 		String content =
 				"저희 Study with Me 서비스를 방문해 주셔서 감사합니다." + 	//html 형식으로 작성 !
                 "<br><br>" +

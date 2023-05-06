@@ -171,11 +171,8 @@ margin-left : -140px;
 	margin-right: -5px;
 }
 
-footer {
-	width: 100%;
-    position: absolute;  
-    bottom: 0;
-    left: 0;
+.content {
+	min-height: 60vh;
 }
 </style>
 
@@ -184,6 +181,7 @@ footer {
 <body>
 	<%@include file="../../includes/header.jsp"%>
 
+	<div class="content">
 	
 	<div id="studyroomname" class="list-container">
 		<ul>
@@ -209,7 +207,7 @@ footer {
 		</div>
 		<div id="content"></div>
 	</div>
-
+</div>
 
 <!-- modal창 -->
 <div id="canclesuccess">

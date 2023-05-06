@@ -43,6 +43,13 @@ public class UserPageController {
 				
 				session.setAttribute("cafeNum", cafeVO.getCafe_no());				
 				session.setAttribute("cafeName", cafeVO.getName());
+				model.addAttribute("role","1");
+			}
+			else if(util.getUserDetails().getRole().equals("ROLE_ADMIN")){
+				model.addAttribute("role","2");
+			}
+			else {
+				model.addAttribute("role","0");
 			}
 		}
 		

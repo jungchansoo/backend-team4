@@ -17,6 +17,7 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
+<%@include file="../includes/header.jsp"%>
 <body>
 	<div class="container mt-5">
 		<div class="row justify-content-center">
@@ -69,3 +70,4 @@
 	</div>
 
 </body>
+<%@include file="../includes/footer.jsp"%>
