@@ -24,9 +24,6 @@
 	padding: 20px;
 }
 
-/* .list {
-	text-align: center;
-} */
 .cd2 p {
 	text-align: center;
 	font-size: 1.2em;
@@ -34,7 +31,10 @@
 	padding-top: 20px;
 	padding-down: 20px;
 }
-/
+
+.table thead th {
+	text-align: center;
+} 
 .pagination {
 	list-style-type: none;
 	display: flex;
