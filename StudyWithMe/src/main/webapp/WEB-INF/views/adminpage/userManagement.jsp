@@ -8,6 +8,11 @@
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<!-- Add Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <title>유저관리</title>
 
 <style>
@@ -18,22 +23,17 @@
 	align-items: center;
 	margin: auto;
 	width: 90%;
-	padding: 20px;
-	font-size: 1.2em;
 }
 
 .cd2 p {
-	margin: 10 0;
-	width: inherit;
-	font-size: 1.2em;
-	font-weight: bold;
-	height: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding-top: 20px;
 }
 
 #searchForm {
 	margin-left: 70%;
 	padding-right: 20px;
-	padding-bottom: 20px;
 }
 
 .list {
@@ -45,22 +45,21 @@
 	line-height: 3;
 }
 
-.list table {
-	border-collapse: collapse;
-}
 
 .list thead tr {
 	border-bottom: 1px solid black;
 }
 
-.list th, .list td {
-	padding: 3px;
+.list thead th{
+padding: 0.5rem;
+}
+
+.list td {
+	padding: 10px;
 }
 
 .pagination {
-	list-style-type: none;
-	display: flex;
-	justify-content: center;
+	margin-top: 1rem;
 }
 
 .pagination li {
@@ -81,7 +80,8 @@
 		<p>유저목록</p>
 		<!-- 검색 기능 -->
 		<form id='searchForm' action="/userlist" method='get'>
-			<select name='type'>
+			<div class="input-group mb-3">
+        <select class="form-select" name='searchType'>
 				<option value="N" <c:out value="${pageMaker.cri.type eq 'N'?'selected':''}"/>>이름</option>
 				<option value="I" <c:out value="${pageMaker.cri.type eq 'I'?'selected':''}"/>>아이디</option>
 				<option value="P" <c:out value="${pageMaker.cri.type eq 'P'?'selected':''}"/>>전화번호</option>
@@ -89,7 +89,8 @@
 				<input type='text' name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>' />
 				<input type='hidden' name='pageNum' value='<c:out value="${pageMaker.cri.pageNum}"/>' />
 				<input type='hidden' name='amount' value='<c:out value="${pageMaker.cri.amount}"/>' />
-			<button class='btn btn-default'>검색</button>
+			<button type="button" class="btn btn-outline-dark">검색</button>
+    </div>
 		</form>
 
 
@@ -122,7 +123,7 @@
 							<td>${changer.time_longtoString(user.remainingStudyRoomTime)}</td>
 							<td>${changer.time_longtoString(user.remainingLockerTime)}</td>
 							<td>
-								<button onclick="deleteUser('${user.userId}')">삭제</button>
+								<button type="button" class="btn btn-outline-danger btn-sm" onclick="deleteUser('${user.userId}')">삭제</button>
 							</td>
 						</tr>
 					</c:forEach>
