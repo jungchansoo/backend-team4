@@ -15,6 +15,7 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
 
 </head>
+<%@include file="../includes/header.jsp"%>
 <body>
 	<div class="container mt-5">
 		<div class="row justify-content-center">
@@ -95,4 +96,5 @@
 	<script type="text/javascript" src="/resources/js/searchId.js"></script>
 
 </body>
+<%@include file="../includes/footer.jsp"%>
 </html>

@@ -12,6 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
 </head>
+<%@include file="../includes/header.jsp"%>
 <body>
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -29,4 +30,5 @@
         </div>
     </div>
 </body>
+<%@include file="../includes/footer.jsp"%>
 </html>

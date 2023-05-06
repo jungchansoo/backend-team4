@@ -15,6 +15,7 @@
 
 <title>비밀번호 찾기</title>
 </head>
+<%@include file="../includes/header.jsp"%>
 <body>
 
 <div class="container mt-5">
@@ -77,4 +78,5 @@
 
 
 </body>
+<%@include file="../includes/footer.jsp"%>
 </html>
